@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+    <!-- angularjs script file -->
+    <script src="js/library/angular.js"></script>
+    <!-- angularjs state(route) manager file -->
+    <script src="js/library/angular-ui-router.js"></script>  
+    <!-- defines state of IRX -->
+    <script type="text/javascript" src="js/app.js"></script> 
+    <!-- defines controllers for IRX -->
+    <script type="text/javascript" src="js/controller.js"></script>
+  </head>
+  <!-- initializong angularjs and name of app -->
+  <body data-ng-app="IRX">
+    <!--define a view-->
+    <div ui-view="view1"></div>
+  </body>
+</html>
