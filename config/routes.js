@@ -15,7 +15,7 @@ module.exports = function routes() {
     }
     
     this.match('login', passport.authenticate('local', { successRedirect: '/templates/baseHeader.html',failureRedirect: '/index.html' }),{ via: 'post' });
-    this.match('rest',{ controller: 'first/rest/rest', action: 'main' });
+    this.match('rest',{ controller: 'first/rest/rest', action: 'main' , via: 'POST' });
     this.root({ controller: 'first/pages', action: 'main' });
 
    /****
