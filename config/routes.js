@@ -14,13 +14,13 @@ module.exports = function routes() {
       res.redirect('/login');
     }
     
-   this.match('login', passport.authenticate('local', { successRedirect: '/templates/baseHeader.html',failureRedirect: '/index.html' }),{ via: 'post' });
-   this.root({ controller: 'first/pages', action: 'main' });
+    this.match('login', passport.authenticate('local', { successRedirect: '/templates/baseHeader.html',failureRedirect: '/index.html' }),{ via: 'post' });
+    this.match('rest',{ controller: 'first/rest/rest', action: 'main' });
+    this.root({ controller: 'first/pages', action: 'main' });
 
    /****
 
    **/
-this.match('rest',{ controller: 'first/rest/rest', action: 'main' });
 
 
 
