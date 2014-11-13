@@ -13,5 +13,5 @@ module.exports = function() {
   global._path_service =  __dirname +"/../../app/services" ;
   global._path_cntlr =  __dirname +"/../../app/controllers" ;
   global._path_model =  __dirname +"/../../app/models" ;
-
+  global._app_context = {};
 }

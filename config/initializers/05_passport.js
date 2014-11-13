@@ -3,7 +3,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongoose = require('mongoose');
 
 // Use the LocalStrategy within Passport.
-
+var hashAlgo = require(_path_util+"/sha1.js")
 passport.use(new LocalStrategy({
    usernameField: 'email',
     passwordField: 'password'
@@ -12,12 +12,16 @@ passport.use(new LocalStrategy({
     // Find the user by username.  If there is no user with the given
     // username, or the password is not correct, set the user to `false` to
     // indicate failure.  Otherwise, return the authenticated `user`.
-    console.log("here  ");
-    var collection = mongoose.getCollection('auths');
-    collection.findOne({ "email": username }, function(err, user) {
+    console.log("here .... ");
+    var collection = mongoose.getCollection('testUser');
+    var hashPassword = hashAlgo.SHA1(password);
+  
+    collection.findOne({ "email": username,"password":hashPassword.toString() }, function(err, user) {
       if (err) { return done(err); }
+
       if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
+        console.log('Helooooooo..')
+        return done(null, false,{"message":"Failure"});
       }
       return done(null, user);
     });

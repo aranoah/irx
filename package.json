@@ -14,7 +14,8 @@
     "mongodb":"1.4.x",
     "passport":"0.2.x",
     "passport-local":"1.0.x",
-    "express-validator":"2.6.x"
+    "express-validator":"2.6.x",
+    "locomotive-mongoose":"0.1.x"
   },
   "scripts": {
     "start": "node server.js"
