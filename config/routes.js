@@ -31,3 +31,4 @@ module.exports = function routes() {
   this.match('create-user',{ controller: 'first/rest/user', action: 'createUser' , via: 'GET' });
   this.root({ controller: 'first/pages', action: 'main' });
 }
+  
