@@ -8,7 +8,9 @@ var IRXUserProfileSchema =new mongoose.Schema({
    type:{type:String,required:true},
    companyName: {type:String},
    imageUrl:{type:String},
-   specialities :{type:Array}
+   specialities :{type:Array},
+   roles: {type:Array},
+   permission: {type:Array}
 });
 
 IRXUserProfileModel = mongoose.model('IRXUserProfile', IRXUserProfileSchema);
