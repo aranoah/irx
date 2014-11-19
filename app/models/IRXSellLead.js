@@ -5,8 +5,8 @@ var IRXSellProductSchema =new mongoose.Schema({
    userId:{type:String,required:true},
    location:{city:String,state:String,country:String,name:String,pincode:String,lat:Number,lon:Number},
    type:{type:String,required:true},
-   description:{tepe:String}
+   description:{type:String}
 });
 
-IRXSellProductModel = mongoose.model('IRXSellProduct', IRXSellProductSchema);
+IRXSellProductModel = mongoose.model('irxselllead', IRXSellProductSchema);
 module.exports = IRXSellProductModel;

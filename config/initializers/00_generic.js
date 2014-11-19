@@ -3,7 +3,6 @@ module.exports = function() {
   // starts, and the exported function will be invoked with a `this` context of
   // the application itself.  Initializers are used to connect to databases and
   // message queues, and configure sub-systems such as authentication.
-
   // Async initializers are declared by exporting `function(done) { /*...*/ }`.
   // `done` is a callback which must be invoked when the initializer is
   // finished.  Initializers are invoked sequentially, ensuring that the
@@ -13,5 +12,6 @@ module.exports = function() {
   global._path_service =  __dirname +"/../../app/services" ;
   global._path_cntlr =  __dirname +"/../../app/controllers" ;
   global._path_model =  __dirname +"/../../app/models" ;
+  global._path_template =  __dirname +"/../../app/templates" ;
   global._app_context = {};
 }

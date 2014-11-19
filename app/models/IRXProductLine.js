@@ -5,7 +5,8 @@ var IRXProductLineSchema =new mongoose.Schema({
    location:{city:String,state:String,country:String,name:String,pincode:String,lat:Number,lon:Number},
    type:{type:String,required:true},
    description: {type:String},
-   imageUrl:{type:String},
+   profileImage:{type:String},
+   gallery:[{url:String}]
    builtUpArea:[{lowerRange:Number, higerRange:Number, unit:String}],
    price: {type:String},
    possession :{type:String},
@@ -13,5 +14,5 @@ var IRXProductLineSchema =new mongoose.Schema({
    productType :{type:String}
 });
 
-IRXProductLineModel = mongoose.model('IRXProductLine', IRXProductLineSchema);
+IRXProductLineModel = mongoose.model('irxproductline', IRXProductLineSchema);
 module.exports = IRXProductLineModel;

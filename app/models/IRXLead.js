@@ -10,5 +10,5 @@ var IRXLeadsSchema =new mongoose.Schema({
    type:{type:String,required:true}
 });
 
-IRXLeadsModel = mongoose.model('IRXUserProfile', IRXLeadsSchema);
+IRXLeadsModel = mongoose.model('irxlead', IRXLeadsSchema);
 module.exports = IRXLeadsModel;

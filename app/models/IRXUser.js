@@ -13,5 +13,5 @@ var IRXUserProfileSchema =new mongoose.Schema({
    permission: {type:Array}
 });
 
-IRXUserProfileModel = mongoose.model('IRXUserProfile', IRXUserProfileSchema);
+IRXUserProfileModel = mongoose.model('irxuser', IRXUserProfileSchema);
 module.exports = IRXUserProfileModel;

@@ -5,5 +5,5 @@ var IRXAgentMappingSchema =new mongoose.Schema({
    projects:{type:Array}
 });
 
-IRXAgentMappingModel = mongoose.model('IRXAgentMapping', IRXAgentMappingSchema);
+IRXAgentMappingModel = mongoose.model('irxagentmproduct', IRXAgentMappingSchema);
 module.exports = IRXAgentMappingModel;
