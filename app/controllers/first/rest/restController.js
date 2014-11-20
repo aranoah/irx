@@ -31,12 +31,12 @@ restController.main = function() {
 restController.elasticTest = function() {
   var _selfInstance = this;
     _app_context.esClient.search({
-    index: 'him-schemas',
-    type:"business",
+    index: 'irx_schema',
+    type:"irx-euser",
     body: {
       query: {
         match: {
-          name: 'Medanta Hospital'
+          name: 'Puneet'
         }
       }
     }

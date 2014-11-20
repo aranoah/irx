@@ -1,13 +1,10 @@
 var mongoose = require('mongoose');
 
 var IRXLeadsSchema =new mongoose.Schema({
-   id:{type:String,required:true},
-   projectId:{type:String,required:true},
-   agentId: {type:String,required:true},
-   name:{type:String,required:true},
-   mobileNo:{type:String,required:true},
-   emailId:{type:String,required:true},
-   type:{type:String,required:true}
+   leadId:{type:String,required:true},//from irxleadreview
+   type:{type:String,required:true},
+   createdOn:{type:Date},
+   updatedOn:{type:Date}
 });
 
 IRXLeadsModel = mongoose.model('irxlead', IRXLeadsSchema);

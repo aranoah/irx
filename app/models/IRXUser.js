@@ -10,7 +10,11 @@ var IRXUserProfileSchema =new mongoose.Schema({
    imageUrl:{type:String},
    specialities :{type:Array},
    roles: {type:Array},
-   permission: {type:Array}
+   permission: {type:Array},
+   rank:{type:Number},//indexing
+   preferred:{type:Boolean},
+   createdOn:{type:Date},
+   updatedOn:{type:Date}
 });
 
 IRXUserProfileModel = mongoose.model('irxuser', IRXUserProfileSchema);
