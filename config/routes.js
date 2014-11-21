@@ -1,11 +1,20 @@
-// Draw routes.  Locomotive's router provides expressive syntax for drawing
-// routes, including support for resourceful routes, namespaces, and nesting.
-// MVC routes can be mapped to controllers using convenient
-// `controller#action` shorthand.  Standard middleware in the form of
-// `function(req, res, next)` is also fully supported.  Consult the Locomotive
-// Guide on [routing](http://locomotivejs.org/guide/routing.html) for additional
-// information.
-
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Controller Mapper
+*  
+* Copyright :
+*   Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*   Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*   11 Nov 2014
+*
+* CHANGES :
+*
+**/
 var passport = require('passport');
 
 module.exports = function routes() {
@@ -30,6 +39,7 @@ module.exports = function routes() {
   this.match('elasticTest',{ controller: 'first/rest/rest', action: 'elasticTest' , via: 'GET' });
   this.match('create-user',{ controller: 'first/rest/user', action: 'createUser' , via: 'GET' });
   this.match('send-email',{ controller: 'first/rest/email', action: 'sendEmail' , via: 'GET' });
+  this.match('send-sms',{ controller: 'first/rest/rest', action: 'sendSms' , via: 'POST' });
   this.root({ controller: 'first/pages', action: 'main' });
 }
   

@@ -1,3 +1,20 @@
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Server configuration related properties.
+*  
+* Copyright :
+*   Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*   Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*   11 Nov 2014
+*
+* CHANGES :
+*
+**/
 var util = require('util');
 var passport = require('passport');
 var express = require('express');

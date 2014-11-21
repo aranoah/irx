@@ -1,3 +1,21 @@
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Base Controller with common functionalities. Every other controller
+*       should extend this.
+*  
+* Copyright :
+*   Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*   Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*   11 Nov 2014
+*
+* CHANGES :
+*
+**/
 var locomotive = require('locomotive');
 var himConstants = require(_path_util+'/constants');
 

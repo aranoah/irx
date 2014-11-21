@@ -1,6 +1,24 @@
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Test controller 
+*  
+* Copyright :
+*   Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*   Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*   11 Nov 2014
+*
+* CHANGES :
+*
+**/
 var Controller = require(_path_cntlr+'/base/baseController');
 var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
+var smsUtils = require(_path_util+"/sms-utils.js");
 
 var restController = new Controller();
 
@@ -46,5 +64,10 @@ restController.elasticTest = function() {
 }, function (err) {
    _selfInstance.processJson(STATUS.SERVER_ERROR.code,STATUS.SERVER_ERROR.msg,err,null);
 });
+}
+
+restController.sendSms = function() {
+ 
+  new smsUtils().sendSms(this.req.body.message);
 }
 module.exports = restController;

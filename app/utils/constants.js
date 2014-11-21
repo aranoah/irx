@@ -1,8 +1,21 @@
-/* Copyright (C) aranoah technologies - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited
- * Proprietary and confidential
- * Written by varun.sharma@aranoah.com, Nov 2014
- */
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Global constant variables to be used in every file.
+*  
+* Copyright :
+*   Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*   Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*   11 Nov 2014
+*
+* CHANGES :
+*
+**/
+
 var EventEmitter = require('events').EventEmitter;
 function HIM_CONSTANTS(){    
   this.HIM_STORE="123";
@@ -15,6 +28,7 @@ var STATUS={
   NO_UPDATION:{code:22,msg:"Not Updated"} 
     
 };
+
 HIM_CONSTANTS.prototype.defaultPage = function (start,pageSize){
 	var mStart=0;
 	var mPageSize = 10;

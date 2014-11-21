@@ -1,3 +1,21 @@
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Database model for products.Products can be either location projects 
+*       or physical builder projects
+*  
+* Copyright :
+*     Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*     Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*     11 Nov 2014
+*
+* CHANGES :
+*
+**/
 var mongoose = require('mongoose');
 
 var IRXProductLineSchema =new mongoose.Schema({

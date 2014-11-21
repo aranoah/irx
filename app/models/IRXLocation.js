@@ -1,3 +1,20 @@
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Database model for locations
+*  
+* Copyright :
+*		Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*		Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*		11 Nov 2014
+*
+* CHANGES :
+*
+**/
 var mongoose = require('mongoose');
 
 var IRXLocationSchema =new mongoose.Schema({

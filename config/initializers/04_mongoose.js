@@ -1,3 +1,20 @@
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Mongoose related configurations. Mongoose will act as ORM 
+*  
+* Copyright :
+*   Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*   Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*   11 Nov 2014
+*
+* CHANGES :
+*
+**/
 module.exports = function(done) {
   
     this.mongoose = require('mongoose');

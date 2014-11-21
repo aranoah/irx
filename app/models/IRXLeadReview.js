@@ -1,3 +1,21 @@
+/***********************************************************************
+*
+* DESCRIPTION :
+*       Database model for lead reviews. Once a lead is reviewed and verified
+*       it is inserted to IRXLead collection.
+*  
+* Copyright :
+*     Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
+* 
+* AUTHOR :    
+*     Puneet (puneet@aranoah.com)      
+*
+* START DATE :    
+*     11 Nov 2014
+*
+* CHANGES :
+*
+**/
 var mongoose = require('mongoose');
 
 var IRXLeadReviewSchema =new mongoose.Schema({
