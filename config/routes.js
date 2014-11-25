@@ -40,6 +40,7 @@ module.exports = function routes() {
   this.match('create-user',{ controller: 'first/rest/user', action: 'createUser' , via: 'GET' });
   this.match('send-email',{ controller: 'first/rest/email', action: 'sendEmail' , via: 'GET' });
   this.match('send-sms',{ controller: 'first/rest/rest', action: 'sendSms' , via: 'POST' });
+  this.match('s3-test',{ controller: 'first/rest/rest', action: 's3Test' , via: 'GET' });
   this.root({ controller: 'first/pages', action: 'main' });
 }
   

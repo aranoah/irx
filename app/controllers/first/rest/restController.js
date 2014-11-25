@@ -19,7 +19,7 @@ var Controller = require(_path_cntlr+'/base/baseController');
 var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var smsUtils = require(_path_util+"/sms-utils.js");
-
+var s3Utils = require(_path_util+"/s3-utils.js");
 var restController = new Controller();
 
 
@@ -69,5 +69,10 @@ restController.elasticTest = function() {
 restController.sendSms = function() {
  
   new smsUtils().sendSms(this.req.body.message);
+}
+
+restController.s3Test = function() {
+ 
+  new s3Utils().uploadFile();
 }
 module.exports = restController;

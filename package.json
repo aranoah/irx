@@ -18,6 +18,7 @@
     "locomotive-mongoose":"0.1.x",
     "email-templates": "0.0.5",
     "nodemailer": "0.5.x"
+    "aws-sdk"
   },
   "scripts": {
     "start": "node server.js"
