@@ -21,8 +21,8 @@ function S3_UTILS(){
 
 }
 
-S3_UTILS.prototype.uploadData = function(first_argument) {
-	var data = {Key: 'test1/ff1', Body: 'Hello!'};
+S3_UTILS.prototype.uploadData = function(bodyMessage) {
+	var data = {Key: 'test1/ff1', Body: bodyMessage};
   	s3bucket.putObject(data, function(err, data) {
     if (err) {
       console.log("Error uploading data: ", err);
@@ -31,9 +31,9 @@ S3_UTILS.prototype.uploadData = function(first_argument) {
     }
   });
 }
-S3_UTILS.prototype.getFile = function(first_argument) {
+S3_UTILS.prototype.getFile = function(location) {
 	var data = {Bucket:"irx",Key: 'test1/ff1'};
-  	var file = require('fs').createWriteStream('C:/Users/Raghav/Desktop/postreq.png');
+  	var file = require('fs').createWriteStream(location);
 	s3bucket.getObject(data).createReadStream().pipe(file);
 }
 
@@ -52,6 +52,7 @@ S3_UTILS.prototype.uploadFile = function(filePath, fileName , remoteFileName) {
     console.log(arguments);
   });
 }
+
 S3_UTILS.prototype.getContentTypeByFile = function(fileName) {
   var rc = 'application/octet-stream';
   var fn = fileName.toLowerCase();
