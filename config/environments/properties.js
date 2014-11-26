@@ -23,6 +23,7 @@ var properties = {
 	"sms_path":"/bulksms/bulksms",
 	"sms_port":8080,
 	"sms_req_type":"POST",
-	"sms_senderId":"HereIM"
+	"sms_senderId":"HereIM",
+	"s3_host_name":"irx.s3-website-ap-southeast-1.amazonaws.com"
 }
 module.exports=properties

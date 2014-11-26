@@ -21,6 +21,7 @@ var STATUS = CONSTANTS.him_status;
 var smsUtils = require(_path_util+"/sms-utils.js");
 var s3Utils = require(_path_util+"/s3-utils.js");
 var restController = new Controller();
+var events = require('events');
 
 
 restController.validate_main=function(){
@@ -72,7 +73,12 @@ restController.sendSms = function() {
 }
 
 restController.s3Test = function() {
- 
-  new s3Utils().uploadFile();
+  var _nself = this;
+  var s3Utils1 = new s3Utils();
+  s3Utils1.listObjects();
+  s3Utils1.on(function(code,msg,err,errValue){
+    _nself.processJson(code,msg,err,errValue);
+  });
 }
+
 module.exports = restController;

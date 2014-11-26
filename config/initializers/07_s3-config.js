@@ -4,5 +4,4 @@ var config = new AWS.Config({
 });
 
 AWS.config= config;
-var s3bucket = new AWS.S3({params: {Bucket: 'irx'}});
-module.exports=s3bucket;
+module.exports=AWS;
