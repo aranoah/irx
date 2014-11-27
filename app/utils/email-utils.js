@@ -25,7 +25,7 @@ function EMAIL_UTILS(){
 
 }
 
-EMAIL_UTILS.prototype.sendEmail=function(templateName,data){
+EMAIL_UTILS.prototype.sendEmail=function(templateName,data,callback){
 	console.log("Send Email Utils");
 	emailTemplates(templatesDir, function(err, template) {
 		if (err) {
@@ -47,8 +47,10 @@ EMAIL_UTILS.prototype.sendEmail=function(templateName,data){
 						}, function(error, response){
 						   	if(error){
 						       console.log(error);
+						       callback(error,null);
 						  	}else{
 						       console.log("Message sent: " + response.message);
+						       callback(null,response.message);
 						   	}
 					});
 		      	}

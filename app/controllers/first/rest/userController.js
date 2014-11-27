@@ -20,7 +20,8 @@ var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
 var userController = new Controller();
-var IRXUserProfileModel = require(_path_model+"/IRXUserProfile.js")
+
+var userService = require(_path_service+"/userService.js" )
 
 userController.validate_main=function(){
     /// this.req = request object, this.res = response object.
@@ -28,34 +29,17 @@ userController.validate_main=function(){
     this.req.checkBody('email', 'Invalid email').notEmpty();    
     return false;
 }
+/*
+* 	Create User 
+*	@TODO : Controller level validation
+**/
 userController.createUser = function() {
-	console.log("In Create User Method")
-	var mongoose = require('mongoose');
-	var hashPassword = hashAlgo.SHA1("passwd");
-	var user = new IRXUserProfileModel({
-  			"name": 'Puneet'
-			,"password": hashPassword.toString()
-			, "userId": 'IRX-PUNEET' 
-			,"location":{
-							"city":"Gurgaon"
-							,"state":"Haryana"
-							,"country":"India"
-							,"name":"Puneet"
-							,"pincode":"122001"
-							,"lat":12
-							,"lon":11
-						}
-			,"type" : "dealer"
-			,"companyName" :"IRX_DEALER"
-			,"specialities": ["New","Brokage"]
-			,"permission":["edit","delete"]
-			,"roles" :["1st-agent"]
-	});
-	var _selfInstance = this;
-
-		user.save(function(err, user) {
-		  if (err) return _selfInstance.processJson(STATUS.SERVER_ERROR.code,STATUS.SERVER_ERROR.msg,null,null);
-		 return _selfInstance.processJson(STATUS.OK.code,STATUS.OK.msg,user,null)
-		});
+	var userSvc = new userService();
+	//Validation
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    userSvc.registerUser(_nself.req.body);
 }
 module.exports = userController;

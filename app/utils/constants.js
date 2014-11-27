@@ -19,7 +19,11 @@
 var EventEmitter = require('events').EventEmitter;
 function HIM_CONSTANTS(){    
   this.HIM_STORE="123";
- 
+  this.USER_STATUS={
+    VERIFIED:"verified",
+    PENDING_VERFICATION:"pending-verification",
+    SUSPENDED:"suspended"
+  };
 }
 var STATUS={
   CLIENT_ERROR:{code:400,msg:"Client Error"} ,
@@ -28,6 +32,7 @@ var STATUS={
   NO_UPDATION:{code:22,msg:"Not Updated"} 
     
 };
+
 
 HIM_CONSTANTS.prototype.defaultPage = function (start,pageSize){
 	var mStart=0;
