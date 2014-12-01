@@ -37,7 +37,7 @@ passport.use(new LocalStrategy({
       if (err) { return done(err); }
 
       if (!user) {
-        console.log('Helooooooo..')
+        //console.log('Helooooooo..')
         return done(null, false,{"message":"Failure"});
       }
       return done(null, user);

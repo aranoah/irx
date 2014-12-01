@@ -38,7 +38,7 @@ EMAIL_UTILS.prototype.sendEmail=function(templateName,data,callback){
 		      } else {
 			        _app_context.emailSender.sendMail({
 					   	from: "him-mail@aranoah.com", // sender address
-					   	to: data.to, // comma separated list of receivers
+					   	to: data.userId, // comma separated list of receivers
 					  	subject: data.subject, // Subject line
 					   	//text: "Hello world ✔" ,// plaintext body
 					   	html: html,

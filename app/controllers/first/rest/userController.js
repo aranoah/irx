@@ -29,10 +29,12 @@ userController.validate_main=function(){
     this.req.checkBody('email', 'Invalid email').notEmpty();    
     return false;
 }
+
 /*
-* 	Create User 
+* 	Create User and send verification url
 *	@TODO : Controller level validation
 **/
+
 userController.createUser = function() {
 	var userSvc = new userService();
 	//Validation
@@ -41,5 +43,26 @@ userController.createUser = function() {
      _nself.processJson(code,msg,err,errValue);
     });
     userSvc.registerUser(_nself.req.body);
+}
+
+/*
+* 	Verify User 
+*	@TODO : Controller level validation
+**/
+
+userController.verifyUser = function() {
+	var userSvc = new userService();
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    var userId = _nself.param("userId");
+    var vfCode = _nself.param("vfCode");
+    var data = {
+    	"userId":userId,
+    	"vfCode":vfCode
+    }
+    console.log(data)
+    userSvc.verifyUser(data);
 }
 module.exports = userController;

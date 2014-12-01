@@ -23,19 +23,21 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
 var EventEmitter = require('events').EventEmitter;
-var properties = require(_path_env+"/properties.js")
+var properties = require(_path_env+"/properties.js");
+var mongoose = require('mongoose');
 function UserService(){    
 
 }
 UserService.prototype.__proto__=EventEmitter.prototype ;
+
 /*
-	Register a user and send email code
+	Register a user and send verification mail
 
 **/
 UserService.prototype.registerUser = function(user) {
-	console.log("In regisetUser")
+	console.log("In registerUser")
 	// Make a database entry
-	var mongoose = require('mongoose');
+	
 	var hashPassword = hashAlgo.SHA1(user.password);
 	var userData = new IRXUserProfileModel({
   			"name": user.name
@@ -55,7 +57,7 @@ UserService.prototype.registerUser = function(user) {
 		}else{
 			// save verification code
 			var verification = new IRXVerificationModel({
-	  			"vfData ": userData.emailId
+	  			"vfData": user.emailId
 				,"vfCode":"IRX-ABCD"
 				,"createdOn":new Date(),
 	   			"updatedOn":new Date()
@@ -67,13 +69,13 @@ UserService.prototype.registerUser = function(user) {
 					_selfInstance.emit("done",STATUS.OK.code,userData,err,null);
 					// send email and verification code
 					var locals = {
-						"to":userData.userId,
+						"userId":userData.userId,
 						"subject":properties.registeration_subject,
-						"name":verification.vfCode
+						"vfCode":verification.vfCode
 					}
 					new emailUtils().sendEmail("test",locals,function(error,success){
 						if(error != null){
-							console.log(error);
+							console.error(error);
 						}else if(success != null){
 							console.log(success)
 						}
@@ -83,8 +85,63 @@ UserService.prototype.registerUser = function(user) {
 		}
 		
 	});
-	
+};
+/*
+	Register a user and send email code
 
+**/
+UserService.prototype.verifyUser = function(data) {
+	console.log("In verifyUser")
+	// Make a database entry
+	var mongoose = require('mongoose');
+	var verificationModel = IRXVerificationModel
+	var User = IRXUserProfileModel
+	var _selfInstance = this;
+	verificationModel.findOne({ 'vfData': data.userId, "vfCode":data.vfCode }, function (err, verification) {
+ 		if (err){
+ 			console.error(err)
+ 			_selfInstance.emit("done",err.code,err.err,err,null);
+ 			
+ 		} else{
 
+ 			if(verification && verification != null){
+ 				console.log('Verification code verified');
+ 				console.log("Updating user",data.userId);
+				User.update({"userId":data.userId},
+							{$set:{"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED}},
+							function(err, numberAffected, raw){
+								console.log(numberAffected)
+								if(err){
+									console.error(err)
+									_selfInstance.emit("done",err.code,err.err,err,null);
+								}else{
+									if(numberAffected >0){
+										console.log("User updated successfully");
+										
+						 				verificationModel.remove({}, function (err) {
+											if (err) {
+												console.error(err)
+												_selfInstance.emit("done",err.code,err.err,err,null);
+											}else{
+												console.log("Verfication data cleared");
+												_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
+											} 
+										});
+										
+									}else{
+										console.log("User not updated")
+										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+									}
+								}	
+							})
+ 				
+ 			} else{
+ 				console.log("Verification data not matched")
+				_selfInstance.emit("done",500,"Verification data not matched","Verification data not matched",null);
+ 			}
+ 			
+  		}
+  		
+	})
 };
 module.exports = UserService;

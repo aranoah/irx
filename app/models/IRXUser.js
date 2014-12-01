@@ -31,7 +31,8 @@ var IRXUserProfileSchema =new mongoose.Schema({
    rank:{type:Number},//indexing
    preferred:{type:Boolean},
    createdOn:{type:Date},
-   updatedOn:{type:Date}
+   updatedOn:{type:Date},
+   status:{type:String}
 });
 
 IRXUserProfileModel = mongoose.model('irxuser', IRXUserProfileSchema);
