@@ -17,8 +17,9 @@
     "express-validator":"2.6.x",
     "locomotive-mongoose":"0.1.x",
     "email-templates": "0.0.5",
-    "nodemailer": "0.5.x"
-    "aws-sdk"
+    "nodemailer": "0.5.x",
+    "cansecurity":"git+https://github.com/aniyus/cansecurity.git",
+    "aws-sdk" :"2.0.28"
   },
   "scripts": {
     "start": "node server.js"

@@ -24,17 +24,11 @@ module.exports = function routes() {
     }
     res.redirect('/login');
   }
-    
-  this.match('login', passport.authenticate('local', {successRedirect:'/templates/baseHeader.html',failureRedirect:'/index.html'}),{via: 'post'});
-  this.match('/login1',passport.authenticate('local'),function(req, res) {
-                                                         if(req.user){
-                                                           // res.json({ "id": req.user._id, "username": req.user.email });
-                                                           res.json(req.user );
-                                                         }else{
-                                                            
-                                                         }
-                                                       }
-            );
+  this.match("login",function(req,res,done){
+      console.log("i am in login",req.session); 
+      _app_context.cansec.validate(req,res,done);
+  },{ via:'post',controller: 'first/pages', action: 'main'  } );
+  
   this.match('rest',{ controller: 'first/rest/rest', action: 'main' , via: 'POST' });
   this.match('elasticTest',{ controller: 'first/rest/rest', action: 'elasticTest' , via: 'GET' });
   this.match('create-user',{ controller: 'first/rest/user', action: 'createUser' , via: 'POST' });

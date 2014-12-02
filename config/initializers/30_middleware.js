@@ -17,7 +17,9 @@
 **/
 var express = require('express')
   , poweredBy = require('connect-powered-by');
-
+var IRXUserProfileModel = require(_path_model+"/IRXUser");
+var hashAlgo = require(_path_util+"/sha1.js");
+var cors=require("cors");
 
 module.exports = function() {
   // Use middleware.  Standard [Connect](http://www.senchalabs.org/connect/)
@@ -27,10 +29,47 @@ module.exports = function() {
     this.use(express.logger());
     
   }
+  var cs = require('cansecurity'), cansec = cs.init({
+    validate: function(login,password,callback){
+        console.log( "hey i am validate function",login,password);
+        var User = IRXUserProfileModel;
+        var hashPassword = hashAlgo.SHA1(password);
+
+        User.findOne({"userId":login,"password":hashPassword.toString()},function(err,user){
+          if(err){
+            callback(false,null,"Invalid Credentials");  
+          }else{
+            if(user && user != null){
+                callback(true,user,user.name);
+            }else{
+                callback(false,null,"Invalid session please login");
+            }
+            
+          }
+        })
+        
+    },
+        sessionKey:"agf67dchkQ!",
+        authCallback:function(req,res,status,msg,funName){
+            if(status==401){
+                if(req.headers.authorization && req.headers.authorization.indexOf("POST")==0 && funName!="validateUser"){
+                     cansec.validate(req,res,function(){
+                        console.log("i am back again");   
+                     });
+                    return false;
+                }
+            }
+            res.send(200,{status:status,message:(msg+funName)});
+        },debug:true    
+    }
+ );
 
   this.use(poweredBy('Locomotive'));
   this.use(express.favicon());
   this.use(express.static(__dirname + '/../../public'));
+  this.use(cors());
+  global._app_context.cansec = cansec;
+  this.use(cansec);
   this.use(express.cookieParser());
   this.use(express.session({secret: 'aniyus'}));
   this.use(express.bodyParser());
