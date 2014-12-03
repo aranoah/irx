@@ -32,7 +32,13 @@ var STATUS={
   NO_UPDATION:{code:22,msg:"Not Updated"} 
     
 };
-
+var MONGO_STATUS={
+  CLIENT_ERROR:{code:400,msg:"Client Error"} ,
+  SERVER_ERROR:{code:500,msg:"Server Error"} ,
+  OK:{code:0,msg:"Ok"} ,
+  NO_UPDATION:{code:22,msg:"Not Updated"} 
+    
+};
 
 HIM_CONSTANTS.prototype.defaultPage = function (start,pageSize){
 	var mStart=0;

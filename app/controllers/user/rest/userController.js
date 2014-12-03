@@ -65,4 +65,29 @@ userController.verifyUser = function() {
     console.log(data)
     userSvc.verifyUser(data);
 }
+/*
+*   Login user 
+*   @TODO : Controller level validation
+**/
+
+userController.login = function() {
+  console.log("In Login Method")
+  var _nself =this;
+   _app_context.cansec.validate(_nself.req,_nself.res,function(){
+      _nself.processJson(200,"OK",_nself.req.session.user,null)
+    });
+  
+}
+/*
+*   Logout user 
+*   @TODO : Controller level validation
+**/
+
+userController.logout = function() {
+  console.log("In Login Method")
+  
+   _app_context.cansec.clear(this.req,this.res);
+    this.processJson(200,"OK",null,null)
+   
+}
 module.exports = userController;
