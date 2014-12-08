@@ -19,15 +19,19 @@ var Controller = require(_path_cntlr+'/base/baseController');
 var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
+var commonValidator = require(_path_util+"/commonValidator")
 var userController = new Controller();
 
 var userService = require(_path_service+"/userService.js" )
 
-userController.validate_main=function(){
+
+userController.validate_createUser=function(){
+      var myvalidator = new commonValidator(this.req);
     /// this.req = request object, this.res = response object.
-    console.log("inside validate");
-    this.req.checkBody('email', 'Invalid email').notEmpty();    
-    return false;
+    console.log("inside validate",this.req.body.emailId);
+    myvalidator.validate("emailId","isEmail",this.req.body.emailId);
+    //validator.isEmail(this.req.body.emailId);
+    console.log(myvalidator.getErrors())
 }
 
 /*
@@ -38,6 +42,10 @@ userController.validate_main=function(){
 userController.createUser = function() {
 	var userSvc = new userService();
 	//Validation
+    if(this.req.errors.hasError()){
+       this.processJson(403,"validation error",this.req.errors.getErrors());
+       return;
+    }
     var _nself = this;
     userSvc.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
