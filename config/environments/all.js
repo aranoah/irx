@@ -18,7 +18,7 @@
 var util = require('util');
 var passport = require('passport');
 var express = require('express');
-var expressValidator = require('express-validator');
+//var expressValidator = require('express-validator');
 module.exports = function() {
   // Warn of version mismatch between global "lcm" binary and local installation
   // of Locomotive.
@@ -28,7 +28,7 @@ module.exports = function() {
   this.use(passport.initialize());
   this.use(passport.session());
   this.use(express.bodyParser());
-  this.use(expressValidator());
+ // this.use(expressValidator());
 
   if (this.version !== require('locomotive').version) {
     console.warn(util.format('version mismatch between local (%s) and global (%s) Locomotive module', require('locomotive').version, this.version));
