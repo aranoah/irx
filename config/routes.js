@@ -24,6 +24,7 @@ module.exports = function routes() {
     }
     res.redirect('/login');
   }
+
   this.match("login",{ controller: 'user/rest/user', action: 'login' , via: 'POST' } );
   this.match("logout",{ controller: 'user/rest/user', action: 'logout' , via: 'GET' } );
   this.match('rest',{ controller: 'general/rest/rest', action: 'main' , via: 'POST' });
@@ -35,5 +36,6 @@ module.exports = function routes() {
   this.match('send-sms',{ controller: 'general/rest/rest', action: 'sendSms' , via: 'POST' });
   this.match('s3-test',{ controller: 'general/rest/rest', action: 's3Test' , via: 'GET' });
   this.root({ controller: 'general/pages', action: 'main' });
+  this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
 }
   

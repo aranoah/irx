@@ -12,10 +12,62 @@
     <script type="text/javascript" src="js/app.js"></script> 
     <!-- defines controllers for IRX -->
     <script type="text/javascript" src="js/controller.js"></script>
+    <!--css file -->
+    <link rel="stylesheet" type="text/css" href="stylesheets/main.css">
   </head>
   <!-- initializong angularjs and name of app -->
   <body data-ng-app="IRX">
     <!--define a view-->
-    <div ui-view="view1"></div>
+    <div ui-view="view1">
+      <div class="header row">
+      <div class="logo row">
+        <h2>IRX</h2>
+        <ul class="lft row">
+          <li> PROJECTS </li>
+          <li> AGENTS </li>
+        </ul>
+      </div>
+      <div class="rht">
+        <ul class="row">
+          <li> Sell your Property</li>
+          <li> Post your Requirement</li>
+          <li class="login row">
+            <img src="images/login.png">
+            <p>Login</p>
+          </li>
+          <li><img src="images/menu.png"></li>
+        </ul>
+      </div>
+    </div>
+    <div class="middleBox cellparent">
+      <div class="leftBox">
+        <div class="title">
+          <h3>relax,finding an agent just got easier.</h3>
+          <button>Find out more</button>
+        </div>
+      </div>
+      <div class="rightBox">        
+        <div class="title">
+          <h3>relax,finding an agent just got easier.</h3>
+          <button>Find out more</button>
+        </div>
+      </div>
+    </div>
+    <div class="fixedWidth" style="position:relative;">
+      <div class="selButtons agent"></div>
+      <div class="searchBox">
+        <div class="sear-upper row">
+          <h4 class="sear-items city">city</h4>
+          <input type="text" placeholder="Search by project name/location">
+          <button>Search agents</button>
+        </div><div class="sear-lower row">
+          <h4 class="sear-items">rent</h4>
+          <h4 class="sear-items">bhk</h4>
+          <h4 class="sear-items">budget</h4>
+        </div>
+      </div>
+      <div class="selButtons proj"></div>
+    </div>
+    </div>
   </body>
 </html>
