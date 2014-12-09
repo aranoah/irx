@@ -29,6 +29,7 @@ module.exports = function routes() {
   this.match('rest',{ controller: 'general/rest/rest', action: 'main' , via: 'POST' });
   this.match('elasticTest',{ controller: 'general/rest/rest', action: 'elasticTest' , via: 'GET' });
   this.match('create-user',{ controller: 'user/rest/user', action: 'createUser' , via: 'POST' });
+  this.match('update-user/:userId',{ controller: 'user/rest/user', action: 'updateUser' , via: 'POST' });
   this.match('logout',{ controller: 'user/rest/user', action: 'verifyUser' , via: 'GET' });
   this.match('verify-user',{ controller: 'user/rest/user', action: 'verifyUser' , via: 'GET' });
   this.match('send-email',_app_context.cansec.restrictToLoggedIn,{ controller: 'email/rest/email', action: 'sendEmail' , via: 'GET' });

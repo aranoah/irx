@@ -86,8 +86,9 @@ UserService.prototype.registerUser = function(user) {
 		
 	});
 };
+
 /*
-	Register a user and send email code
+	Verify user verification code
 
 **/
 UserService.prototype.verifyUser = function(data) {
@@ -144,4 +145,17 @@ UserService.prototype.verifyUser = function(data) {
   		
 	})
 };
+/*
+	Register a user and send verification mail
+
+**/
+UserService.prototype.updateUser = function(user) {
+	console.log("In updateUser")
+	var _selfInstance = this;
+	var id = user.id;
+	
+	/*
+	*	Update user
+	*/
+}
 module.exports = UserService;
