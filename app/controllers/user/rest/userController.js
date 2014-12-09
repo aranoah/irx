@@ -24,7 +24,9 @@ var userController = new Controller();
 
 var userService = require(_path_service+"/userService.js" )
 
-
+/*
+* Validate function for user registration
+*/
 userController.validate_createUser=function(){
       var myvalidator = new commonValidator(this.req);
     /// this.req = request object, this.res = response object.
@@ -35,8 +37,21 @@ userController.validate_createUser=function(){
 }
 
 /*
+* Validate function for user registration
+*/
+userController.validate_updateUser=function(){
+      var myvalidator = new commonValidator(this.req);
+    /// this.req = request object, this.res = response object.
+    console.log("inside validate",this.req.body.emailId);
+    myvalidator.validate("emailId","isEmail",this.req.body.emailId);
+    //validator.isEmail(this.req.body.emailId);
+    console.log(myvalidator.getErrors())
+}
+
+
+/*
 * 	Create User and send verification url
-*	@TODO : Controller level validation
+*	
 **/
 
 userController.createUser = function() {
@@ -51,6 +66,27 @@ userController.createUser = function() {
      _nself.processJson(code,msg,err,errValue);
     });
     userSvc.registerUser(_nself.req.body);
+}
+
+/*
+*   Create User and send verification url
+* 
+**/
+
+userController.updateUser = function() {
+  var userSvc = new userService();
+  //Validation
+    if(this.req.errors.hasError()){
+       this.processJson(403,"validation error",this.req.errors.getErrors());
+       return;
+    }
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    var user = _nself.req.body;
+    user.id = _nself.req.params.userId;
+    userSvc.updateUser(user);
 }
 
 /*
