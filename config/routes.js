@@ -25,12 +25,10 @@ module.exports = function routes() {
     res.redirect('/login');
   }
 
-<<<<<<< HEAD
   /*
   * Login and logout
   */
-=======
->>>>>>> 4b7cd7219f3abb6b1112bbd601309efdda05e8fe
+
   this.match("login",{ controller: 'user/rest/user', action: 'login' , via: 'POST' } );
   this.match("logout",{ controller: 'user/rest/user', action: 'logout' , via: 'GET' } );
   this.match('rest',{ controller: 'general/rest/rest', action: 'main' , via: 'POST' });
@@ -50,7 +48,11 @@ module.exports = function routes() {
   this.match('send-email',_app_context.cansec.restrictToLoggedIn,{ controller: 'email/rest/email', action: 'sendEmail' , via: 'GET' });
   this.match('send-sms',{ controller: 'general/rest/rest', action: 'sendSms' , via: 'POST' });
   this.match('s3-test',{ controller: 'general/rest/rest', action: 's3Test' , via: 'GET' });
+
+  /*
+  * User related web urls
+  */
   this.root({ controller: 'general/pages', action: 'main' });
-  this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
+  this.match("public-profile/:userId",{controller: 'profile/public', action:'main', via:'GET'});
 }
   

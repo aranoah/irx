@@ -48,7 +48,7 @@ BaseController.prototype.addHError = function(key,msg){
     this.herrors.push({field:key,msg:msg});
 }
 
-BaseController.prototype.handleValidationErr = function(isUi){
+BaseController.prototype.handleValidationErr = function(isUi){ 
     if(this.herrors==null)
         return false;
     

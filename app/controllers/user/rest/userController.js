@@ -31,8 +31,16 @@ userController.validate_createUser=function(){
       var myvalidator = new commonValidator(this.req);
     /// this.req = request object, this.res = response object.
     console.log("inside validate",this.req.body.emailId);
-    myvalidator.validate("emailId","isEmail",this.req.body.emailId);
-    //validator.isEmail(this.req.body.emailId);
+    
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("emailId",validateEmail,this.req.body.emailId);
+
+    var validateEmail = ["required"];
+    myvalidator.validate("name",validateEmail,this.req.body.name);
+    
+    var validateEmail = ["required"];
+    myvalidator.validate("password",validateEmail,this.req.body.password);
+
     console.log(myvalidator.getErrors())
 }
 
@@ -43,9 +51,10 @@ userController.validate_updateUser=function(){
       var myvalidator = new commonValidator(this.req);
     /// this.req = request object, this.res = response object.
     console.log("inside validate",this.req.body.emailId);
-    myvalidator.validate("emailId","isEmail",this.req.body.emailId);
-    myvalidator.validate("name","isNull",this.req.body.name);
-    //validator.isEmail(this.req.body.emailId);
+    
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("emailId",validateEmail,this.req.body.emailId);
+    
     console.log(myvalidator.getErrors())
 }
 

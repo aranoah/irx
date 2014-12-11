@@ -158,21 +158,32 @@ UserService.prototype.updateUser = function(user) {
 	/*
 	*	Update user
 	*/
+
+	var updateObject = {};
+	
+	if(user.location != null) {
+		updateObject["location"]=user.location;
+	}
+	if(user.type != null) {
+		updateObject["type"]=user.type;
+	}
+	if(user.companyName != null) {
+		updateObject["companyName"]=user.companyName;
+	}
+	if(user.specialities != null) {
+		updateObject["specialities"]=user.specialities;
+	}
 	
 	User.update({"userId":id},
 							{
-								$set:{"location":user.location,
-									"type" : user.type,
-									"companyName" :user.companyName,
-									"specialities": user.specialities
-									}
+								$set:updateObject
 							},
 							function(err, numberAffected, raw){
 								console.log(numberAffected)
 								if(err){
 									console.error(err)
 									_selfInstance.emit("done",err.code,err.err,err,null);
-								}else{
+								} else{
 									if(numberAffected >0){
 										console.log("User updated successfully");
 										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
