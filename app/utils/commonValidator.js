@@ -29,20 +29,20 @@ CommonValidator.prototype.validate=function(){
     var n=0;
     var fieldName = arguments[0];
     var funName=arguments[1];
-   for(var i=2;i<arguments.length;i++){
+    for(var i=2;i<arguments.length;i++){
       args[n++] = arguments[i];
-   }
+    }
   
-   if(!validator[funName].apply(null,args)){
+    if(!validator[funName].apply(null,args)){
         var label =funName;
         if(funName.indexOf("is")==0){
             label =funName.substring(2);
         }
         this.errors.push(fieldName+" is not valid "+label);
       return false;
-   }else{
+    } else{
       return true;
-   }
+    }
 }
 CommonValidator.prototype.hasError=function(){
   return this.errors.length>0;

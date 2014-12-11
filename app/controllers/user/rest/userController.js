@@ -44,6 +44,7 @@ userController.validate_updateUser=function(){
     /// this.req = request object, this.res = response object.
     console.log("inside validate",this.req.body.emailId);
     myvalidator.validate("emailId","isEmail",this.req.body.emailId);
+    myvalidator.validate("name","isNull",this.req.body.name);
     //validator.isEmail(this.req.body.emailId);
     console.log(myvalidator.getErrors())
 }
@@ -69,7 +70,7 @@ userController.createUser = function() {
 }
 
 /*
-*   Create User and send verification url
+*   Update User
 * 
 **/
 
@@ -81,13 +82,31 @@ userController.updateUser = function() {
        return;
     }
     var _nself = this;
-    userSvc.on("done", function(code,msg,err,errValue){
-     _nself.processJson(code,msg,err,errValue);
+    userSvc.on("done", function(status,msg,result,page){
+     _nself.processJson(status,msg,result,page);
     });
     var user = _nself.req.body;
     user.id = _nself.req.params.userId;
     userSvc.updateUser(user);
 }
+
+/*
+*   Get User Details
+* 
+**/
+
+userController.getUserDetails = function() {
+  var userSvc = new userService();
+ 
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    
+    userId= _nself.req.params.userId;
+    userSvc.getUserDetails(userId);
+}
+
 
 /*
 * 	Verify User 

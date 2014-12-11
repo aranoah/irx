@@ -145,17 +145,75 @@ UserService.prototype.verifyUser = function(data) {
   		
 	})
 };
-/*
-	Register a user and send verification mail
 
+/*
+*	Update User
 **/
 UserService.prototype.updateUser = function(user) {
 	console.log("In updateUser")
 	var _selfInstance = this;
+	var User = IRXUserProfileModel;
 	var id = user.id;
-	
+
 	/*
 	*	Update user
 	*/
+	
+	User.update({"userId":id},
+							{
+								$set:{"location":user.location,
+									"type" : user.type,
+									"companyName" :user.companyName,
+									"specialities": user.specialities
+									}
+							},
+							function(err, numberAffected, raw){
+								console.log(numberAffected)
+								if(err){
+									console.error(err)
+									_selfInstance.emit("done",err.code,err.err,err,null);
+								}else{
+									if(numberAffected >0){
+										console.log("User updated successfully");
+										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
+						 				
+									}else{
+										console.log("User not updated")
+										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+									}
+								}	
+							})
+	
+}
+
+/*
+*	Get User Details
+*
+**/
+UserService.prototype.getUserDetails = function(user) {
+	console.log("In getUserDetails")
+	var _selfInstance = this;
+	var User = IRXUserProfileModel;
+	var id = userId;
+
+	User.findOne({"userId":id},
+				function(err,data){
+					if (err){
+			 			console.error(err)
+			 			_selfInstance.emit("done",err.code,err.err,err,null);
+			 			
+			 		} else{
+
+			 			if(data && data != null){
+			 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
+			 				
+			 			} else{
+			 				console.log("User data not found")
+							_selfInstance.emit("done",404,"User data not found","User data not found",null);
+			 			}
+			 			
+			  		}
+				})
+	
 }
 module.exports = UserService;
