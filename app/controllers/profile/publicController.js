@@ -40,7 +40,7 @@ publicController.main = function() {
      _nself.title = "profile";
   		_nself.render("profile/public"); 
     });
-      userId= _nself.req.params.userId;
+    userId= _nself.req.params.userId;
     userSvc.getUserDetails(userId);
   	
 

@@ -40,6 +40,8 @@ module.exports = function routes() {
   this.match('update-user/:userId',{ controller: 'user/rest/user', action: 'updateUser' , via: 'POST' });
   this.match('user-details/:userId',{ controller: 'user/rest/user', action: 'getUserDetails' , via: 'GET' });
   this.match('verify-user',{ controller: 'user/rest/user', action: 'verifyUser' , via: 'GET' });
+  this.match('list-user-projects',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
+  this.match('list-user-locations',{ controller: 'user/rest/user', action: 'listUserlocations' , via: 'GET' });
 
   /*
   * Utility urls

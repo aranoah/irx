@@ -162,4 +162,86 @@ userController.logout = function() {
     this.processJson(200,"OK",null,null)
    
 }
-module.exports = userController;
+
+/*
+*   List User Projects
+
+*   @TODO : Controller level validation
+**/
+
+userController.listUserProjects = function() {
+    var data=
+    {
+      projectList : [
+        {
+          projectName :"First",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/plot-projects"
+        },
+        {
+          projectName :"Second",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl :"https://housing.com/in/buy"
+        },
+        {
+          projectName :"Third",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/home-loans"
+        }
+      ]
+    }
+
+    this.processJson(200,"OK",data,null)
+   
+}
+
+/*
+*   List User Locations
+*
+*   @TODO : Controller level validation
+**/
+
+userController.listUserLocations = function() {
+    var data=
+    {
+      projectList : [
+        {
+          projectName :"First",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/plot-projects"
+        },
+        {
+          projectName :"Second",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl :"https://housing.com/in/buy"
+        },
+        {
+          projectName :"Third",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/home-loans"
+        }
+      ]
+    }
+
+    this.processJson(200,"OK",data,null)
+   
+}
+module.exports = userController;   

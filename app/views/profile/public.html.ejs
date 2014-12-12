@@ -2,6 +2,9 @@
 <html>
 <head>
   <% include ../partials/head.html.ejs %>
+  <script type="text/javascript" src="/js/library/knockout-3.2.0.js"></script>
+  <script type="text/javascript" src="/js/library/knockout.mapping-latest.js"></script>
+  <script type="text/javascript" src="/js/common/http.js"></script>
 </head>
 <body>  
   <% include ../partials/header.html.ejs %>
@@ -64,29 +67,16 @@
             <h2 class="ui header column">projects</h2>
             <div class="header column right menu">View all <i class="left angle double right icon"></i></div>
           </div>
-          <div class="rib-items ui three column grid pro-ject">
+          <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: projects">
             <div class="column item">
-                <img src="img/proj.png">
+                <img data-bind="attr: { src: imageUrl }">
                 <div class="meta">
-                  <a class="header">THE PRESIDENTIAL TOWER</a>
-                  <p class="cinema">Mantri Developers</p>
-                  <p class="cinema">DLF,Gurgaon,Haryana</p>
-                </div>
-            </div><div class="column item">
-                <img src="img/proj.png">
-                <div class="meta">
-                  <a class="header">THE PRESIDENTIAL TOWER</a>
-                  <p class="cinema">Mantri Developers</p>
-                  <p class="cinema">DLF,Gurgaon,Haryana</p>
-                </div>
-            </div><div class="column item">
-                <img src="img/proj.png">
-                <div class="meta">
-                  <a class="header">THE PRESIDENTIAL TOWER</a>
-                  <p class="cinema">Mantri Developers</p>
-                  <p class="cinema">DLF,Gurgaon,Haryana</p>
+                  <a class="header" data-bind="text: projectName">THE PRESIDENTIAL TOWER</a>
+                  <p class="cinema" data-bind="text: buliderName">Mantri Developers</p>
+                  <p class="cinema" data-bind="text: location.city">DLF,Gurgaon,Haryana</p>
                 </div>
             </div>
+            
           </div>
         </div>
 
@@ -161,4 +151,44 @@
 
       </div>    
   </div>
+  <script type="text/javascript">
+  function PublicProfile(){
+    this.url = null;
+    this.viewModel = null;
+  }
+
+  PublicProfile.prototype.init = function() {
+    this.viewModel = {
+      projects: ko.observableArray()
+    }
+   ko.applyBindings(this.viewModel);
+  };
+
+
+  PublicProfile.prototype.listProjects = function() {
+    var classInstance = this;
+    httpUtils.get("/list-user-projects",null,"JSON",function(data){
+       if(data.status==200){
+        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projectList)
+       } 
+    })
+  }
+
+   PublicProfile.prototype.listProjects = function() {
+    var classInstance = this;
+    httpUtils.get("/list-user-locations",null,"JSON",function(data){
+       if(data.status==200){
+        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projectList)
+       } 
+    })
+  }
+  
+  $(document).ready(function(){
+    var publicProfile = new PublicProfile();
+    publicProfile.init();
+    publicProfile.listProjects();
+  })
+
+   
+  </script>
 </body>
