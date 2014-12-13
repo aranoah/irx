@@ -174,7 +174,7 @@
     })
   }
 
-   PublicProfile.prototype.listProjects = function() {
+   PublicProfile.prototype.listUserLocations = function() {
     var classInstance = this;
     httpUtils.get("/list-user-locations",null,"JSON",function(data){
        if(data.status==200){
