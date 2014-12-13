@@ -86,32 +86,11 @@
             <h2 class="ui header column">working locations</h2>
             <div class="header column right menu">View all <i class="left angle double right icon"></i></div>
           </div>
-          <div class="rib-items ui four column grid">
+          <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: projects">
             <div class="ui divided items column">
               <div class="meta loc-item">
-                <a class="header">mgf city center</a>
-                <p class="cinema">Gurgaon,Haryana</p>
-                <span class="header"><i class="user icon"></i>24</span>
-                <span class="header"><i class="file image outline icon"></i>24</span>
-              </div>
-            </div><div class="ui divided items column">
-              <div class="meta loc-item">
-                <a class="header">mgf city center</a>
-                <p class="cinema">Gurgaon,Haryana</p>
-                <span class="header"><i class="user icon"></i>24</span>
-                <span class="header"><i class="file image outline icon"></i>24</span>
-              </div>
-            </div><div class="ui divided items column">
-              <div class="meta loc-item">
-                <a class="header">mgf city center</a>
-                <p class="cinema">Gurgaon,Haryana</p>
-                <span class="header"><i class="user icon"></i>24</span>
-                <span class="header"><i class="file image outline icon"></i>24</span>
-              </div>
-            </div><div class="ui divided items column">
-              <div class="meta loc-item">
-                <a class="header">mgf city center</a>
-                <p class="cinema">Gurgaon,Haryana</p>
+                <a class="header" data-bind="text: projectName">mgf city center</a>
+                <p class="cinema" data-bind="text: location.city">Gurgaon,Haryana</p>
                 <span class="header"><i class="user icon"></i>24</span>
                 <span class="header"><i class="file image outline icon"></i>24</span>
               </div>
@@ -167,7 +146,7 @@
 
   PublicProfile.prototype.listProjects = function() {
     var classInstance = this;
-    httpUtils.get("/list-user-projects",null,"JSON",function(data){
+    httpUtils.get("/list-user-projects",{page:{pageSize:3,start:0}},"JSON",function(data){
        if(data.status==200){
         ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projectList)
        } 

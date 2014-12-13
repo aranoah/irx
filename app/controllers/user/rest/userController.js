@@ -170,6 +170,8 @@ userController.logout = function() {
 **/
 
 userController.listUserProjects = function() {
+  var page = this.request.query.page;
+  console.log("Yo Yo",page)
     var data=
     {
       projectList : [
@@ -211,6 +213,37 @@ userController.listUserProjects = function() {
 **/
 
 userController.listUserLocations = function() {
-     
+    var data=
+    {
+      projectList : [
+        {
+          projectName :"First",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/plot-projects"
+        },
+        {
+          projectName :"Second",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl :"https://housing.com/in/buy"
+        },
+        {
+          projectName :"Third",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/home-loans"
+        }
+      ]
+    }
+
+    this.processJson(200,"OK",data,null)
+   
 }
 module.exports = userController;   
