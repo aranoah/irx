@@ -28,21 +28,32 @@ CommonValidator.prototype.validate=function(){
     var args=[];
     var n=0;
     var fieldName = arguments[0];
-    var funName=arguments[1];
-   for(var i=2;i<arguments.length;i++){
+    var actions=arguments[1];
+    var funName = actions[actions.length -1];
+    
+
+    for(var i=2;i<arguments.length;i++){
       args[n++] = arguments[i];
-   }
-  
-   if(!validator[funName].apply(null,args)){
+    }
+    for(var i=0;i<actions.length-1;i++){
+       if(actions[i]=="required" && (!arguments[2] || arguments[2] == null) ){
+        this.errors.push(fieldName+" is required");
+        return false;
+      }
+      
+    }
+   
+
+    if(validator[funName] && !validator[funName].apply(null,args)){
         var label =funName;
         if(funName.indexOf("is")==0){
             label =funName.substring(2);
         }
         this.errors.push(fieldName+" is not valid "+label);
       return false;
-   }else{
+    } else{
       return true;
-   }
+    }
 }
 CommonValidator.prototype.hasError=function(){
   return this.errors.length>0;

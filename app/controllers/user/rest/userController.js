@@ -31,8 +31,16 @@ userController.validate_createUser=function(){
       var myvalidator = new commonValidator(this.req);
     /// this.req = request object, this.res = response object.
     console.log("inside validate",this.req.body.emailId);
-    myvalidator.validate("emailId","isEmail",this.req.body.emailId);
-    //validator.isEmail(this.req.body.emailId);
+    
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("emailId",validateEmail,this.req.body.emailId);
+
+    var validateEmail = ["required"];
+    myvalidator.validate("name",validateEmail,this.req.body.name);
+    
+    var validateEmail = ["required"];
+    myvalidator.validate("password",validateEmail,this.req.body.password);
+
     console.log(myvalidator.getErrors())
 }
 
@@ -43,8 +51,10 @@ userController.validate_updateUser=function(){
       var myvalidator = new commonValidator(this.req);
     /// this.req = request object, this.res = response object.
     console.log("inside validate",this.req.body.emailId);
-    myvalidator.validate("emailId","isEmail",this.req.body.emailId);
-    //validator.isEmail(this.req.body.emailId);
+    
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("emailId",validateEmail,this.req.body.emailId);
+    
     console.log(myvalidator.getErrors())
 }
 
@@ -69,7 +79,7 @@ userController.createUser = function() {
 }
 
 /*
-*   Create User and send verification url
+*   Update User
 * 
 **/
 
@@ -81,13 +91,31 @@ userController.updateUser = function() {
        return;
     }
     var _nself = this;
-    userSvc.on("done", function(code,msg,err,errValue){
-     _nself.processJson(code,msg,err,errValue);
+    userSvc.on("done", function(status,msg,result,page){
+     _nself.processJson(status,msg,result,page);
     });
     var user = _nself.req.body;
     user.id = _nself.req.params.userId;
     userSvc.updateUser(user);
 }
+
+/*
+*   Get User Details
+* 
+**/
+
+userController.getUserDetails = function() {
+  var userSvc = new userService();
+ 
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    
+    userId= _nself.req.params.userId;
+    userSvc.getUserDetails(userId);
+}
+
 
 /*
 * 	Verify User 
@@ -134,4 +162,88 @@ userController.logout = function() {
     this.processJson(200,"OK",null,null)
    
 }
-module.exports = userController;
+
+/*
+*   List User Projects
+
+*   @TODO : Controller level validation
+**/
+
+userController.listUserProjects = function() {
+  var page = this.request.query.page;
+  console.log("Yo Yo",page)
+    var data=
+    {
+      projectList : [
+        {
+          projectName :"First",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/plot-projects"
+        },
+        {
+          projectName :"Second",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl :"https://housing.com/in/buy"
+        },
+        {
+          projectName :"Third",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/home-loans"
+        }
+      ]
+    }
+
+    this.processJson(200,"OK",data,null)
+   
+}
+
+/*
+*   List User Locations
+*
+*   @TODO : Controller level validation
+**/
+
+userController.listUserLocations = function() {
+    var data=
+    {
+      projectList : [
+        {
+          projectName :"First",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/plot-projects"
+        },
+        {
+          projectName :"Second",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl :"https://housing.com/in/buy"
+        },
+        {
+          projectName :"Third",
+          buliderName :"DLF",
+          location : {
+            city : "Gurgaon"
+          },
+          imageUrl:"https://housing.com/in/home-loans"
+        }
+      ]
+    }
+
+    this.processJson(200,"OK",data,null)
+   
+}
+module.exports = userController;   
