@@ -171,38 +171,20 @@ userController.logout = function() {
 
 userController.listUserProjects = function() {
   var page = this.request.query.page;
-  console.log("Yo Yo",page)
-    var data=
-    {
-      projectList : [
-        {
-          projectName :"First",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl:"https://housing.com/in/plot-projects"
-        },
-        {
-          projectName :"Second",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl :"https://housing.com/in/buy"
-        },
-        {
-          projectName :"Third",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl:"https://housing.com/in/home-loans"
-        }
-      ]
+  var userSvc = new userService();
+ 
+    var _nself = this;
+    userId= _nself.req.params.userId;
+    var data= {
+      "page":page,
+      "userId":userId
     }
-
-    this.processJson(200,"OK",data,null)
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    
+    userSvc.listUserProjects(data);
+ 
    
 }
 

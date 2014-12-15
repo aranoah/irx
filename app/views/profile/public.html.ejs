@@ -62,17 +62,17 @@
       <div class="twelve wide column">
 
         <!-- Project listing here -->
-        <div class="column ri-box">
+        <div class="column ri-box" data-bind="visible: (shouldShow()=='' || shouldShow()=='project')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">projects</h2>
-            <div class="header column right menu">View all <i class="left angle double right icon"></i></div>
+            <div class="header column right menu" data-bind="click: showAllProjects">View all <i class="left angle double right icon"></i></div>
           </div>
           <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: projects">
             <div class="column item">
-                <img data-bind="attr: { src: imageUrl }">
+                <img data-bind="attr: { src: name }">
                 <div class="meta">
-                  <a class="header" data-bind="text: projectName">THE PRESIDENTIAL TOWER</a>
-                  <p class="cinema" data-bind="text: buliderName">Mantri Developers</p>
+                  <a class="header" data-bind="text: name">THE PRESIDENTIAL TOWER</a>
+                  <p class="cinema" data-bind="text: builderName">Mantri Developers</p>
                   <p class="cinema" data-bind="text: location.city">DLF,Gurgaon,Haryana</p>
                 </div>
             </div>
@@ -81,7 +81,7 @@
         </div>
 
         <!-- Locations listing here -->
-        <div class="column ri-box loca-tion">
+        <div class="column ri-box loca-tion" data-bind="visible: (shouldShow()=='' || shouldShow()=='location')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">working locations</h2>
             <div class="header column right menu">View all <i class="left angle double right icon"></i></div>
@@ -89,7 +89,7 @@
           <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: projects">
             <div class="ui divided items column">
               <div class="meta loc-item">
-                <a class="header" data-bind="text: projectName">mgf city center</a>
+                <a class="header" data-bind="text: name">mgf city center</a>
                 <p class="cinema" data-bind="text: location.city">Gurgaon,Haryana</p>
                 <span class="header"><i class="user icon"></i>24</span>
                 <span class="header"><i class="file image outline icon"></i>24</span>
@@ -99,7 +99,7 @@
         </div>
 
         <!-- Reviews section here -->
-        <div class="column ri-box loca-tion">
+        <div class="column ri-box loca-tion" data-bind="visible: (shouldShow()=='' || shouldShow()=='review')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">Reviews</h2>
             <div class="column right menu"><div class="ui button"><i class="icon user"></i>Invite</div></div>
@@ -134,21 +134,32 @@
   function PublicProfile(){
     this.url = null;
     this.viewModel = null;
+    this.showProjects='project';
+    this.showLocations='location';
+    this.showReviews='review';
   }
 
   PublicProfile.prototype.init = function() {
+    var _classInstance = this;
     this.viewModel = {
-      projects: ko.observableArray()
-    }
+      projects: ko.observableArray(),
+      shouldShow : ko.observable(''),
+      showAllProjects : function() {
+          
+          this.shouldShow(_classInstance.showProjects);
+      }
+  }
    ko.applyBindings(this.viewModel);
+
   };
 
 
   PublicProfile.prototype.listProjects = function() {
     var classInstance = this;
-    httpUtils.get("/list-user-projects",{page:{pageSize:3,start:0}},"JSON",function(data){
-       if(data.status==200){
-        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projectList)
+    httpUtils.get("/list-user-projects/puneetsharma41@gmail.com",{page:{pageSize:3,start:0}},"JSON",function(data){
+       if(data.status==0){
+        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)
+      
        } 
     })
   }

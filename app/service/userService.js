@@ -20,6 +20,8 @@ var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
+var IRXProductLineModel = require(_path_model+"/IRXProductLine");
+var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
 var EventEmitter = require('events').EventEmitter;
@@ -226,5 +228,106 @@ UserService.prototype.getUserDetails = function(user) {
 			  		}
 				})
 	
+}
+
+/*
+*	List User's projects
+*
+**/
+UserService.prototype.listUserProjects = function(user) {
+	console.log("In listUserProjects")
+	var _selfInstance = this;
+	var User = IRXUserProfileModel;
+	var id = user.userId;
+	var Projects = IRXProductLineModel;
+	
+	// var Schema = mongoose.Schema,
+ //    ObjectId = Schema.ObjectId;
+ var ObjectId = require('mongodb').ObjectID
+	
+	var ProjectMaping = IRXAgentMProductModel;
+	ProjectMaping.findOne({"agentId":"puneetsharma41@gmail.com"},
+				function(err,data){
+					if (err){
+			 			console.error(err)
+			 			_selfInstance.emit("done",err.code,err.err,err,null);
+			 			
+			 		} else {
+			 			
+			 			if(data != null){
+			 				var projectList = data.project;
+			 				var projectIds = new Array();
+			 				for (var i=0 ; i<projectList.length;i++) {
+
+							    projectId = new ObjectId(projectList[i]);
+							    console.log(projectId)
+							    projectIds.push(projectId)
+							}
+							
+							Projects.find({ "type":"rent"},
+							function(err,projectDetails){
+								if(err){
+									console.log(err)
+									_selfInstance.emit("done",err.code,err.err,err,null);
+								} else {
+									console.log("yahsn",projectDetails)
+									_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,projectDetails,null);			
+								}	
+							})
+			 			} else {
+			 				console.error("No Data found")
+			 			_selfInstance.emit("done",404,"No project found",null,null);
+			 			}
+					}
+				})
+	
+}
+/*
+	Register a user and send verification mail
+
+**/
+UserService.prototype.createMapping = function(user) {
+	console.log("In Create Mapping")
+	var objId = require('mongodb').ObjectID;
+
+	var userData = new IRXProductLineModel({
+   	"_id" : new objId(),
+    "name" : "NEW HAVEN RIBBON WALK",
+    "location" : {
+        "name" : "Chennai",
+        "city" : "Chennai",
+        "state" : "Tamil nadu",
+        "country" : "India",
+        "locality" : "Mind It!!",
+        "pincode" : "122001"
+    },
+    "type" : "rent",
+    "description" : "Inspired by a free flowing ribbon’s soul, Tata Value Homes’ New Haven Ribbon Walk, Chennai, is home to futuristic and modern residences. Premium 1 BHK, 2BHK and 3BHK apartments with best-in-class comforts and amenities, New Haven Ribbon Walk invites you to live a life only a select few will enjoy. Indulge at the free-form clubhouse, elevated swimming pool, sauna, kids’ pool, business centre, library, garden sit outs with canopies, outdoor banquet hall, and an amphitheatre. Unwind along the winding ribbon-inspired pathways that maximises green spaces and offer an exclusive view of the lake.",
+    "bhk" : {
+        "lowerRange" : 1,
+        "higerRange" : 3
+    },
+    "builtUpArea" : [ 
+        {
+            "lowerRange" : 100,
+            "higerRange" : 500,
+            "unit" : "sq feet"
+        }
+    ],
+    "price" : "200000",
+    "possession" : "Ready",
+    "builderName" : "Narender Modi",
+    "productType" : "Project"
+});
+	var _selfInstance = this;
+
+	userData.save(function(err, userDataRes) {
+		if (err) {
+			_selfInstance.emit("done",err.code,"Error saving user information",err,null);
+		}else{
+			console.log(userDataRes)
+			_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,userDataRes,null);
+		}
+	})
 }
 module.exports = UserService;
