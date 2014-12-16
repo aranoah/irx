@@ -35,12 +35,14 @@ publicController.main = function() {
  var userSvc = new userService();
  
     var _nself = this;
+    
     userSvc.on("done", function(code,msg,result,errValue){
      _nself.result=result;
      _nself.title = "profile";
+     _nself.userId = _nself.req.params.userId;
   		_nself.render("profile/public"); 
     });
-    userId= _nself.req.params.userId;
+   userId= _nself.req.params.userId;
     userSvc.getUserDetails(userId);
   	
 

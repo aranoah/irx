@@ -16,6 +16,7 @@
 *
 **/
 var CONSTANTS = require(_path_util+'/constants');
+var mongoErr = require(_path_util+'/mongo-error')
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
@@ -24,13 +25,15 @@ var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
-var EventEmitter = require('events').EventEmitter;
+
 var properties = require(_path_env+"/properties.js");
+var baseService = require(_path_service+"/base/baseService");
+
 var mongoose = require('mongoose');
 function UserService(){    
-
+	baseService.call(this);
 }
-UserService.prototype.__proto__=EventEmitter.prototype ;
+UserService.prototype.__proto__=baseService.prototype ;
 
 /*
 	Register a user and send verification mail
@@ -55,7 +58,7 @@ UserService.prototype.registerUser = function(user) {
 
 	userData.save(function(err, userData) {
 		if (err) {
-			_selfInstance.emit("done",err.code,"Error saving user information",err,null);
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
 		}else{
 			// save verification code
 			var verification = new IRXVerificationModel({
@@ -103,7 +106,7 @@ UserService.prototype.verifyUser = function(data) {
 	verificationModel.findOne({ 'vfData': data.userId, "vfCode":data.vfCode }, function (err, verification) {
  		if (err){
  			console.error(err)
- 			_selfInstance.emit("done",err.code,err.err,err,null);
+ 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,null);
  			
  		} else{
 
@@ -116,7 +119,7 @@ UserService.prototype.verifyUser = function(data) {
 								console.log(numberAffected)
 								if(err){
 									console.error(err)
-									_selfInstance.emit("done",err.code,err.err,err,null);
+									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 								}else{
 									if(numberAffected >0){
 										console.log("User updated successfully");
@@ -124,7 +127,7 @@ UserService.prototype.verifyUser = function(data) {
 						 				verificationModel.remove({}, function (err) {
 											if (err) {
 												console.error(err)
-												_selfInstance.emit("done",err.code,err.err,err,null);
+												_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 											}else{
 												console.log("Verfication data cleared");
 												_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
@@ -184,7 +187,7 @@ UserService.prototype.updateUser = function(user) {
 								console.log(numberAffected)
 								if(err){
 									console.error(err)
-									_selfInstance.emit("done",err.code,err.err,err,null);
+									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 								} else{
 									if(numberAffected >0){
 										console.log("User updated successfully");
@@ -203,21 +206,22 @@ UserService.prototype.updateUser = function(user) {
 *	Get User Details
 *
 **/
-UserService.prototype.getUserDetails = function(user) {
+UserService.prototype.getUserDetails = function(userId) {
 	console.log("In getUserDetails")
 	var _selfInstance = this;
 	var User = IRXUserProfileModel;
 	var id = userId;
-
+	
 	User.findOne({"userId":id},
 				function(err,data){
 					if (err){
 			 			console.error(err)
-			 			_selfInstance.emit("done",err.code,err.err,err,null);
+			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 			 			
 			 		} else{
 
 			 			if(data && data != null){
+
 			 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
 			 				
 			 			} else{
@@ -239,18 +243,18 @@ UserService.prototype.listUserProjects = function(user) {
 	var _selfInstance = this;
 	var User = IRXUserProfileModel;
 	var id = user.userId;
+	var page = user.page;
+	
 	var Projects = IRXProductLineModel;
 	
-	// var Schema = mongoose.Schema,
- //    ObjectId = Schema.ObjectId;
- var ObjectId = require('mongodb').ObjectID
+ 	var ObjectId = require('mongodb').ObjectID
 	
 	var ProjectMaping = IRXAgentMProductModel;
-	ProjectMaping.findOne({"agentId":"puneetsharma41@gmail.com"},
+	ProjectMaping.findOne({"agentId":id},
 				function(err,data){
 					if (err){
 			 			console.error(err)
-			 			_selfInstance.emit("done",err.code,err.err,err,null);
+			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 			 			
 			 		} else {
 			 			
@@ -263,15 +267,16 @@ UserService.prototype.listUserProjects = function(user) {
 							    console.log(projectId)
 							    projectIds.push(projectId)
 							}
-							
-							Projects.find({ "type":"rent"},
+							var start = page.start;
+							var pageSize = Number(page.pageSize)+1;
+				Projects.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
 							function(err,projectDetails){
 								if(err){
 									console.log(err)
-									_selfInstance.emit("done",err.code,err.err,err,null);
+									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 								} else {
-									console.log("yahsn",projectDetails)
-									_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,projectDetails,null);			
+										_selfInstance.processPagenation(projectDetails,page)
+									_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,projectDetails,page);			
 								}	
 							})
 			 			} else {
@@ -282,52 +287,5 @@ UserService.prototype.listUserProjects = function(user) {
 				})
 	
 }
-/*
-	Register a user and send verification mail
 
-**/
-UserService.prototype.createMapping = function(user) {
-	console.log("In Create Mapping")
-	var objId = require('mongodb').ObjectID;
-
-	var userData = new IRXProductLineModel({
-   	"_id" : new objId(),
-    "name" : "NEW HAVEN RIBBON WALK",
-    "location" : {
-        "name" : "Chennai",
-        "city" : "Chennai",
-        "state" : "Tamil nadu",
-        "country" : "India",
-        "locality" : "Mind It!!",
-        "pincode" : "122001"
-    },
-    "type" : "rent",
-    "description" : "Inspired by a free flowing ribbon’s soul, Tata Value Homes’ New Haven Ribbon Walk, Chennai, is home to futuristic and modern residences. Premium 1 BHK, 2BHK and 3BHK apartments with best-in-class comforts and amenities, New Haven Ribbon Walk invites you to live a life only a select few will enjoy. Indulge at the free-form clubhouse, elevated swimming pool, sauna, kids’ pool, business centre, library, garden sit outs with canopies, outdoor banquet hall, and an amphitheatre. Unwind along the winding ribbon-inspired pathways that maximises green spaces and offer an exclusive view of the lake.",
-    "bhk" : {
-        "lowerRange" : 1,
-        "higerRange" : 3
-    },
-    "builtUpArea" : [ 
-        {
-            "lowerRange" : 100,
-            "higerRange" : 500,
-            "unit" : "sq feet"
-        }
-    ],
-    "price" : "200000",
-    "possession" : "Ready",
-    "builderName" : "Narender Modi",
-    "productType" : "Project"
-});
-	var _selfInstance = this;
-
-	userData.save(function(err, userDataRes) {
-		if (err) {
-			_selfInstance.emit("done",err.code,"Error saving user information",err,null);
-		}else{
-			console.log(userDataRes)
-			_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,userDataRes,null);
-		}
-	})
-}
 module.exports = UserService;
