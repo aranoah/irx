@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+</head>
+<% locals.uiContext.menu=false %>
+<body>  
+  <% include ../partials/header.html.ejs %>
+  <% include ../partials/sidebar.html.ejs %>
+  <% include ../partials/login.html.ejs %>
+
+  <!-- Bg image starts here -->
+
+  	<div id="homepage" class="ui grid">
+	  <div class="doubling two column row">
+	    <div class="column left-bg"></div><div class="column right-bg"></div>
+	  </div>
+	</div>
+	<!-- Bg image ends here -->	
+  <% include ../partials/searchbar.html.ejs %>
+
+  <!-- agents Listing goes here -->
+
+  	<div id="agentContent" class="ui centered page grid">
+	  <div class="fourteen wide column">
+
+	  	<div class="ui grid two column rib-head">
+	    	<h2 class="ui header column">Showing results <a>20 out of 50</a></h2>
+	    	<div class="header column right menu">
+	    		<div class="ui checkbox">
+			      <input type="checkbox">
+			      <label>Top 5 brokers</label>
+			    </div>
+				<div class="ui blue basic button">submit request</div>
+	    	</div>
+	    </div>  
+
+	    <div class="ui items">
+		  <div class="item">
+		    <div class="image">
+		      <img src="/images/square-image.png">
+		    </div>
+		    <div class="content">
+		      <a class="header">12 Years a Slave</a>
+		      <div class="meta">
+		        <span class="cinema">Union Square 14</span>
+		      </div>
+		      <div class="description">
+		        In the pre-Civil War United States, Solomon Northup, a free black man from upstate New York, is abducted and sold into slavery. Facing cruelty as well as unexpected kindnesses Solomon struggles not only to stay alive, but to retain his dignity. In the twelfth year of his unforgettable odyssey, Solomon’s chance meeting with a Canadian abolitionist will forever alter his life.
+		      </div>
+		      <div class="extra">
+		        <div class="ui right floated disabled red button">Sold Out</div>
+		        <div class="ui horizontal label">IMAX</div>
+		        <div class="ui horizontal label"><i class="globe icon"></i> Additional Languages</div>
+		      </div>
+		    </div>
+		  </div>
+
+	  </div>    
+	</div>
+</body>

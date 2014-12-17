@@ -1,0 +1,89 @@
+<!-- Login popup -->
+<div id="login" class="ui modal">  
+  <div class="content">
+    <div class="ui grid">
+      <h2 class="ui header four wide column">Login / Signup</h2>
+      <i class="column right floated remove circle close icon"></i>
+    </div>
+  </div>
+  <div id="lower-content" class="actions ui grid">
+    <div class="three wide column tab">
+      <div class="ui small button active" attr-tab="login-open"><i class="unlock big icon"></i><br/><br/>Login</div>
+      <div class="ui small button" attr-tab="register-open"><i class="sign in big icon"></i><br/><br/>Register</div>
+    </div>
+    <div id="login-box" class="eight wide column login-open toggleBox">
+      <div class="ui form">
+        <h4 class="ui dividing header">Login to your account</h4>
+        <div class="two fields">
+          <div class="required field">
+            <div class="ui left icon input">
+              <input type="text" placeholder="Username">
+              <i class="user icon"></i>
+            </div>
+          </div>
+          <div class="required field">
+            <div class="ui left icon input">
+              <input type="password" placeholder="Password">
+              <i class="lock icon"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <label>Forgot password?</label>
+      <div class="action-button"><div class="ui button">login</div></div>      
+      <div class="ui vertical divider">Or</div>
+    </div>
+    <div id="register-box" class="eight wide column register-open toggleBox">
+      <div class="ui form">
+        <h4 class="ui dividing header">New user register here</h4>
+        <div class="grouped fields">
+          <label for="user">You are a</label>
+          <div class="field">
+            <div class="ui radio checkbox checked">
+              <input type="radio" checked="" name="user">
+              <label>Individual</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox checked">
+              <input type="radio" name="user">
+              <label>Dealer</label>
+            </div>
+          </div>
+        </div>
+        <div class="two fields">
+          <div class="required field">
+            <div class="ui input">
+              <input type="text" placeholder="Name">
+            </div>
+          </div>
+          <div class="required field">
+            <div class="ui input">
+              <input type="text" placeholder="Email">
+            </div>
+          </div>
+          <div class="required field">
+            <div class="ui input">
+              <input type="password" placeholder="Password">
+            </div>
+          </div>
+          <div class="required field">
+            <div class="ui input">
+              <input type="password" placeholder="Confirm password">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui checkbox">
+        <input type="checkbox" name="hot-deals">
+        <label>I agree to the <a href="#">Terms of Service</a>.</label>
+      </div>
+      <div class="action-button"><div class="ui button">register</div></div>      
+      <div class="ui vertical divider">Or</div>
+    </div>
+    <div class="four wide column fb-login">
+      <i class="facebook huge icon square"></i><br/><br/>
+      <a class="item">Login with facebook</a>
+    </div>
+  </div>
+</div>

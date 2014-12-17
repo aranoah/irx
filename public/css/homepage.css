@@ -1,0 +1,86 @@
+/**************
+	Homescreen
+***************/
+
+#searchbar {
+	margin: 0;
+}
+
+#homepage.ui.grid {
+	margin: 4rem 0 0 !important;
+}
+
+#homepage.ui.grid>div.doubling.row {
+	padding: 0 !important;
+}
+
+#homepage>div.doubling.row>div {
+	min-height :340px;
+	height: 100%;
+	padding: 0;
+}
+
+#homepage>div.doubling.row>div.left-bg {
+	background: url(/img/left.gif) no-repeat center;
+}#homepage>div.doubling.row>div.right-bg {
+	background: url(/img/right.gif) no-repeat center;
+	background-size: cover;
+}
+
+/******************
+	Agents listing
+*******************/
+
+#agentContent {
+	padding: 4rem 0 !important;
+}
+
+#agentContent>div {
+	padding: 0;
+}
+
+#agentContent .rib-head {
+	padding: 0 !important;
+	border-bottom: 2px solid #eee;
+}
+
+#agentContent .rib-head>h2 {
+	margin: 1rem 0 0;
+	padding: 0;
+}
+
+#agentContent .rib-head>.right.menu {
+	padding-bottom: 1rem !important;
+}
+
+#agentContent .rib-head>.right.menu>.ui.blue.basic.button {
+	padding: .8em 1em !important;
+}
+
+#agentContent .rib-head>.right.menu .ui.blue.basic.button {
+	margin: 0 0 0 1rem;
+	text-transform: uppercase;
+} 
+
+#agentContent .ui.cards {
+	margin: 2rem -.5rem;
+}
+
+#agentContent .ui.cards>.card {
+	width: 384px;
+}
+
+.ui.image.tiny {
+	float: left;
+	padding: .6rem !important;
+	background-color: inherit !important;
+}
+
+.content.addr-ess {
+	font-size: .9em;
+}
+
+.description>span {
+	color: rgba(0,0,0,.8);
+	margin: 0 .3rem;
+}

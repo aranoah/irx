@@ -37,5 +37,7 @@ module.exports = function routes() {
   this.match('s3-test',{ controller: 'general/rest/rest', action: 's3Test' , via: 'GET' });
   this.root({ controller: 'general/pages', action: 'main' });
   this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
+  this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
+  this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
 }
   

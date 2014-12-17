@@ -5,10 +5,16 @@
 </head>
 <body>  
   <% include ../partials/header.html.ejs %>
+  <% include ../partials/sidebar.html.ejs %>
+  <% include ../partials/login.html.ejs %>
 
   <!-- content goes here -->
+  
+  <div id="content" class="ui centered page grid">
 
-  <div id="content" class="cont-ainer ui grid">
+    <div class="fourteen wide column">
+
+      <div class="ui two column center aligned stackable divided grid">
 
     <!-- Left panel starts here -->
 
@@ -66,7 +72,7 @@
             <h2 class="ui header column">projects</h2>
             <div class="header column right menu">View all <i class="left angle double right icon"></i></div>
           </div>
-          <div class="rib-items ui three column grid pro-ject">
+          <div class="rib-items ui three column grid stackable pro-ject">
             <div class="column item">
                 <img src="img/proj.png">
                 <div class="meta">
@@ -160,7 +166,8 @@
 
           </div>
         </div>
-
+        </div>
+      </div>
       </div>    
   </div>
 </body>
