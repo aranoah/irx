@@ -170,7 +170,7 @@ userController.logout = function() {
 **/
 
 userController.listUserProjects = function() {
-  
+  console.log("hhhhhhh")
   var _nself = this;
   userId= _nself.req.params.userId;
   var page = _nself.request.query.page;
