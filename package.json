@@ -14,13 +14,13 @@
     "mongodb":"1.4.x",
     "passport":"0.2.x",
     "passport-local":"1.0.x",
-    "express-validator":"2.6.x",
     "locomotive-mongoose":"0.1.x",
     "email-templates": "0.0.5",
     "nodemailer": "0.5.x",
     "cansecurity":"git+https://github.com/aniyus/cansecurity.git",
     "aws-sdk" :"2.0.28" ,
-    "cors":"2.5.2"
+    "cors":"2.5.2",
+    "validator":"3.22.2"
   },
   "scripts": {
     "start": "node server.js"

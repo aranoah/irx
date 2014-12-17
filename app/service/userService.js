@@ -16,19 +16,24 @@
 *
 **/
 var CONSTANTS = require(_path_util+'/constants');
+var mongoErr = require(_path_util+'/mongo-error')
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
+var IRXProductLineModel = require(_path_model+"/IRXProductLine");
+var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
-var EventEmitter = require('events').EventEmitter;
+
 var properties = require(_path_env+"/properties.js");
+var baseService = require(_path_service+"/base/baseService");
+
 var mongoose = require('mongoose');
 function UserService(){    
-
+	baseService.call(this);
 }
-UserService.prototype.__proto__=EventEmitter.prototype ;
+UserService.prototype.__proto__=baseService.prototype ;
 
 /*
 	Register a user and send verification mail
@@ -53,7 +58,7 @@ UserService.prototype.registerUser = function(user) {
 
 	userData.save(function(err, userData) {
 		if (err) {
-			_selfInstance.emit("done",err.code,"Error saving user information",err,null);
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
 		}else{
 			// save verification code
 			var verification = new IRXVerificationModel({
@@ -86,8 +91,9 @@ UserService.prototype.registerUser = function(user) {
 		
 	});
 };
+
 /*
-	Register a user and send email code
+	Verify user verification code
 
 **/
 UserService.prototype.verifyUser = function(data) {
@@ -100,7 +106,7 @@ UserService.prototype.verifyUser = function(data) {
 	verificationModel.findOne({ 'vfData': data.userId, "vfCode":data.vfCode }, function (err, verification) {
  		if (err){
  			console.error(err)
- 			_selfInstance.emit("done",err.code,err.err,err,null);
+ 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,null);
  			
  		} else{
 
@@ -113,7 +119,7 @@ UserService.prototype.verifyUser = function(data) {
 								console.log(numberAffected)
 								if(err){
 									console.error(err)
-									_selfInstance.emit("done",err.code,err.err,err,null);
+									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 								}else{
 									if(numberAffected >0){
 										console.log("User updated successfully");
@@ -121,7 +127,7 @@ UserService.prototype.verifyUser = function(data) {
 						 				verificationModel.remove({}, function (err) {
 											if (err) {
 												console.error(err)
-												_selfInstance.emit("done",err.code,err.err,err,null);
+												_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 											}else{
 												console.log("Verfication data cleared");
 												_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
@@ -144,4 +150,142 @@ UserService.prototype.verifyUser = function(data) {
   		
 	})
 };
+
+/*
+*	Update User
+**/
+UserService.prototype.updateUser = function(user) {
+	console.log("In updateUser")
+	var _selfInstance = this;
+	var User = IRXUserProfileModel;
+	var id = user.id;
+
+	/*
+	*	Update user
+	*/
+
+	var updateObject = {};
+	
+	if(user.location != null) {
+		updateObject["location"]=user.location;
+	}
+	if(user.type != null) {
+		updateObject["type"]=user.type;
+	}
+	if(user.companyName != null) {
+		updateObject["companyName"]=user.companyName;
+	}
+	if(user.specialities != null) {
+		updateObject["specialities"]=user.specialities;
+	}
+	
+	User.update({"userId":id},
+							{
+								$set:updateObject
+							},
+							function(err, numberAffected, raw){
+								console.log(numberAffected)
+								if(err){
+									console.error(err)
+									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+								} else{
+									if(numberAffected >0){
+										console.log("User updated successfully");
+										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
+						 				
+									}else{
+										console.log("User not updated")
+										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+									}
+								}	
+							})
+	
+}
+
+/*
+*	Get User Details
+*
+**/
+UserService.prototype.getUserDetails = function(userId) {
+	console.log("In getUserDetails")
+	var _selfInstance = this;
+	var User = IRXUserProfileModel;
+	var id = userId;
+	
+	User.findOne({"userId":id},
+				function(err,data){
+					if (err){
+			 			console.error(err)
+			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+			 			
+			 		} else{
+
+			 			if(data && data != null){
+
+			 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
+			 				
+			 			} else{
+			 				console.log("User data not found")
+							_selfInstance.emit("done",404,"User data not found","User data not found",null);
+			 			}
+			 			
+			  		}
+				})
+	
+}
+
+/*
+*	List User's projects
+*
+**/
+UserService.prototype.listUserProjects = function(user) {
+	console.log("In listUserProjects")
+	var _selfInstance = this;
+	var User = IRXUserProfileModel;
+	var id = user.userId;
+	var page = user.page;
+	
+	var Projects = IRXProductLineModel;
+	
+ 	var ObjectId = require('mongodb').ObjectID
+	
+	var ProjectMaping = IRXAgentMProductModel;
+	ProjectMaping.findOne({"agentId":id},
+				function(err,data){
+					if (err){
+			 			console.error(err)
+			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+			 			
+			 		} else {
+			 			
+			 			if(data != null){
+			 				var projectList = data.project;
+			 				var projectIds = new Array();
+			 				for (var i=0 ; i<projectList.length;i++) {
+
+							    projectId = new ObjectId(projectList[i]);
+							    console.log(projectId)
+							    projectIds.push(projectId)
+							}
+							var start = page.start;
+							var pageSize = Number(page.pageSize)+1;
+				Projects.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
+							function(err,projectDetails){
+								if(err){
+									console.log(err)
+									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+								} else {
+										_selfInstance.processPagenation(projectDetails,page)
+									_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,projectDetails,page);			
+								}	
+							})
+			 			} else {
+			 				console.error("No Data found")
+			 			_selfInstance.emit("done",404,"No project found",null,null);
+			 			}
+					}
+				})
+	
+}
+
 module.exports = UserService;

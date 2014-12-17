@@ -20,6 +20,7 @@ var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
 var publicController = new Controller();
+var userService = require(_path_service+"/userService.js" )
 
 
 
@@ -31,7 +32,19 @@ var publicController = new Controller();
 
 publicController.main = function() {
   console.log("In main Method")
-  this.title = "Public profile";
-  this.render("profile/public"); 
+ var userSvc = new userService();
+ 
+    var _nself = this;
+    
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.result=result;
+     _nself.title = "profile";
+     _nself.userId = _nself.req.params.userId;
+  		_nself.render("profile/public"); 
+    });
+   userId= _nself.req.params.userId;
+    userSvc.getUserDetails(userId);
+  	
+
 }
 module.exports = publicController;

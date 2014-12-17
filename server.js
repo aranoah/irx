@@ -21,6 +21,7 @@ app.phase(locomotive.boot.httpServer(4000, '0.0.0.0'));
 // for requests.
 app.boot(function(err) {
   if (err) {
+  	
     console.error(err.message);
     console.error(err.stack);
     return process.exit(-1);
