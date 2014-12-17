@@ -170,18 +170,26 @@ userController.logout = function() {
 **/
 
 userController.listUserProjects = function() {
-  var page = this.request.query.page;
-
+  
+  var _nself = this;
+  userId= _nself.req.params.userId;
+  var page = _nself.request.query.page;
+  
+  if(!page){
+    page={
+      "start":0,
+      "pageSIze":3
+    }
+  }
+  
   var userSvc = new userService();
  
-    var _nself = this;
-    userId= _nself.req.params.userId;
-    var data= {
+   var data= {
       "page":page,
       "userId":userId
     }
-    userSvc.on("done", function(code,msg,err,errValue){
-     _nself.processJson(code,msg,err,errValue);
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
     });
     
     userSvc.listUserProjects(data);
@@ -196,7 +204,6 @@ userController.listUserProjects = function() {
 **/
 
 userController.listUserLocations = function() {
-   
-   
+  
 }
 module.exports = userController;   
