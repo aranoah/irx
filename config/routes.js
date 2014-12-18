@@ -60,6 +60,9 @@ module.exports = function routes() {
   * User related web urls
   */
   this.root({ controller: 'general/pages', action: 'main' });
+  this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
+  this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
+  this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
   this.match("public-profile/:userId",{controller: 'profile/public', action:'main', via:'GET'});
 }
   

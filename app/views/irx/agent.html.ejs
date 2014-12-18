@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+</head>
+<% locals.uiContext.menu=false %>
+<body>  
+  <% include ../partials/header.html.ejs %>
+  <% include ../partials/sidebar.html.ejs %>
+  <% include ../partials/login.html.ejs %>
+
+  <!-- Bg image starts here -->
+
+  	<div id="homepage" class="ui grid">
+	  <div class="doubling two column row">
+	    <div class="column left-bg"></div><div class="column right-bg"></div>
+	  </div>
+	</div>
+	<!-- Bg image ends here -->	
+  <% include ../partials/searchbar.html.ejs %>
+
+  <!-- agents Listing goes here -->
+
+  	<div id="agentContent" class="ui centered page grid">
+	  <div class="fourteen wide column">
+	  	<div class="ui grid two column rib-head">
+	    	<h2 class="ui header column">Showing results <a>20 out of 50</a></h2>
+	    	<div class="header column right menu">
+	    		<div class="ui checkbox">
+			      <input type="checkbox">
+			      <label>Top 5 brokers</label>
+			    </div>
+				<div class="ui blue basic button">submit request</div>
+	    	</div>
+	    </div>
+	    <div class="ui cards">
+	    	
+		  <div class="card">
+		    <div class="ui image tiny">
+		      <img src="http://semantic-ui.com/images/avatar/large/steve.jpg">
+		    </div>
+		    <div class="content">
+		      <div class="header">Elliot Fu</div>
+		      <a class="group">IRX India</a>
+		      <div class="content addr-ess">
+    			<i class="map marker icon"></i> Sector 22B,Gurgaon
+    		  </div>
+		      <div class="description">
+		        Specialities : <span class="header"></i>Resale</span><span class="header">Project</span><span class="header">Commercial</span>
+		       </div>
+		    </div>
+		    <div class="extra content">
+		      <div class="right floated created">
+		        <a href=""><i class="empty heart icon"></i></a>
+		        <a href=""><i class="share square icon"></i></a>
+		      </div>
+		      <a class="friends">
+		        <i class="building icon"></i>
+		        22 Projects
+		      </a><a class="friends">
+		        <i class="location arrow icon"></i>
+		        22 Locations
+		      </a>
+		    </div>
+		  </div>
+
+
+		</div>	   
+	  </div>    
+	</div>
+</body>

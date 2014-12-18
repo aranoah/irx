@@ -8,11 +8,16 @@
 </head>
 <body>  
   <% include ../partials/header.html.ejs %>
+  <% include ../partials/sidebar.html.ejs %>
+  <% include ../partials/login.html.ejs %>
 
   <!-- content goes here -->
-
-  <div id="content" class="cont-ainer ui grid">
+  
+  <div id="content" class="ui centered page grid">
   <input type="hidden" id="__userId" value="<%= userId %>">
+    <div class="fourteen wide column">
+
+      <div class="ui two column center aligned stackable divided grid">
     <!-- Left panel starts here -->
 
       <div class="four wide column">
@@ -70,7 +75,7 @@
             <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' ">Hide <i class="left angle double right icon"></i>
             </div>
           </div>
-          <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: projects">
+          <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
             <div class="column item">
                 <img data-bind="attr: { src: name }">
                 <div class="meta">
@@ -130,7 +135,8 @@
 
           </div>
         </div>
-
+        </div>
+      </div>
       </div>    
   </div>
   <script type="text/javascript">
