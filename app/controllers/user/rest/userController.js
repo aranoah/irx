@@ -204,6 +204,29 @@ userController.listUserProjects = function() {
 **/
 
 userController.listUserLocations = function() {
+
+  var _nself = this;
+  userId= _nself.req.params.userId;
+  var page = _nself.request.query.page;
+  
+  if(!page){
+    page={
+      "start":0,
+      "pageSIze":3
+    }
+  }
+  
+  var userSvc = new userService();
+ 
+   var data= {
+      "page":page,
+      "userId":userId
+    }
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    
+    userSvc.listUserLocations(data);
   
 }
 module.exports = userController;   

@@ -70,16 +70,16 @@
         <div class="column ri-box" data-bind="visible: (shouldShow()=='' || shouldShow()=='project')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">projects</h2>
-            <div class="header column right menu"  data-bind="click: showAllProjects,visible:  showButton()=='view' ">View all <i class="left angle double right icon"></i>
+            <div class="header column right menu"  data-bind="click: showAllProjects,visible:  showButton()=='view' "><a>View all <i class="left angle double right icon"></a></i>
             </div>
-            <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' ">Hide <i class="left angle double right icon"></i>
+            <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' "><a>Hide <i class="left angle double right icon"></a></i>
             </div>
           </div>
           <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
             <div class="column item">
                 <img data-bind="attr: { src: name }">
                 <div class="meta">
-                  <a class="header" data-bind="text: name">THE PRESIDENTIAL TOWER</a>
+                  <h4 class="header" data-bind="text: name">THE PRESIDENTIAL TOWER</h4>
                   <p class="cinema" data-bind="text: builderName">Mantri Developers</p>
                   <p class="cinema" data-bind="text: location.city">DLF,Gurgaon,Haryana</p>
                 </div>
@@ -92,12 +92,12 @@
         <div class="column ri-box loca-tion" data-bind="visible: (shouldShow()=='' || shouldShow()=='location')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">working locations</h2>
-            <div class="header column right menu">View all <i class="left angle double right icon"></i></div>
+            <div class="header column right menu"><a>View all <i class="left angle double right icon"></i></a></div>
           </div>
           <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: projects">
             <div class="ui divided items column">
               <div class="meta loc-item">
-                <a class="header" data-bind="text: name">mgf city center</a>
+                <h4 class="header" data-bind="text: name">mgf city center</h4>
                 <p class="cinema" data-bind="text: location.city">Gurgaon,Haryana</p>
                 <span class="header"><i class="user icon"></i>24</span>
                 <span class="header"><i class="file image outline icon"></i>24</span>
