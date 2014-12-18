@@ -20,18 +20,22 @@ var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
 var commonValidator = require(_path_util+"/commonValidator")
-var agentController = new Controller();
+var projectController = new Controller();
 
-var userService = require(_path_service+"/userService.js" )
+var projectListingService = require(_path_service+"/projectListingService.js" )
 
-agentController.prototype.listAgents = function() {
-	if(this.req.errors.hasError()){
-       this.processJson(403,"validation error",this.req.errors.getErrors());
-       return;
-    }
+projectController.listProjects = function() {
+	var agentListService = new projectListingService();
+	
     var _nself = this;
-    userSvc.on("done", function(code,msg,err,errValue){
+    agentListService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
-    userSvc.registerUser(_nself.req.body);
+    var userFilters = {
+    	filters:_nself.req.params.filters,
+    	page:_nself.req.params.page
+    }
+    console.log(userFilters)
+    agentListService.listProjects(_nself.req.body);
 };
+module.exports=projectController

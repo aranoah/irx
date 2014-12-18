@@ -30,50 +30,51 @@ var properties = require(_path_env+"/properties.js");
 var baseService = require(_path_service+"/base/baseService");
 
 var mongoose = require('mongoose');
-function AgentListingService(){    
+function ProjectListingService(){    
 	baseService.call(this);
 }
-AgentListingService.prototype.__proto__=baseService.prototype ;
+ProjectListingService.prototype.__proto__=baseService.prototype ;
 
-AgentListingService.prototype.listAgents = function(data){
-
+ProjectListingService.prototype.listProjects = function(data){
+	var _selfInstance = this;
 	var query = {};
-	
-	if(data.city != null) {
-		query["location.city"]=data.city;
+	var filters = data.filters;
+	var page = data.page;
+	if(!page) {
+		page = {
+			start:0,
+			pageSize:3	
+		}
+		
 	}
-	if(data.type != null) {
-		query["type"]=data.type;
+	if(filters && filters.city != null) {
+		query["location.city"]=filters.city;
 	}
-	if(data.bhk != null) {
-		query["bhk"]=data.bhk;
+	if(filters && filters.type != null) {
+		query["type"]=filters.type;
 	}
-	if(data.budget != null) {
-		query["price"]=data.budget;
+	if(filters && filters.bhk != null) {
+		query["bhk"]=filters.bhk;
 	}
-	IRXProductLineModel.find(query,{"_id":1},page,function(err , result){
+	if(filters && filters.budget != null) {
+		query["price"]=filters.budget;
+	}
+	var start = page.start;
+	var pageSize = Number(page.pageSize)+1;
+	console.log(query)
+	IRXProductLineModel.find(query,{},{skip:start,limit:pageSize},function(err , result){
 		if(err){
 			console.error(err)
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 		}else{
 			if(data != null){
-				for (var i=0 ; i<data.length;i++) {
-
-				    var projectLocations = new ObjectId(data[i]._id);
-				    var projectIds = new Array();
-			 				for (var i=0 ; i<projectList.length;i++) {
-
-							    projectId = new ObjectId(projectList[i]);
-							    console.log(projectId)
-							    projectIds.push(projectId)
-							}
-							var start = page.start;
-							var pageSize = Number(page.pageSize)+1;
-				}
-			} else {
+				_selfInstance.processPagenation(result,page)
+				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+			}
+			else {
 
 			}
 		}
 	})
 }
-module.exports = AgentListingService;
+module.exports = ProjectListingService;
