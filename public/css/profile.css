@@ -149,6 +149,15 @@
   text-align: right !important;
 }
 
+.rib-head a {
+  cursor: pointer;
+  color: #666;
+}
+
+.rib-head a:hover {
+  color: #38b7ea;
+}
+
 .rib-items {
   padding: .5rem !important;
   margin: 0 !important;
@@ -156,6 +165,10 @@
 
 .rib-items.ui.three.column.grid>div {
   text-align: center;
+}
+
+.pro-ject .meta>h4, .meta.loc-item>h4 {
+  margin: 0;
 }
 
 .rib-items.ui.three.column.grid p {

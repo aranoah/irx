@@ -35,7 +35,6 @@ $(document).ready(function () {
 
   $('.ui.radio.checkbox').checkbox();
   $('.ui.checkbox').checkbox();
-  $('.ui.checkbox').slider();
 
 	$('.log-in').bind('click',function() {
 		$('.ui.modal').modal({

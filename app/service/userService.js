@@ -234,10 +234,10 @@ UserService.prototype.getUserDetails = function(userId) {
 	
 }
 
-/*
-*	List User's projects
-*
-**/
+/************************
+	List User's projects
+*************************/
+
 UserService.prototype.listUserProjects = function(user) {
 	console.log("In listUserProjects")
 	var _selfInstance = this;
@@ -251,40 +251,94 @@ UserService.prototype.listUserProjects = function(user) {
 	
 	var ProjectMaping = IRXAgentMProductModel;
 	ProjectMaping.findOne({"agentId":id},
-				function(err,data){
-					if (err){
-			 			console.error(err)
-			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
-			 			
-			 		} else {
-			 			
-			 			if(data != null){
-			 				var projectList = data.project;
-			 				var projectIds = new Array();
-			 				for (var i=0 ; i<projectList.length;i++) {
+		function(err,data){
+			if (err){
+	 			console.error(err)
+	 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+	 			
+	 		} else {
+	 			
+	 			if(data != null){
+	 				var projectList = data.project;
+	 				var projectIds = new Array();
+	 				for (var i=0 ; i<projectList.length;i++) {
 
-							    projectId = new ObjectId(projectList[i]);
-							    console.log(projectId)
-							    projectIds.push(projectId)
-							}
-							var start = page.start;
-							var pageSize = Number(page.pageSize)+1;
-				Projects.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
-							function(err,projectDetails){
-								if(err){
-									console.log(err)
-									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
-								} else {
-										_selfInstance.processPagenation(projectDetails,page)
-									_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,projectDetails,page);			
-								}	
-							})
-			 			} else {
-			 				console.error("No Data found")
-			 			_selfInstance.emit("done",404,"No project found",null,null);
-			 			}
+					    projectId = new ObjectId(projectList[i]);
+					    console.log(projectId)
+					    projectIds.push(projectId)
 					}
-				})
+					var start = page.start;
+					var pageSize = Number(page.pageSize)+1;
+		Projects.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
+					function(err,projectDetails){
+						if(err){
+							console.log(err)
+							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+						} else {
+								_selfInstance.processPagenation(projectDetails,page)
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,projectDetails,page);			
+						}	
+					})
+	 			} else {
+	 				console.error("No Data found")
+	 			_selfInstance.emit("done",404,"No project found",null,null);
+	 			}
+			}
+		})
+	
+}
+
+/************************
+	List Users locations
+*************************/
+
+UserService.prototype.listUserLocations = function(user) {
+	console.log("In listUserLocations")
+	var _selfInstance = this;
+	var User = IRXUserProfileModel;
+	var id = user.userId;
+	var page = user.page;
+	
+	var locations = IRXLocationModel;
+	
+ 	var ObjectId = require('mongodb').ObjectID
+	
+	var LocationMaping = IRXAgentMProductModel;
+	LocationMaping.findOne({"agentId":id},
+		function(err,data){
+			if (err){
+	 			console.error(err)
+	 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+	 			
+	 		} else {
+	 			
+	 			if(data != null){
+	 				var locationList = data.location;
+	 				var projectIds = new Array();
+	 				for (var i=0 ; i<locationList.length;i++) {
+
+					    projectId = new ObjectId(locationList[i]);
+					    console.log(projectId)
+					    projectIds.push(projectId)
+					}
+					var start = page.start;
+					var pageSize = Number(page.pageSize)+1;
+		locations.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
+					function(err,locationDetails){
+						if(err){
+							console.log(err)
+							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+						} else {
+								_selfInstance.processPagenation(projectDetails,page)
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,locationDetails,page);			
+						}	
+					})
+	 			} else {
+	 				console.error("No Data found")
+	 			_selfInstance.emit("done",404,"No project found",null,null);
+	 			}
+			}
+		})
 	
 }
 

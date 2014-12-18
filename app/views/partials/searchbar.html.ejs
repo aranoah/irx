@@ -22,24 +22,28 @@
     </div>
     <div class="cont-ainer search-menu">
       <div class="item">
-        <select class="ui search small dropdown">
-          <option value="">State</option>
-          <option value="AL">New Delhi</option>
-          <option value="AL">Bangalore</option>
-          <option value="AK">Mumbai</option>
-          <!-- Omitted for brevity !-->
-          <option value="WA">Hyderbad</option>
-          <option value="WV">Chennai</option>
-          <option value="WI">Pune</option>
-          <option value="WY">Kolkata</option>
-        </select>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="city">
+          <div class="default text">City</div>
+          <i class="angle down icon"></i>
+          <div class="menu">
+            <div class="item" data-value="NewD">New Delhi</div>
+            <div class="item" data-value="Bang">Bangalore</div>
+            <div class="item" data-value="Mum">Mumbai</div>
+            <div class="item" data-value="Che">Chennai</div>
+          </div>
+        </div>
       </div>
       <div class="item">
-          <select class="ui search small dropdown">
-            <option value="">Rent</option>
-            <option value="RE">Resale</option>
-            <option value="LA">Land</option>
-          </select>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="Rent">
+          <div class="default text">Rent</div>
+          <i class="angle down icon"></i>
+          <div class="menu">
+            <div class="item" data-value="RE">Resale</div>
+            <div class="item" data-value="LA">Land</div>
+          </div>
+        </div>
       </div>
       <div class="item">
         <div class="ui icon input">
@@ -48,12 +52,17 @@
         </div>
       </div>
       <div class="item">
-          <select class="ui search small dropdown">
-            <option value="">BHK</option>
-            <option value="1">1bhk</option>
-            <option value="2">2bhk</option>
-            <option value="3">3bhk</option>
-          </select>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="BHK">
+          <div class="default text">BHK</div>
+          <i class="angle down icon"></i>
+          <div class="menu">
+            <div class="item" data-value="1">1bhk</div>
+            <div class="item" data-value="2">2bhk</div>
+            <div class="item" data-value="3">3bhk</div>
+            <div class="item" data-value="4">4bhk</div>
+          </div>
+        </div>
       </div>
       <div class="item">
           <div class="ui slider checkbox">
@@ -62,10 +71,13 @@
           </div>
       </div>
       <div class="item actions">
-        <div class="ui large buttons">
-          <div class="ui button">Agent</div>
-          <div class="or"></div>
-          <div class="ui button">Project</div>
+        <div class="ui selection dropdown">
+          <div class="default text">Search</div>
+          <i class="angle down icon"></i>
+          <div class="menu">
+            <div class="item" data-value="agent">Agent</div>
+            <div class="item" data-value="project">Porject</div>
+          </div>
         </div>
       </div>
     </div>

@@ -46,7 +46,7 @@ module.exports = function routes() {
   this.match('user-details/:userId',{ controller: 'user/rest/user', action: 'getUserDetails' , via: 'GET' });
   this.match('verify-user',{ controller: 'user/rest/user', action: 'verifyUser' , via: 'GET' });
   this.match('list-user-projects/:userId',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
-  this.match('list-user-locations',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
+  this.match('list-user-locations/:userId',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
 
   /*
   * Utility urls
