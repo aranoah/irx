@@ -19,9 +19,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema,
   ObjectId = Schema.ObjectId;
 var IRXAgentMProductSchema =new mongoose.Schema({
-	_id:{type:ObjectId,required:true},
+   _id:{type:ObjectId,required:true},
    agentId:{type:String,required:true},
    project:{type:Array,required:true},
+   location:{type:Array,required:true},
    rank:{type:Number},//indexing
    preferred:{type:Boolean},
    createdOn:{type:Date},

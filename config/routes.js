@@ -34,6 +34,11 @@ module.exports = function routes() {
   this.match('rest',{ controller: 'general/rest/rest', action: 'main' , via: 'POST' });
   
   /*
+  * Listing Related urls
+  */
+  this.match('list-projects',{ controller: 'list/rest/project', action: 'listProjects' , via: 'POST' });
+  
+  /*
   * User Related urls
   */
   this.match('create-user',{ controller: 'user/rest/user', action: 'createUser' , via: 'POST' });
