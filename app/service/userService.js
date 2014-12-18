@@ -22,6 +22,7 @@ var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
+var IRXLocationModel = require(_path_model+"/IRXLocation");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
@@ -315,27 +316,30 @@ UserService.prototype.listUserLocations = function(user) {
 	 			if(data != null){
 	 				var locationList = data.location;
 	 				var projectIds = new Array();
-	 				for (var i=0 ; i<locationList.length;i++) {
+	 				if(typeof(locationList)!='undefined' && locationList!=null) {
+		 				for (var i=0 ; i<locationList.length;i++) {
 
-					    projectId = new ObjectId(locationList[i]);
-					    console.log(projectId)
-					    projectIds.push(projectId)
-					}
+						    projectId = new ObjectId(locationList[i]);
+						    console.log(projectId)
+						    projectIds.push(projectId)
+						}
+
 					var start = page.start;
 					var pageSize = Number(page.pageSize)+1;
-		locations.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
+					locations.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
 					function(err,locationDetails){
 						if(err){
 							console.log(err)
 							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 						} else {
-								_selfInstance.processPagenation(projectDetails,page)
+								_selfInstance.processPagenation(locationDetails,page)
 							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,locationDetails,page);			
 						}	
 					})
 	 			} else {
 	 				console.error("No Data found")
 	 			_selfInstance.emit("done",404,"No project found",null,null);
+	 			}
 	 			}
 			}
 		})

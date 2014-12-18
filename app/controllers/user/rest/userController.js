@@ -204,6 +204,7 @@ userController.listUserProjects = function() {
 **/
 
 userController.listUserLocations = function() {
+  console.log('Helo');
 
   var _nself = this;
   userId= _nself.req.params.userId;
