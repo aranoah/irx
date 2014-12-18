@@ -1,12 +1,12 @@
 <!-- Search menu goes her
   -->
-<form data-bind="submit: handleSubmit">
+<form >
   <div id="searchbar" class="ui inverted menu">
     <div class="ui grid smenu-hide">
       <div class="ui mobile row" tabindex="0">
         <div class="item twelve wide column">
           <div class="ui icon input">
-            <input type="text" data-bind="value: filters.name" placeholder="Search...">
+            <input type="text"  placeholder="Search...">
             <i class="search icon"></i>
           </div>
         </div>
@@ -37,7 +37,7 @@
       </div>
       <div class="item">
         <div class="ui selection dropdown">
-          <input type="hidden" data-bind="value: filters.type" name="Rent">
+          <input type="hidden" name="Rent">
           <div class="default text">Rent</div>
           <i class="angle down icon"></i>
           <div class="menu">
@@ -54,7 +54,7 @@
       </div>
       <div class="item">
         <div class="ui selection dropdown">
-          <input type="hidden" data-bind="value: filters.bhk" name="BHK">
+          <input type="hidden"  name="BHK">
           <div class="default text">BHK</div>
           <i class="angle down icon"></i>
           <div class="menu">

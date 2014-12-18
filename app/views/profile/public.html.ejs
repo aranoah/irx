@@ -149,7 +149,7 @@
     this.projectsOnPage = 3;
     this.page = {pageSize:3,start:0};
     this.userId = options.userId;
-  }
+  } 
 
   PublicProfile.prototype.init = function() {
     var _classInstance = this;
@@ -171,7 +171,7 @@
       }
   }
    ko.applyBindings(_classInstance.viewModel);
-   
+   _classInstance.listProjects();
   };
   PublicProfile.prototype.resetPage = function() {
     this.page.start = this.projectsOnPage;
@@ -208,7 +208,7 @@
     var publicProfile = new PublicProfile({userId:userId});
     publicProfile.init();
     
-    publicProfile.listProjects();
+   
   })
 
    

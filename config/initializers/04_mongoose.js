@@ -31,7 +31,7 @@ module.exports = function(done) {
 var _self = this;
 this.mongoose.getObjectId=function(id){
     var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
-    var ObjectId = _self.mongoose.Schema.ObjectId;
+    var ObjectId = require('mongodb').ObjectID;
     if(checkForHexRegExp.test(id)){
       return new ObjectId(id);
     }else{
