@@ -23,9 +23,9 @@
       <div class="four wide column">
         <div class="column li-box">
 
-          <div class="lib-pic"><img class="ui circular image" src="img/pic.png"></div>
+          <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
           <div class="item"><div class="header"><%= result.name %></div><%= result.companyName %></div>
-          <img class="" src="img/fb.png">
+          <img class="" src="/img/fb.png">
 
           <div class="lib-actions">
             <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
@@ -77,7 +77,7 @@
           </div>
           <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
             <div class="column item">
-                <img data-bind="attr: { src: name }">
+                <img src="/img/proj.png">
                 <div class="meta">
                   <h4 class="header" data-bind="text: name">THE PRESIDENTIAL TOWER</h4>
                   <p class="cinema" data-bind="text: builderName">Mantri Developers</p>
@@ -107,7 +107,7 @@
         </div>
 
         <!-- Reviews section here -->
-        <div class="column ri-box loca-tion" data-bind="visible: (shouldShow()=='' || shouldShow()=='review')">
+        <div class="column ri-box revi-ew" data-bind="visible: (shouldShow()=='' || shouldShow()=='review')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">Reviews</h2>
             <div class="column right menu"><div class="ui button"><i class="icon user"></i>Invite</div></div>
