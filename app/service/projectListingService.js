@@ -47,16 +47,16 @@ ProjectListingService.prototype.listProjects = function(data){
 		}
 		
 	}
-	if(filters && filters.city != null) {
+	if(filters && filters.city != null &&  filters.city != "") {
 		query["location.city"]=filters.city;
 	}
-	if(filters && filters.type != null) {
+	if(filters && filters.type != null &&  filters.type != "") {
 		query["type"]=filters.type;
 	}
-	if(filters && filters.bhk != null) {
+	if(filters && filters.bhk != null &&  filters.bhk != "") {
 		query["bhk"]=filters.bhk;
 	}
-	if(filters && filters.budget != null) {
+	if(filters && filters.budget != null && filters.budget != "") {
 		query["price"]=filters.budget;
 	}
 	var start = page.start;

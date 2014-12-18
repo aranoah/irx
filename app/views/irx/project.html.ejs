@@ -36,17 +36,17 @@
 	    	</div>
 	    </div>  
 
-	    <div class="ui items" data-binding:"foreach : project">
+	    <div class="ui items" data-bind="foreach : projects">
 		  <div class="item">
 		    <div class="image">
 		      <img src="/images/square-image.png">
 		    </div>
 		    <div class="content">
-		      <a class="header " data-binding:"text : name">12 Years a Slave</a>
+		      <a class="header " data-bind="text : name">12 Years a Slave</a>
 		      <div class="meta">
 		        <span class="cinema">Union Square 14</span>
 		      </div>
-		      <div class="description" data-binding:"text : description">
+		      <div class="description" data-bind="text : description">
 		        In the pre-Civil War United States, Solomon Northup, a free black man from upstate New York, is abducted and sold into slavery. Facing cruelty as well as unexpected kindnesses Solomon struggles not only to stay alive, but to retain his dignity. In the twelfth year of his unforgettable odyssey, Solomon’s chance meeting with a Canadian abolitionist will forever alter his life.
 		      </div>
 		      <div class="extra">
@@ -67,27 +67,40 @@
 		}
 	}
 	Project.prototype.init = function() {
-		alert(init)
-		var _selfInstance = this;
-		_selfInstance.viewMode = {
-			projects: ko.observableArray()
+
+		var _classInstance = this;
+		_classInstance.viewModel = {
+			projects: ko.observableArray(),
+			filters:{
+				name: ko.observable(""),
+				type: ko.observable(""),
+				bhk: ko.observable("")
+			},
+			handleSubmit : function(){
+				_classInstance.listProjects(true);
+			}
 		}
 		 ko.applyBindings(_classInstance.viewModel);
-		_selfInstance.listProjects()
+		_classInstance.listProjects()
 	}
 	
-	Project.prototype.listProjects = function() {
+	Project.prototype.listProjects = function(replace) {
     	var classInstance = this;
-	    httpUtils.post("/list-projects",{page:classInstance.page},"JSON",function(data){
+	    httpUtils.post("/list-projects",{filters:classInstance.viewModel.filters,page:classInstance.page},"JSON",function(data){
 	       if(data.status==0){
-	        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)
+	       	if(typeof(replace) != undefined && replace){
+	       		classInstance.viewModel.projects([]);
+	       	} 
+	       		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+	       	
+	        
 	        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        }
 		})
 	 }
 
 	$(document).ready(function(){
-	   alert(1)
+	  
 	    var project = new Project();
 	    project.init();
 	    

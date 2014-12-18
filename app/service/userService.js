@@ -23,6 +23,7 @@ var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
+var IRXLocationModel = require(_path_model+"/IRXLocation");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
 
