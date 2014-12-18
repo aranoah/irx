@@ -24,9 +24,10 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var IRXLocationModel = require(_path_model+"/IRXLocation");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
-var IRXLocationModel = require(_path_model+"/IRXLocation");
+
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
+var mongoose = require('mongoose');
 
 var properties = require(_path_env+"/properties.js");
 var baseService = require(_path_service+"/base/baseService");
@@ -297,6 +298,7 @@ UserService.prototype.listUserProjects = function(user) {
 UserService.prototype.listUserLocations = function(user) {
 	console.log("In listUserLocations")
 	var _selfInstance = this;
+
 	var User = IRXUserProfileModel;
 	var id = user.userId;
 	var page = user.page;
@@ -320,14 +322,15 @@ UserService.prototype.listUserLocations = function(user) {
 	 				if(typeof(locationList)!='undefined' && locationList!=null) {
 		 				for (var i=0 ; i<locationList.length;i++) {
 
-						    projectId = new ObjectId(locationList[i]);
+						    projectId = mongoose.getObjectId(locationList[i])
 						    console.log(projectId)
 						    projectIds.push(projectId)
 						}
 
 					var start = page.start;
 					var pageSize = Number(page.pageSize)+1;
-					locations.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
+					console.log("yahan !!", start)
+					locations.find({"_id":{$in:locationList}},{},{skip:start,limit:pageSize },
 					function(err,locationDetails){
 						if(err){
 							console.log(err)
@@ -346,5 +349,32 @@ UserService.prototype.listUserLocations = function(user) {
 		})
 	
 }
+UserService.prototype.createLocation = function(first_argument) {
+	console.log("HEy !!")
+	var userData = new IRXLocationModel({
+  			
 
+    "_id" : "gurgaon",
+    "location" : {
+        "city" : "gurgaon",
+        "country" : "India",
+        "locality" : "ashok vihar phase ii",
+        "pincode" : 122001,
+        "state" : "haryana",
+        "taluka" : ""
+    },
+    "name" : "gurgaon"
+}
+	);
+	var _selfInstance = this;
+
+	userData.save(function(err, userData) {
+		if (err) {
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+		}else {
+			_selfInstance.emit("done",0,"Done",err,null);
+		}
+	}
+	)
+};
 module.exports = UserService;

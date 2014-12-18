@@ -22,7 +22,7 @@ ObjectId = Schema.ObjectId;
 
 var IRXLocationSchema =new mongoose.Schema({
 
-	_id:{type:ObjectId,required:true},
+	_id:{type:String,required:true},
 	location:{locality:String,city:String,state:String,country:String,pincode:String,latitude:Number,longitude:Number},
   
   name:{type:String,required:true}

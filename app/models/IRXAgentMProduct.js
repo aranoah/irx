@@ -22,6 +22,7 @@ var IRXAgentMProductSchema =new mongoose.Schema({
    _id:{type:ObjectId,required:true},
    agentId:{type:String,required:true},
    project:{type:Array,required:true},
+   location:{type:Array,required:true},
    rank:{type:Number},//indexing
    preferred:{type:Boolean},
    createdOn:{type:Date},
