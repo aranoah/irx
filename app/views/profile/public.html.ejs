@@ -92,9 +92,12 @@
         <div class="column ri-box loca-tion" data-bind="visible: (shouldShow()=='' || shouldShow()=='location')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">working locations</h2>
-            <div class="header column right menu"><a>View all <i class="left angle double right icon"></i></a></div>
+            <div class="header column right menu"  data-bind="click: showAllProjects,visible:  showButton()=='view' "><a>View all <i class="left angle double right icon"></a></i>
+            </div>
+            <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' "><a>Hide <i class="left angle double right icon"></a></i>
+            </div>
           </div>
-          <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: projects">
+          <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: locations">
             <div class="ui divided items column">
               <div class="meta loc-item">
                 <h4 class="header" data-bind="text: name">mgf city center</h4>
@@ -155,6 +158,7 @@
     var _classInstance = this;
     _classInstance.viewModel = {
       projects: ko.observableArray(),
+      locations : ko.observableArray(),
       shouldShow : ko.observable(''),
       showButton : ko.observable('view'),
       showAllProjects : function() {
@@ -172,6 +176,7 @@
   }
    ko.applyBindings(_classInstance.viewModel);
    _classInstance.listProjects();
+   _classInstance.listUserLocations();
   };
   PublicProfile.prototype.resetPage = function() {
     this.page.start = this.projectsOnPage;
@@ -196,9 +201,9 @@
 
    PublicProfile.prototype.listUserLocations = function() {
     var classInstance = this;
-    httpUtils.get("/list-user-locations",null,"JSON",function(data){
-       if(data.status==200){
-        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projectList)
+    httpUtils.get("/list-user-locations/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+       if(data.status==0){
+        ko.utils.arrayPushAll(classInstance.viewModel.locations,data.result)
        } 
     })
   }
