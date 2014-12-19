@@ -212,6 +212,10 @@
 
 /* reviews*/
 
+.revi-ew>.rib-head>h2 {
+  margin-top: 0.5rem !important;
+}
+
 .review-item .rib-head,.review-item .rib-head h3 {
   padding: 0 !important;
   margin: 0 !important;
