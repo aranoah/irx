@@ -215,7 +215,7 @@ UserService.prototype.getUserDetails = function(userId) {
 	var User = IRXUserProfileModel;
 	var id = userId;
 	
-	User.findOne({"userId":id},
+	User.findOne({"irxId":id},
 				function(err,data){
 					if (err){
 			 			console.error(err)
@@ -224,7 +224,7 @@ UserService.prototype.getUserDetails = function(userId) {
 			 		} else{
 
 			 			if(data && data != null){
-
+			 				console.log("yoy",data)
 			 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
 			 				
 			 			} else{

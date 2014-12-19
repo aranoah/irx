@@ -63,6 +63,6 @@ module.exports = function routes() {
   this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
   this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
-  this.match("public-profile/:userId",{controller: 'profile/public', action:'main', via:'GET'});
+  this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
 }
   

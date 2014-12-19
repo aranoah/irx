@@ -33,7 +33,7 @@ body {
 
 #header .right.menu>.item {
   color: #9c9c9c;
-  font-weight: normal;
+  font-weight: 300;
 }
 
 #header .right.menu>.item:hover {

@@ -19,10 +19,11 @@ var mongoose = require('mongoose');
 
 var IRXUserProfileSchema =new mongoose.Schema({
    name:{type:String,required:true},
+   irxId:{type:String,required:true},
    userId:{type:String,required:true,unique:true},
    password:{type:String,required:true},
    location:{city:String,state:String,country:String,name:String,pincode:String,lat:Number,lon:Number},
-   location:{type:Array},
+   locationProjects:{type:Array},
    type:{type:String,required:true},
    companyName: {type:String},
    imageUrl:{type:String},
@@ -33,7 +34,8 @@ var IRXUserProfileSchema =new mongoose.Schema({
    preferred:{type:Boolean},
    createdOn:{type:Date},
    updatedOn:{type:Date},
-   status:{type:String}
+   status:{type:String},
+   phoneNum :{type:String}
 });
 
 IRXUserProfileModel = mongoose.model('irxuser', IRXUserProfileSchema);

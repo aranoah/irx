@@ -5,6 +5,22 @@
   <script type="text/javascript" src="/js/library/knockout-3.2.0.js"></script>
   <script type="text/javascript" src="/js/library/knockout.mapping-latest.js"></script>
   <script type="text/javascript" src="/js/common/http.js"></script>
+  <style type="text/css">
+    .projectDetail{
+      color: #9c9c9c;
+      font-weight: normal;
+    }
+    .projectName{
+      color: #444;
+      font-size: 1rem;
+    }
+    .li-box .item {
+      padding: 0.25rem;
+      font-size: 1em;
+      font-weight: 300;
+      color: #808080;
+    }
+  </style>
 </head>
 <body>  
   <% include ../partials/header.html.ejs %>
@@ -38,24 +54,27 @@
 
           <div class="lib-specs">
             <div class="header">Specialities :</div>
-            
+             <% if(result.specialities) {%>
             <div class="libs-items">
               <% for(var i=0; i<result.specialities.length; i++) {%>
-               <div class="content">
-                <i class="top aligned right triangle icon"></i>
-                <a class="header"><%= result.specialities[i] %></a>
+               
+                
+                <div class="item"><i class="top aligned right triangle icon" ></i><%= result.specialities[i] %>
               </div>
             <% } %>
              
             </div>
+            <% } %>
           </div>
 
           <div class="ui divided list lib-xtras">
+            <% if(result.location) {%>
             <div class="item"><i class="map marker icon"></i><%= result.location.city%>,<%= result.location.state%></div>
+             <% } %>
             <div class="item"><i class="linkify icon"></i>irx.com/karan</div>
             <div class="item"><i class="mail outline icon"></i><%= result.userId%></div>
-            <div class="item"><i class="call icon"></i>8860998438</div>
-            <a class="lib-url">Get a personalized URL?</a>
+            <div class="item"><i class="call icon"></i><%= result.phoneNum%></div>
+            <!--<a class="lib-url">Get a personalized URL?</a>-->
           </div>
 
         </div>
@@ -70,18 +89,18 @@
         <div class="column ri-box" data-bind="visible: (shouldShow()=='' || shouldShow()=='project')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">projects</h2>
-            <div class="header column right menu"  data-bind="click: showAllProjects,visible:  showButton()=='view' "><a>View all <i class="left angle double right icon"></a></i>
+            <div class="header column right menu"  data-bind="click: showAllProjects,visible:  showButton()=='view' "><a>view all <i class="caret down icon"></a></i>
             </div>
-            <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' "><a>Hide <i class="left angle double right icon"></a></i>
+            <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' "><a>hide <i class="caret up icon"></a></i>
             </div>
           </div>
           <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
             <div class="column item">
                 <img src="/img/proj.png">
                 <div class="meta">
-                  <h4 class="header" data-bind="text: name">THE PRESIDENTIAL TOWER</h4>
-                  <p class="cinema" data-bind="text: builderName">Mantri Developers</p>
-                  <p class="cinema" data-bind="text: location.city">DLF,Gurgaon,Haryana</p>
+                  <h4 class="header projectName" data-bind="text: name">THE PRESIDENTIAL TOWER</h4>
+                  <p class="cinema projectDetail" data-bind="text: builderName">Mantri Developers</p>
+                  <p class="cinema projectDetail" data-bind="text: location.city">DLF,Gurgaon,Haryana</p>
                 </div>
             </div>
             
@@ -92,16 +111,16 @@
         <div class="column ri-box loca-tion" data-bind="visible: (shouldShow()=='' || shouldShow()=='location')">
           <div class="ui grid two column rib-head">
             <h2 class="ui header column">working locations</h2>
-            <div class="header column right menu"  data-bind="click: showAllProjects,visible:  showButton()=='view' "><a>View all <i class="left angle double right icon"></a></i>
+            <div class="header column right menu"  data-bind="click: showAllLocations,visible:  showLocButton()=='view' "><a>view all <i class="caret down icon"></a></i>
             </div>
-            <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' "><a>Hide <i class="left angle double right icon"></a></i>
+            <div class="header column right menu" data-bind="click: hideAllLocations,visible: showLocButton()=='hide' "><a>hide <i class="caret up icon"></a></i>
             </div>
           </div>
           <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: locations">
             <div class="ui divided items column">
               <div class="meta loc-item">
-                <h4 class="header" data-bind="text: name">mgf city center</h4>
-                <p class="cinema" data-bind="text: location.city">Gurgaon,Haryana</p>
+                <h4 class="header projectName" data-bind="text: name">mgf city center</h4>
+                <p class="cinema projectDetail" data-bind="text: location.city">Gurgaon,Haryana</p>
                 <span class="header"><i class="user icon"></i>24</span>
                 <span class="header"><i class="file image outline icon"></i>24</span>
               </div>
@@ -151,7 +170,9 @@
     this.showLocations='location';
     this.showReviews='review';
     this.projectsOnPage = 3;
+    this.locationsOnPage = 3;
     this.page = {pageSize:3,start:0};
+    this.locPage = {pageSize:3,start:0};
     this.userId = options.userId;
   } 
 
@@ -162,6 +183,7 @@
       locations : ko.observableArray(),
       shouldShow : ko.observable(''),
       showButton : ko.observable('view'),
+      showLocButton : ko.observable('view'),
       showAllProjects : function() {
 
           _classInstance.listProjects();
@@ -173,6 +195,18 @@
           _classInstance.resetPage();
           this.projects(this.projects().slice(0,3));
           
+      },
+      showAllLocations : function() {
+
+          _classInstance.listUserLocations();
+          this.shouldShow(_classInstance.showLocations);
+      },
+      hideAllLocations : function() {
+          this.showLocButton('view');
+          this.shouldShow('');
+          _classInstance.resetLocPage();
+          this.locations(this.locations().slice(0,3));
+          
       }
   }
    ko.applyBindings(_classInstance.viewModel);
@@ -181,6 +215,9 @@
   };
   PublicProfile.prototype.resetPage = function() {
     this.page.start = this.projectsOnPage;
+  }
+  PublicProfile.prototype.resetLocPage = function() {
+    this.locPage.start = this.locationsOnPage;
   }
 
   PublicProfile.prototype.listProjects = function() {
@@ -202,11 +239,23 @@
 
    PublicProfile.prototype.listUserLocations = function() {
     var classInstance = this;
-    httpUtils.get("/list-user-locations/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+    httpUtils.get("/list-user-locations/"+classInstance.userId,{page:classInstance.locPage},"JSON",function(data){
        if(data.status==0){
         ko.utils.arrayPushAll(classInstance.viewModel.locations,data.result)
+         classInstance.locPage.start = Number(data.page.start)+Number(data.page.pageSize);
+        if (data.page.hasMore==true) {
+          classInstance.viewModel.showLocButton('view');
+        }else{
+
+          classInstance.viewModel.showLocButton('hide');
+        }
        } 
     })
   }
+  $(document).ready(function(){
+    var userId=$('#__userId').val();
+    var publicProfile = new PublicProfile({"userId":userId})
+    publicProfile.init();
+  })
  </script>
 </body>
