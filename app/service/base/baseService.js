@@ -19,6 +19,7 @@
 
 var himConstants = require(_path_util+'/constants');
 var EventEmitter = require('events').EventEmitter;
+var mongodb = require('mongodb');
 BaseService.prototype.__proto__= EventEmitter.prototype ;
 function BaseService(){
    
@@ -32,4 +33,8 @@ BaseService.prototype.processPagenation=function(result,page){
 			}
 
 }
+BaseService.prototype.getCustomMongoId = function(prefix) {
+	 var ObjectId = mongodb.ObjectID;
+	 return prefix+new ObjectId();
+};
 module.exports = BaseService;

@@ -18,6 +18,7 @@
 var mongoose = require('mongoose');
 
 var IRXUserProfileSchema =new mongoose.Schema({
+   id:{type:String,required:true},
    name:{type:String,required:true},
    irxId:{type:String,required:true},
    userId:{type:String,required:true,unique:true},

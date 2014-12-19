@@ -18,7 +18,7 @@
 var mongoose = require('mongoose');
 
 var IRXBrokerInfoSchema =new mongoose.Schema({
-   
+    id:{type:String,required:true},
    agentId: {type:String,required:true},
    packagePlan : {type:String,required:true}//id of project plan
    createdOn:{type:Date},

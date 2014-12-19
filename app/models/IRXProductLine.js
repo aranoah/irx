@@ -20,7 +20,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema,
   _ObjectID = Schema.ObjectId;
 var IRXProductLineSchema =new mongoose.Schema({
-  _id:{type:_ObjectID},
+   id:{type:String,required:true},
    name:{type:String,required:true},
    location:{name:String,city:String,state:String,country:String,locality:String,pincode:String,latitude:Number,longitude:Number},
    type:{type:String,required:true},//rent,sell

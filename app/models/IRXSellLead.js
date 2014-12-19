@@ -18,6 +18,7 @@
 var mongoose = require('mongoose');
 
 var IRXSellProductSchema =new mongoose.Schema({
+   id:{type:String,required:true},
    name:{type:String,required:true},
    userId:{type:String,required:true},
    location:{city:String,state:String,country:String,name:String,pincode:String,latitude:Number,longitude:Number},

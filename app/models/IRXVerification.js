@@ -18,6 +18,7 @@
 var mongoose = require('mongoose');
 
 var IRXVerificationSchema =new mongoose.Schema({
+   id:{type:String,required:true},
    userId:{type:String,reqired:true},
    vfCode:{type:String,reqired:true},
    vfData :{type:String},

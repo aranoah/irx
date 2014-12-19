@@ -45,12 +45,15 @@ UserService.prototype.__proto__=baseService.prototype ;
 UserService.prototype.registerUser = function(user) {
 	console.log("In registerUser")
 	// Make a database entry
-	
+	var id = this.getCustomMongoId("IUSER-")
+
 	var hashPassword = hashAlgo.SHA1(user.password);
 	var userData = new IRXUserProfileModel({
-  			"name": user.name
+			"id":id
+  			,"name": user.name
 			,"password": hashPassword.toString()
 			,"userId": user.emailId
+			,"irxId" : id
 			,"location":user.location
 			,"type" : user.type
 			,"companyName" :user.companyName
@@ -64,8 +67,10 @@ UserService.prototype.registerUser = function(user) {
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
 		}else{
 			// save verification code
+			var id = _selfInstance.getCustomMongoId("IVER-")
 			var verification = new IRXVerificationModel({
-	  			"vfData": user.emailId
+				"id":id,
+	  			"vfData": userData.irxId
 				,"vfCode":"IRX-ABCD"
 				,"createdOn":new Date(),
 	   			"updatedOn":new Date()
@@ -75,8 +80,10 @@ UserService.prototype.registerUser = function(user) {
 					_selfInstance.emit("done",STATUS.SERVER_ERROR.code,"Error saving verification",err,null);
 				}else {
 					_selfInstance.emit("done",STATUS.OK.code,userData,err,null);
+					
 					// send email and verification code
 					var locals = {
+						"irxId": userData.irxId,
 						"userId":userData.userId,
 						"subject":properties.registeration_subject,
 						"vfCode":verification.vfCode
@@ -116,7 +123,7 @@ UserService.prototype.verifyUser = function(data) {
  			if(verification && verification != null){
  				console.log('Verification code verified');
  				console.log("Updating user",data.userId);
-				User.update({"userId":data.userId},
+				User.update({"irxId":data.userId},
 							{$set:{"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED}},
 							function(err, numberAffected, raw){
 								console.log(numberAffected)
@@ -263,16 +270,16 @@ UserService.prototype.listUserProjects = function(user) {
 	 			
 	 			if(data != null){
 	 				var projectList = data.project;
-	 				var projectIds = new Array();
-	 				for (var i=0 ; i<projectList.length;i++) {
+	 				//var projectIds = new Array();
+	 			// 	for (var i=0 ; i<projectList.length;i++) {
 
-					   projectId = mongoose.getObjectId(projectList[i]);
-					    console.log(projectId)
-					    projectIds.push(projectId)
-					}
+					//    projectId = mongoose.getObjectId(projectList[i]);
+					//     console.log(projectId)
+					//     projectIds.push(projectId)
+					// }
 					var start = page.start;
 					var pageSize = Number(page.pageSize)+1;
-		Projects.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
+		Projects.find({"id":{$in:projectList}},{},{skip:start,limit:pageSize },
 					function(err,projectDetails){
 						if(err){
 							console.log(err)
@@ -318,19 +325,19 @@ UserService.prototype.listUserLocations = function(user) {
 	 			
 	 			if(data != null){
 	 				var locationList = data.location;
-	 				var projectIds = new Array();
-	 				if(typeof(locationList)!='undefined' && locationList!=null) {
-		 				for (var i=0 ; i<locationList.length;i++) {
+	 				// var projectIds = new Array();
+	 				 if(typeof(locationList)!='undefined' && locationList!=null) {
+		 			// 	for (var i=0 ; i<locationList.length;i++) {
 
-						    projectId = mongoose.getObjectId(locationList[i])
-						    console.log(projectId)
-						    projectIds.push(projectId)
-						}
+						//     projectId = mongoose.getObjectId(locationList[i])
+						//     console.log(projectId)
+						//     projectIds.push(projectId)
+						// }
 
 					var start = page.start;
 					var pageSize = Number(page.pageSize)+1;
-					console.log("yahan !!", start)
-					locations.find({"_id":{$in:projectIds}},{},{skip:start,limit:pageSize },
+					console.log("yahan !!", locationList)
+					locations.find({"id":{$in:locationList}},{},{skip:start,limit:pageSize },
 					function(err,locationDetails){
 						if(err){
 							console.log(err)
