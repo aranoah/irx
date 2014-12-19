@@ -139,78 +139,78 @@
       </div>
       </div>    
   </div>
-  <script type="text/javascript">
-  function PublicProfile(options){
-    this.url = null;
-    this.viewModel = null;
-    this.showProjects='project';
-    this.showLocations='location';
-    this.showReviews='review';
-    this.projectsOnPage = 3;
-    this.page = {pageSize:3,start:0};
-    this.userId = options.userId;
-  }
+  // <script type="text/javascript">
+  // function PublicProfile(options){
+  //   this.url = null;
+  //   this.viewModel = null;
+  //   this.showProjects='project';
+  //   this.showLocations='location';
+  //   this.showReviews='review';
+  //   this.projectsOnPage = 3;
+  //   this.page = {pageSize:3,start:0};
+  //   this.userId = options.userId;
+  // } 
 
-  PublicProfile.prototype.init = function() {
-    var _classInstance = this;
-    _classInstance.viewModel = {
-      projects: ko.observableArray(),
-      shouldShow : ko.observable(''),
-      showButton : ko.observable('view'),
-      showAllProjects : function() {
+  // PublicProfile.prototype.init = function() {
+  //   var _classInstance = this;
+  //   _classInstance.viewModel = {
+  //     projects: ko.observableArray(),
+  //     shouldShow : ko.observable(''),
+  //     showButton : ko.observable('view'),
+  //     showAllProjects : function() {
 
-          _classInstance.listProjects();
-          this.shouldShow(_classInstance.showProjects);
-      },
-      hideAllProjects : function() {
-          this.showButton('view');
-          this.shouldShow('');
-          _classInstance.resetPage();
-          this.projects(this.projects().slice(0,3));
+  //         _classInstance.listProjects();
+  //         this.shouldShow(_classInstance.showProjects);
+  //     },
+  //     hideAllProjects : function() {
+  //         this.showButton('view');
+  //         this.shouldShow('');
+  //         _classInstance.resetPage();
+  //         this.projects(this.projects().slice(0,3));
           
-      }
-  }
-   ko.applyBindings(_classInstance.viewModel);
-   
-  };
-  PublicProfile.prototype.resetPage = function() {
-    this.page.start = this.projectsOnPage;
-  }
+  //     }
+  // }
+  //  ko.applyBindings(_classInstance.viewModel);
+  //  _classInstance.listProjects();
+  // };
+  // PublicProfile.prototype.resetPage = function() {
+  //   this.page.start = this.projectsOnPage;
+  // }
 
-  PublicProfile.prototype.listProjects = function() {
+  // PublicProfile.prototype.listProjects = function() {
     
-    var classInstance = this;
-    httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
-       if(data.status==0){
-        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)
-        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-        if (data.page.hasMore==true) {
-          classInstance.viewModel.showButton('view');
-        }else{
+  //   var classInstance = this;
+  //   httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+  //      if(data.status==0){
+  //       ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)
+  //       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+  //       if (data.page.hasMore==true) {
+  //         classInstance.viewModel.showButton('view');
+  //       }else{
 
-          classInstance.viewModel.showButton('hide');
-        }
-       } 
-    })
-  }
+  //         classInstance.viewModel.showButton('hide');
+  //       }
+  //      } 
+  //   })
+  // }
 
-   PublicProfile.prototype.listUserLocations = function() {
-    var classInstance = this;
-    httpUtils.get("/list-user-locations",null,"JSON",function(data){
-       if(data.status==200){
-        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projectList)
-       } 
-    })
-  }
+  //  PublicProfile.prototype.listUserLocations = function() {
+  //   var classInstance = this;
+  //   httpUtils.get("/list-user-locations",null,"JSON",function(data){
+  //      if(data.status==200){
+  //       ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projectList)
+  //      } 
+  //   })
+  // }
   
-  $(document).ready(function(){
-    var userId = $('#__userId').val();
-    var publicProfile = new PublicProfile({userId:userId});
-    publicProfile.init();
+  // $(document).ready(function(){
+  //   var userId = $('#__userId').val();
+  //   var publicProfile = new PublicProfile({userId:userId});
+  //   publicProfile.init();
     
-    publicProfile.listProjects();
-  })
+   
+  // })
 
    
-  </script>
+  // </script>
 </body>
