@@ -60,24 +60,18 @@ module.exports = function routes() {
   * Profile management urls
   */
 
-  //accepts userid and projectid 
-  //returns project
   this.match('associate-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
 
-  //accepts userid and projectid 
-  //returns projectId
-  this.match('delete-project/:userId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
+  this.match('delete-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteProject' , via: 'GET' });
 
-  // list all projects with pagenation
   this.match('list-project',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
   
-  // project autocomplete
-  // accepts parameters for autocomplete
   this.match('project-autocomplete',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   
-  // project autocomplete
-  // accepts parameters for autocomplete
+  // mark-distress
+  // array of object having bhks which have been marked distress
   this.match('mark-distress/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
+ 
   /*
   * User related web urls
   */
