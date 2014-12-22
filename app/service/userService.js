@@ -271,7 +271,7 @@ UserService.prototype.listUserProjects = function(user) {
 	 			if(data != null){
 	 				var projectList = data.project;
 	 				//var projectIds = new Array();
-	 			// 	for (var i=0 ; i<projectList.length;i++) {
+	 				// 	for (var i=0 ; i<projectList.length;i++) {
 
 					//    projectId = mongoose.getObjectId(projectList[i]);
 					//     console.log(projectId)
@@ -327,7 +327,7 @@ UserService.prototype.listUserLocations = function(user) {
 	 				var locationList = data.location;
 	 				// var projectIds = new Array();
 	 				 if(typeof(locationList)!='undefined' && locationList!=null) {
-		 			// 	for (var i=0 ; i<locationList.length;i++) {
+		 				// 	for (var i=0 ; i<locationList.length;i++) {
 
 						//     projectId = mongoose.getObjectId(locationList[i])
 						//     console.log(projectId)

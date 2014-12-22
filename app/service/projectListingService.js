@@ -59,6 +59,9 @@ ProjectListingService.prototype.listProjects = function(data){
 	if(filters && filters.budget != null && filters.budget != "") {
 		query["price"]=filters.budget;
 	}
+	if(filters && filters.name != null &&  filters.name != "") {
+		query["name"]=filters.name;
+	}
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
 	console.log(query)
@@ -72,7 +75,9 @@ ProjectListingService.prototype.listProjects = function(data){
 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
 			}
 			else {
-
+				console.log("Project data not found")
+				_selfInstance.emit("done",404,"Project data not found","Project data not found",null);
+			 			
 			}
 		}
 	})

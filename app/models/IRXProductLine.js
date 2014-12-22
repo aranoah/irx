@@ -35,6 +35,7 @@ var IRXProductLineSchema =new mongoose.Schema({
    productType :{type:String},//project or location
    createdOn:{type:Date},
    updatedOn:{type:Date},
+   agentCounter:{type:Number},
    rank:{type:Number}//indexing
 });
 
