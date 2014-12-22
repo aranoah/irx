@@ -61,16 +61,13 @@ module.exports = function routes() {
   */
 
   this.match('associate-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
-
   this.match('delete-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteProject' , via: 'GET' });
-
   this.match('list-project',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
-  
   this.match('project-autocomplete',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   
   // mark-distress
   // array of object having bhks which have been marked distress
-  this.match('mark-distress/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
+  this.match('mark-distress',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
  
   /*
   * User related web urls

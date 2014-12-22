@@ -306,4 +306,10 @@ PMService.prototype.projectAutocomplete = function(data) {
 	})
 }
 
+/**
+*  Mark Distress
+*/
+PMService.prototype.markDistress = function(data) {
+	
+}
 module.exports = PMService;

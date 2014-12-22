@@ -97,4 +97,17 @@ pMController.projectAutocomplete = function() {
    
     pMService.projectAutocomplete(data);
 };
+
+/**
+* Mark disterss
+*/
+
+pMController.markDistress = function() {
+    var pMService = new profileManagementService();
+    
+    var _nself = this;
+   console.log(_nself.request.session)
+   
+    //pMService.markDistress(data);
+};
 module.exports=pMController
