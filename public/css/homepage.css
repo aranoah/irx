@@ -32,7 +32,7 @@ n/**************
 *******************/
 
 #agentContent,#projectContent {
-	padding: 4rem 0 !important;
+	padding: 4rem 1rem !important;
 }
 
 #agentContent>div,#projectContent>div {
@@ -127,6 +127,14 @@ n/**************
 
 .proj-listing .four.column.row {
 	padding-bottom: 1.5rem;
+	position: relative;
+}
+
+.proj-listing .four.column.row .ui.radio.checkbox {
+	position: absolute;
+	top: .2rem;
+	left: 50%;
+	width: 25%;
 }
 
 .proj-listing .ui.left.floated {
@@ -180,7 +188,7 @@ n/**************
 }
 
 .content .extra .ui.header>i {
-	font-size: 1.8rem;
+	font-size: 1rem;
 	margin: 0;
 }
 
@@ -188,8 +196,8 @@ n/**************
 	padding: .6rem 0;
 }
 
-.pj-items>span:last-child {
-	margin-left: 2rem;
+.pj-items>span:nth-child(2n) {
+	margin: 0 2rem;
 }
 
 .pj-items a {
