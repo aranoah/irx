@@ -119,10 +119,15 @@ n/**************
 	float: right;
 }
 
+#projListing {
+	padding: 2rem 0;
+}
+
 .proj-listing {
 	background-color: #fff;
 	box-shadow: 0 0 3px 1px rgba(0,0,0,.2);
 	padding: 1.2rem;
+	margin-bottom: 1rem;
 }
 
 .proj-listing .four.column.row {
@@ -177,7 +182,11 @@ n/**************
 	content: "";
 	border: 1px solid #f6f6f6;
 	width: 98%;
+}
 
+.proj-listing .content .description {
+	max-height: 90px;
+	overflow: hidden;
 }
 
 .content .extra .ui.header {
@@ -187,9 +196,11 @@ n/**************
 	color: #607d8b;
 }
 
-.content .extra .ui.header>i {
-	font-size: 1rem;
-	margin: 0;
+.content .extra>i {
+	font-size: 1.4rem;
+	width: auto;
+	color: #607d8b;
+	text-transform: capitalize;
 }
 
 .pj-items {
@@ -202,6 +213,7 @@ n/**************
 
 .pj-items a {
 	padding-left: 1rem;
+	text-transform: capitalize;
 }
 
 .proj-listing .ui.right.floated>div {
