@@ -76,7 +76,7 @@ ProjectListingService.prototype.listProjects = function(data){
 			}
 			else {
 				console.log("Project data not found")
-				_selfInstance.emit("done",404,"User data not found","User data not found",null);
+				_selfInstance.emit("done",404,"Project data not found","Project data not found",null);
 			 			
 			}
 		}
