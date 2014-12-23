@@ -31,8 +31,13 @@
   	<div id="agentContent" class="ui centered page grid">
 	  <div class="fourteen wide column">
 	  	<div class="ui grid two column rib-head">
-	    	<h2 class="ui header column">Showing results <a><span data-bind="text :pageSize">20</span> out of 50</a></h2>
+	    	<h2 class="ui header column">Showing results <a>
+	    	<span data-bind="text :start">20</span> out of 50</a></h2>
 	    	<div class="header column right menu">
+	    		<div class="ui checkbox">
+			      <input type="checkbox">
+			      <label>Distress</label>
+			    </div>
 	    		<div class="ui checkbox">
 			      <input type="checkbox">
 			      <label>Top 5 brokers</label>
@@ -41,13 +46,13 @@
 	    	</div>
 	    </div>
 	    <div class="ui cards sc" data-bind="foreach : agents">
-	    	<a href="">
+	    	
 		  <div class="card">
 		    <div class="ui image tiny">
 		      <img src="http://semantic-ui.com/images/avatar/large/steve.jpg">
 		    </div>
 		    <div class="content">
-		      <div class="header" data-bind="text : name">Elliot Fu</div>
+		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
 		      <a class="group" data-bind="text : companyName">IRX India</a>
 		      <div class="content addr-ess">
     			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
@@ -57,6 +62,9 @@
 		        <span data-bind="foreach : specialities">
 			        <!-- ko if:$index()<=1 -->
 			        	<span class="header" data-bind="text : $data"></span>
+			        	 <!-- ko if:$index()==0 -->
+			        	 	<span class="header">,</span>
+			        	 <!-- /ko -->
 			        <!-- /ko -->
 			    </span>
 		        <span data-bind="if:specialities.length>2">
@@ -79,7 +87,7 @@
 		      </a>
 		    </div>
 		  </div>
-		<a>
+	
 
 		</div>	   
 		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }">loading</div>
@@ -145,20 +153,21 @@
 				type: ko.observable(""),
 				bhk: ko.observable("")
 			},
+			start: ko.observable(),
 			addSome : function(){
 				_classInstance.listAgents(true);
-			},
+			}
 			
-			pageSize: ko.observable(_classInstance.page.pageSize)
+			
 			
 		}
 		 ko.applyBindings(_classInstance.viewModel);
-		_classInstance.listAgents();
+		//_classInstance.listAgents();
 	}
 	
 	Agent.prototype.listAgents = function(replace) {
     	var classInstance = this;
-    	alert(classInstance.viewModel.pageSize)
+    	
 	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){
@@ -166,8 +175,9 @@
 	       	} 
 	       		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
 	       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	       		
+	       		classInstance.viewModel.start(classInstance.page.start) ;
 
-	       		classInstance.viewModel.pageSize=data.page.pageSize;
 	        }
 		})
 	 }
