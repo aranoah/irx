@@ -39,7 +39,7 @@
 	padding: 0;
 }
 
-.rib-head {
+#agentContent .ui.grid.two.column.rib-head {
 	padding: 0 !important;
 	border-bottom: 1px solid #eaeaea !important;
 }
@@ -53,13 +53,14 @@
 	padding-bottom: 1rem !important;
 }
 
-#agentContent .rib-head>.right.menu>.ui.blue.basic.button {
+#agentContent .rib-head>.right.menu>.ui.button {
 	padding: .8em 1em !important;
 }
 
-#agentContent .rib-head>.right.menu .ui.blue.basic.button {
+#agentContent .rib-head>.right.menu .ui.button {
 	margin: 0 0 0 1rem;
 	text-transform: uppercase;
+	font-size: .9em;
 } 
 
 #agentContent .ui.cards {
@@ -83,6 +84,34 @@
 .description>span {
 	color: rgba(0,0,0,.8);
 	margin: 0 .3rem;
+}
+
+.extra.content i.building.icon:before {
+	margin-right: .5rem;
+}
+
+.extra.content .friends:last-child {
+	margin-left: 1rem;
+}
+
+.card .content a.header, .card .content .description>span {
+	color: rgb(96, 125, 139) !important;
+}.card .content>span {
+	color: rgba(0,0,0,0.6);
+}
+
+.card {
+	position: relative;
+}
+
+.card .inline.field {
+	position: absolute;
+	top: 0;right: 0;
+	padding: 1rem;
+}
+
+.card .inline.field label {
+	padding: 0;
 }
 
 /*******************
@@ -155,10 +184,11 @@
 	padding-right: 1.5rem;
 	border-right: 2px solid #eaeaea;
 	color: #607d8b;
+	font-size: 1.2em;
 }
 
 .proj-listing h5.ui.header {
-	padding-left: 1.5rem;
+	padding-left: 1.2rem;
 	opacity: .8;
 }
 
@@ -184,6 +214,19 @@
 	width: 98%;
 }
 
+.content .social-share {
+	position: absolute;
+	top: 1rem;
+	right: 12rem;
+}
+
+.content .social-share>.ui.button {
+	display: block;
+	margin-bottom: .5rem;
+	font-size: .8em;
+	text-transform: uppercase;
+}
+
 .proj-listing .content .description {
 	max-height: 90px;
 	overflow: hidden;
@@ -196,8 +239,8 @@
 	color: #607d8b;
 }
 
-.content .extra>i {
-	font-size: 1.4rem;
+.content .extra h3>i {
+	font-size: 1.4rem !important;
 	width: auto;
 	color: #607d8b;
 	text-transform: capitalize;
