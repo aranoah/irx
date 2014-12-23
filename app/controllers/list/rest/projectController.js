@@ -25,10 +25,10 @@ var projectController = new Controller();
 var projectListingService = require(_path_service+"/projectListingService.js" )
 
 projectController.listProjects = function() {
-	var projectListingService = new projectListingService();
+	var projectListService = new projectListingService();
 	
     var _nself = this;
-    projectListingService.on("done", function(code,msg,err,errValue){
+    projectListService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
     var userFilters = {
@@ -36,6 +36,6 @@ projectController.listProjects = function() {
     	page:_nself.req.params.page
     }
     console.log(userFilters)
-    projectListingService.listProjects(_nself.req.body);
+    projectListService.listProjects(_nself.req.body);
 };
 module.exports=projectController
