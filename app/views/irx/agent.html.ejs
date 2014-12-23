@@ -2,6 +2,13 @@
 <html>
 <head>
   <% include ../partials/head.html.ejs %>
+  <style type="text/css">
+  /*.sc { 
+  	height: 500px; 
+  	width: 500px; 
+  	overflow: scroll;
+  }*/
+  </style>
 </head>
 <% locals.uiContext.menu=false %>
 <body>  
@@ -24,7 +31,7 @@
   	<div id="agentContent" class="ui centered page grid">
 	  <div class="fourteen wide column">
 	  	<div class="ui grid two column rib-head">
-	    	<h2 class="ui header column">Showing results <a>20 out of 50</a></h2>
+	    	<h2 class="ui header column">Showing results <a><span data-bind="text :pageSize">20</span> out of 50</a></h2>
 	    	<div class="header column right menu">
 	    		<div class="ui checkbox">
 			      <input type="checkbox">
@@ -33,8 +40,8 @@
 				<div class="ui blue basic button">submit request</div>
 	    	</div>
 	    </div>
-	    <div class="ui cards" data-bind="foreach : agents">
-	    	
+	    <div class="ui cards sc" data-bind="foreach : agents">
+	    	<a href="">
 		  <div class="card">
 		    <div class="ui image tiny">
 		      <img src="http://semantic-ui.com/images/avatar/large/steve.jpg">
@@ -48,8 +55,13 @@
 		      <div class="description">
 		        Specialities : 
 		        <span data-bind="foreach : specialities">
-			        <span class="header" data-bind="text : $data"></span>
-			       
+			        <!-- ko if:$index()<=1 -->
+			        	<span class="header" data-bind="text : $data"></span>
+			        <!-- /ko -->
+			    </span>
+		        <span data-bind="if:specialities.length>2">
+		        (+
+		        	<span class="header" data-bind="text : specialities.length-2"></span>)
 		        </span>
 		       </div>
 		    </div>
@@ -67,21 +79,65 @@
 		      </a>
 		    </div>
 		  </div>
-
+		<a>
 
 		</div>	   
+		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }">loading</div>
 	  </div>    
 	</div>
 		<script type="text/javascript">
 	function Agent(options){
 		this.page = {
 			start : 0,
-			pageSize : 5
+			pageSize : 3
 		}
 	}
 	Agent.prototype.init = function() {
 
 		var _classInstance = this;
+	
+		ko.bindingHandlers.scroll = {
+
+		  updating: true,
+
+		  init: function(element, valueAccessor, allBindingsAccessor) {
+		      var self = this
+		      self.updating = true;
+		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+		            $(window).off("scroll.ko.scrollHandler")
+		            self.updating = false
+		      });
+		  },
+
+		  update: function(element, valueAccessor, allBindingsAccessor){
+		    var props = allBindingsAccessor().scrollOptions
+		    var offset = props.offset ? props.offset : "0"
+		    var loadFunc = props.loadFunc
+		    var load = ko.utils.unwrapObservable(valueAccessor());
+		    var self = this;
+		   
+		    if(load){
+		      element.style.display = "";
+		      $(window).on("scroll.ko.scrollHandler", function(){
+		        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
+		          if(self.updating){
+		            _classInstance.listAgents()
+		            self.updating = false;
+		          }
+		        }
+		        else{
+		          self.updating = true;
+		        }
+		      });
+		    }
+		    else{
+		        element.style.display = "none";
+		        $(window).off("scroll.ko.scrollHandler")
+		        self.updating = false
+		    }
+		  }
+		 }
+
 		_classInstance.viewModel = {
 			agents: ko.observableArray(),
 			filters:{
@@ -89,9 +145,12 @@
 				type: ko.observable(""),
 				bhk: ko.observable("")
 			},
-			handleSubmit : function(){
-				_classInstance.listProjects(true);
-			}
+			addSome : function(){
+				_classInstance.listAgents(true);
+			},
+			
+			pageSize: ko.observable(_classInstance.page.pageSize)
+			
 		}
 		 ko.applyBindings(_classInstance.viewModel);
 		_classInstance.listAgents();
@@ -99,6 +158,7 @@
 	
 	Agent.prototype.listAgents = function(replace) {
     	var classInstance = this;
+    	alert(classInstance.viewModel.pageSize)
 	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){
@@ -106,6 +166,8 @@
 	       	} 
 	       		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
 	       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+
+	       		classInstance.viewModel.pageSize=data.page.pageSize;
 	        }
 		})
 	 }
