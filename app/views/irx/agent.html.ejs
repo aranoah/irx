@@ -33,20 +33,24 @@
 				<div class="ui blue basic button">submit request</div>
 	    	</div>
 	    </div>
-	    <div class="ui cards">
+	    <div class="ui cards" data-bind="foreach : agents">
 	    	
 		  <div class="card">
 		    <div class="ui image tiny">
 		      <img src="http://semantic-ui.com/images/avatar/large/steve.jpg">
 		    </div>
 		    <div class="content">
-		      <div class="header">Elliot Fu</div>
-		      <a class="group">IRX India</a>
+		      <div class="header" data-bind="text : name">Elliot Fu</div>
+		      <a class="group" data-bind="text : companyName">IRX India</a>
 		      <div class="content addr-ess">
-    			<i class="map marker icon"></i> Sector 22B,Gurgaon
+    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
     		  </div>
 		      <div class="description">
-		        Specialities : <span class="header"></i>Resale</span><span class="header">Project</span><span class="header">Commercial</span>
+		        Specialities : 
+		        <span data-bind="foreach : specialities">
+			        <span class="header" data-bind="text : $data"></span>
+			       
+		        </span>
 		       </div>
 		    </div>
 		    <div class="extra content">
@@ -55,8 +59,8 @@
 		        <a href=""><i class="share square icon"></i></a>
 		      </div>
 		      <a class="friends">
-		        <i class="building icon"></i>
-		        22 Projects
+		        <i class="building icon" data-bind="text:projectCounter"></i>
+		         Projects
 		      </a><a class="friends">
 		        <i class="location arrow icon"></i>
 		        22 Locations
@@ -68,4 +72,49 @@
 		</div>	   
 	  </div>    
 	</div>
+		<script type="text/javascript">
+	function Agent(options){
+		this.page = {
+			start : 0,
+			pageSize : 5
+		}
+	}
+	Agent.prototype.init = function() {
+
+		var _classInstance = this;
+		_classInstance.viewModel = {
+			agents: ko.observableArray(),
+			filters:{
+				name: ko.observable(""),
+				type: ko.observable(""),
+				bhk: ko.observable("")
+			},
+			handleSubmit : function(){
+				_classInstance.listProjects(true);
+			}
+		}
+		 ko.applyBindings(_classInstance.viewModel);
+		_classInstance.listAgents();
+	}
+	
+	Agent.prototype.listAgents = function(replace) {
+    	var classInstance = this;
+	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},"JSON",function(data){
+	       if(data.status==0){
+	       	if(typeof(replace) != undefined && replace){
+	       		classInstance.viewModel.agents([]);
+	       	} 
+	       		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
+	       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        }
+		})
+	 }
+
+	$(document).ready(function(){
+	  
+	    var agent = new Agent();
+	    agent.init();
+	    
+	  })
+	</script>
 </body>

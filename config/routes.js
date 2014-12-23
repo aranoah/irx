@@ -37,7 +37,7 @@ module.exports = function routes() {
   * Listing Related urls
   */
   this.match('list-projects',{ controller: 'list/rest/project', action: 'listProjects' , via: 'POST' });
-  
+  this.match('list-agents',{ controller: 'list/rest/agent', action: 'listAgents' , via: 'POST' });
   /*
   * User Related urls
   */

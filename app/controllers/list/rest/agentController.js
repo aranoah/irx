@@ -20,15 +20,15 @@ var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
 var commonValidator = require(_path_util+"/commonValidator")
-var projectController = new Controller();
+var agentController = new Controller();
 
-var projectListingService = require(_path_service+"/projectListingService.js" )
+var agentListingService = require(_path_service+"/agentListingService.js" )
 
-projectController.listProjects = function() {
-	var projectListingService = new projectListingService();
+agentController.listAgents = function() {
+	var agentListService = new agentListingService();
 	
     var _nself = this;
-    projectListingService.on("done", function(code,msg,err,errValue){
+    agentListService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
     var userFilters = {
@@ -36,6 +36,6 @@ projectController.listProjects = function() {
     	page:_nself.req.params.page
     }
     console.log(userFilters)
-    projectListingService.listProjects(_nself.req.body);
+    agentListService.listAgents(_nself.req.body);
 };
-module.exports=projectController
+module.exports=agentController
