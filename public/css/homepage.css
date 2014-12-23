@@ -1,4 +1,4 @@
-n/**************
+/**************
 	Homescreen
 ***************/
 
@@ -32,7 +32,7 @@ n/**************
 *******************/
 
 #agentContent,#projectContent {
-	padding: 4rem 1rem !important;
+	padding: 4rem 0 !important;
 }
 
 #agentContent>div,#projectContent>div {
