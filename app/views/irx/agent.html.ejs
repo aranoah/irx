@@ -76,7 +76,7 @@
 	function Agent(options){
 		this.page = {
 			start : 0,
-			pageSize : 3
+			pageSize : 5
 		}
 	}
 	Agent.prototype.init = function() {
@@ -105,9 +105,7 @@
 	       		classInstance.viewModel.agents([]);
 	       	} 
 	       		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
-	       	
-	        
-	        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        }
 		})
 	 }
