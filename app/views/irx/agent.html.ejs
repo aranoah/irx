@@ -42,18 +42,20 @@
 			      <input type="checkbox">
 			      <label>Top 5 brokers</label>
 			    </div>
-				<div class="ui blue basic button">submit request</div>
+				<div class="ui basic button">submit request</div>
 	    	</div>
 	    </div>
 	    <div class="ui cards sc" data-bind="foreach : agents">
 	    	
 		  <div class="card">
 		    <div class="ui image tiny">
-		      <img src="http://semantic-ui.com/images/avatar/large/steve.jpg">
+		      <img src="/images/elliot.jpg">
 		    </div>
 		    <div class="content">
+
 		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
 		      <a class="group" data-bind="text : companyName">IRX India</a>
+
 		      <div class="content addr-ess">
     			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
     		  </div>
@@ -73,14 +75,15 @@
 		        </span>
 		       </div>
 		    </div>
+		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
 		    <div class="extra content">
 		      <div class="right floated created">
 		        <a href=""><i class="empty heart icon"></i></a>
 		        <a href=""><i class="share square icon"></i></a>
 		      </div>
 		      <a class="friends">
-		        <i class="building icon" data-bind="text:projectCounter"></i>
-		         Projects
+		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
+		         &nbsp;&nbsp;Projects
 		      </a><a class="friends">
 		        <i class="location arrow icon"></i>
 		        22 Locations
@@ -167,7 +170,7 @@
 	
 	Agent.prototype.listAgents = function(replace) {
     	var classInstance = this;
-    	
+
 	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){

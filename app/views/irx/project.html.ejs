@@ -51,46 +51,58 @@
 				    <i class="sort right icon"></i>
 				  </div>
 	    	</div>
-	    </div>  
+	    </div>
 
-	    <div class="ui items proj-listing" data-bind="foreach : projects">
-	    	<div class="four column row">
-			    <div class="left floated column">
-			    	<h3 class="ui header " data-bind="text : name">12 Years a Slave</h3><h5 class="ui header"><i class="marker icon"></i>Union Square 14</h5>
-			    </div>
-			    <div class="right floated column">
-				  	<div class="extra">
-				    	<span class="cinema">Posession date :<a class="header " data-bind="text : date">Nov 12,2014</a></span>
-				  	</div>			    	
-			    </div>
-			</div>
-			<div class="item">
-				<div class="image">
-				  <img src="/images/square-image.png">
+	    <!-- Project Listing goes here -->
+
+	    <div id="projListing" data-bind="foreach : projects">
+	    	<div class="ui items proj-listing">
+				<div class="four column row">
+					<div class="left floated column">
+						<h3 class="ui header" data-bind="text: name">12 Years a Slave</h3><h5 class="ui header"><i class="marker icon"></i><!--ko text: location.city--><!--/ko--></h5>
+					</div>
+					<div class="ui radio checkbox">
+					  <input type="radio" value="small">
+					  <label>Distress</label>
+					</div>
+					<div class="right floated column">
+					  	<div class="extra">
+					    	<span class="cinema">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></span>
+					  	</div>			    	
+					</div>
 				</div>
-				<div class="content">				  
-				  <div class="ui left floated">				  	
-					<div class="extra">
-						<h2 class="ui header"><i class="rupee icon"></i>10,000 - 50,000</h2>
+				<div class="item">
+					<div class="image">
+					  <img src="/images/square-image.png">
 					</div>
-					<div class="pj-items">
-						<span class="cinema">BHK :<a href="header">1,2,3,4</a></span>
-						<span class="cinema">Property type :<a href="header">Apartment</a></span>
-					</div>
-				  	<div class="description" data-bind="text : description">
-					    In the pre-Civil War United States, Solomon Northup, a free black man from upstate New York, is abducted and sold into slavery. Facing cruelty as well as unexpected kindnesses Solomon struggles not only to stay alive, but to retain his dignity. In the twelfth year of his unforgettable odyssey, Solomon’s chance meeting with a Canadian abolitionist will forever alter his life.
+					<div class="content">				  
+					  <div class="ui left floated">				  	
+						<div class="extra">
+							<h3 class="ui header"><i class="rupee icon"></i><!--ko text: price--><!--/ko--></h3>
+						</div>
+						<div class="pj-items">
+							<span class="cinema">BHK :<a href="header"><!--ko text: bhk--><!--/ko--></a></span>
+							<span class="cinema">Property type :<a href="header"><!--ko text: type--><!--/ko--></a></span>
+							<span class="cinema"><i class="user icon agent"></i><!--ko text: builderName--><!--/ko--></span>
+						</div>
+					  	<div class="description"><!--ko text: description--><!--/ko--></div>
+					  	<div class="social-share">
+					  		<div class="ui facebook button"><i class="facebook icon"></i>Like</div>
+					  		<div class="ui teal button"><i class="share icon"></i>share</div>
+					  	</div>
 					  </div>
-				  </div>
-				  <div class="ui right floated">
-					<div class="ui basic button">View details</div>
-					<div class="ui basic button">Enquiry now</div>
-					<div class="ui basic button">View agents</div>
-					<div class="ui basic button">Download details</div>
-				  </div>
-				</div>				  
+					  <div class="ui right floated">
+						<div class="ui basic button">View details</div>
+						<div class="ui basic button">Enquiry now</div>
+						<div class="ui basic button">View agents</div>
+						<div class="ui basic button">Download details</div>
+					  </div>
+					</div>				  
+				</div>
 			</div>
-
-	  </div>    
+		</div>
+		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }">loading</div>
+	    <!-- Project ends here -->
 	</div>
 	<script type="text/javascript">
 	function Project(options){
@@ -102,6 +114,49 @@
 	Project.prototype.init = function() {
 
 		var _classInstance = this;
+
+		ko.bindingHandlers.scroll = {
+
+		  updating: true,
+
+		  init: function(element, valueAccessor, allBindingsAccessor) {
+		      var self = this
+		      self.updating = true;
+		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+		            $(window).off("scroll.ko.scrollHandler")
+		            self.updating = false
+		      });
+		  },
+
+		  update: function(element, valueAccessor, allBindingsAccessor){
+		    var props = allBindingsAccessor().scrollOptions
+		    var offset = props.offset ? props.offset : "0"
+		    var loadFunc = props.loadFunc
+		    var load = ko.utils.unwrapObservable(valueAccessor());
+		    var self = this;
+		   
+		    if(load){
+		      element.style.display = "";
+		      $(window).on("scroll.ko.scrollHandler", function(){
+		        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
+		          if(self.updating){
+		            _classInstance.listProjects()
+		            self.updating = false;
+		          }
+		        }
+		        else{
+		          self.updating = true;
+		        }
+		      });
+		    }
+		    else{
+		        element.style.display = "none";
+		        $(window).off("scroll.ko.scrollHandler")
+		        self.updating = false
+		    }
+		  }
+		 }
+
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			filters:{
@@ -109,9 +164,10 @@
 				type: ko.observable(""),
 				bhk: ko.observable("")
 			},
-			handleSubmit : function(){
+			addSome : function(){
 				_classInstance.listProjects(true);
-			}
+			},
+			pageSize: ko.observable(_classInstance.page.pageSize)
 		}
 		 ko.applyBindings(_classInstance.viewModel);
 		_classInstance.listProjects()
@@ -128,6 +184,7 @@
 	       	
 	        
 	        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        classInstance.viewModel.pageSize=data.page.pageSize;
 	        }
 		})
 	 }

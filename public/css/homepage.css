@@ -1,4 +1,4 @@
-n/**************
+/**************
 	Homescreen
 ***************/
 
@@ -39,7 +39,7 @@ n/**************
 	padding: 0;
 }
 
-.rib-head {
+#agentContent .ui.grid.two.column.rib-head {
 	padding: 0 !important;
 	border-bottom: 1px solid #eaeaea !important;
 }
@@ -53,13 +53,14 @@ n/**************
 	padding-bottom: 1rem !important;
 }
 
-#agentContent .rib-head>.right.menu>.ui.blue.basic.button {
+#agentContent .rib-head>.right.menu>.ui.button {
 	padding: .8em 1em !important;
 }
 
-#agentContent .rib-head>.right.menu .ui.blue.basic.button {
+#agentContent .rib-head>.right.menu .ui.button {
 	margin: 0 0 0 1rem;
 	text-transform: uppercase;
+	font-size: .9em;
 } 
 
 #agentContent .ui.cards {
@@ -83,6 +84,34 @@ n/**************
 .description>span {
 	color: rgba(0,0,0,.8);
 	margin: 0 .3rem;
+}
+
+.extra.content i.building.icon:before {
+	margin-right: .5rem;
+}
+
+.extra.content .friends:last-child {
+	margin-left: 1rem;
+}
+
+.card .content a.header, .card .content .description>span {
+	color: rgb(96, 125, 139) !important;
+}.card .content>span {
+	color: rgba(0,0,0,0.6);
+}
+
+.card {
+	position: relative;
+}
+
+.card .inline.field {
+	position: absolute;
+	top: 0;right: 0;
+	padding: 1rem;
+}
+
+.card .inline.field label {
+	padding: 0;
 }
 
 /*******************
@@ -119,14 +148,27 @@ n/**************
 	float: right;
 }
 
+#projListing {
+	padding: 2rem 0;
+}
+
 .proj-listing {
 	background-color: #fff;
 	box-shadow: 0 0 3px 1px rgba(0,0,0,.2);
 	padding: 1.2rem;
+	margin-bottom: 1rem;
 }
 
 .proj-listing .four.column.row {
 	padding-bottom: 1.5rem;
+	position: relative;
+}
+
+.proj-listing .four.column.row .ui.radio.checkbox {
+	position: absolute;
+	top: .2rem;
+	left: 50%;
+	width: 25%;
 }
 
 .proj-listing .ui.left.floated {
@@ -142,10 +184,11 @@ n/**************
 	padding-right: 1.5rem;
 	border-right: 2px solid #eaeaea;
 	color: #607d8b;
+	font-size: 1.2em;
 }
 
 .proj-listing h5.ui.header {
-	padding-left: 1.5rem;
+	padding-left: 1.2rem;
 	opacity: .8;
 }
 
@@ -169,7 +212,24 @@ n/**************
 	content: "";
 	border: 1px solid #f6f6f6;
 	width: 98%;
+}
 
+.content .social-share {
+	position: absolute;
+	top: 1rem;
+	right: 12rem;
+}
+
+.content .social-share>.ui.button {
+	display: block;
+	margin-bottom: .5rem;
+	font-size: .8em;
+	text-transform: uppercase;
+}
+
+.proj-listing .content .description {
+	max-height: 90px;
+	overflow: hidden;
 }
 
 .content .extra .ui.header {
@@ -179,21 +239,24 @@ n/**************
 	color: #607d8b;
 }
 
-.content .extra .ui.header>i {
-	font-size: 1.8rem;
-	margin: 0;
+.content .extra h3>i {
+	font-size: 1.4rem !important;
+	width: auto;
+	color: #607d8b;
+	text-transform: capitalize;
 }
 
 .pj-items {
 	padding: .6rem 0;
 }
 
-.pj-items>span:last-child {
-	margin-left: 2rem;
+.pj-items>span:nth-child(2n) {
+	margin: 0 2rem;
 }
 
 .pj-items a {
 	padding-left: 1rem;
+	text-transform: capitalize;
 }
 
 .proj-listing .ui.right.floated>div {
