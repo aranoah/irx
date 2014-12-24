@@ -35,13 +35,16 @@
 	    	<div class="header column right menu">
 	    		<div class="ui checkbox">
 			      <input type="checkbox">
+			      <label>Distress</label>
+			    </div>
+	    		<div class="ui checkbox">
+			      <input type="checkbox">
 			      <label>Top 5 brokers</label>
 			    </div>
 				<div class="ui basic button">submit request</div>
 	    	</div>
 	    </div>
 	    <div class="ui cards sc" data-bind="foreach : agents">
-	    	<a href="">
 		  <div class="card">
 		    <div class="ui image tiny">
 		      <img src="/images/elliot.jpg">
@@ -68,7 +71,7 @@
 		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
 		    <div class="extra content">
 		      <div class="right floated created">
-		        <a href=""><i class="empty heart icon"></i></a>
+		        <a href=""><i class="facebook square icon"></i></a>
 		        <a href=""><i class="share square icon"></i></a>
 		      </div>
 		      <a class="friends">
@@ -80,8 +83,6 @@
 		      </a>
 		    </div>
 		  </div>
-		<a>
-
 		</div>	   
 		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }">loading</div>
 	  </div>    

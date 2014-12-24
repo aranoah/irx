@@ -57,8 +57,11 @@
 	padding: .8em 1em !important;
 }
 
+#agentContent .rib-head>.right.menu>div:nth-child(2n) {
+	margin: 0 2rem;
+}
+
 #agentContent .rib-head>.right.menu .ui.button {
-	margin: 0 0 0 1rem;
 	text-transform: uppercase;
 	font-size: .9em;
 } 
@@ -92,6 +95,12 @@
 
 .extra.content .friends:last-child {
 	margin-left: 1rem;
+}
+
+.extra.content .right.floated.created i {
+	font-size: 1.4em;
+	width: auto;
+	margin: 0 0 0 .3rem;
 }
 
 .card .content a.header, .card .content .description>span {
@@ -161,14 +170,14 @@
 
 .proj-listing .four.column.row {
 	padding-bottom: 1.5rem;
-	position: relative;
+}
+
+.proj-listing .four.column.row .right.floated.column>div{
+	display: inline-block;
 }
 
 .proj-listing .four.column.row .ui.radio.checkbox {
-	position: absolute;
-	top: .2rem;
-	left: 50%;
-	width: 25%;
+	margin-left: 1rem;
 }
 
 .proj-listing .ui.left.floated {
@@ -221,7 +230,7 @@
 }
 
 .content .social-share>.ui.button {
-	display: block;
+	padding: .5rem;
 	margin-bottom: .5rem;
 	font-size: .8em;
 	text-transform: uppercase;
@@ -230,6 +239,8 @@
 .proj-listing .content .description {
 	max-height: 90px;
 	overflow: hidden;
+	color: #808080;
+	font-weight: 300;
 }
 
 .content .extra .ui.header {
@@ -254,9 +265,10 @@
 	margin: 0 2rem;
 }
 
-.pj-items a {
+.pj-items span>span {
 	padding-left: 1rem;
 	text-transform: capitalize;
+	color: #607d8b;
 }
 
 .proj-listing .ui.right.floated>div {
