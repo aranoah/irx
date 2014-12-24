@@ -1,4 +1,5 @@
 <!-- Login popup -->
+
 <div id="login" class="ui modal">  
   <div class="content">
     <div class="ui grid">
@@ -17,20 +18,20 @@
         <div class="two fields">
           <div class="required field">
             <div class="ui left icon input">
-              <input type="text" placeholder="Username">
+              <input type="text" data-bind="value: userId" placeholder="Username">
               <i class="user icon"></i>
             </div>
           </div>
           <div class="required field">
             <div class="ui left icon input">
-              <input type="password" placeholder="Password">
+              <input type="password" data-bind="value: password" placeholder="Password">
               <i class="lock icon"></i>
             </div>
           </div>
         </div>
       </div>
       <label>Forgot password?</label>
-      <div class="action-button"><div class="ui button">login</div></div>      
+      <div class="action-button"><div class="ui button" data-bind="click: login">login</div></div>      
       <div class="ui vertical divider">Or</div>
     </div>
     <div id="register-box" class="eight wide column register-open toggleBox">
@@ -87,3 +88,4 @@
     </div>
   </div>
 </div>
+ <script type="text/javascript" src="/js/common/common.js"></script>
