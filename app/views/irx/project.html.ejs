@@ -23,7 +23,7 @@
   <!-- agents Listing goes here -->
 
   	<div id="projectContent" class="ui centered page grid">
-	  <div class="fourteen wide column">
+	  <div class="twelve wide column">
 
 	  	<div class="ui grid two column rib-head">
 	    	<h2 class="ui header column">Showing results <a>20 out of 50</a></h2>
@@ -60,15 +60,14 @@
 				<div class="four column row">
 					<div class="left floated column">
 						<h3 class="ui header" data-bind="text: name">12 Years a Slave</h3><h5 class="ui header"><i class="marker icon"></i><!--ko text: location.city--><!--/ko--></h5>
-					</div>
-					<div class="ui radio checkbox">
-					  <input type="radio" value="small">
-					  <label>Distress</label>
-					</div>
-					<div class="right floated column">
+					</div>					
+					<div class="right floated column menu">						
 					  	<div class="extra">
 					    	<span class="cinema">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></span>
-					  	</div>			    	
+					  	</div><div class="ui radio checkbox">
+						  <input type="radio" value="small">
+						  <label>Distress</label>
+						</div>			    	
 					</div>
 				</div>
 				<div class="item">
@@ -83,10 +82,11 @@
 						<div class="pj-items">
 							<span class="cinema">
 								BHK :<span data-bind="foreach : bhk">
-									<a href="header" data-bind="text:$data"></a>
-								</span>
+										<a href="header" data-bind="text:$data"></a>
+									</span>
 							</span>
 							<span class="cinema">Property type :<a href="header"><!--ko text: type--><!--/ko--></a></span>
+
 							<span class="cinema"><i class="user icon agent"></i><!--ko text: builderName--><!--/ko--></span>
 						</div>
 					  	<div class="description"><!--ko text: description--><!--/ko--></div>

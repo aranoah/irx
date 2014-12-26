@@ -33,6 +33,7 @@ body {
 
 #header .right.menu>.item {
   color: #808080;
+  font-weight: 300;
 }
 
 #header .right.menu>.item:hover {
@@ -72,7 +73,7 @@ body {
 }
 
 #searchbar .cont-ainer {
-  padding: 0.5rem 5% 0.5rem 5%;
+  padding: 0.5rem 6% 0.5rem 6%;
 }
 
 #searchbar .cont-ainer.search-menu>.item {
@@ -91,7 +92,7 @@ body {
 }
 
 #searchbar .cont-ainer .ui.selection.dropdown {
-  min-width: 160px !important;
+  min-width: 158px !important;
   background-color: inherit !important;
 }
 
@@ -105,7 +106,7 @@ body {
 }
 
 .ui.slider.checkbox {
-  width: 160px;
+  width: 158px;
 }
 
 .ui.slider.checkbox label {
@@ -296,6 +297,16 @@ body {
   }
   #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
     left: auto;
-    right: 0em;
-  }x
+    right: 0em; 
+  }
+
+  .proj-listing .ui.left.floated {
+    width: auto;
+  }
+
+  .proj-listing .content .social-share {
+    right: 0;
+  }
 }
+
+
