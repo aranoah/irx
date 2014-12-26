@@ -4,6 +4,7 @@ function Common() {
 }
 
 Common.prototype.init = function(first_argument) {
+
 	var classInstance = this;
 	classInstance.viewModel = {
 		userId: ko.observableArray(),
@@ -12,19 +13,16 @@ Common.prototype.init = function(first_argument) {
            classInstance.login();
         }
 	}
-	 ko.applyBindings(classInstance.viewModel,$('#login'));
+	 ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
 };
 Common.prototype.login = function() {
 	var classInstance = this;
 	httpUtils.post("/login",{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
-		"JSON",function(data){
+		 { 'authorization': 'POST' },"JSON",function(data){
 		if(data.status==0){
-	      alert(1)
+	      location.reload();
+		}else {
+			
 		}
 	})
 };		 
-$(document).ready(function(){
-	  
-	var common = new Common();
-	common.init();
-})

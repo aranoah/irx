@@ -34,7 +34,7 @@ restController.validate_main=function(){
 
 restController.main = function() {
 	/*** if validation applied for this method then call use handle validation**/
-  console.log(1)
+ 
 	var errors = this.req.validationErrors();
 	if (errors) {
 		console.log(errors);

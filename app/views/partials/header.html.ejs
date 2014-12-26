@@ -13,8 +13,15 @@
         <i class="content icon toggle button"></i>
       </div>
       <a class="item">Sell your property</a>
-      <a class="item _post">Post your requirement</a>
-      <a class="item log-in"><i class="user icon"></i>Login</a>
+      <a class="item _post">Post your requirement
+       </a>
+      <% if(locals.session.user) {%>
+        <a class="item log-in"><i class="user icon"></i><%= locals.session.user.name %></a>
+        <% }%>
+        <% if(!locals.session.user){%>
+             <a class="item log-in"><i class="user icon"></i>Login</a>
+           <% }%>
+     
       <a class="item"><i class="content icon toggle button"></i></a>
     </div>
   </div> 

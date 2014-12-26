@@ -169,7 +169,7 @@
 			},
 			pageSize: ko.observable(_classInstance.page.pageSize)
 		}
-		 ko.applyBindings(_classInstance.viewModel);
+		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
 		_classInstance.listProjects()
 	}
 	

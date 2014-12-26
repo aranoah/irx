@@ -146,7 +146,12 @@ userController.login = function() {
   console.log("In Login Method")
   var _nself =this;
    _app_context.cansec.validate(_nself.req,_nself.res,function(){
-      _nself.processJson(200,"OK",_nself.req.session.user,null)
+      if(_nself.req.session){
+         _nself.processJson(0,"OK",_nself.req.session['X-CS-Auth'].user,null)
+      }else {
+         _nself.processJson(0,"Error","Error",null)
+      }
+     
     });
   
 }
