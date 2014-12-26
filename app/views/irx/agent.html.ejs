@@ -93,7 +93,7 @@
 	
 
 		</div>	   
-		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }">loading</div>
+		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
 	  </div>    
 	</div>
 		<script type="text/javascript">
@@ -168,7 +168,7 @@
 	Agent.prototype.listAgents = function(replace) {
     	var classInstance = this;
 
-	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},"JSON",function(data){
+	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.agents([]);
