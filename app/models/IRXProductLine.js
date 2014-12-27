@@ -36,7 +36,8 @@ var IRXProductLineSchema =new mongoose.Schema({
    createdOn:{type:Date},
    updatedOn:{type:Date},
    agentCounter:{type:Number},
-   rank:{type:Number}//indexing
+   rank:{type:Number},//indexing
+   prefferedAgents:{type:Array},
 });
 
 IRXProductLineModel = mongoose.model('irxproductline', IRXProductLineSchema);

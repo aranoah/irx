@@ -68,14 +68,32 @@ module.exports = function routes() {
   // mark-distress
   // array of object having bhks which have been marked distress
   this.match('mark-distress',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
- 
+   
   /*
-  * User related web urls
+  * Lead Capture related urls
   */
+  
+  this.match("/capture-lead",{controller: 'leads/rest/leads', action:'captureLeads', via:'POST'});
+  this.match("/review-lead-verify/:leadId",{controller: 'leads/rest/leads', action:'reviewLeadVerify', via:'POST'});
+  this.match("/review-lead-delete/:leadId",{controller: 'leads/rest/leads', action:'reviewLeadDelete', via:'POST'});
+  //this.match("/leads/",{controller: 'leads/rest/leads', action:'listLeads', via:'GET'});
+
+  /*
+  * Project related urls
+  */
+  
+  this.match("/prefered-agents/:projectId",{controller: 'project/rest/projectRest', action:'listPreferedAgents', via:'GET'});
+  /*
+  * web urls
+  */
+  
   this.root({ controller: 'general/pages', action: 'main' });
   this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
   this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
+  this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
+
+
 }
   

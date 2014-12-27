@@ -164,7 +164,7 @@ PMService.prototype.deleteProject = function(data) {
 					console.error(err)
 					_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 				} else {
-					console.log("ka be"+mapping)
+					
 					var update = false;
 					if(mapping !=null && mapping.project.indexOf(projectId)==-1){
 						update = true;
