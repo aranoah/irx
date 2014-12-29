@@ -1,0 +1,63 @@
+/**************
+Projdetailing
+***************/
+
+.ui.divided.padded.grid {
+	padding: 10rem 5% 0;
+}
+
+.ui.inverted.segment.head {
+	background-color: #607d8b !important;
+}
+
+.ui.inverted.title, .ui.inverted.segment {
+	padding: 1em !important;
+}
+
+.ui.inverted.segment.head>* {
+	text-transform: uppercase;
+}
+
+.ui.inverted.segment>h3 {
+	margin: 0;
+	font-weight: normal;
+}
+
+.right.floated.column {
+	margin: .3rem;
+}
+
+.ui.inverted.title {
+	margin-bottom: 1rem;
+}
+
+.ui.inverted.title h2 {
+	color: #607d8b !important;
+}
+
+.ui.inverted.title h2, .ui.inverted.title h4 {
+	margin: 0;
+}
+
+.ui.inverted.title h4{
+	color: #909090 !important;
+	font-weight: normal;
+}
+
+/* table css */
+
+.ui.table, .ui.table thead th {
+	background-color: inherit !important;
+	border: 0 !important;
+	padding: 1em !important
+}
+
+.ui.table {
+	border-top: 1px solid #eaeaea !important;
+	border-bottom: 1px solid #eaeaea !important;
+}
+
+.ui.table thead th{
+	color: #909090!important;
+	font-weight: normal !important;
+}
