@@ -18,6 +18,7 @@
 var CONSTANTS = require(_path_util+'/constants');
 var mongoErr = require(_path_util+'/mongo-error')
 var STATUS = CONSTANTS.him_status;
+var defPage = CONSTANTS.def_page;
 var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
@@ -254,7 +255,9 @@ UserService.prototype.listUserProjects = function(user) {
 	var User = IRXUserProfileModel;
 	var id = user.userId;
 	var page = user.page;
-	
+	if(!page){
+		page=defPage
+	}
 	var Projects = IRXProductLineModel;
 	
  	var ObjectId = require('mongodb').ObjectID
@@ -309,7 +312,9 @@ UserService.prototype.listUserLocations = function(user) {
 	var User = IRXUserProfileModel;
 	var id = user.userId;
 	var page = user.page;
-	
+	if(!page){
+		page=defPage
+	}
 	var locations = IRXLocationModel;
 	
  	var ObjectId = require('mongodb').ObjectID

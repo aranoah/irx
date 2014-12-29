@@ -19,7 +19,7 @@ var CONSTANTS = require(_path_util+'/constants');
 var mongoErr = require(_path_util+'/mongo-error')
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js");
-
+var defPage = CONSTANTS.def_page;
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
@@ -259,12 +259,9 @@ IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USE
 PMService.prototype.listProject = function(page) {
 	var _selfInstance = this;
 	if(!page){
-		page={
-			"start":0,
-			"pageSize":3
-		}
-	
+		page=defPage;
 	}
+
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
 	IRXProductLineModel.find({},{},{skip:start,limit:pageSize },
@@ -286,11 +283,7 @@ PMService.prototype.projectAutocomplete = function(data) {
 	var _selfInstance = this;
 	var page = data.page;
 	if(!page){
-		page={
-			"start":0,
-			"pageSize":3
-		}
-	
+		page=defPage 
 	}
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;

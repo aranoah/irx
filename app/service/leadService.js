@@ -18,7 +18,7 @@
 var CONSTANTS = require(_path_util+'/constants');
 var mongoErr = require(_path_util+'/mongo-error')
 var STATUS = CONSTANTS.him_status;
-
+var defPage = CONSTANTS.def_page;
 
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 
@@ -158,22 +158,34 @@ LeadService.prototype.reviewLeadVerify = function(data) {
 };
 
 /*
-* Review Lead Delete
+* List Lead 
 */
 
-LeadService.prototype.reviewLeadDelete = function(data) {
-	console.log("In reviewLeadDelete")
+LeadService.prototype.listLeads = function(data) {
+	console.log("In listLead")
 	var _selfInstance = this;
+	var page = data.page;
+	if(!page){
+		page=defPage
+	}
+ 	var start = page.start;
+	var pageSize = Number(page.pageSize)+1;
 	
- 		IRXLeadReviewModel.remove({"id":data.leadId}, function (err) {
-			if (err) {
-				console.error(err)
-				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
-			}else{
-				console.log("Lead data cleared");
-				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
-			} 
-		});
-	
+	IRXLeadModel.find({},{},{skip:start,limit:pageSize},function(err , result){
+		if(err){
+			console.error(err)
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+		}else{
+			if(data != null){
+				_selfInstance.processPagenation(result,page)
+				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+			}
+			else {
+				console.log("Lead data not found")
+				_selfInstance.emit("done",404,"Project data not found","Lead data not found",null);
+			 			
+			}
+		}
+	})
 };
 module.exports = LeadService;
