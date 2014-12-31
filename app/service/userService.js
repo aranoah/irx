@@ -231,7 +231,7 @@ UserService.prototype.getUserDetails = function(userId) {
 			 		} else{
 
 			 			if(data && data != null){
-			 				console.log("yoy",data)
+			 			
 			 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
 			 				
 			 			} else{

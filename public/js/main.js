@@ -20,6 +20,7 @@ $(document).ready(function () {
 
 	$('.toggle.button').removeClass('disabled');
 
+  $('.menu .item').tab();
 	
 	$(window).scroll(function () {
 

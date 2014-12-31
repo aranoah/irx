@@ -29,7 +29,7 @@ passport.use(new LocalStrategy({
     // Find the user by username.  If there is no user with the given
     // username, or the password is not correct, set the user to `false` to
     // indicate failure.  Otherwise, return the authenticated `user`.
-    console.log("here .... ");
+    
     var collection = mongoose.getCollection('testUser');
     var hashPassword = hashAlgo.SHA1(password);
   
@@ -40,7 +40,7 @@ passport.use(new LocalStrategy({
         //console.log('Helooooooo..')
         return done(null, false,{"message":"Failure"});
       }
-      return done(null, user);
+      return done(true,user,user.userName);  
     });
   }
 ));

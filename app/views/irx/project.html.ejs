@@ -80,8 +80,13 @@
 							<h3 class="ui header"><i class="rupee icon"></i><!--ko text: price--><!--/ko--></h3>
 						</div>
 						<div class="pj-items">
-							<span class="cinema">BHK :<span href="header"><!--ko text: bhk--><!--/ko--></span></span>
-							<span class="cinema">Property type :<span href="header"><!--ko text: type--><!--/ko--></span></span>
+							<span class="cinema">
+								BHK :<span data-bind="foreach : bhk">
+										<a href="header" data-bind="text:$data"></a>
+									</span>
+							</span>
+							<span class="cinema">Property type :<a href="header"><!--ko text: type--><!--/ko--></a></span>
+
 							<span class="cinema"><i class="user icon agent"></i><!--ko text: builderName--><!--/ko--></span>
 						</div>
 					  	<div class="description"><!--ko text: description--><!--/ko--></div>
@@ -168,13 +173,13 @@
 			},
 			pageSize: ko.observable(_classInstance.page.pageSize)
 		}
-		 ko.applyBindings(_classInstance.viewModel);
+		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
 		_classInstance.listProjects()
 	}
 	
 	Project.prototype.listProjects = function(replace) {
     	var classInstance = this;
-	    httpUtils.post("/list-projects",{filters:classInstance.viewModel.filters,page:classInstance.page},"JSON",function(data){
+	    httpUtils.post("/list-projects",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
