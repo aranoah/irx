@@ -18,6 +18,7 @@
 var CONSTANTS = require(_path_util+'/constants');
 var mongoErr = require(_path_util+'/mongo-error')
 var STATUS = CONSTANTS.him_status;
+var defPage = CONSTANTS.def_page;
 var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
@@ -41,10 +42,7 @@ ProjectListingService.prototype.listProjects = function(data){
 	var filters = data.filters;
 	var page = data.page;
 	if(!page) {
-		page = {
-			start:0,
-			pageSize:3	
-		}
+		page = defPage;
 		
 	}
 	if(filters && filters.city != null &&  filters.city != "") {

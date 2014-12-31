@@ -35,7 +35,7 @@ agentController.listAgents = function() {
     	filters:_nself.req.params.filters,
     	page:_nself.req.params.page
     }
-    console.log(userFilters)
+    
     agentListService.listAgents(_nself.req.body);
 };
 module.exports=agentController

@@ -19,7 +19,7 @@ var CONSTANTS = require(_path_util+'/constants');
 var mongoErr = require(_path_util+'/mongo-error')
 var STATUS = CONSTANTS.him_status;
 
-
+var defPage = CONSTANTS.def_page;
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 
 var mongoose = require('mongoose');

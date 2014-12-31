@@ -51,7 +51,7 @@ leadsController.validate_captureLeads=function(){
 }
 
 /*
-* 	capture page 
+* 	capture leads 
 **/
 
 leadsController.captureLeads = function() {
@@ -100,5 +100,23 @@ leadsController.reviewLeadDelete = function() {
       "leadId":_nself.req.params.leadId
     }
     lService.reviewLeadDelete(data);
+}
+module.exports = leadsController;
+
+/*
+*   List leads 
+**/
+leadsController.listLeads = function() {
+  var lService = new leadService();
+  console.log("Leadsssss...")
+  var _nself = this;
+  lService.on("done", function(code,msg,err,errValue){
+   _nself.processJson(code,msg,err,errValue);
+  });
+  var data = {
+    "userId":_nself.req.session['X-CS-Auth'].userId,
+    page:_nself.req.params.page
+  }
+  lService.listLeads(data);
 }
 module.exports = leadsController;

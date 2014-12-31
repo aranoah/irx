@@ -43,7 +43,7 @@ projectController.main = function() {
   		_nself.render("profile/public"); 
     });
    projectId= _nself.req.params.projectId;
-    projSvc.getUserDetails(projectId);
+    projSvc.getProjectDetails(projectId);
   	
 
 }
