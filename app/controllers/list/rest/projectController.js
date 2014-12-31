@@ -32,10 +32,10 @@ projectController.listProjects = function() {
      _nself.processJson(code,msg,err,errValue);
     });
     var userFilters = {
-    	filters:_nself.req.params.filters,
+    	filters:_nself.req.body.filters,
     	page:_nself.req.params.page
     }
-    console.log(userFilters)
+    console.log("yo yo",userFilters)
     projectListService.listProjects(_nself.req.body);
 };
 module.exports=projectController
