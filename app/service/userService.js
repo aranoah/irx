@@ -341,7 +341,7 @@ UserService.prototype.listUserLocations = function(user) {
 
 					var start = page.start;
 					var pageSize = Number(page.pageSize)+1;
-					console.log("yahan !!", locationList)
+					
 					locations.find({"id":{$in:locationList}},{},{skip:start,limit:pageSize },
 					function(err,locationDetails){
 						if(err){

@@ -74,8 +74,13 @@ pMController.listProject = function() {
      _nself.processJson(code,msg,result,errValue);
     });
     var page = _nself.req.body.page;
-    
-    pMService.listProject(page);
+    var type = _nself.req.params.type;
+
+    var data= {
+        "page":page,
+        "type":type
+    }
+    pMService.listProject(data);
 };
 
 
@@ -92,7 +97,8 @@ pMController.projectAutocomplete = function() {
     });
     var data={
         "page" : _nself.req.query.page,
-        "str" : _nself.req.query.str
+        "str" : _nself.req.query.str,
+        "type" : _nself.req.params.type
     }
    
     pMService.projectAutocomplete(data);
