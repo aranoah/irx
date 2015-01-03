@@ -23,6 +23,14 @@ var mongoErr = {
  	"10011":{code:400,msg:"No collection name found"} ,
  	"13328":{code:500,msg:"Connection falied"} ,
  	"13071":{code:400,msg:"Invalid hostname"} ,
- 	"10333":{code:400,msg:"Invalid field name"}
+ 	"10333":{code:400,msg:"Invalid field name"},
+ 	resolveError : function(errCode){
+ 		if(this[errCode]){
+ 			return this[errCode]
+ 		} else {
+ 			return {code:400,msg:"Mongo Error"};
+ 		}
+ 	}
 }
+
 module.exports=mongoErr

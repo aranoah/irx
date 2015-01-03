@@ -18,6 +18,7 @@
 var mongoose = require('mongoose');
 
 var IRXRequirementLeadSchema =new mongoose.Schema({
+   id:{type:String,required:true},
    projectName:{type:String,required:true},
    location:{city:String,state:String,country:String,name:String,locality,String,pincode:String,latitude:Number,longitude:Number},
    agentId: {type:String,required:true},//need to be discussed

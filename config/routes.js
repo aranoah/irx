@@ -34,14 +34,26 @@ module.exports = function routes() {
   this.match('rest',{ controller: 'general/rest/rest', action: 'main' , via: 'POST' });
   
   /*
+  * Home Page
+  */
+  this.match('agent-autocomplete',{ controller: 'list/rest/agent', action: 'agentAutocomplete' , via: 'GET' });
+  this.match('autocomplete',{ controller: 'list/rest/project', action: 'autocomplete' , via: 'GET' });
+  this.match('project-autocomplete',{ controller: 'list/rest/project', action: 'projectAutocomplete' , via: 'GET' });
+  
+  /*
+  * Listing Related urls
+  */
+  this.match('list-projects',{ controller: 'list/rest/projectList', action: 'listProjects' , via: 'POST' });
+  this.match('list-agents',{ controller: 'list/rest/agentList', action: 'listAgents' , via: 'POST' });
+  /*
   * User Related urls
   */
   this.match('create-user',{ controller: 'user/rest/user', action: 'createUser' , via: 'POST' });
   this.match('update-user/:userId',{ controller: 'user/rest/user', action: 'updateUser' , via: 'POST' });
   this.match('user-details/:userId',{ controller: 'user/rest/user', action: 'getUserDetails' , via: 'GET' });
   this.match('verify-user',{ controller: 'user/rest/user', action: 'verifyUser' , via: 'GET' });
-  this.match('list-user-projects',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
-  this.match('list-user-locations',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
+  this.match('list-user-projects/:userId',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
+  this.match('list-user-locations/:userId',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
 
   /*
   * Utility urls
@@ -52,9 +64,44 @@ module.exports = function routes() {
   this.match('s3-test',{ controller: 'general/rest/rest', action: 's3Test' , via: 'GET' });
 
   /*
-  * User related web urls
+  * Profile management urls
   */
+
+  this.match('associate-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
+  this.match('delete-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteProject' , via: 'GET' });
+  this.match('list-product/:type',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
+  this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
+  this.match('list-associated-product/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
+  
+  // mark-distress
+  // array of object having bhks which have been marked distress
+  this.match('mark-distress',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
+   
+  /*
+  * Lead Capture related urls
+  */
+  
+  this.match("/capture-lead",{controller: 'leads/rest/leads', action:'captureLeads', via:'POST'});
+  this.match("/review-lead-verify/:leadId",{controller: 'leads/rest/leads', action:'reviewLeadVerify', via:'POST'});
+  this.match("/review-lead-delete/:leadId",{controller: 'leads/rest/leads', action:'reviewLeadDelete', via:'POST'});
+  this.match("/leads",{controller: 'leads/rest/leads', action:'listLeads', via:'GET'});
+
+  /*
+  * Project related urls
+  */
+  
+  this.match("/prefered-agents/:projectId",{controller: 'project/rest/projectRest', action:'listPreferedAgents', via:'GET'});
+  
+  /*
+  * web urls
+  */
+  
   this.root({ controller: 'general/pages', action: 'main' });
-  this.match("public-profile/:userId",{controller: 'profile/public', action:'main', via:'GET'});
+  this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
+  this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
+  this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
+  this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
+  this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
+
 }
   

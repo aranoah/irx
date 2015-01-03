@@ -35,11 +35,11 @@ userController.validate_createUser=function(){
     var validateEmail = ["required","isEmail"];
     myvalidator.validate("emailId",validateEmail,this.req.body.emailId);
 
-    var validateEmail = ["required"];
-    myvalidator.validate("name",validateEmail,this.req.body.name);
+    var validateName = ["required"];
+    myvalidator.validate("name",validateName,this.req.body.name);
     
-    var validateEmail = ["required"];
-    myvalidator.validate("password",validateEmail,this.req.body.password);
+    var validatePassword = ["required"];
+    myvalidator.validate("password",validatePassword,this.req.body.password);
 
     console.log(myvalidator.getErrors())
 }
@@ -57,7 +57,6 @@ userController.validate_updateUser=function(){
     
     console.log(myvalidator.getErrors())
 }
-
 
 /*
 * 	Create User and send verification url
@@ -146,7 +145,12 @@ userController.login = function() {
   console.log("In Login Method")
   var _nself =this;
    _app_context.cansec.validate(_nself.req,_nself.res,function(){
-      _nself.processJson(200,"OK",_nself.req.session.user,null)
+      if(_nself.req.session){
+         _nself.processJson(0,"OK",_nself.req.session['X-CS-Auth'].user,null)
+      }else {
+         _nself.processJson(0,"Error","Error",null)
+      }
+     
     });
   
 }
@@ -170,39 +174,30 @@ userController.logout = function() {
 **/
 
 userController.listUserProjects = function() {
-  var page = this.request.query.page;
-  console.log("Yo Yo",page)
-    var data=
-    {
-      projectList : [
-        {
-          projectName :"First",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl:"https://housing.com/in/plot-projects"
-        },
-        {
-          projectName :"Second",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl :"https://housing.com/in/buy"
-        },
-        {
-          projectName :"Third",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl:"https://housing.com/in/home-loans"
-        }
-      ]
+ 
+  var _nself = this;
+  userId= _nself.req.params.userId;
+  var page = _nself.request.query.page;
+  
+  if(!page){
+    page={
+      "start":0,
+      "pageSIze":3
     }
-
-    this.processJson(200,"OK",data,null)
+  }
+  
+  var userSvc = new userService();
+ 
+   var data= {
+      "page":page,
+      "userId":userId
+    }
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    
+    userSvc.listUserProjects(data);
+ 
    
 }
 
@@ -213,37 +208,28 @@ userController.listUserProjects = function() {
 **/
 
 userController.listUserLocations = function() {
-    var data=
-    {
-      projectList : [
-        {
-          projectName :"First",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl:"https://housing.com/in/plot-projects"
-        },
-        {
-          projectName :"Second",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl :"https://housing.com/in/buy"
-        },
-        {
-          projectName :"Third",
-          buliderName :"DLF",
-          location : {
-            city : "Gurgaon"
-          },
-          imageUrl:"https://housing.com/in/home-loans"
-        }
-      ]
+  var _nself = this;
+  userId= _nself.req.params.userId;
+  var page = _nself.request.query.page;
+  
+  if(!page){
+    page={
+      "start":0,
+      "pageSIze":3
     }
-
-    this.processJson(200,"OK",data,null)
-   
+  }
+  
+  var userSvc = new userService();
+ 
+   var data= {
+      "page":page,
+      "userId":userId
+    }
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    
+    userSvc.listUserLocations(data);
+  
 }
 module.exports = userController;   

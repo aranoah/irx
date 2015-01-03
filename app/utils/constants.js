@@ -39,6 +39,10 @@ var MONGO_STATUS={
   NO_UPDATION:{code:22,msg:"Not Updated"} 
     
 };
+var PAGE = {
+  start:0,
+  pageSize:3  
+}
 
 HIM_CONSTANTS.prototype.defaultPage = function (start,pageSize){
 	var mStart=0;
@@ -101,3 +105,5 @@ HEventEmitter.prototype.exec=function(){
 }
 exports.him_constants = new HIM_CONSTANTS() ;
 exports.him_status = STATUS;
+
+exports.def_page = PAGE;

@@ -22,11 +22,12 @@ HTTPUtils.prototype.get = function(uri,data,dataType,successCallback,errorCallba
         })
 };
 
-HTTPUtils.prototype.post = function(uri,data,dataType,successCallback,errorCallback) {
+HTTPUtils.prototype.post = function(uri,data,headers,dataType,successCallback,errorCallback) {
 	 $.ajax({
           url : uri,
           type : "POST",
           dataType : dataType,
+          headers: headers,
           data:data,
           success : function(data) { 
 	          if(successCallback){

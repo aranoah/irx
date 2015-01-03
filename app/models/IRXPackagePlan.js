@@ -18,7 +18,7 @@
 var mongoose = require('mongoose');
 
 var IRXPackagePlanSchema =new mongoose.Schema({
-   
+   id:{type:String,required:true},
    packageName:{type:String,required:true},
    packagePrice:{type:Number,required:true},
    features :{type:String},// to be reviewed

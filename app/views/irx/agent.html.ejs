@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+  <style type="text/css">
+  /*.sc { 
+  	height: 500px; 
+  	width: 500px; 
+  	overflow: scroll;
+  }*/
+  </style>
+</head>
+<% locals.uiContext.menu=false %>
+<body>  
+  <% include ../partials/header.html.ejs %>
+  <% include ../partials/sidebar.html.ejs %>
+  <% include ../partials/login.html.ejs %>
+
+  <!-- Bg image starts here -->
+
+  	<div id="homepage" class="ui grid">
+	  <div class="doubling two column row">
+	    <div class="column left-bg"></div><div class="column right-bg"></div>
+	  </div>
+	</div>
+	<!-- Bg image ends here -->	
+  <% include ../partials/searchbar.html.ejs %>
+
+  <!-- agents Listing goes here -->
+
+  	<div id="agentContent" class="ui centered page grid">
+	  <div class="fourteen wide column">
+	  	<div class="ui grid two column rib-head">
+	    	<h2 class="ui header column">Showing results <a>
+	    	<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a></h2>
+	    	<div class="header column right menu">
+	    		<div class="ui checkbox">
+			      <input type="checkbox">
+			      <label>Distress</label>
+			    </div>
+	    		<div class="ui checkbox">
+			      <input type="checkbox">
+			      <label>Top 5 brokers</label>
+			    </div>
+				<div class="ui basic button">submit request</div>
+	    	</div>
+	    </div>
+	    <div class="ui cards sc" data-bind="foreach : agents">
+
+		  <div class="card">
+		    <div class="ui image tiny">
+		      <img src="/images/elliot.jpg">
+		    </div>
+		    <div class="content">
+
+		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
+		      <a class="group" data-bind="text : companyName">IRX India</a>
+
+		      <div class="content addr-ess">
+    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+    		  </div>
+		      <div class="description">
+		        Specialities : 
+		        <span data-bind="foreach : specialities">
+			        <!-- ko if:$index()<=1 -->
+			        	<span class="header" data-bind="text : $data"></span>
+			        	 <!-- ko if:$index()==0 -->
+			        	 	<span class="header">,</span>
+			        	 <!-- /ko -->
+			        <!-- /ko -->
+			    </span>
+		        <span data-bind="if:specialities.length>2">
+		        (+
+		        	<span class="header" data-bind="text : specialities.length-2"></span>)
+		        </span>
+		       </div>
+		    </div>
+		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
+		    <div class="extra content">
+		      <div class="right floated created">
+		        <a href=""><i class="facebook square icon"></i></a>
+		        <a href=""><i class="share square icon"></i></a>
+		      </div>
+		      <a class="friends">
+		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
+		         &nbsp;&nbsp;Projects
+		      </a><a class="friends">
+		        <i class="location arrow icon"></i>
+		        22 Locations
+		      </a>
+		    </div>
+		  </div>
+
+		</div>	   
+		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
+	  </div> 
+	    
+	</div>
+		<script type="text/javascript">
+	function Agent(options){
+		this.page = {
+			start : 0,
+			pageSize : 3
+		}
+	}
+	Agent.prototype.init = function() {
+
+		var _classInstance = this;
+		ko.bindingHandlers.scroll = {
+
+		  updating:true,
+		  
+		  init: function(element, valueAccessor, allBindingsAccessor) {
+		  	  
+		      var self = this
+		      self.updating =(true);
+		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+		            $(window).off("scroll.ko.scrollHandler")
+		            self.updating= (false); 
+		      });
+		      $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
+		      $(element).on('__sc__more', function(e,flag){
+				  	 var ele_more = $('#_sc_more');
+				  	 if(typeof(flag) == "undefined"){
+				  	 	return ele_more.attr("hasMore")=='true';
+				  	 }else{
+				  	 	if(flag){
+				  	 		ele_more.show();
+				  	 	}else{
+				  	 		ele_more.hide();
+				  	 	}
+				  	 	ele_more.attr("hasMore",flag);
+				  	 	return flag;
+				  	 }
+				  })
+		  		},
+
+		  update: function(element, valueAccessor, allBindingsAccessor){
+		    var props = allBindingsAccessor().scrollOptions
+		    var offset = props.offset ? props.offset : "0"
+		    var loadFunc = props.loadFunc
+		    var load = ko.utils.unwrapObservable(valueAccessor());
+		    var self = this;
+
+		    if(load){
+		      element.style.display = "";
+		      $(window).on("scroll.ko.scrollHandler", function(){
+		      	
+		        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
+		          if(self.updating){
+		          	
+		          	self.updating =(false);
+
+		            _classInstance.listAgents(false,function(success){
+		            	self.updating=success;
+		            	$(element).trigger('__sc__more',success)
+		            })
+		          }
+		        }
+		       
+		      });
+		    }
+		    else{
+		        element.style.display = "none";
+		        $(window).off("scroll.ko.scrollHandler")
+		        self.updating = false
+		    }
+		  }
+		 }
+
+		_classInstance.viewModel = {
+			agents: ko.observableArray(),
+			filters:{
+				name: ko.observable(""),
+				type: ko.observable(""),
+				bhk: ko.observable("")
+			},
+			start: ko.observable(),
+			total: ko.observable(),
+			addSome : function(){
+				_classInstance.listAgents(true);
+			}
+		}
+		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));
+		//_classInstance.listAgents();
+	}
+	
+	Agent.prototype.listAgents = function(replace, setUpdate) {
+    	var classInstance = this;
+
+	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
+	    
+	       if(data.status==0){
+	       	if(typeof(replace) != undefined && replace){
+	       		classInstance.viewModel.agents([]);
+	       	} 
+	       	if(classInstance.page.start==0){
+	       		classInstance.viewModel.total(data.page.total) ;
+	       	}
+	       		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
+	       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	       		
+	       		classInstance.viewModel.start(Number(data.page.start)+Number(data.result.length)) ;
+
+	       		if(setUpdate){
+	       			setUpdate(data.page.hasMore)
+	       		}
+
+	        }
+		})
+	 }
+
+	$(document).ready(function(){
+	  
+	    var agent = new Agent();
+	    agent.init();
+	    
+	  })
+	</script>
+</body>

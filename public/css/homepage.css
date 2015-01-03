@@ -1,0 +1,294 @@
+/**************
+	Homescreen
+***************/
+
+#searchbar {
+	margin: 0;
+}
+
+#homepage.ui.grid {
+	margin: 4rem 0 0 !important;
+}
+
+#homepage.ui.grid>div.doubling.row {
+	padding: 0 !important;
+}
+
+#homepage>div.doubling.row>div {
+	min-height :340px;
+	height: 100%;
+	padding: 0;
+}
+
+#homepage>div.doubling.row>div.left-bg {
+	background: url(/img/left.gif) no-repeat center;
+}#homepage>div.doubling.row>div.right-bg {
+	background: url(/img/right.gif) no-repeat center;
+	background-size: cover;
+}
+
+/******************
+	Agents listing
+*******************/
+
+#agentContent,#projectContent {
+	padding: 4rem 0 !important;
+}
+
+#agentContent>div,#projectContent>div {
+	padding: 0;
+}
+
+#agentContent .ui.grid.two.column.rib-head {
+	padding: 0 !important;
+	border-bottom: 1px solid #eaeaea !important;
+}
+
+#agentContent .rib-head>h2, #projectContent .rib-head>h2 {
+	margin: 1rem 0 0;
+	padding: 0;
+}
+
+#agentContent .rib-head>.right.menu {
+	padding-bottom: 1rem !important;
+}
+
+#agentContent .rib-head>.right.menu>.ui.button {
+	padding: .8em 1em !important;
+}
+
+#agentContent .rib-head>.right.menu>div:nth-child(2n) {
+	margin: 0 2rem;
+}
+
+#agentContent .rib-head>.right.menu .ui.button {
+	text-transform: uppercase;
+	font-size: .9em;
+} 
+
+#agentContent .ui.cards {
+	margin: 2rem -.5rem;
+}
+
+#agentContent .ui.cards>.card {
+	width: 384px;
+}
+
+.ui.image.tiny {
+	float: left;
+	padding: .6rem !important;
+	background-color: inherit !important;
+}
+
+.content.addr-ess {
+	font-size: .9em;
+}
+
+.description>span {
+	color: rgba(0,0,0,.8);
+	margin: 0 .3rem;
+}
+
+.extra.content i.building.icon:before {
+	margin-right: .5rem;
+}
+
+.extra.content .friends:last-child {
+	margin-left: 1rem;
+}
+
+.extra.content .right.floated.created i {
+	font-size: 1.4em;
+	width: auto;
+	margin: 0 0 0 .3rem;
+}
+
+.card .content a.header, .card .content .description>span {
+	color: rgb(96, 125, 139) !important;
+}.card .content>span {
+	color: rgba(0,0,0,0.6);
+}
+
+.card {
+	position: relative;
+}
+
+.card .inline.field {
+	position: absolute;
+	top: 0;right: 0;
+	padding: 1rem;
+}
+
+.card .inline.field label {
+	padding: 0;
+}
+
+/*******************
+	Project listing
+********************/
+
+.header.ui.two.column.grid.right.menu {
+	padding: 0;
+	margin: 0;
+	background-color: inherit;
+	box-shadow: 0 0 0 #000;
+}
+
+.header.ui.two.column.grid.right.menu>.six.wide.column {
+	padding: 0;
+	text-align: right;
+}
+
+.header.ui.two.column.grid.right.menu>.six.wide.column>div {
+	background-color: inherit;
+	border: 0;
+}
+
+.default.text {
+	color: #666 !important;
+}
+
+.header.ui.two.column.grid.right.menu .ui.selection.dropdown.item {
+	border: 1px solid #ddd;
+	text-transform: uppercase;
+	font-size: .9em;
+}.header.ui.two.column.grid.right.menu .ui.selection.dropdown.item i {
+	margin: 0;
+	float: right;
+}
+
+#projListing {
+	padding: 2rem 0;
+}
+
+.proj-listing {
+	background-color: #fff;
+	box-shadow: 0 0 3px 1px rgba(0,0,0,.2);
+	padding: 1.2rem;
+	margin-bottom: 1rem;
+}
+
+.proj-listing .four.column.row {
+	padding-bottom: 1.5rem;
+}
+
+.proj-listing .four.column.row .right.floated.column>div{
+	display: inline-block;
+}
+
+.proj-listing .four.column.row .ui.radio.checkbox {
+	margin-left: 1rem;
+}
+
+.proj-listing .ui.left.floated {
+	width: 550px;
+}
+
+.proj-listing .ui.header {
+	display: inline-block !important;
+	margin: 0 !important;
+}
+
+.proj-listing h3.ui.header {
+	padding-right: 1.5rem;
+	border-right: 2px solid #eaeaea;
+	color: #607d8b;
+	font-size: 1.2em;
+}
+
+.proj-listing h5.ui.header {
+	padding-left: 1.2rem;
+	opacity: .8;
+}
+
+.proj-listing .ui.right.floated>div {
+	display: block;
+}
+
+.proj-listing .extra .cinema>.header {
+	padding-left: 1rem;
+}
+
+.proj-listing .content {
+	position: relative;
+	padding-top: 1rem !important;
+}
+
+.proj-listing .content:before {
+	position: absolute;
+	top: 0;
+	left: 15px;
+	content: "";
+	border: 1px solid #f6f6f6;
+	width: 98%;
+}
+
+.content .social-share {
+	position: absolute;
+	top: 1rem;
+	right: 12rem;
+}
+
+.content .social-share>.ui.button {
+	padding: .5rem;
+	margin-bottom: .5rem;
+	font-size: .8em;
+	text-transform: uppercase;
+}
+
+.proj-listing .content .description {
+	max-height: 90px;
+	overflow: hidden;
+	color: #808080;
+	font-weight: 300;
+}
+
+.content .extra .ui.header {
+	padding: 0;
+	margin: 0;
+	border:0;
+	color: #607d8b;
+}
+
+.content .extra h3>i {
+	font-size: 1.4rem !important;
+	width: auto;
+	color: #607d8b;
+	text-transform: capitalize;
+}
+
+.pj-items {
+	padding: .6rem 0;
+}
+
+.pj-items>span:nth-child(2n) {
+	margin: 0 2rem;
+}
+
+.pj-items span>span {
+	padding-left: 1rem;
+	text-transform: capitalize;
+	color: #607d8b;
+}
+
+.proj-listing .ui.right.floated>div {
+	border: 0 !important;
+	border-radius: 0 !important;
+	box-shadow: 0 0 0 #000 !important;
+	background-color: #f6f6f6 !important;
+	color: #607d8b !important;
+	transition:all ease .2s;
+}
+
+.proj-listing .ui.right.floated>.ui.button:hover {
+	background-color: #607d8b !important;
+	color: #fff !important;
+}
+
+.proj-listing .ui.right.floated>div:nth-child(3n) {
+	margin-top: 1rem;
+}
+
+.proj-listing .ui.right.floated>div:not(:last-child) {
+	margin-bottom: .3rem;
+}

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+  
+</head>
+<% locals.uiContext.menu=false %>
+<body>  
+  <% include ../partials/header.html.ejs %>
+  <% include ../partials/sidebar.html.ejs %>
+  <% include ../partials/login.html.ejs %>
+
+  <!-- Bg image starts here -->
+
+  	<div id="homepage" class="ui grid">
+	  <div class="doubling two column row">
+	    <div class="column left-bg"></div><div class="column right-bg"></div>
+	  </div>
+	</div>
+	<!-- Bg image ends here -->	
+  <% include ../partials/searchbar.html.ejs %>
+
+  <!-- agents Listing goes here -->
+
+  	<div id="projectContent" class="ui centered page grid">
+	  <div class="twelve wide column">
+
+	  	<div class="ui grid two column rib-head">
+	    	<h2 class="ui header column">Showing results <a>20 out of 50</a></h2>
+	    	<div class="header ui two column grid right menu">
+	    		<div class="six wide column">
+			        <div class="ui selection dropdown">
+			          <input type="hidden" name="city">
+			          <div class="default text">Property Type</div>
+			          <i class="angle down icon"></i>
+			          <div class="menu">
+			            <div class="item" data-value="NewD">Apartment</div>
+			            <div class="item" data-value="Bang">Independent House</div>
+			            <div class="item" data-value="Mum">Independent Floor</div>
+			            <div class="item" data-value="Che">Penthouse</div>
+			          </div>
+			        </div>
+			      </div>
+				<div class="ui selection dropdown item">
+				    Sort by relevance
+				    <div class="menu">
+				      <div class="item">Newest</div>
+				      <div class="item">Price : High to Low</div>
+				      <div class="item">Price : Low to High</div>
+				    </div>
+				    <i class="sort right icon"></i>
+				  </div>
+	    	</div>
+	    </div>
+
+	    <!-- Project Listing goes here -->
+
+	    <div id="projListing" data-bind="foreach : projects">
+	    	<div class="ui items proj-listing">
+				<div class="four column row">
+					<div class="left floated column">
+						<h3 class="ui header" data-bind="text: name">12 Years a Slave</h3><h5 class="ui header"><i class="marker icon"></i><!--ko text: location.city--><!--/ko--></h5>
+					</div>					
+					<div class="right floated column menu">						
+					  	<div class="extra">
+					    	<span class="cinema">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></span>
+					  	</div><div class="ui radio checkbox">
+						  <input type="radio" value="small">
+						  <label>Distress</label>
+						</div>			    	
+					</div>
+				</div>
+				<div class="item">
+					<div class="image">
+					  <img src="/images/square-image.png">
+					</div>
+					<div class="content">				  
+					  <div class="ui left floated">				  	
+						<div class="extra">
+							<h3 class="ui header"><i class="rupee icon"></i><!--ko text: price--><!--/ko--></h3>
+						</div>
+						<div class="pj-items">
+							<span class="cinema">
+								BHK :<span data-bind="foreach : bhk">
+										<a href="header" data-bind="text:$data"></a>
+									</span>
+							</span>
+							<span class="cinema">Property type :<a href="header"><!--ko text: type--><!--/ko--></a></span>
+
+							<span class="cinema"><i class="user icon agent"></i><!--ko text: builderName--><!--/ko--></span>
+						</div>
+					  	<div class="description"><!--ko text: description--><!--/ko--></div>
+					  	<div class="social-share">
+					  		<div class="ui facebook button"><i class="facebook icon"></i>Like</div>
+					  		<div class="ui teal button"><i class="share icon"></i>share</div>
+					  	</div>
+					  </div>
+					  <div class="ui right floated">
+						<div class="ui basic button">View details</div>
+						<div class="ui basic button">Enquiry now</div>
+						<div class="ui basic button">View agents</div>
+						<div class="ui basic button">Download details</div>
+					  </div>
+					</div>				  
+				</div>
+			</div>
+		</div>
+		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }">loading</div>
+	    <!-- Project ends here -->
+	</div>
+	<script type="text/javascript">
+	function Project(options){
+		this.page = {
+			start : 0,
+			pageSize : 3
+		}
+	}
+	Project.prototype.init = function() {
+
+		var _classInstance = this;
+
+		ko.bindingHandlers.scroll = {
+
+		  updating:true,
+		  
+		  init: function(element, valueAccessor, allBindingsAccessor) {
+		  	  
+		      var self = this
+		      self.updating =(true);
+		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+		            $(window).off("scroll.ko.scrollHandler")
+		            self.updating= (false); 
+		      });
+		      $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
+		      $(element).on('__sc__more', function(e,flag){
+				  	 var ele_more = $('#_sc_more');
+				  	 if(typeof(flag) == "undefined"){
+				  	 	return ele_more.attr("hasMore")=='true';
+				  	 }else{
+				  	 	if(flag){
+				  	 		ele_more.show();
+				  	 	}else{
+				  	 		ele_more.hide();
+				  	 	}
+				  	 	ele_more.attr("hasMore",flag);
+				  	 	return flag;
+				  	 }
+				  })
+		  		},
+
+		  update: function(element, valueAccessor, allBindingsAccessor){
+		    var props = allBindingsAccessor().scrollOptions
+		    var offset = props.offset ? props.offset : "0"
+		    var loadFunc = props.loadFunc
+		    var load = ko.utils.unwrapObservable(valueAccessor());
+		    var self = this;
+
+		    if(load){
+		      element.style.display = "";
+		      $(window).on("scroll.ko.scrollHandler", function(){
+		      	
+		        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
+		          if(self.updating){
+		          	
+		          	self.updating =(false);
+
+		            _classInstance.listProjects(false,function(success){
+		            	self.updating=success;
+		            	$(element).trigger('__sc__more',success)
+		            })
+		          }
+		        }
+		       
+		      });
+		    }
+		    else{
+		        element.style.display = "none";
+		        $(window).off("scroll.ko.scrollHandler")
+		        self.updating = false
+		    }
+		  }
+		 }
+
+		_classInstance.viewModel = {
+			projects: ko.observableArray(),
+			filters:{
+				name: ko.observable(""),
+				type: ko.observable(""),
+				bhk: ko.observable("")
+			},
+			addSome : function(){
+				_classInstance.listProjects(true);
+			},
+			pageSize: ko.observable(_classInstance.page.pageSize),
+			start: ko.observable()
+		}
+		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
+		_classInstance.listProjects()
+	}
+	
+	Project.prototype.listProjects = function(replace,setUpdate) {
+    	var classInstance = this;
+	    httpUtils.post("/list-projects",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
+	       if(data.status==0){
+	       	if(typeof(replace) != undefined && replace){
+	       		classInstance.viewModel.projects([]);
+	       	} 
+	       		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+	       	
+	        
+	        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        classInstance.viewModel.start(classInstance.page.start) ;
+	        classInstance.viewModel.pageSize=data.page.pageSize;
+	        if(setUpdate){
+	       		setUpdate(data.page.hasMore)
+	       	}
+	        }
+		})
+	 }
+
+	$(document).ready(function(){
+	  
+	    var project = new Project();
+	    project.init();
+	    
+	  })
+	</script>
+</body>

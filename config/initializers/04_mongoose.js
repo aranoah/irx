@@ -19,7 +19,7 @@ module.exports = function(done) {
   
     this.mongoose = require('mongoose');
     
- switch (this.env) {
+ switch (this.env) { 
     case 'development':
       this.mongoose.connect('mongodb://127.0.0.1:27017/IRX');
       break;
@@ -31,7 +31,7 @@ module.exports = function(done) {
 var _self = this;
 this.mongoose.getObjectId=function(id){
     var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
-    var ObjectId = _self.mongoose.Schema.ObjectId;
+    var ObjectId = require('mongodb').ObjectID;
     if(checkForHexRegExp.test(id)){
       return new ObjectId(id);
     }else{

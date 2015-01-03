@@ -18,6 +18,7 @@
 var mongoose = require('mongoose');
 
 var IRXReviewSchema =new mongoose.Schema({
+   id:{type:String,required:true},
    msg:{type:String,required:true},
    parentId:{type:String,required:true},
    agentId: {type:String,required:true},

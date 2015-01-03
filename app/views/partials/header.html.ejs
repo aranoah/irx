@@ -1,68 +1,36 @@
 <!-- Fixed header and search menu place here -->
 
-<div class="ui top fixed menu">
-  <div id="header" class="ui fixed inverted main menu grid">    
-    <div class="doubling two column row">
-      <div class="column">
-        <div class="title item logo"><b>IRX</b></div>
-        <div class="title item navs">Projects</div>
-        <div class="title item navs">agents</div>
-      </div>      
-      <div class="column right">
-        <div class="title item">Sell your property</div>
-        <div class="title item">Post your requirement</div>
-        <div class="title item"><i class="user icon"></i>Login</div>
-        <div class="title item"><i class="content icon toggle button"></i></div>
+<div id="home" class="ui top fixed menu">
+
+  <!-- Header goes here -->
+
+  <div id="header" class="ui inverted menu">
+    <div class="header item _logo_">IRX</div>
+    <a class="item _link">PROJECTS</a>
+    <a class="item _link">AGENTS</a>
+    <div class="right menu">
+      <div class="ui mobile dropdown link item" tabindex="0">
+        <i class="content icon toggle button"></i>
       </div>
+      <a class="item">Sell your property</a>
+      <a class="item _post">Post your requirement
+       </a>
+      <% if(locals.session.user) {%>
+        <a class="item log-in"><i class="user icon"></i><%= locals.session.user.name %></a>
+        <% }%>
+        <% if(!locals.session.user){%>
+             <a class="item log-in"><i class="user icon"></i>Login</a>
+           <% }%>
+     
+      <a class="item"><i class="content icon toggle button"></i></a>
     </div>
-  </div>
-  <div id="search-bar" class="ui fixed inverted main menu">
-    <div class="ui page grid cont-ainer">
-      <div class="two wide column">
-        <select class="ui search small dropdown">
-          <option value="">State</option>
-          <option value="AL">New Delhi</option>
-          <option value="AL">Bangalore</option>
-          <option value="AK">Mumbai</option>
-          <!-- Omitted for brevity !-->
-          <option value="WA">Hyderbad</option>
-          <option value="WV">Chennai</option>
-          <option value="WI">Pune</option>
-          <option value="WY">Kolkata</option>
-        </select>
-      </div>
-      <div class="two wide column">
-          <select class="ui search small dropdown">
-            <option value="">Rent</option>
-            <option value="RE">Resale</option>
-            <option value="LA">Land</option>
-          </select>
-      </div><div class="five wide column">
-        <div class="ui icon input">
-          <input type="text" placeholder="Search...">
-          <i class="search icon"></i>
-        </div>
-      </div><div class="two wide column">
-          <select class="ui search small dropdown">
-            <option value="">BHK</option>
-            <option value="1">1bhk</option>
-            <option value="2">2bhk</option>
-            <option value="3">3bhk</option>
-          </select>
-      </div><div class="two wide column">
-          <select class="ui search small dropdown">
-            <option value="">Budget</option>
-            <option value="1">50k - 1lac</option>
-            <option value="2"><10lac</option>
-            <option value="3">>10lac</option>
-          </select>
-      </div><div class="three wide column">
-        <div class="ui large buttons">
-          <div class="ui button">Agent</div>
-          <div class="or"></div>
-          <div class="ui button">Project</div>
-        </div>
-      </div>
-      </div>
-  </div>
+  </div> 
+  
+  <!-- Header ends here -->
+<% if(locals.uiContext && locals.uiContext.menu) {%>
+
+    <% include ../partials/searchbar.html.ejs %>
+
+<% } %>
+ 
 </div>

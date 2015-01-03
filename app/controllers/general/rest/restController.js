@@ -34,7 +34,7 @@ restController.validate_main=function(){
 
 restController.main = function() {
 	/*** if validation applied for this method then call use handle validation**/
-  console.log(1)
+ 
 	var errors = this.req.validationErrors();
 	if (errors) {
 		console.log(errors);
@@ -47,15 +47,16 @@ restController.main = function() {
   	this.processJson(STATUS.OK.code,STATUS.OK.msg,"result",null);
 }
 
-restController.elasticTest = function() {
+restController.elasticTest = function() {  
   var _selfInstance = this;
+  var text = this.req.params.text;
     _app_context.esClient.search({
     index: 'irx_schema',
     type:"irx-euser",
     body: {
       query: {
-        match: {
-          name: 'Puneet'
+        prefix: {
+          name: text
         }
       }
     }
@@ -67,7 +68,7 @@ restController.elasticTest = function() {
 });
 }
 
-restController.sendSms = function() {
+restController.sendSms = function() {            
  
   new smsUtils().sendSms(this.req.body.message);
 }

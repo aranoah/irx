@@ -77,6 +77,13 @@ module.exports = function() {
   this.use(express.methodOverride());
   this.use(cansec);
   this.use(function(req, res, next) {
+    res.locals.req = req;
+    if(req.session['X-CS-Auth']){
+        res.locals.session = req.session['X-CS-Auth'];
+      } else{
+          res.locals.session = {};
+      }
+  
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
