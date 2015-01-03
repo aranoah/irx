@@ -6,15 +6,13 @@
 </head>
 <body>  
   <% include ../partials/header.html.ejs %>
-  <% include ../partials/sidebar.html.ejs %>
-  <% include ../partials/login.html.ejs %>
 
   <!-- Proj Detailing starts here -->
 
 	<div class="ui divided padded grid">
 	<div class="nine wide column">
 		<div class="ui inverted segment head four column row">
-			<h3 class="left floated column">About golden panorama</h3>			
+			<h3 class="left floated column"><%= result.name %></h3>			
 			<div class="right floated column">
 				<i class="mail icon"></i> i'm interested
 			</div>
@@ -22,10 +20,10 @@
 		<div class="ui inverted title four column row">
 			<div class="left floated column">				
 				<h2 class="ui header">Golden Panorama</h2>
-				<h4 class="ui header">By golden properties pvt ltd.</h4>
+				<h4 class="ui header"><%= result.builderName %></h4>
 			</div>
 			<div class="right floated column">
-				<h2><i class="rupee icon"></i> 50Lacs - 10Cr.</h2>
+				<h2><i class="rupee icon"></i> <%= result.price %></h2>
 			</div>
 		</div>
 		<table class="ui table">
@@ -42,9 +40,9 @@
 		    <tr>
 		      <td>580-1350 sq.ft.</td>
 		      <td>1,2,3,4</td>
-		      <td>Sep 2014</td>
-		      <td>Apartment</td>
-		      <td>Kharagpur</td>
+		      <td><%= result.possession %></td>
+		      <td><%= result.type %></td>
+		      <td><%= result.location.city %></td>
 		    </tr>
 		  </tbody>
 		</table>		
@@ -62,9 +60,7 @@
 		  <a class="active item" data-tab="first">Description</a>
 		  <a class="item" data-tab="second">Preferred Agents</a>
 		</div>
-		<div class="ui bottom attached active tab segment" data-tab="first">
-		  Description
-		</div>
+		<div class="ui bottom attached active tab segment" data-tab="first"><%= result.description %></div>
 		<div class="ui bottom attached tab segment" data-tab="second">
 		  Agents
 		</div>
@@ -76,54 +72,5 @@
   <!-- Proj detailing ends here -->
 
 
-	<script type="text/javascript">
-		function Project(options){
-			this.page = {
-				start : 0,
-				pageSize : 3
-			}
-		}
-		Project.prototype.init = function() {
-
-			var _classInstance = this;
-
-			_classInstance.viewModel = {
-				projects: ko.observableArray(),
-				filters:{
-					name: ko.observable(""),
-					type: ko.observable(""),
-					bhk: ko.observable("")
-				},
-				addSome : function(){
-					_classInstance.listProjects(true);
-				},
-				pageSize: ko.observable(_classInstance.page.pageSize)
-			}
-			 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
-			_classInstance.listProjects()
-		}
-		
-		Project.prototype.listProjects = function(replace) {
-	    	var classInstance = this;
-		    httpUtils.post("/list-projects",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
-		       if(data.status==0){
-		       	if(typeof(replace) != undefined && replace){
-		       		classInstance.viewModel.projects([]);
-		       	} 
-		       		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
-		       	
-		        
-		        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-		        classInstance.viewModel.pageSize=data.page.pageSize;
-		        }
-			})
-		 }
-
-		$(document).ready(function(){
-		  
-		    var project = new Project();
-		    project.init();
-		    
-		})
-	</script>
+	
 </body>

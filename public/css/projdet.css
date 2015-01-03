@@ -61,9 +61,13 @@ Projdetailing
 	border-bottom: 1px solid #eaeaea !important;
 }
 
-.ui.table thead th{
+.ui.table thead th {
 	color: #909090!important;
 	font-weight: normal !important;
+}
+
+.ui.table tbody td {
+	text-transform: capitalize;
 }
 
 /* table ends here */

@@ -32,6 +32,12 @@ module.exports = function routes() {
   this.match("login",{ controller: 'user/rest/user', action: 'login' , via: 'POST' } );
   this.match("logout",{ controller: 'user/rest/user', action: 'logout' , via: 'GET' } );
   this.match('rest',{ controller: 'general/rest/rest', action: 'main' , via: 'POST' });
+
+  /** newly added **/
+
+  this.match("sell", {controller: 'user/rest/user', action:'sell', via:'POST'});
+  this.match("post", {controller: 'user/rest/user', action:'post', via:'POST'});
+  this.match("leads", {controller: 'user/rest/user', action:'leads', via:'POST'});
   
   /*
   * Listing Related urls

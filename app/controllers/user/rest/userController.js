@@ -165,7 +165,6 @@ userController.logout = function() {
   
    _app_context.cansec.clear(this.req,this.res);
     this.processJson(200,"OK",null,null)
-   
 }
 
 /*
