@@ -43,8 +43,8 @@ module.exports = function routes() {
   /*
   * Listing Related urls
   */
-  this.match('list-projects',{ controller: 'list/rest/project', action: 'listProjects' , via: 'POST' });
-  this.match('list-agents',{ controller: 'list/rest/agent', action: 'listAgents' , via: 'POST' });
+  this.match('list-projects',{ controller: 'list/rest/projectList', action: 'listProjects' , via: 'POST' });
+  this.match('list-agents',{ controller: 'list/rest/agentList', action: 'listAgents' , via: 'POST' });
   /*
   * User Related urls
   */
@@ -98,11 +98,10 @@ module.exports = function routes() {
   
   this.root({ controller: 'general/pages', action: 'main' });
   this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
- 
+  this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
+  this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
 
-  this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
-  this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
 }
   

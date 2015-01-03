@@ -35,7 +35,7 @@ projectController.listProjects = function() {
     	filters:_nself.req.body.filters,
     	page:_nself.req.params.page
     }
-    console.log("yo yo",userFilters)
+   
     projectListService.listProjects(_nself.req.body);
 };
 

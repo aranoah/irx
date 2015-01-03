@@ -121,16 +121,32 @@
 
 		ko.bindingHandlers.scroll = {
 
-		  updating: true,
-
+		  updating:true,
+		  
 		  init: function(element, valueAccessor, allBindingsAccessor) {
+		  	  
 		      var self = this
-		      self.updating = true;
+		      self.updating =(true);
 		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
 		            $(window).off("scroll.ko.scrollHandler")
-		            self.updating = false
+		            self.updating= (false); 
 		      });
-		  },
+		      $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
+		      $(element).on('__sc__more', function(e,flag){
+				  	 var ele_more = $('#_sc_more');
+				  	 if(typeof(flag) == "undefined"){
+				  	 	return ele_more.attr("hasMore")=='true';
+				  	 }else{
+				  	 	if(flag){
+				  	 		ele_more.show();
+				  	 	}else{
+				  	 		ele_more.hide();
+				  	 	}
+				  	 	ele_more.attr("hasMore",flag);
+				  	 	return flag;
+				  	 }
+				  })
+		  		},
 
 		  update: function(element, valueAccessor, allBindingsAccessor){
 		    var props = allBindingsAccessor().scrollOptions
@@ -138,19 +154,23 @@
 		    var loadFunc = props.loadFunc
 		    var load = ko.utils.unwrapObservable(valueAccessor());
 		    var self = this;
-		   
+
 		    if(load){
 		      element.style.display = "";
 		      $(window).on("scroll.ko.scrollHandler", function(){
+		      	
 		        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
 		          if(self.updating){
-		            _classInstance.listProjects()
-		            self.updating = false;
+		          	
+		          	self.updating =(false);
+
+		            _classInstance.listProjects(false,function(success){
+		            	self.updating=success;
+		            	$(element).trigger('__sc__more',success)
+		            })
 		          }
 		        }
-		        else{
-		          self.updating = true;
-		        }
+		       
 		      });
 		    }
 		    else{
@@ -171,13 +191,14 @@
 			addSome : function(){
 				_classInstance.listProjects(true);
 			},
-			pageSize: ko.observable(_classInstance.page.pageSize)
+			pageSize: ko.observable(_classInstance.page.pageSize),
+			start: ko.observable()
 		}
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
 		_classInstance.listProjects()
 	}
 	
-	Project.prototype.listProjects = function(replace) {
+	Project.prototype.listProjects = function(replace,setUpdate) {
     	var classInstance = this;
 	    httpUtils.post("/list-projects",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
 	       if(data.status==0){
@@ -188,7 +209,11 @@
 	       	
 	        
 	        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;
+	        if(setUpdate){
+	       		setUpdate(data.page.hasMore)
+	       	}
 	        }
 		})
 	 }
