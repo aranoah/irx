@@ -40,7 +40,7 @@ projectController.main = function() {
      _nself.result=result;
      _nself.title = "project";
      _nself.projectId = _nself.req.params.projectId;
-  		_nself.render("profile/public"); 
+  		_nself.render("irx/projdet"); 
     });
    projectId= _nself.req.params.projectId;
     projSvc.getProjectDetails(projectId);

@@ -32,6 +32,12 @@ module.exports = function routes() {
   this.match("login",{ controller: 'user/rest/user', action: 'login' , via: 'POST' } );
   this.match("logout",{ controller: 'user/rest/user', action: 'logout' , via: 'GET' } );
   this.match('rest',{ controller: 'general/rest/rest', action: 'main' , via: 'POST' });
+
+  /** newly added **/
+
+  this.match("sell", {controller: 'user/rest/user', action:'sell', via:'POST'});
+  this.match("post", {controller: 'user/rest/user', action:'post', via:'POST'});
+  this.match("leads", {controller: 'user/rest/user', action:'leads', via:'POST'});
   
   /*
   * Home Page
@@ -98,8 +104,12 @@ module.exports = function routes() {
   
   this.root({ controller: 'general/pages', action: 'main' });
   this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
+  // this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
   this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
+
+  this.match("project-detailing",{controller: 'irx/projdet', action:'main', via:'GET'});
+  
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
 

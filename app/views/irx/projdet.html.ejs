@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+  <link rel="stylesheet" type="text/css" href="/css/projdet.css">
+</head>
+<body>  
+  <% include ../partials/header.html.ejs %>
+
+  <!-- Proj Detailing starts here -->
+
+	<div class="ui divided padded grid">
+	<div class="nine wide column">
+		<div class="ui inverted segment head four column row">
+			<h3 class="left floated column"><%= result.name %></h3>			
+			<div class="right floated column">
+				<i class="mail icon"></i> i'm interested
+			</div>
+		</div>
+		<div class="ui inverted title four column row">
+			<div class="left floated column">				
+				<h2 class="ui header">Golden Panorama</h2>
+				<h4 class="ui header"><%= result.builderName %></h4>
+			</div>
+			<div class="right floated column">
+				<h2><i class="rupee icon"></i> <%= result.price %></h2>
+			</div>
+		</div>
+		<table class="ui table">
+		  <thead>
+		    <tr>
+		      <th>Built-up Area</th>
+		      <th>BHK</th>
+		      <th>Possession</th>
+		      <th>Property Type</th>
+		      <th>Locality</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr>
+		      <td>580-1350 sq.ft.</td>
+		      <td>1,2,3,4</td>
+		      <td><%= result.possession %></td>
+		      <td><%= result.type %></td>
+		      <td><%= result.location.city %></td>
+		    </tr>
+		  </tbody>
+		</table>		
+		<div class="ui inverted xtra four column row">
+			<div class="left floated column">				
+				<h3 class="ui header">Region</h3>
+				<h4 class="ui header">Off Kanakapura Road,Near Nice Road,Bangalore</h4>
+			</div>
+			<div class="right floated column">
+				<div class="ui blue button"><i class="icon edit"></i>Request Details</div>
+				<div class="ui blue button"><i class="icon help circle"></i>Enquiry Now</div>
+			</div>
+		</div>
+		<div class="ui top attached tabular menu">
+		  <a class="active item" data-tab="first">Description</a>
+		  <a class="item" data-tab="second">Preferred Agents</a>
+		</div>
+		<div class="ui bottom attached active tab segment" data-tab="first"><%= result.description %></div>
+		<div class="ui bottom attached tab segment" data-tab="second">
+		  Agents
+		</div>
+	</div>
+	<div class="seven wide column">
+		<img class="ui medium rounded image" src="/images/square-image.png">
+	</div>
+
+  <!-- Proj detailing ends here -->
+
+
+	
+</body>

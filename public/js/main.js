@@ -20,6 +20,7 @@ $(document).ready(function () {
 
 	$('.toggle.button').removeClass('disabled');
 
+  $('.menu .item').tab();
 	
 	$(window).scroll(function () {
 
@@ -37,10 +38,28 @@ $(document).ready(function () {
   $('.ui.checkbox').checkbox();
 
 	$('.log-in').bind('click',function() {
-		$('.ui.modal').modal({
+		$('#login').modal({
       closable:false,
     }).modal('show');
 	});
+
+  $('.sell-in').bind('click',function() {
+    $('#sell').modal({
+      closable:false,
+    }).modal('show');
+  });
+
+  $('.post-in').bind('click',function() {
+    $('#post').modal({
+      closable:false,
+    }).modal('show');
+  });
+
+  $('.leads-in').bind('click',function() {
+    $('#leads').modal({
+      closable:false,
+    }).modal('show');
+  });
 
 });
 
