@@ -21,6 +21,14 @@ $(document).ready(function () {
 	$('.toggle.button').removeClass('disabled');
 
   $('.menu .item').tab();
+
+  $('.compact.button')
+  .popup({
+    inline: true,
+    on    : 'click',
+    position: 'bottom left'
+  })
+;
 	
 	$(window).scroll(function () {
 
@@ -57,6 +65,12 @@ $(document).ready(function () {
 
   $('.leads-in').bind('click',function() {
     $('#leads').modal({
+      closable:false,
+    }).modal('show');
+  });
+
+  $('.req-details').bind('click',function() {
+    $('#req-details').modal({
       closable:false,
     }).modal('show');
   });

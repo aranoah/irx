@@ -1,0 +1,30 @@
+<!-- Request-Details popup -->
+<script type="text/javascript" src="/js/common/http.js"></script>
+<div id="req-details" class="ui modal pop-up sell-post" style="background-color:#f8f8f8;">  
+  <div class="content" style="border-bottom:1px solid #eaeaea;background-color:#fff;">
+    <div class="ui grid">
+      <h2 class="ui header eight wide column">Request Details</h2>
+      <i class="column right floated remove circle close icon"></i>
+    </div>
+  </div>
+  
+    
+    <!-- Request details starts here -->
+        
+          <div class="ui info message" style="margin:2rem;text-align:center;">
+            <div class="header">
+              A mail regarding project details has sent to you successfully.<br/>
+              <a style="cursor:pointer;"">Click here to view the mail</a>
+            </div>            
+          </div>
+
+    <!-- Ends here -->  
+  
+</div>
+ <script type="text/javascript" src="/js/common/common.js"></script>
+ <script>
+  $(document).ready(function(){
+    var common = new Common();
+    common.init();
+  })
+ </script>
