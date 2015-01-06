@@ -42,13 +42,15 @@ module.exports = function routes() {
   /*
   * Home Page
   */
-  this.match('agent-autocomplete',{ controller: 'list/rest/agent', action: 'agentAutocomplete' , via: 'GET' });
+  this.match('agent-autocomplete',{ controller: 'list/rest/agentList', action: 'agentAutocomplete' , via: 'GET' });
   this.match('autocomplete',{ controller: 'list/rest/project', action: 'autocomplete' , via: 'GET' });
-  this.match('project-autocomplete',{ controller: 'list/rest/project', action: 'projectAutocomplete' , via: 'GET' });
+  this.match('project-autocomplete',{ controller: 'list/rest/projectList', action: 'projectAutocomplete' , via: 'GET' });
   
   /*
   * Listing Related urls
   */
+  
+  this.match('list-projects-elastic',{ controller: 'list/rest/projectList', action: 'listProjectsElastic' , via: 'POST' });
   this.match('list-projects',{ controller: 'list/rest/projectList', action: 'listProjects' , via: 'POST' });
   this.match('list-agents',{ controller: 'list/rest/agentList', action: 'listAgents' , via: 'POST' });
   /*

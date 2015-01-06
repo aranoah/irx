@@ -52,8 +52,8 @@
 	    </div>
 
 	    <!-- Project Listing goes here -->
-
-	    <div id="projListing" data-bind="foreach : projects">
+	    <div id="projListing">
+	    <div data-bind="foreach : projects">
 	    	<div class="ui items proj-listing">
 				<div class="four column row">
 					<div class="left floated column">
@@ -102,8 +102,9 @@
 					</div>				  
 				</div>
 			</div>
+			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
-		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }">loading</div>
+		</div>
 	    <!-- Project ends here -->
 	</div>
 	<script type="text/javascript">
@@ -116,13 +117,13 @@
 	Project.prototype.init = function() {
 
 		var _classInstance = this;
-
-		ko.bindingHandlers.scroll = {
+  
+		_classInstance.scroller = ko.bindingHandlers.scroll = {
 
 		  updating:true,
 		  
 		  init: function(element, valueAccessor, allBindingsAccessor) {
-		  	  
+		  	
 		      var self = this
 		      self.updating =(true);
 		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
@@ -131,6 +132,7 @@
 		      });
 		      $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
 		      $(element).on('__sc__more', function(e,flag){
+		      		
 				  	 var ele_more = $('#_sc_more');
 				  	 if(typeof(flag) == "undefined"){
 				  	 	return ele_more.attr("hasMore")=='true';
@@ -147,12 +149,13 @@
 		  		},
 
 		  update: function(element, valueAccessor, allBindingsAccessor){
+
 		    var props = allBindingsAccessor().scrollOptions
 		    var offset = props.offset ? props.offset : "0"
 		    var loadFunc = props.loadFunc
 		    var load = ko.utils.unwrapObservable(valueAccessor());
 		    var self = this;
-
+		    alert(load)
 		    if(load){
 		      element.style.display = "";
 		      $(window).on("scroll.ko.scrollHandler", function(){
@@ -163,6 +166,7 @@
 		          	self.updating =(false);
 
 		            _classInstance.listProjects(false,function(success){
+		            	alert(123)
 		            	self.updating=success;
 		            	$(element).trigger('__sc__more',success)
 		            })
@@ -177,48 +181,70 @@
 		        self.updating = false
 		    }
 		  }
-		 }
-
+		 };
+		 
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
-			filters:{
-				name: ko.observable(""),
-				type: ko.observable(""),
-				bhk: ko.observable("")
+			filters: {
+				name:ko.observable(""),
+				bhk:ko.observable("")
 			},
 			addSome : function(){
-				_classInstance.listProjects(true);
+				
+				//_classInstance.listProjects(true);
 			},
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
 		}
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
-		_classInstance.listProjects()
+		_classInstance.listProjects(true);
+	};
+
+	Project.prototype.resetFilters = function(filters) {
+		var _classInstance=this;
+		_classInstance.viewModel.filters.name(filters.name)
+		_classInstance.viewModel.filters.bhk(filters.bhk)
+		classInstance.page.start=0;
+		_classInstance.scroller.updating=true;
+	}
+	
+	Project.prototype.renderResult = function(data,filters) {
+
+
+		var classInstance = this;  
+		classInstance.viewModel.projects([]);
+		classInstance.viewModel.filters=filters
+		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        classInstance.viewModel.start(classInstance.page.start) ;
+	        classInstance.viewModel.pageSize=data.page.pageSize;
+
 	}
 	
 	Project.prototype.listProjects = function(replace,setUpdate) {
+		
     	var classInstance = this;
-	    httpUtils.post("/list-projects",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
+	    httpUtils.post("/list-projects-elastic",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	} 
-	       		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
-	       	
-	        
-	        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	       ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;
 	        if(setUpdate){
+	        	
 	       		setUpdate(data.page.hasMore)
 	       	}
 	        }
 		})
 	 }
-
+var project = null;
 	$(document).ready(function(){
 	  
-	    var project = new Project();
+	    project = new Project();
+
 	    project.init();
 	    
 	  })

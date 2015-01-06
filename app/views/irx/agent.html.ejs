@@ -90,7 +90,7 @@
 		  </div>
 
 		</div>	   
-		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
+		<div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
 	  </div> 
 	    
 	</div>
@@ -109,7 +109,7 @@
 		  updating:true,
 		  
 		  init: function(element, valueAccessor, allBindingsAccessor) {
-		  	  
+		  	 
 		      var self = this
 		      self.updating =(true);
 		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
@@ -150,6 +150,7 @@
 		          	self.updating =(false);
 
 		            _classInstance.listAgents(false,function(success){
+		            	
 		            	self.updating=success;
 		            	$(element).trigger('__sc__more',success)
 		            })
@@ -176,7 +177,8 @@
 			start: ko.observable(),
 			total: ko.observable(),
 			addSome : function(){
-				_classInstance.listAgents(true);
+				alert(1123444)
+				//_classInstance.listAgents(true);
 			}
 		}
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));
