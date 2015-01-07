@@ -10,7 +10,7 @@
 	position: absolute !important;
 	top: 0;	right: 0;
 	font-size: 1.8rem !important;
-	color: rgba(56, 183, 234, 0.6);
+	color: rgba(56, 183, 234, 0.7);
 	margin: 1rem;
 	cursor: pointer;
 }
@@ -103,4 +103,22 @@
 .ui.transparent.left.icon.input>input {
 	padding-top: .5em;
 	padding-bottom: .5em; 
+}
+
+.ui.bottom.attached.tab.segment>.ui.cards {
+	padding: 1.5rem 0;
+}
+
+.ui.bottom.attached.tab.segment .card {
+	background-color: #fbfbfb;
+	width: 269px !important;
+}
+
+.ui.bottom.attached.tab.segment .card .header {
+	color: #7b7b7b;
+	font-weight: normal;
+}
+
+.ui.bottom.attached.tab.segment .card .meta {
+	color: #38b7ea;
 }

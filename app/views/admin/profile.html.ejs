@@ -65,12 +65,19 @@
           
           <div class="admin-profile">
             <div class="ui top attached tabular menu">
-              <a class="active item" data-tab="first"><i class="building outline icon"></i>products</a>
-              <a class="item" data-tab="second"><i class="user icon"></i>leads</a>
+              <a class="item" data-tab="first"><i class="building outline icon"></i>products</a>
+              <a class="active item" data-tab="second"><i class="user icon"></i>leads</a>
               <a class="item" data-tab="third"><i class="history icon"></i>last visited</a>
-              <a class="item right floated column" data-tab="third"><i class="settings icon"></i>settings</a>
+              <a class="ui dropdown item right floated column">
+                <i class="settings icon"></i>settings
+                <div class="menu">
+                  <div class="item">Suspend Account</div>
+                  <div class="divider"></div>
+                  <div class="item">Reset Password</div>
+                </div>
+              </a>
             </div>
-            <div class="ui bottom attached active tab segment" data-tab="first">
+            <div class="ui bottom attached tab segment" data-tab="first">
               <h3 class="ui heading">manage products</h3>
               <div class="ui stackable two column grid">
                 <div class="column left-portion">
@@ -174,9 +181,46 @@
                 </div>
               </div>
             </div>
-            <div class="ui bottom attached tab segment" data-tab="second">
-              Second
+
+            <div class="ui bottom attached active tab segment" data-tab="second">
+              <h3 class="ui heading">manage leads</h3>
+              <div class="ui cards">
+                <div class="card">
+                  <div class="content">
+                    <div class="header">Hament Aggarwal</div>
+                    <div class="meta">Buy / Sell / Rent</div>
+                    <div class="description">
+                      hament@aranoah.com<br/>+91 8860998438
+                    </div>
+                  </div>
+                </div><div class="card">
+                  <div class="content">
+                    <div class="header">Hament Aggarwal</div>
+                    <div class="meta">Buy / Sell / Rent</div>
+                    <div class="description">
+                      hament@aranoah.com<br/>+91 8860998438
+                    </div>
+                  </div>
+                </div><div class="card">
+                  <div class="content">
+                    <div class="header">Hament Aggarwal</div>
+                    <div class="meta">Buy / Sell / Rent</div>
+                    <div class="description">
+                      hament@aranoah.com<br/>+91 8860998438
+                    </div>
+                  </div>
+                </div><div class="card">
+                  <div class="content">
+                    <div class="header">Hament Aggarwal</div>
+                    <div class="meta">Buy / Sell / Rent</div>
+                    <div class="description">
+                      hament@aranoah.com<br/>+91 8860998438
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div class="ui bottom attached tab segment" data-tab="third">
               Third
             </div>
