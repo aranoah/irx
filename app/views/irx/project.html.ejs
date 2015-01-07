@@ -77,7 +77,9 @@
 	    </div>
 
 	    <!-- Project Listing goes here -->
-	    
+	    <div data-bind="visible:projects().length==0">
+	    	No Search Results
+	    </div>
 	    <div data-bind="foreach : projects">
 	    	<div class="ui items proj-listing">
 				<div class="four column row">
@@ -125,6 +127,9 @@
 						<div class="ui basic button">View agents</div>
 						<div class="ui basic button req-details">Request details</div>
 					  </div>
+					  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
+					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					</div>				  
 				</div>
 			</div>
@@ -210,14 +215,26 @@
 		    }
 		  }
 		 };
-		 
+		 var filterName = $('#__filterName').val()
+		 if(typeof(filterName) == "undefined" || filterName == null ){
+		 	filterName = "";
+		 }
+		 var filterBhk = $('#__filterBhk').val()
+		 if(typeof(filterBhk) == "undefined" || filterBhk == null ){
+		 	filterBhk = "";
+		 }
+		  var filterType = $('#__filterType').val()
+		 if(typeof(filterType) == "undefined" || filterType == null ){
+		 	filterType = "";
+		 }
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
+
 			filters: {
 				displayName:ko.observable("All"),
-				name:ko.observable(""),
-				bhk:ko.observable(""),
-				type:ko.observable(""),
+				name:ko.observable(filterName),
+				bhk:ko.observable(filterBhk),
+				type:ko.observable(filterType),
 				order:ko.observable("asc")
 			},
 			addSome : function(){

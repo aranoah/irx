@@ -21,7 +21,7 @@ var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
 var projdetController = new Controller();
 
-
+var commonValidator = require(_path_util+"/commonValidator")
 
 /*
 * 	Project-Detailing page 
@@ -33,5 +33,6 @@ projdetController.main = function() {
   console.log("In main Method")
   this.title = "Project-Detailing page";
   this.render("irx/projdet"); 
+ 
 }
 module.exports = projdetController;
