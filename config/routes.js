@@ -40,10 +40,19 @@ module.exports = function routes() {
   this.match("leads", {controller: 'user/rest/user', action:'leads', via:'POST'});
   
   /*
+  * Home Page
+  */
+  this.match('agent-autocomplete',{ controller: 'list/rest/agentList', action: 'agentAutocomplete' , via: 'GET' });
+  this.match('autocomplete',{ controller: 'list/rest/project', action: 'autocomplete' , via: 'GET' });
+  this.match('project-autocomplete',{ controller: 'list/rest/projectList', action: 'projectAutocomplete' , via: 'GET' });
+  
+  /*
   * Listing Related urls
   */
-  this.match('list-projects',{ controller: 'list/rest/project', action: 'listProjects' , via: 'POST' });
-  this.match('list-agents',{ controller: 'list/rest/agent', action: 'listAgents' , via: 'POST' });
+  
+  this.match('list-projects-elastic',{ controller: 'list/rest/projectList', action: 'listProjectsElastic' , via: 'POST' });
+  this.match('list-projects',{ controller: 'list/rest/projectList', action: 'listProjects' , via: 'POST' });
+  this.match('list-agents',{ controller: 'list/rest/agentList', action: 'listAgents' , via: 'POST' });
   /*
   * User Related urls
   */
@@ -68,8 +77,9 @@ module.exports = function routes() {
 
   this.match('associate-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
   this.match('delete-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteProject' , via: 'GET' });
-  this.match('list-project',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
-  this.match('project-autocomplete',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
+  this.match('list-product/:type',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
+  this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
+  this.match('list-associated-product/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   
   // mark-distress
   // array of object having bhks which have been marked distress
@@ -106,5 +116,6 @@ module.exports = function routes() {
   
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
+
 }
   

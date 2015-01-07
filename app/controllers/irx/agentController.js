@@ -30,7 +30,7 @@ var agentController = new Controller();
 
 
 agentController.main = function() {
-  console.log("In main Method")
+  console.log("In main Method for agent listing")
   this.title = "Agent-Listing page";
   this.render("irx/agent"); 
 }

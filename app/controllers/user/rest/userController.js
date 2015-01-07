@@ -58,7 +58,6 @@ userController.validate_updateUser=function(){
     console.log(myvalidator.getErrors())
 }
 
-
 /*
 * 	Create User and send verification url
 *	

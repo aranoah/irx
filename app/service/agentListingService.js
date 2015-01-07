@@ -61,15 +61,28 @@ AgentListingService.prototype.listAgents = function(data){
 	}
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
-	console.log(query)
+	
 	IRXUserProfileModel.find(query,{},{skip:start,limit:pageSize},function(err , result){
 		if(err){
 			console.error(err)
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 		}else{
 			if(data != null){
-				_selfInstance.processPagenation(result,page)
-				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+				if(page.start == 0){
+					IRXUserProfileModel.count(query, function(err, count) {
+						if(err){
+
+						}else{
+							page['total']=count;
+								_selfInstance.processPagenation(result,page)
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+						}
+					});
+				}else{
+						_selfInstance.processPagenation(result,page)
+						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+				}
+			
 			}
 			else {
 				console.log("Agent data not found")

@@ -13,7 +13,7 @@ Common.prototype.init = function(first_argument) {
            classInstance.login();
         }
 	}
-	 ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
+	 ko.applyBindings(classInstance.viewModel,document.getElementById("login-box"));
 };
 Common.prototype.login = function() {
 	var classInstance = this;

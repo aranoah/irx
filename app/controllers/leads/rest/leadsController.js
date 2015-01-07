@@ -108,14 +108,14 @@ module.exports = leadsController;
 **/
 leadsController.listLeads = function() {
   var lService = new leadService();
-  console.log("Leadsssss...")
+
   var _nself = this;
   lService.on("done", function(code,msg,err,errValue){
    _nself.processJson(code,msg,err,errValue);
   });
   var data = {
     "userId":_nself.req.session['X-CS-Auth'].userId,
-    page:_nself.req.params.page
+    page:_nself.req.params.page,
   }
   lService.listLeads(data);
 }

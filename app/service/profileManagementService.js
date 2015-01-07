@@ -256,15 +256,17 @@ IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USE
 /**
 *   List project for association to agents  projectAutocomplete
 */
-PMService.prototype.listProject = function(page) {
+PMService.prototype.listProject = function(data) {
 	var _selfInstance = this;
+	var page = data.page;
+	var type = data.type;
 	if(!page){
 		page=defPage;
 	}
 
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
-	IRXProductLineModel.find({},{},{skip:start,limit:pageSize },
+	IRXProductLineModel.find({"productType":type},{},{skip:start,limit:pageSize },
 		function(err,projectDetails){
 			if(err){
 				console.log(err)
@@ -287,7 +289,7 @@ PMService.prototype.projectAutocomplete = function(data) {
 	}
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
-	IRXProductLineModel.find({ "name": { $regex: "^"+data.str+"*", $options: 'i' } },{},{skip:start,limit:pageSize },
+	IRXProductLineModel.find({ "name": { $regex: "^"+data.str+"*", $options: 'i' },"productType":data.type },{},{skip:start,limit:pageSize },
 		function(err,projectDetails){
 			if(err){
 				console.log(err)

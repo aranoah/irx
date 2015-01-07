@@ -38,4 +38,26 @@ agentController.listAgents = function() {
     
     agentListService.listAgents(_nself.req.body);
 };
+
+agentController.agentAutocomplete = function() {  
+  var _selfInstance = this;
+  var text = this.req.query.text;
+    _app_context.esClient.search({
+    index: 'irx_schema',
+    type:"irx-euser",
+    body: {
+      query: {
+        prefix: {
+          name: text
+        }
+      }
+    }
+  }).then(function (resp) {
+    var hits = resp.hits.hits;
+   _selfInstance.processJson(STATUS.OK.code,STATUS.OK.msg,hits,null);
+}, function (err) {
+   _selfInstance.processJson(STATUS.SERVER_ERROR.code,STATUS.SERVER_ERROR.msg,err,null);
+});
+}
+
 module.exports=agentController

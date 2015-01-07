@@ -30,7 +30,7 @@
 	  <div class="fourteen wide column">
 	  	<div class="ui grid two column rib-head">
 	    	<h2 class="ui header column">Showing results <a>
-	    	<span data-bind="text :start">20</span> out of 50</a></h2>
+	    	<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a></h2>
 	    	<div class="header column right menu">
 	    		<div class="ui checkbox">
 			      <input type="checkbox">
@@ -90,8 +90,9 @@
 		  </div>
 
 		</div>	   
-		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
-	  </div>    
+		<div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
+	  </div> 
+	    
 	</div>
 		<script type="text/javascript">
 	function Agent(options){
@@ -103,19 +104,34 @@
 	Agent.prototype.init = function() {
 
 		var _classInstance = this;
-	
 		ko.bindingHandlers.scroll = {
 
-		  updating: true,
-
+		  updating:true,
+		  
 		  init: function(element, valueAccessor, allBindingsAccessor) {
+		  	 
 		      var self = this
-		      self.updating = true;
+		      self.updating =(true);
 		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
 		            $(window).off("scroll.ko.scrollHandler")
-		            self.updating = false
+		            self.updating= (false); 
 		      });
-		  },
+		      $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
+		      $(element).on('__sc__more', function(e,flag){
+				  	 var ele_more = $('#_sc_more');
+				  	 if(typeof(flag) == "undefined"){
+				  	 	return ele_more.attr("hasMore")=='true';
+				  	 }else{
+				  	 	if(flag){
+				  	 		ele_more.show();
+				  	 	}else{
+				  	 		ele_more.hide();
+				  	 	}
+				  	 	ele_more.attr("hasMore",flag);
+				  	 	return flag;
+				  	 }
+				  })
+		  		},
 
 		  update: function(element, valueAccessor, allBindingsAccessor){
 		    var props = allBindingsAccessor().scrollOptions
@@ -123,19 +139,24 @@
 		    var loadFunc = props.loadFunc
 		    var load = ko.utils.unwrapObservable(valueAccessor());
 		    var self = this;
-		   
+
 		    if(load){
 		      element.style.display = "";
 		      $(window).on("scroll.ko.scrollHandler", function(){
+		      	
 		        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
 		          if(self.updating){
-		            _classInstance.listAgents()
-		            self.updating = false;
+		          	
+		          	self.updating =(false);
+
+		            _classInstance.listAgents(false,function(success){
+		            	
+		            	self.updating=success;
+		            	$(element).trigger('__sc__more',success)
+		            })
 		          }
 		        }
-		        else{
-		          self.updating = true;
-		        }
+		       
 		      });
 		    }
 		    else{
@@ -154,26 +175,36 @@
 				bhk: ko.observable("")
 			},
 			start: ko.observable(),
+			total: ko.observable(),
 			addSome : function(){
-				_classInstance.listAgents(true);
+				alert(1123444)
+				//_classInstance.listAgents(true);
 			}
 		}
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));
 		//_classInstance.listAgents();
 	}
 	
-	Agent.prototype.listAgents = function(replace) {
+	Agent.prototype.listAgents = function(replace, setUpdate) {
     	var classInstance = this;
 
 	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
+	    
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.agents([]);
 	       	} 
+	       	if(classInstance.page.start==0){
+	       		classInstance.viewModel.total(data.page.total) ;
+	       	}
 	       		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
 	       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	       		
-	       		classInstance.viewModel.start(classInstance.page.start) ;
+	       		classInstance.viewModel.start(Number(data.page.start)+Number(data.result.length)) ;
+
+	       		if(setUpdate){
+	       			setUpdate(data.page.hasMore)
+	       		}
 
 	        }
 		})

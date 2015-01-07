@@ -17,6 +17,7 @@
 				<i class="mail icon"></i> i'm interested
 			</div>
 		</div>
+		<input id="_projectId" value="<%= projectId %>" type="hidden">
 		<div class="ui inverted title four column row">
 			<div class="left floated column">				
 				<h2 class="ui header">Golden Panorama</h2>
@@ -39,7 +40,7 @@
 		  <tbody>
 		    <tr>
 		      <td>580-1350 sq.ft.</td>
-		      <td>1,2,3,4</td>
+		      <td><%= result.bhk %></td>
 		      <td><%= result.possession %></td>
 		      <td><%= result.type %></td>
 		      <td><%= result.location.city %></td>
@@ -49,7 +50,7 @@
 		<div class="ui inverted xtra four column row">
 			<div class="left floated column">				
 				<h3 class="ui header">Region</h3>
-				<h4 class="ui header">Off Kanakapura Road,Near Nice Road,Bangalore</h4>
+				<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
 			</div>
 			<div class="right floated column">
 				<div class="ui blue button"><i class="icon edit"></i>Request Details</div>
@@ -58,19 +59,106 @@
 		</div>
 		<div class="ui top attached tabular menu">
 		  <a class="active item" data-tab="first">Description</a>
-		  <a class="item" data-tab="second">Preferred Agents</a>
+		  <a class="item" id="pref_agents_btn" data-tab="second">Preferred Agents</a>
 		</div>
 		<div class="ui bottom attached active tab segment" data-tab="first"><%= result.description %></div>
-		<div class="ui bottom attached tab segment" data-tab="second">
-		  Agents
+		<div id="pref_agents" class="ui bottom attached tab segment" data-tab="second">
+		   <div class="ui cards sc" data-bind="foreach : agents">
+
+		  <div class="card">
+		    <div class="ui image tiny">
+		      <img src="/images/elliot.jpg">
+		    </div>
+		    <div class="content">
+
+		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
+		      <a class="group" data-bind="text : companyName">IRX India</a>
+
+		      <div class="content addr-ess">
+    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+    		  </div>
+		      <div class="description">
+		        Specialities : 
+		        <span data-bind="foreach : specialities">
+			        <!-- ko if:$index()<=1 -->
+			        	<span class="header" data-bind="text : $data"></span>
+			        	 <!-- ko if:$index()==0 -->
+			        	 	<span class="header">,</span>
+			        	 <!-- /ko -->
+			        <!-- /ko -->
+			    </span>
+		        <span data-bind="if:specialities.length>2">
+		        (+
+		        	<span class="header" data-bind="text : specialities.length-2"></span>)
+		        </span>
+		       </div>
+		    </div>
+		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
+		    <div class="extra content">
+		      <div class="right floated created">
+		        <a href=""><i class="facebook square icon"></i></a>
+		        <a href=""><i class="share square icon"></i></a>
+		      </div>
+		      <a class="friends">
+		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
+		         &nbsp;&nbsp;Projects
+		      </a><a class="friends">
+		        <i class="location arrow icon"></i>
+		        22 Locations
+		      </a>
+		    </div>
+		  </div>
+
+		</div>	
 		</div>
 	</div>
 	<div class="seven wide column">
-		<img class="ui medium rounded image" src="/images/square-image.png">
+		<img class="ui medium rounded image" src="/images/project.jpg">
 	</div>
 
   <!-- Proj detailing ends here -->
 
+<script type="text/javascript">
+	function Project(option){
+		page={
+			start:0,
+			pageSize:5
+		}
+	}
+	
+	Project.prototype.init = function() {
+	    var _classInstance = this;
+	    _classInstance.viewModel = {
+	      agents: ko.observableArray()
+	    }
 
+	  	ko.applyBindings(_classInstance.viewModel,document.getElementById('pref_agents'));
+	  	$('#pref_agents_btn').click(function(){
+	  		
+	  		if(_classInstance.viewModel.agents().length ==0){
+	  			var projectId= $('#_projectId').val();
+	  			_classInstance.listPreferredAgents(projectId);
+	  		}
+	  		
+	  	})
+	}
+	
+	Project.prototype.listPreferredAgents = function(projectId) {
+		var classInstance = this;
+    	httpUtils.get("/prefered-agents/"+projectId,{page:classInstance.page},"JSON",function(data){
+	       	if(data.status==0){
+	        	ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
+	        	classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	       	} 
+    	})
+	}
+
+	$(document).ready(function(){
+		var proj = new Project();
+		proj.init();
+		
+	})
+
+</script>
 	
 </body>

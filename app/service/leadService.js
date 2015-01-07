@@ -182,7 +182,7 @@ LeadService.prototype.listLeads = function(data) {
 			}
 			else {
 				console.log("Lead data not found")
-				_selfInstance.emit("done",404,"Project data not found","Lead data not found",null);
+				_selfInstance.emit("done",404,"Lead data not found","Lead data not found",null);
 			 			
 			}
 		}
