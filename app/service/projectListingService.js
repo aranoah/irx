@@ -84,7 +84,7 @@ ProjectListingService.prototype.listProjects = function(data){
 ProjectListingService.prototype.listProjectsElastic = function(data) {  
   var _selfInstance = this;
   //var text = this.req.params.text;
-  var query = {};
+  var query = new Array();
 	var filters = data.filters;
 	var page = data.page;
 	if(!page) {
@@ -92,34 +92,60 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		
 	}
 	if(filters && filters.city != null &&  filters.city != "") {
-		query.location={city:filters.city};
+		//query.push(location={city:filters.city};
+			var match = {
+			"match":{
+				"location":{"city":filters.city}
+			}
+		}
+		query.push(match);
 		
 	}
 	if(filters && filters.type != null &&  filters.type != "") {
-		query.type=filters.type;
+		var match = {
+			"match":{
+				"type":Number(filters.type)
+			}
+		}
+		query.push(match);
 	}
 	if(filters && filters.bhk != null &&  filters.bhk != "") {
-		query.bhk=Number(filters.bhk);
+		var match = {
+			"match":{
+				"bhk":Number(filters.bhk)
+			}
+		}
+		query.push(match);
 	}
 	if(filters && filters.budget != null && filters.budget != "") {
 		query.price=filters.budget;
 	}
 	if(filters && filters.name != null &&  filters.name != "") {
-		query.name=filters.name;
+		var match = {
+			"match":{
+				"name":filters.name
+			}
+		}
+		query.push(match);
 	}
-	var elasticQuery={match:query};
-	if(Object.getOwnPropertyNames(query).length==0){
-		elasticQuery={match_all:query}
+	
+	if(query.length==0){
+		query={match_all:query}
 	}
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
+	var order= "asc";
+	if(filters.sortOrder && filters.sortOrder != null && filters.sortOrder!=""){
+		order=filters.sortOrder;
+	}
     _app_context.esClient.search({
     index: 'irx_schema',
     type:"irx-eproduct",
     body: {
-      query: elasticQuery,
+      query: {bool:{must:query}},
       from:start,
-      size:pageSize
+      size:pageSize,
+      sort:{ "price" : {"order" : order}}
     }
   }).then(function (resp) {
     var hits = resp.hits.hits;

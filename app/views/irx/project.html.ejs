@@ -2,6 +2,28 @@
 <html>
 <head>
   <% include ../partials/head.html.ejs %>
+  <style type="text/css">
+  	.ui.header .icon:only-child {
+	  display: inline-block;
+	  padding: 0;
+	  margin-right: .5rem;
+	  vertical-align: baseline;
+	  font-size: medium;
+	}
+	.proj-listing h5.ui.header {
+	  padding-left: 1.2rem;
+	  opacity: .8;
+	  font-weight: 300;
+	}
+	.ui.items>.item>.content a {
+	  color: #607d8b !important;
+	  -webkit-transition: color .2s ease;
+	  transition: color .2s ease;
+	}
+	.pDate {
+		margin-right: 15px;
+	}
+  </style>
   
 </head>
 <% locals.uiContext.menu=false %>
@@ -19,12 +41,15 @@
   <% include ../partials/searchbar.html.ejs %>
 
   <!-- agents Listing goes here -->
-
+<div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
 	  <div class="twelve wide column">
 
 	  	<div class="ui grid two column rib-head">
-	    	<h2 class="ui header column">Showing results <a>20 out of 50</a></h2>
+	    	<h2 class="ui header column">Showing results for 
+
+	    		<a data-bind="text:filters.displayName"></a>
+	    	</h2>
 	    	<div class="header ui two column grid right menu">
 	    		<div class="six wide column">
 			        <div class="ui selection dropdown">
@@ -41,18 +66,18 @@
 			      </div>
 				<div class="ui selection dropdown item">
 				    Sort by relevance
-				    <div class="menu">
-				      <div class="item">Newest</div>
-				      <div class="item">Price : High to Low</div>
-				      <div class="item">Price : Low to High</div>
+				    <div class="menu" data-bind="value:filters.order">
+				      <div class="item" data-value="asc">Newest</div>
+				      <div class="item" data-value="desc">Price : High to Low</div>
+				      <div class="item" data-value="asc">Price : Low to High</div>
 				    </div>
 				    <i class="sort right icon"></i>
-				  </div>
+				</div>
 	    	</div>
 	    </div>
 
 	    <!-- Project Listing goes here -->
-	    <div id="projListing">
+	    
 	    <div data-bind="foreach : projects">
 	    	<div class="ui items proj-listing">
 				<div class="four column row">
@@ -61,7 +86,7 @@
 						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.city--><!--/ko--></h5>
 					</div>					
 					<div class="right floated column menu">						
-					  	<div class="extra">
+					  	<div class="extra pDate">
 					    	<span class="cinema">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></span>
 					  	</div><div class="ui checkbox">
 						  <input type="checkbox" value="small" checked="checked">
@@ -71,7 +96,7 @@
 				</div>
 				<div class="item">
 					<div class="image">
-					  <img src="/images/square-image.png">
+					  <img src="/images/project.jpg">
 					</div>
 					<div class="content">				  
 					  <div class="ui left floated">				  	
@@ -105,8 +130,10 @@
 			</div>
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
-		</div>
+		
 	    <!-- Project ends here -->
+	</div>
+	</div>
 	</div>
 	<script type="text/javascript">
 	function Project(options){
@@ -156,7 +183,7 @@
 		    var loadFunc = props.loadFunc
 		    var load = ko.utils.unwrapObservable(valueAccessor());
 		    var self = this;
-		    alert(load)
+		    
 		    if(load){
 		      element.style.display = "";
 		      $(window).on("scroll.ko.scrollHandler", function(){
@@ -187,8 +214,11 @@
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			filters: {
+				displayName:ko.observable("All"),
 				name:ko.observable(""),
-				bhk:ko.observable("")
+				bhk:ko.observable(""),
+				type:ko.observable(""),
+				order:ko.observable("asc")
 			},
 			addSome : function(){
 				
@@ -214,8 +244,10 @@
 
 		var classInstance = this;  
 		classInstance.viewModel.projects([]);
-		classInstance.viewModel.filters=filters
+		classInstance.viewModel.filters.name(filters.name);
+		classInstance.viewModel.filters.displayName(filters.name);
 		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+		$('.doubling.two.column.row').hide();
 		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;

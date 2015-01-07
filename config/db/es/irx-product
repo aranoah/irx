@@ -8,7 +8,7 @@
 	   	    "builtUpArea":{"type": "nested"},
 		    "price":{"type":"integer"},
 	   	    "type":{"type": "string"},
-	   	    "bhk":{"type":"integer"},
+	   	    "bhk":{"type": "string","index_analyzer": "shingle_analyzer"},
             "possession":{"type":"string"},
             "location":{"type":"nested"}
         }

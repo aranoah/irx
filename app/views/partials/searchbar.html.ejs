@@ -183,6 +183,9 @@ li.ui-menu-item {
         if(result.status==0){
         
           project.renderResult(result,data)
+        }else{
+        var arr = new Array();
+          project.renderResult(arr,data)
         }
     })
     }

@@ -17,6 +17,7 @@
 				<i class="mail icon"></i> i'm interested
 			</div>
 		</div>
+		<input id="_projectId" value="<%= projectId %>" type="hidden">
 		<div class="ui inverted title four column row">
 			<div class="left floated column">				
 				<h2 class="ui header">Golden Panorama</h2>
@@ -135,15 +136,16 @@
 	  	$('#pref_agents_btn').click(function(){
 	  		
 	  		if(_classInstance.viewModel.agents().length ==0){
-	  			_classInstance.listPreferredAgents();
+	  			var projectId= $('#_projectId').val();
+	  			_classInstance.listPreferredAgents(projectId);
 	  		}
 	  		
 	  	})
 	}
 	
-	Project.prototype.listPreferredAgents = function(first_argument) {
+	Project.prototype.listPreferredAgents = function(projectId) {
 		var classInstance = this;
-    	httpUtils.get("/prefered-agents/548eefd75a82585c1e625a91",{page:classInstance.page},"JSON",function(data){
+    	httpUtils.get("/prefered-agents/"+projectId,{page:classInstance.page},"JSON",function(data){
 	       	if(data.status==0){
 	        	ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
 	        	classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
