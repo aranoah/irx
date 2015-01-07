@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+
+  <script type="text/javascript" src="/js/library/knockout-3.2.0.js"></script>
+  <script type="text/javascript" src="/js/library/knockout.mapping-latest.js"></script>
+  <script type="text/javascript" src="/js/common/http.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="/css/admin-profile.css">
+</head>
+<body>  
+  <% include ../partials/header.html.ejs %>
+  <!-- content goes here -->
+  
+  <div id="content" class="ui centered page grid admin" style="margin:-1rem 1rem;">
+    <input type="hidden" id="__userId" value="">
+
+    <div class="fourteen wide column">
+
+      <div class="ui two column center aligned stackable divided grid">
+
+      <!-- Left panel starts here -->
+
+      <div class="four wide column">
+        <div class="column li-box">
+          <i class="profile edit icon"></i>
+          <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
+          <div class="item"><div class="header">Aaron Paul</div>Company name</div>
+          <img class="" src="/img/fb.png">
+
+          <div class="lib-actions">
+            <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
+            <div class="ui basic button">Enquiry now</div>
+          </div>
+
+          <div class="lib-count">
+            <div class="item left floated"><div class="header">10</div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
+          </div>
+
+          <div class="lib-specs">
+            <div class="header">Specialities :</div>
+            <div class="libs-items">
+                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Resale</div>
+                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Project</div>
+                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Rent</div>
+                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Commercial</div>
+            </div>
+          </div>
+          <div class="ui divided list lib-xtras">
+            <div class="item"><i class="map marker icon"></i>Gurgaon,Haryana</div>
+            <div class="item"><i class="linkify icon"></i>irx.com/karan</div>
+            <div class="item"><i class="mail outline icon"></i>karan@irx.com</div>
+            <div class="item"><i class="call icon"></i>8860998438</div>
+            <!--<a class="lib-url">Get a personalized URL?</a>-->
+          </div>
+
+        </div>
+      </div>
+      <!-- Left panel ends here -->
+
+      <!-- Right panel starts here -->
+
+      <div class="twelve wide column">
+          
+          <div class="admin-profile">
+            <div class="ui top attached tabular menu">
+              <a class="active item" data-tab="first"><i class="building outline icon"></i>products</a>
+              <a class="item" data-tab="second"><i class="user icon"></i>leads</a>
+              <a class="item" data-tab="third"><i class="history icon"></i>last visited</a>
+              <a class="item right floated column" data-tab="third"><i class="settings icon"></i>settings</a>
+            </div>
+            <div class="ui bottom attached active tab segment" data-tab="first">
+              <h3 class="ui heading">manage products</h3>
+              <div class="ui stackable two column grid">
+                <div class="column left-portion">
+                  <div class="item">
+                    <div class="right floated compact ui button">Add new</div>                    
+                    <div class="ui fluid popup">
+                      <div class="column left-portion">
+                        <div class="item">
+                            <div class="ui transparent left icon input">
+                              <input type="text" placeholder="Search projects...">
+                              <i class="search icon"></i>
+                            </div>
+                        </div>
+                        <div class="ui items">
+                          <div class="item">
+                            <div class="content left floated">
+                              <a class="header">Ansal Plaza</a>
+                              <div class="meta">
+                                <div class="time">Builder name</div>
+                                <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
+                              </div>
+                            </div>
+                            <div class="right floated content"><i class="add circle icon"></i></div>
+                          </div>
+                        </div><div class="ui items">
+                          <div class="item">
+                            <div class="content left floated">
+                              <a class="header">Ansal Plaza</a>
+                              <div class="meta">
+                                <div class="time">Builder name</div>
+                                <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
+                              </div>
+                            </div>
+                            <div class="right floated content"><i class="add circle icon"></i></div>
+                          </div>
+                        </div><div class="ui items">
+                          <div class="item">
+                            <div class="content left floated">
+                              <a class="header">Ansal Plaza</a>
+                              <div class="meta">
+                                <div class="time">Builder name</div>
+                                <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
+                              </div>
+                            </div>
+                            <div class="right floated content"><i class="add circle icon"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="content">
+                      <h4 class="header">My Projects</h4>
+                    </div>
+                  </div>
+                  <div class="ui items">
+                    <div class="item">
+                      <div class="content left floated">
+                        <a class="header">Ansal Plaza</a>
+                        <div class="meta">
+                          <div class="time">Builder name</div>
+                          <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
+                        </div>
+                      </div>
+                      <div class="right floated content"><i class="remove circle outline icon"></i></div>
+                    </div>
+                  </div><div class="ui items">
+                    <div class="item">
+                      <div class="content left floated">
+                        <a class="header">Ansal Plaza</a>
+                        <div class="meta">
+                          <div class="time">Builder name</div>
+                          <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
+                        </div>
+                      </div>
+                      <div class="right floated content"><i class="remove circle outline icon"></i></div>
+                    </div>
+                  </div><div class="ui items">
+                    <div class="item">
+                      <div class="content left floated">
+                        <a class="header">Ansal Plaza</a>
+                        <div class="meta">
+                          <div class="time">Builder name</div>
+                          <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
+                        </div>
+                      </div>
+                      <div class="right floated content"><i class="remove circle outline icon"></i></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="column right-portion">
+                  <div class="item">
+                    <div class="content">
+                      <h4 class="header">My Locations</h4>
+                    </div>
+                  </div>
+                  <div class="ui info message">
+                    <ul class="list">
+                      <li>No locations associated to your profile currently.</li>
+                      <li><a href="link">Click here to add one</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="second">
+              Second
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="third">
+              Third
+            </div>
+          </div>
+
+      </div>
+
+      <!-- Right panel ends here -->
+    </div>    
+  </div>
+</body>
