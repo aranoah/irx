@@ -105,7 +105,7 @@
 	padding-bottom: .5em; 
 }
 
-.ui.bottom.attached.tab.segment>.ui.cards {
+.ui.bottom.attached.tab.segment>.ui.cards, .ui.bottom.attached.tab.segment>.ui.horizontal.list {
 	padding: 1.5rem 0;
 }
 
@@ -122,3 +122,20 @@
 .ui.bottom.attached.tab.segment .card .meta {
 	color: #38b7ea;
 }
+
+.ui.bottom.attached.tab.segment>.ui.horizontal.list i.icon {
+	vertical-align: top;
+	opacity: .5;
+}
+
+.ui.bottom.attached.tab.segment .ui.horizontal.list span {
+	padding-left: 1rem;
+}
+
+.ui.bottom.attached.tab.segment>.ui.horizontal.list>.item {
+	margin: 0 2.5em 1.5em 0;
+}
+.ui.bottom.attached.tab.segment>.ui.horizontal.list>.item:last-child {
+	margin-right:0; 
+}
+

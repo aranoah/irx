@@ -43,18 +43,18 @@
 		      <td><%= result.bhk %></td>
 		      <td><%= result.possession %></td>
 		      <td><%= result.type %></td>
-		      <td><%= result.location.city %></td>
+		      <td><%= result.location %></td>
 		    </tr>
 		  </tbody>
 		</table>		
 		<div class="ui inverted xtra four column row">
 			<div class="left floated column">				
 				<h3 class="ui header">Region</h3>
-				<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
+				<h4 class="ui header"><%= result.location %></h4>
 			</div>
 			<div class="right floated column">
-				<div class="ui blue button"><i class="icon edit"></i>Request Details</div>
-				<div class="ui blue button"><i class="icon help circle"></i>Enquiry Now</div>
+				<div class="ui blue button req-details"><i class="icon edit"></i>Request Details</div>
+				<div class="ui blue button leads-in"><i class="icon help circle"></i>Enquiry Now</div>
 			</div>
 		</div>
 		<div class="ui top attached tabular menu">
