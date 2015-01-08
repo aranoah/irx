@@ -65,8 +65,9 @@
 			        </div>
 			      </div>
 				<div class="ui selection dropdown item">
+				<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
 				    Sort by relevance
-				    <div class="menu" data-bind="value:filters.order">
+				    <div class="menu">
 				      <div class="item" data-value="asc">Newest</div>
 				      <div class="item" data-value="desc">Price : High to Low</div>
 				      <div class="item" data-value="asc">Price : Low to High</div>
@@ -199,7 +200,7 @@
 		          	self.updating =(false);
 
 		            _classInstance.listProjects(false,function(success){
-		            	alert(123)
+		            	
 		            	self.updating=success;
 		            	$(element).trigger('__sc__more',success)
 		            })
@@ -241,6 +242,12 @@
 				
 				//_classInstance.listProjects(true);
 			},
+			applyFilters : function(){
+
+				_classInstance.resetPage();
+				_classInstance.listProjects(true);
+				return true;
+			},
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
 		}
@@ -252,10 +259,13 @@
 		var _classInstance=this;
 		_classInstance.viewModel.filters.name(filters.name)
 		_classInstance.viewModel.filters.bhk(filters.bhk)
-		classInstance.page.start=0;
 		_classInstance.scroller.updating=true;
+		_classInstance.resetPage();
 	}
-	
+	Project.prototype.resetPage = function(filters) {
+		var _classInstance=this;
+		_classInstance.page.start=0;
+	}
 	Project.prototype.renderResult = function(data,filters) {
 
 
@@ -290,7 +300,7 @@
 	        }
 		})
 	 }
-var project = null;
+	var project = null;
 	$(document).ready(function(){
 	  
 	    project = new Project();

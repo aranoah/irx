@@ -12,7 +12,7 @@
     _classInstance.viewModel = {
       name : ko.observable(""),
       bhk : ko.observable(""),
-      order : ko.observable("asc")
+      order : ko.observable("asc"),
       propertyType : ko.observable(""),
       searchF : function(formElement) {
         
