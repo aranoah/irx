@@ -135,7 +135,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
 	var sortOrder= "asc";
-	if(filters.order && filters.order != null && filters.order!=""){
+	if(filters && filters.order && filters.order != null && filters.order!=""){
 		sortOrder=filters.order;
 	}
 	
