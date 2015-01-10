@@ -26,32 +26,39 @@
         <div class="column li-box">
           <i class="profile edit icon"></i>
           <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
-          <div class="item"><div class="header">Aaron Paul</div>Company name</div>
+          <div class="item"><div class="header"><%= result.name %></div>Company name</div>
           <img class="" src="/img/fb.png">
 
           <div class="lib-actions">
             <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
-            <div class="ui basic button">Enquiry now</div>
+            <div class="ui basic button">Send Message</div>
           </div>
 
           <div class="lib-count">
             <div class="item left floated"><div class="header">10</div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
           </div>
 
-          <div class="lib-specs">
+         <div class="lib-specs">
             <div class="header">Specialities :</div>
+             <% if(result.specialities) {%>
             <div class="libs-items">
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Resale</div>
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Project</div>
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Rent</div>
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Commercial</div>
+              <% for(var i=0; i<result.specialities.length; i++) {%>
+               
+                
+                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i><%= result.specialities[i] %>
+              </div>
+            <% } %>
+             
             </div>
+            <% } %>
           </div>
-          <div class="ui divided list lib-xtras">
-            <div class="item"><i class="map marker icon"></i>Gurgaon,Haryana</div>
+           <div class="ui divided list lib-xtras">
+            <% if(result.location) {%>
+            <div class="item"><i class="map marker icon"></i><%= result.location.city%>,<%= result.location.state%></div>
+             <% } %>
             <div class="item"><i class="linkify icon"></i>irx.com/karan</div>
-            <div class="item"><i class="mail outline icon"></i>karan@irx.com</div>
-            <div class="item"><i class="call icon"></i>8860998438</div>
+            <div class="item"><i class="mail outline icon"></i><%= result.userId%></div>
+            <div class="item"><i class="call icon"></i><%= result.phoneNum%></div>
             <!--<a class="lib-url">Get a personalized URL?</a>-->
           </div>
 
@@ -87,7 +94,7 @@
                       <div class="column left-portion">
                         <div class="item">
                             <div class="ui transparent left icon input">
-                              <input type="text" placeholder="Search projects...">
+                              <input type="text"  id="__searchPro" placeholder="Search projects...">
                               <i class="search icon"></i>
                             </div>
                         </div>
@@ -134,7 +141,7 @@
                       <div class="item">
                         <div class="content left floated">
                           <a class="header" data-bind="text:name"></a>
-                          <a class="header" data-bind="text:id"></a>
+                          
                           <div class="meta">
                             <div class="time" data-bind="text:builderName"></div>
                             <div class="category" data-bind="text:location.locality"></div>
@@ -238,6 +245,7 @@
   }
   AdminProfile.prototype.init = function() {
     var classInstance = this;
+    
     classInstance.viewModel={
       projects: ko.observableArray(),
       associatedProjects : ko.observableArray(),
@@ -263,7 +271,6 @@
         if(this.leadsPageObj.start() >= this.leadsPageObj.pageSize()){
           this.leadsPageObj.start(this.leadsPageObj.start()-this.leadsPageObj.pageSize()) 
         }
-        
          classInstance.listLeads(true,true);
       }
     }
@@ -271,6 +278,21 @@
     classInstance.listAssociatedProjects();
     classInstance.listAllProjects();
     classInstance.listLeads(false);
+
+    $("#__searchPro").autocomplete({
+
+            source: function(request, response){
+                var _self = this;
+                classInstance.viewModel.projects([])
+              classInstance.getProjectListingAutocomplete(request.term,request,response)
+              },
+              minLength: 0,
+              dataType: "json",
+              cache: false,
+              select: function( event, ui ) {
+                 
+              }
+              });
   }
  
   AdminProfile.prototype.removeAssociatedProject = function(index,id) {
@@ -284,12 +306,24 @@
        } 
     })
  }
-
+  AdminProfile.prototype.getProjectListingAutocomplete=function(text,request,response){
+      var classInstance = this;
+      httpUtils.get("/project-autocomplete",{"text":text,"page":classInstance.page},"JSON",function(data){
+        if(data.status==0){
+           var arr = new Array();
+          for(var i=0;i<data.result.length;i++){
+              arr.push(data.result[i]._source)
+          }
+        ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)
+        }
+    })
+    }
   AdminProfile.prototype.associateProject = function(id) {
     var classInstance = this;
     
     httpUtils.get('/associate-project/'+classInstance.userId+'/'+id,{},"JSON",function(data){
        if(data.status==0){
+
         classInstance.viewModel.associatedProjects.push(data.result);
        } 
     })
@@ -307,9 +341,12 @@
           classInstance.viewModel.leads([])
         }
         ko.utils.arrayPushAll(classInstance.viewModel.leads,data.result)
-        if(Number(data.page.start)!=0){
-
+        if(classInstance.viewModel.leadsPageObj.start() !=0){
+          
           classInstance.viewModel.leadsPageObj.showPrevious(true)
+        }else{
+
+           classInstance.viewModel.leadsPageObj.showPrevious(false)
         }
         
         if(!previous && data.page.hasMore){
