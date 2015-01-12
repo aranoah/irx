@@ -350,6 +350,18 @@ body {
   vertical-align: middle;
 }
 
+/** footer **/
+
+.ui.inverted.footer.vertical.segment {
+  margin: 10rem -1rem 0;
+}
+.ui.inverted.footer.vertical.segment>div {
+  padding: .5rem 0 0 !important;
+}
+.ui.inverted.footer.vertical.segment .thirteen.wide.column {
+  text-align: right;
+}
+
 
 
 /*******************************
