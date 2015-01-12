@@ -32,6 +32,7 @@ var agentController = new Controller();
 agentController.main = function() {
   console.log("In main Method for agent listing")
   this.title = "Agent-Listing page";
+  this.requestObj = this.req.query;
   this.render("irx/agent"); 
 }
 module.exports = agentController;

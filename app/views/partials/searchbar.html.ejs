@@ -28,6 +28,10 @@ li.ui-menu-item {
     list-style: none;
     background:#eee;
 }
+.buttonClass {
+  border: 0;
+  background: none;
+}
   </style>
   <script type="text/javascript" src="/js/common/search.js"></script>
 <div id="searchF">
@@ -69,15 +73,17 @@ li.ui-menu-item {
       </div>
       <div class="item">
         <div class="ui selection dropdown">
-          <input type="hidden" data-bind="value: propertyType" name="Rent">
-          <div class="default text">Rent</div>
+          <input type="hidden" data-bind="value: searchType" name="searchType">
+          <div class="default text">Select</div>
           <i class="angle down icon"></i>
           <div class="menu">
-            <div class="item" data-value="RE">Resale</div>
-            <div class="item" data-value="LA">Land</div>
+            <div class="item" data-value="project">Project</div>
+            <div class="item" data-value="agent">Agent</div>
           </div>
         </div>
       </div>
+      
+       <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
       <div class="item">
         <div class="ui icon input">
           <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
@@ -107,8 +113,17 @@ li.ui-menu-item {
             <input type="checkbox">
           </div>
       </div>
-      <div class="item actions">
+      <div class="item">
+        <button class="buttonClass" type="submit">
+          <div class="ui basic button">
+            <i class="icon search"></i>
+            search
+          </div>
+        </button>
+      </div>
+      <!--<div class="item actions">
         <div class="ui selection dropdown">
+
           <div class="default text">Search</div>
           <i class="angle down icon"></i>
           <div class="menu">
@@ -118,7 +133,7 @@ li.ui-menu-item {
             <div class="item" data-value="project">Agent</div>
 
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
 

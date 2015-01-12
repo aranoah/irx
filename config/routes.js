@@ -43,7 +43,7 @@ module.exports = function routes() {
   * Home Page
   */
   this.match('agent-autocomplete',{ controller: 'list/rest/agentList', action: 'agentAutocomplete' , via: 'GET' });
-  this.match('autocomplete',{ controller: 'list/rest/project', action: 'autocomplete' , via: 'GET' });
+  this.match('autocomplete',{ controller: 'list/rest/projectList', action: 'autocomplete' , via: 'GET' });
   this.match('project-autocomplete',{ controller: 'list/rest/projectList', action: 'projectAutocomplete' , via: 'GET' });
   
   /*

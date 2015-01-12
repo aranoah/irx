@@ -29,7 +29,10 @@
   	<div id="agentContent" class="ui centered page grid">
 	  <div class="fourteen wide column">
 	  	<div class="ui grid two column rib-head">
-	    	<h2 class="ui header column">Showing results <a>
+	    	<h2 class="ui header column">Showing results for 
+
+	    		<a data-bind="text:filters.displayName"></a>
+	    	
 	    	<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a></h2>
 	    	<div class="header column right menu">
 	    		<div class="ui checkbox">
@@ -88,7 +91,11 @@
 		      </a>
 		    </div>
 		  </div>
-
+		  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
+					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
+					  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
+					  
 		</div>	   
 		<div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
 	  </div> 
@@ -166,53 +173,97 @@
 		    }
 		  }
 		 }
-
+		 var filterName = $('#__filterName').val()
+		 if(typeof(filterName) == "undefined" || filterName == null ){
+		 	filterName = "";
+		 }
+		 var filterBhk = $('#__filterBhk').val()
+		 if(typeof(filterBhk) == "undefined" || filterBhk == null ){
+		 	filterBhk = "";
+		 }
+		  var filterType = $('#__filterType').val()
+		 if(typeof(filterType) == "undefined" || filterType == null ){
+		 	filterType = "";
+		 }
+		 var projectIdFilter = $('#__projectIdFilter').val()
+		 if(typeof(projectIdFilter) == "undefined" || projectIdFilter == null ){
+		 	projectIdFilter = "";
+		 }
+		 alert(projectIdFilter)
 		_classInstance.viewModel = {
 			agents: ko.observableArray(),
 			filters:{
-				name: ko.observable(""),
+				name: ko.observable(filterName),
 				type: ko.observable(""),
-				bhk: ko.observable("")
+				bhk: ko.observable(filterBhk),
+				displayName:ko.observable("All"),
+				projectId:ko.observable(projectIdFilter)
 			},
 			start: ko.observable(),
 			total: ko.observable(),
 			addSome : function(){
-				alert(1123444)
 				//_classInstance.listAgents(true);
 			}
 		}
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));
-		//_classInstance.listAgents();
+		_classInstance.listAgents(true);
 	}
 	
 	Agent.prototype.listAgents = function(replace, setUpdate) {
     	var classInstance = this;
-
-	    httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
+    	if(classInstance.viewModel.filters.projectId() != ""){
+    		 
+           httpUtils.get("/prefered-agents/"+classInstance.viewModel.filters.projectId(),
+            {}
+            ,"JSON"
+            ,function(result){
+         		 classInstance.processResult(result,replace,setUpdate)
+          })
+    	}else {
+    		httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
+	    		classInstance.processResult(data,replace,setUpdate)
+	      })
+    	}
 	    
-	       if(data.status==0){
-	       	if(typeof(replace) != undefined && replace){
-	       		classInstance.viewModel.agents([]);
-	       	} 
-	       	if(classInstance.page.start==0){
-	       		classInstance.viewModel.total(data.page.total) ;
-	       	}
-	       		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
-	       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-	       		
-	       		classInstance.viewModel.start(Number(data.page.start)+Number(data.result.length)) ;
-
-	       		if(setUpdate){
-	       			setUpdate(data.page.hasMore)
-	       		}
-
-	        }
-		})
 	 }
+	 Agent.prototype.processResult = function(data,replace,setUpdate) {
+	 	var classInstance=this;
+	 	 if(data.status==0){
+		       	if(typeof(replace) != undefined && replace){
+		       		classInstance.viewModel.agents([]);
+		       	} 
+		       	ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
+		       	if(data.page != null){
+		       		if(classInstance.page.start==0){
+		       		classInstance.viewModel.total(data.page.total) ;
+			       	}
+		       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+		       		classInstance.viewModel.start(Number(data.page.start)+Number(data.result.length)) ;
+					if(setUpdate){
+		       			setUpdate(data.page.hasMore)
+		       		}
+		       	}
+		   }
+	 }
+	Agent.prototype.renderResult = function(data,filters) {
 
+
+		var classInstance = this;  
+		classInstance.viewModel.agents([]);
+		classInstance.viewModel.filters.name(filters.name);
+		classInstance.viewModel.filters.projectId(filters.projectId);
+		classInstance.viewModel.filters.displayName(filters.name);
+		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
+		$('.doubling.two.column.row').hide();
+		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        classInstance.viewModel.start(classInstance.page.start) ;
+	        classInstance.viewModel.pageSize=data.page.pageSize;
+
+	}
+	var agent = null;
 	$(document).ready(function(){
 	  
-	    var agent = new Agent();
+	    agent = new Agent();
 	    agent.init();
 	    
 	  })
