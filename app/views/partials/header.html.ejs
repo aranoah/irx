@@ -12,8 +12,8 @@
       <div class="ui mobile dropdown link item" tabindex="0">
         <i class="content icon toggle button"></i>
       </div>
-      <a class="item">Sell your property</a>
-      <a class="item _post">Post your requirement
+      <a class="item sell-in">Sell your property</a>
+      <a class="item _post post-in">Post your requirement
        </a>
       <% if(locals.session.user) {%>
         <a class="item log-in"><i class="user icon"></i><%= locals.session.user.name %></a>
@@ -32,5 +32,12 @@
     <% include ../partials/searchbar.html.ejs %>
 
 <% } %>
- 
+
+  <% include ../popups/sidebar.html.ejs %>
+  <% include ../popups/login.html.ejs %>
+  <% include ../popups/sell-ur-property.html.ejs %>
+  <% include ../popups/post-ur-req.html.ejs %>
+  <% include ../popups/leads.html.ejs %>
+  <% include ../popups/request-details.html.ejs %>
+
 </div>

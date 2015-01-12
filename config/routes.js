@@ -32,17 +32,25 @@ module.exports = function routes() {
   this.match("login",{ controller: 'user/rest/user', action: 'login' , via: 'POST' } );
   this.match("logout",{ controller: 'user/rest/user', action: 'logout' , via: 'GET' } );
   this.match('rest',{ controller: 'general/rest/rest', action: 'main' , via: 'POST' });
+
+  /** newly added **/
+
+  this.match("sell", {controller: 'user/rest/user', action:'sell', via:'POST'});
+  this.match("post", {controller: 'user/rest/user', action:'post', via:'POST'});
+  this.match("leads", {controller: 'user/rest/user', action:'leads', via:'POST'});
   
   /*
   * Home Page
   */
-  this.match('agent-autocomplete',{ controller: 'list/rest/agent', action: 'agentAutocomplete' , via: 'GET' });
-  this.match('autocomplete',{ controller: 'list/rest/project', action: 'autocomplete' , via: 'GET' });
-  this.match('project-autocomplete',{ controller: 'list/rest/project', action: 'projectAutocomplete' , via: 'GET' });
+  this.match('agent-autocomplete',{ controller: 'list/rest/agentList', action: 'agentAutocomplete' , via: 'GET' });
+  this.match('autocomplete',{ controller: 'list/rest/projectList', action: 'autocomplete' , via: 'GET' });
+  this.match('project-autocomplete',{ controller: 'list/rest/projectList', action: 'projectAutocomplete' , via: 'GET' });
   
   /*
   * Listing Related urls
   */
+  
+  this.match('list-projects-elastic',{ controller: 'list/rest/projectList', action: 'listProjectsElastic' , via: 'POST' });
   this.match('list-projects',{ controller: 'list/rest/projectList', action: 'listProjects' , via: 'POST' });
   this.match('list-agents',{ controller: 'list/rest/agentList', action: 'listAgents' , via: 'POST' });
   /*
@@ -98,8 +106,14 @@ module.exports = function routes() {
   
   this.root({ controller: 'general/pages', action: 'main' });
   this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
+  // this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
   this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
+
+  this.match("project-detailing",{controller: 'irx/projdet', action:'main', via:'GET'});
+
+  this.match("/admin/profile/:userId", {controller: 'admin/profile', action:'main', via:'GET'})
+  
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
 

@@ -1,12 +1,48 @@
 <!-- Search menu goes her
   -->
-<form>
+  <style>
+  .ui-menu .ui-menu-item a {
+    display: block;
+  padding: 8px 10px;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #FFF;
+  border: 1px solid #eee;
+  border-top: 0;
+  border-bottom: 0;
+  font-weight: 400;
+  color: #555;
+  font-size:12px;
+}
+.ui-menu .ui-menu-item a:hover{
+  color:#555;
+}
+ul{
+    -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 0px;
+}
+li.ui-menu-item {
+    list-style: none;
+    background:#eee;
+}
+.buttonClass {
+  border: 0;
+  background: none;
+}
+  </style>
+  <script type="text/javascript" src="/js/common/search.js"></script>
+<div id="searchF">
+<form data-bind="submit: searchF" id="searchForm">
   <div id="searchbar" class="ui inverted menu">
+  
     <div class="ui grid smenu-hide">
       <div class="ui mobile row" tabindex="0">
         <div class="item twelve wide column">
           <div class="ui icon input">
-            <input type="text" placeholder="Search...">
+            <input type="text" placeholder="Search..." >
             <i class="search icon"></i>
           </div>
         </div>
@@ -18,7 +54,7 @@
             <a class="item">Cocktail Hours</a>
             <a class="item">Community</a>
           </div>
-        </div>        
+        </div>
       </div>
     </div>
     <div class="cont-ainer search-menu">
@@ -37,24 +73,30 @@
       </div>
       <div class="item">
         <div class="ui selection dropdown">
-          <input type="hidden" name="Rent">
-          <div class="default text">Rent</div>
+          <input type="hidden" data-bind="value: searchType" name="searchType">
+          <div class="default text">Select</div>
           <i class="angle down icon"></i>
           <div class="menu">
-            <div class="item" data-value="RE">Resale</div>
-            <div class="item" data-value="LA">Land</div>
+            <div class="item" data-value="project">Project</div>
+            <div class="item" data-value="agent">Agent</div>
           </div>
         </div>
       </div>
+      
+       <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
       <div class="item">
         <div class="ui icon input">
-          <input type="text" placeholder="Search...">
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
+          
+
           <i class="search icon"></i>
         </div>
+
       </div>
+
       <div class="item">
         <div class="ui selection dropdown">
-          <input type="hidden" name="BHK">
+          <input type="hidden" data-bind="value: bhk" name="bhk">
           <div class="default text">BHK</div>
           <i class="angle down icon"></i>
           <div class="menu">
@@ -71,17 +113,32 @@
             <input type="checkbox">
           </div>
       </div>
-      <div class="item actions">
+      <div class="item">
+        <button class="buttonClass" type="submit">
+          <div class="ui basic button">
+            <i class="icon search"></i>
+            search
+          </div>
+        </button>
+      </div>
+      <!--<div class="item actions">
         <div class="ui selection dropdown">
+
           <div class="default text">Search</div>
           <i class="angle down icon"></i>
           <div class="menu">
-            
-            <div class="item" data-value="agent">Agent</div>
-            <div class="item" data-value="project">Porject</div>
+
+             
+            <button class="item" data-value="agent" type="submit">Project</button>
+            <div class="item" data-value="project">Agent</div>
+
           </div>
-        </div>
+        </div>-->
       </div>
     </div>
+
   </div>
-</form>
+  </form>
+
+  </div>
+<div id="autoDiv" class="item" style="width:100px"></div>

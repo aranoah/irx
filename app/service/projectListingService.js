@@ -52,7 +52,7 @@ ProjectListingService.prototype.listProjects = function(data){
 		query["type"]=filters.type;
 	}
 	if(filters && filters.bhk != null &&  filters.bhk != "") {
-		query["bhk"]=filters.bhk;
+		query["bhk"]=Number(filters.bhk);
 	}
 	if(filters && filters.budget != null && filters.budget != "") {
 		query["price"]=filters.budget;
@@ -62,7 +62,7 @@ ProjectListingService.prototype.listProjects = function(data){
 	}
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
-	console.log(query)
+	
 	IRXProductLineModel.find(query,{},{skip:start,limit:pageSize},function(err , result){
 		if(err){
 			console.error(err)
@@ -79,5 +79,87 @@ ProjectListingService.prototype.listProjects = function(data){
 			}
 		}
 	})
+}
+
+ProjectListingService.prototype.listProjectsElastic = function(data) {  
+  var _selfInstance = this;
+  //var text = this.req.params.text;
+  var query = new Array();
+	var filters = data.filters;
+	var page = data.page;
+	if(!page) {
+		page = defPage;
+		
+	}
+	if(filters && filters.city != null &&  filters.city != "") {
+		//query.push(location={city:filters.city};
+			var match = {
+			"match":{
+				"location":{"city":filters.city}
+			}
+		}
+		query.push(match);
+		
+	}
+	if(filters && filters.type != null &&  filters.type != "") {
+		var match = {
+			"match":{
+				"type":Number(filters.type)
+			}
+		}
+		query.push(match);
+	}
+	if(filters && filters.bhk != null &&  filters.bhk != "") {
+		var match = {
+			"match":{
+				"bhk":Number(filters.bhk)
+			}
+		}
+		query.push(match);
+	}
+	if(filters && filters.budget != null && filters.budget != "") {
+		query.price=filters.budget;
+	}
+	if(filters && filters.name != null &&  filters.name != "") {
+		var match = {
+			"match":{
+				"name":filters.name
+			}
+		}
+		query.push(match);
+	}
+	
+	if(query.length==0){
+		query={match_all:query}
+	}
+	var start = page.start;
+	var pageSize = Number(page.pageSize)+1;
+	var sortOrder= "asc";
+	if(filters && filters.order && filters.order != null && filters.order!=""){
+		sortOrder=filters.order;
+	}
+	
+    _app_context.esClient.search({
+    index: 'irx_schema',
+    type:"irx-eproduct",
+    body: {
+      query: {bool:{must:query}},
+      from:start,
+      size:pageSize,
+      sort:[{ "price" : {"order" : sortOrder}}]
+    }
+  }).then(function (resp) {
+    var hits = resp.hits.hits;
+   
+    var renderingData = new Array();
+    for(var i =0;i<hits.length; i++){
+        renderingData.push(hits[i]._source)
+    }
+  
+    _selfInstance.processPagenation(renderingData,page)
+   _selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,renderingData,page);
+}, function (err) {
+  _selfInstance.emit("done",404,"Project data not found","Project data not found",null);
+});
 }
 module.exports = ProjectListingService;

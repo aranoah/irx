@@ -24,7 +24,7 @@ var projectController = new Controller();
 
 var projectListingService = require(_path_service+"/projectListingService.js" )
 
-projectController.listProjects = function() {
+projectController.listProjectsElastic = function() {
 	var projectListService = new projectListingService();
 	
     var _nself = this;
@@ -33,10 +33,25 @@ projectController.listProjects = function() {
     });
     var userFilters = {
     	filters:_nself.req.body.filters,
-    	page:_nself.req.params.page
+    	page:_nself.req.body.page
     }
-   
-    projectListService.listProjects(_nself.req.body);
+  
+    projectListService.listProjectsElastic(userFilters);
+};
+
+projectController.listProjects = function() {
+  var projectListService = new projectListingService();
+  
+    var _nself = this;
+    projectListService.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    var userFilters = {
+      filters:_nself.req.body.filters,
+      page:_nself.req.body.page
+    }
+   console.log("yo yo ",userFilters)
+    projectListService.listProjects(userFilters);
 };
 
 projectController.projectAutocomplete = function() {  

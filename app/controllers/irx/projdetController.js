@@ -10,7 +10,7 @@
 *		Raghu (raghavendra@aranoah.com)      
 *
 * START DATE :    
-*		15 Dec 2014
+*		16 Dec 2014
 *
 * CHANGES :
 *
@@ -19,20 +19,20 @@ var Controller = require(_path_cntlr+'/base/baseController');
 var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
-var agentController = new Controller();
+var projdetController = new Controller();
 
-
+var commonValidator = require(_path_util+"/commonValidator")
 
 /*
-* 	Agent-Listing page 
+* 	Project-Detailing page 
 *	@TODO : Server integration still pending
 **/
 
 
-agentController.main = function() {
-  console.log("In main Method for agent listing")
-  this.title = "Agent-Listing page";
-  this.requestObj = this.req.query;
-  this.render("irx/agent"); 
+projdetController.main = function() {
+  console.log("In main Method")
+  this.title = "Project-Detailing page";
+  this.render("irx/projdet"); 
+ 
 }
-module.exports = agentController;
+module.exports = projdetController;

@@ -2,13 +2,33 @@
 <html>
 <head>
   <% include ../partials/head.html.ejs %>
+  <style type="text/css">
+  	.ui.header .icon:only-child {
+	  display: inline-block;
+	  padding: 0;
+	  margin-right: .5rem;
+	  vertical-align: baseline;
+	  font-size: medium;
+	}
+	.proj-listing h5.ui.header {
+	  padding-left: 1.2rem;
+	  opacity: .8;
+	  font-weight: 300;
+	}
+	.ui.items>.item>.content a {
+	  color: #607d8b !important;
+	  -webkit-transition: color .2s ease;
+	  transition: color .2s ease;
+	}
+	.pDate {
+		margin-right: 15px;
+	}
+  </style>
   
 </head>
 <% locals.uiContext.menu=false %>
 <body>  
   <% include ../partials/header.html.ejs %>
-  <% include ../partials/sidebar.html.ejs %>
-  <% include ../partials/login.html.ejs %>
 
   <!-- Bg image starts here -->
 
@@ -21,12 +41,15 @@
   <% include ../partials/searchbar.html.ejs %>
 
   <!-- agents Listing goes here -->
-
+<div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
 	  <div class="twelve wide column">
 
 	  	<div class="ui grid two column rib-head">
-	    	<h2 class="ui header column">Showing results <a>20 out of 50</a></h2>
+	    	<h2 class="ui header column">Showing results for 
+
+	    		<a data-bind="text:filters.displayName"></a>
+	    	</h2>
 	    	<div class="header ui two column grid right menu">
 	    		<div class="six wide column">
 			        <div class="ui selection dropdown">
@@ -42,37 +65,41 @@
 			        </div>
 			      </div>
 				<div class="ui selection dropdown item">
+				<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
 				    Sort by relevance
 				    <div class="menu">
-				      <div class="item">Newest</div>
-				      <div class="item">Price : High to Low</div>
-				      <div class="item">Price : Low to High</div>
+				      <div class="item" data-value="asc">Newest</div>
+				      <div class="item" data-value="desc">Price : High to Low</div>
+				      <div class="item" data-value="asc">Price : Low to High</div>
 				    </div>
 				    <i class="sort right icon"></i>
-				  </div>
+				</div>
 	    	</div>
 	    </div>
 
 	    <!-- Project Listing goes here -->
-
-	    <div id="projListing" data-bind="foreach : projects">
+	    <div data-bind="visible:projects().length==0">
+	    	No Search Results
+	    </div>
+	    <div data-bind="foreach : projects">
 	    	<div class="ui items proj-listing">
 				<div class="four column row">
 					<div class="left floated column">
-						<h3 class="ui header" data-bind="text: name">12 Years a Slave</h3><h5 class="ui header"><i class="marker icon"></i><!--ko text: location.city--><!--/ko--></h5>
+						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name">12 Years a Slave</h3></a>
+						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.city--><!--/ko--></h5>
 					</div>					
 					<div class="right floated column menu">						
-					  	<div class="extra">
+					  	<div class="extra pDate">
 					    	<span class="cinema">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></span>
-					  	</div><div class="ui radio checkbox">
-						  <input type="radio" value="small">
+					  	</div><div class="ui checkbox">
+						  <input type="checkbox" value="small" checked="checked">
 						  <label>Distress</label>
 						</div>			    	
 					</div>
 				</div>
 				<div class="item">
 					<div class="image">
-					  <img src="/images/square-image.png">
+					  <img src="/images/project.jpg">
 					</div>
 					<div class="content">				  
 					  <div class="ui left floated">				  	
@@ -97,16 +124,22 @@
 					  </div>
 					  <div class="ui right floated">
 						<div class="ui basic button">View details</div>
-						<div class="ui basic button">Enquiry now</div>
+						<div class="ui basic button leads-in">Enquiry now</div>
 						<div class="ui basic button">View agents</div>
-						<div class="ui basic button">Download details</div>
+						<div class="ui basic button req-details">Request details</div>
 					  </div>
+					  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
+					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					</div>				  
 				</div>
 			</div>
+			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
-		<div data-bind="scroll: 120 < 160, scrollOptions: { loadFunc: addSome, offset: 10 }">loading</div>
+		
 	    <!-- Project ends here -->
+	</div>
+	</div>
 	</div>
 	<script type="text/javascript">
 	function Project(options){
@@ -118,13 +151,13 @@
 	Project.prototype.init = function() {
 
 		var _classInstance = this;
-
-		ko.bindingHandlers.scroll = {
+  
+		_classInstance.scroller = ko.bindingHandlers.scroll = {
 
 		  updating:true,
 		  
 		  init: function(element, valueAccessor, allBindingsAccessor) {
-		  	  
+		  	
 		      var self = this
 		      self.updating =(true);
 		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
@@ -133,6 +166,7 @@
 		      });
 		      $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
 		      $(element).on('__sc__more', function(e,flag){
+		      		
 				  	 var ele_more = $('#_sc_more');
 				  	 if(typeof(flag) == "undefined"){
 				  	 	return ele_more.attr("hasMore")=='true';
@@ -149,12 +183,13 @@
 		  		},
 
 		  update: function(element, valueAccessor, allBindingsAccessor){
+
 		    var props = allBindingsAccessor().scrollOptions
 		    var offset = props.offset ? props.offset : "0"
 		    var loadFunc = props.loadFunc
 		    var load = ko.utils.unwrapObservable(valueAccessor());
 		    var self = this;
-
+		    
 		    if(load){
 		      element.style.display = "";
 		      $(window).on("scroll.ko.scrollHandler", function(){
@@ -165,6 +200,7 @@
 		          	self.updating =(false);
 
 		            _classInstance.listProjects(false,function(success){
+		            	
 		            	self.updating=success;
 		            	$(element).trigger('__sc__more',success)
 		            })
@@ -179,48 +215,96 @@
 		        self.updating = false
 		    }
 		  }
+		 };
+		 var filterName = $('#__filterName').val()
+		 if(typeof(filterName) == "undefined" || filterName == null ){
+		 	filterName = "";
 		 }
-
+		 var filterBhk = $('#__filterBhk').val()
+		 if(typeof(filterBhk) == "undefined" || filterBhk == null ){
+		 	filterBhk = "";
+		 }
+		  var filterType = $('#__filterType').val()
+		 if(typeof(filterType) == "undefined" || filterType == null ){
+		 	filterType = "";
+		 }
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
-			filters:{
-				name: ko.observable(""),
-				type: ko.observable(""),
-				bhk: ko.observable("")
+
+			filters: {
+				displayName:ko.observable("All"),
+				name:ko.observable(filterName),
+				bhk:ko.observable(filterBhk),
+				type:ko.observable(filterType),
+				order:ko.observable("asc")
 			},
 			addSome : function(){
+				
+				//_classInstance.listProjects(true);
+			},
+			applyFilters : function(){
+
+				_classInstance.resetPage();
 				_classInstance.listProjects(true);
+				return true;
 			},
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
 		}
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
-		_classInstance.listProjects()
+		_classInstance.listProjects(true);
+	};
+
+	Project.prototype.resetFilters = function(filters) {
+		var _classInstance=this;
+		_classInstance.viewModel.filters.name(filters.name)
+		_classInstance.viewModel.filters.bhk(filters.bhk)
+		_classInstance.scroller.updating=true;
+		_classInstance.resetPage();
+	}
+	Project.prototype.resetPage = function(filters) {
+		var _classInstance=this;
+		_classInstance.page.start=0;
+	}
+	Project.prototype.renderResult = function(data,filters) {
+
+
+		var classInstance = this;  
+		classInstance.viewModel.projects([]);
+		classInstance.viewModel.filters.name(filters.name);
+		classInstance.viewModel.filters.displayName(filters.name);
+		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+		$('.doubling.two.column.row').hide();
+		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        classInstance.viewModel.start(classInstance.page.start) ;
+	        classInstance.viewModel.pageSize=data.page.pageSize;
+
 	}
 	
 	Project.prototype.listProjects = function(replace,setUpdate) {
+		
     	var classInstance = this;
-	    httpUtils.post("/list-projects",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
+	    httpUtils.post("/list-projects-elastic",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	} 
-	       		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
-	       	
-	        
-	        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	       ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;
 	        if(setUpdate){
+	        	
 	       		setUpdate(data.page.hasMore)
 	       	}
 	        }
 		})
 	 }
-
+	var project = null;
 	$(document).ready(function(){
 	  
-	    var project = new Project();
+	    project = new Project();
+
 	    project.init();
 	    
 	  })

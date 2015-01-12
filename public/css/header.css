@@ -144,25 +144,25 @@ body {
 
 /* Login*/
 
-#login.ui.modal {
+.pop-up.ui.modal {
   width: 600px !important;
 }
 
-#login .content>div {
+.pop-up .content>div {
   padding: 0.5rem 1rem;
 }
 
-#login .content h2, #login .content i {
-  padding: 0;margin: 0;
-  font-size: 1.5rem;
+.pop-up .content h2, .pop-up .content i {
+  padding: 0 !important;margin: 0 !important;
+  font-size: 1.5rem !important;
 }
 
-#login .content i {
+.pop-up .content i {
   opacity: 0.3;
   text-align: right;
 }
 
-#login .content i:hover {
+.pop-up .content i:hover {
   opacity: 1;
   cursor: pointer;
 }
@@ -272,6 +272,85 @@ body {
 }#lower-content .grouped.fields>div {
   display: inline-block;
 }
+
+/** sell-ur-property */
+
+.sell-post .ui.inverted.menu {
+  background-color: inherit;
+  box-shadow: none;
+  padding: 1rem;
+}
+
+.sell-post .ui.inverted.menu.contact {
+  padding: 0 1rem;
+}
+
+.sell-post .ui.dividing.header {
+  margin: 0 0 1rem;
+  color: #38b7ea;
+  border: 0;
+}
+
+.sell-post .ui.inverted.menu>.item {
+  padding: 0;
+  margin: 0 .5rem .5rem 0;
+}
+
+.sell-post .ui.selection.dropdown {
+  min-width: 135px;
+}
+
+.sell-post .ui.selection.dropdown>.default.text {
+  width: 48%;
+}
+
+.sell-post .ui.inverted.menu>.item input, .sell-post .ui.inverted.menu>.item textarea {
+  padding: .8em 1.1em;
+  font-size: 1rem;
+  border: 1px solid rgba(39,41,43,.15);
+  color: #7b7b7b;
+}
+
+.sell-post .ui.inverted.menu>.item textarea {
+  width: 390px;
+  min-height: 70px;
+}
+
+.sell-post .ui.submit.button {
+  background-color: #38b7ea;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+#post .ui.inverted.menu.contact {
+  position: relative;
+}
+
+#post .ui.inverted.menu.contact>.ui.form {
+  position: absolute;
+  top: 0;left:15rem;
+  margin: 0;
+}
+
+#leads .ui.inverted.menu {
+  padding: 1rem;
+}
+
+#leads .ui.inverted.menu.contact>.ui.form  {
+  margin: 0 0 1rem;
+}
+
+#post .ui.inverted.menu.contact>.ui.form h5, #leads .ui.inverted.menu.contact>.ui.form h5 {
+  margin:0 .5rem 0 0; 
+}
+
+#post .ui.inverted.menu.contact>.ui.form > *, #leads .ui.inverted.menu.contact>.ui.form > * {
+  display: inline-block;
+  margin-right: .5rem;
+  vertical-align: middle;
+}
+
+
 
 /*******************************
             Global
