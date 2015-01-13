@@ -352,16 +352,40 @@ body {
 
 /** footer **/
 
-.ui.inverted.footer.vertical.segment {
-  margin: 10rem -1rem 0;
+.ui.inverted.footer.vertical.segment, .ui.inverted.footer.vertical.segment .ui.inverted.menu {
+  background-color: #2d2d2d !important;
+}
+.ui.inverted.footer.vertical.segment .ui.inverted.menu {
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.footer .ui.inverted.menu>a.item {
+  opacity: .5;
+  padding: 1rem !important;
+}.footer .ui.inverted.menu>a.item:hover {
+  opacity: 1;
+}.ui.inverted.link.list>a.item {
+  font-weight: 300 !important;
 }
 .ui.inverted.footer.vertical.segment>div {
-  padding: .5rem 0 0 !important;
+  padding: 0 !important;
 }
 .ui.inverted.footer.vertical.segment .thirteen.wide.column {
   text-align: right;
 }
-
+.ui.three.column.center.aligned.stackable.grid>* {
+  text-align: left;
+}
+.footer .six.wide.column p {
+  opacity: .5;
+  margin: .5rem 0;
+}
+.footer .six.wide.column i {
+  font-size: 1.5rem;
+}
+.footer .six.wide.column i {
+  opacity: .8;
+  cursor: pointer;
+}
 
 
 /*******************************
