@@ -15,7 +15,7 @@
           <h4 class="ui dividing header">Property Information :</h4>
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="city">
+                <input type="hidden" name="city" data-bind="value:data.city">
                 <div class="default text">City</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
@@ -40,8 +40,8 @@
               </div>
             </div>
             <div class="item">
-              <div class="ui selection dropdown">
-                <input type="hidden" name="bhk">
+              <div class="ui selection dropdown" >
+                <input type="hidden" name="bhk" data-bind="value:data.bhk">
                 <div class="default text">BHK</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
@@ -63,14 +63,16 @@
               </div>
             </div>
             <div class="item field">
-              <input type="text" placeholder="Name">
+              <input type="text" id="__postReqSearch" placeholder="Name" data-bind="value:data.projectId" >
+            </div>
+            <div id="autoDivPost">
             </div>
             <div class="item field">
               <input type="text" placeholder="Location">
             </div>
-            <div class="field item">
+            <!--<div class="field item">
               <textarea placeholder="Write few words about your property..."></textarea>
-            </div>
+            </div>-->
         </div>
 
         <div class="ui inverted menu contact">
@@ -79,31 +81,31 @@
               <h5 for="user">you are a:</h5>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="user" checked="checked">
+                  <input type="radio" name="user" value="user" data-bind="checked:data.type" checked="checked">
                   <label>Individual</label>
                 </div>
               </div>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="user">
+                  <input type="radio" name="user" value="dealer" data-bind="checked:data.type" >
                   <label>Dealer</label>
                 </div>
               </div>
           </div>      
           <div class="item field">
-            <input type="text" placeholder="Name">
+            <input type="text" placeholder="Name" data-bind="value:data.name">
           </div>
           <div class="item field">
-            <input type="text" placeholder="Email">
+            <input type="text" placeholder="Email" data-bind="value:data.emailId">
           </div>            
           <div class="item field">
-            <input type="text" placeholder="Mobile">
+            <input type="text" placeholder="Mobile" data-bind="value:data.mobileNo">
           </div>
         </div>
 
         <div class="three column row">
           <div class="right floated column">
-            <div class="ui submit button">Submit</div>
+            <div class="ui submit button" data-bind="click: captureLeads">Submit</div>
           </div>
           <div class="left floated column">
             <div class="ui checkbox">
@@ -116,4 +118,3 @@
     <!-- Ends here -->  
   </div>
 </div>
- 

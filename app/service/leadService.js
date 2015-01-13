@@ -93,7 +93,7 @@ LeadService.prototype.captureLeads = function(data) {
 	}) 
 
 	// check for valid Project
-	IRXProductLineModel.findOne({"id":"projectId"},{"id":1},function(err,project){
+	IRXProductLineModel.findOne({"id":data.projectId},{"id":1},function(err,project){
 		if(err){
 			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);

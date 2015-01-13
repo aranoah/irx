@@ -176,8 +176,9 @@
         }
     })
     }
+    var sBar = null;
 $(document).ready(function(){
 
-  var sBar = new SearchBar();
+   sBar = new SearchBar();
   sBar.init();
 })
