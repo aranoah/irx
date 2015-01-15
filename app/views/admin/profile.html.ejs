@@ -16,7 +16,7 @@
   <div id="content" class="ui centered page grid admin" style="margin:-1rem 1rem;">
     <input type="hidden" id="__userId" value="">
 
-    <div class="fourteen wide column">
+    <div class="fourteen wide column" id="adminProfile">
 
       <div class="ui two column center aligned stackable divided grid">
 
@@ -26,32 +26,39 @@
         <div class="column li-box">
           <i class="profile edit icon"></i>
           <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
-          <div class="item"><div class="header">Aaron Paul</div>Company name</div>
+          <div class="item"><div class="header"><%= result.name %></div>Company name</div>
           <img class="" src="/img/fb.png">
 
           <div class="lib-actions">
             <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
-            <div class="ui basic button">Enquiry now</div>
+            <div class="ui basic button">Send Message</div>
           </div>
 
           <div class="lib-count">
             <div class="item left floated"><div class="header">10</div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
           </div>
 
-          <div class="lib-specs">
+         <div class="lib-specs">
             <div class="header">Specialities :</div>
+             <% if(result.specialities) {%>
             <div class="libs-items">
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Resale</div>
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Project</div>
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Rent</div>
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i>Commercial</div>
+              <% for(var i=0; i<result.specialities.length; i++) {%>
+               
+                
+                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i><%= result.specialities[i] %>
+              </div>
+            <% } %>
+             
             </div>
+            <% } %>
           </div>
-          <div class="ui divided list lib-xtras">
-            <div class="item"><i class="map marker icon"></i>Gurgaon,Haryana</div>
+           <div class="ui divided list lib-xtras">
+            <% if(result.location) {%>
+            <div class="item"><i class="map marker icon"></i><%= result.location.city%>,<%= result.location.state%></div>
+             <% } %>
             <div class="item"><i class="linkify icon"></i>irx.com/karan</div>
-            <div class="item"><i class="mail outline icon"></i>karan@irx.com</div>
-            <div class="item"><i class="call icon"></i>8860998438</div>
+            <div class="item"><i class="mail outline icon"></i><%= result.userId%></div>
+            <div class="item"><i class="call icon"></i><%= result.phoneNum%></div>
             <!--<a class="lib-url">Get a personalized URL?</a>-->
           </div>
 
@@ -87,84 +94,64 @@
                       <div class="column left-portion">
                         <div class="item">
                             <div class="ui transparent left icon input">
-                              <input type="text" placeholder="Search projects...">
+                              <input type="text"  id="__searchPro" placeholder="Search projects...">
                               <i class="search icon"></i>
                             </div>
                         </div>
-                        <div class="ui items">
-                          <div class="item">
-                            <div class="content left floated">
-                              <a class="header">Ansal Plaza</a>
-                              <div class="meta">
-                                <div class="time">Builder name</div>
-                                <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
-                              </div>
-                            </div>
-                            <div class="right floated content"><i class="add circle icon"></i></div>
+                        <!-- ko if: projects().length==0 -->
+                          <div class="ui info message">
+                            <ul class="list">
+                              <li>No locations associated to your profile currently.</li>
+                              <li><a href="link">Click here to add one</a></li>
+                            </ul>
                           </div>
-                        </div><div class="ui items">
-                          <div class="item">
-                            <div class="content left floated">
-                              <a class="header">Ansal Plaza</a>
-                              <div class="meta">
-                                <div class="time">Builder name</div>
-                                <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
+                         <!-- /ko -->
+                        <!-- ko foreach: projects -->
+                          <div class="ui items">
+                            <div class="item">
+                              <div class="content left floated">
+                                <a class="header" data-bind="text:name"></a>
+                                <div class="meta">
+                                  <div class="time" data-bind="text:builderName"></div>
+                                  <div class="category" data-bind="text:location.locality"></div>
+                                </div>
                               </div>
+                              <div class="right floated content" data-bind="click:function () { $parent.addProject(id)}"><i class="add circle icon"></i></div>
                             </div>
-                            <div class="right floated content"><i class="add circle icon"></i></div>
                           </div>
-                        </div><div class="ui items">
-                          <div class="item">
-                            <div class="content left floated">
-                              <a class="header">Ansal Plaza</a>
-                              <div class="meta">
-                                <div class="time">Builder name</div>
-                                <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
-                              </div>
-                            </div>
-                            <div class="right floated content"><i class="add circle icon"></i></div>
-                          </div>
-                        </div>
+                           <!-- /ko -->
+                      
+                        
                       </div>
                     </div>
                     <div class="content">
                       <h4 class="header">My Projects</h4>
                     </div>
                   </div>
-                  <div class="ui items">
-                    <div class="item">
-                      <div class="content left floated">
-                        <a class="header">Ansal Plaza</a>
-                        <div class="meta">
-                          <div class="time">Builder name</div>
-                          <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
-                        </div>
-                      </div>
-                      <div class="right floated content"><i class="remove circle outline icon"></i></div>
+                  <!-- ko if: associatedProjects().length==0 -->
+                    <div class="ui info message">
+                      <ul class="list">
+                        <li>No projects associated to your profile currently.</li>
+                        <li>Click add new</li>
+                      </ul>
                     </div>
-                  </div><div class="ui items">
-                    <div class="item">
-                      <div class="content left floated">
-                        <a class="header">Ansal Plaza</a>
-                        <div class="meta">
-                          <div class="time">Builder name</div>
-                          <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
+                   <!-- /ko -->
+                 <!-- ko foreach: associatedProjects -->
+                    <div class="ui items">
+                      <div class="item">
+                        <div class="content left floated">
+                          <a class="header" data-bind="text:name"></a>
+                          
+                          <div class="meta">
+                            <div class="time" data-bind="text:builderName"></div>
+                            <div class="category" data-bind="text:location.locality"></div>
+                          </div>
                         </div>
+                         <div class="right floated content" data-bind="click:function () { $parent.removeProject($index,id)}"><i class="remove circle outline icon"></i></div>
                       </div>
-                      <div class="right floated content"><i class="remove circle outline icon"></i></div>
                     </div>
-                  </div><div class="ui items">
-                    <div class="item">
-                      <div class="content left floated">
-                        <a class="header">Ansal Plaza</a>
-                        <div class="meta">
-                          <div class="time">Builder name</div>
-                          <div class="category"><i class="icon marker"></i>Sec-22,Gurgaon</div>
-                        </div>
-                      </div>
-                      <div class="right floated content"><i class="remove circle outline icon"></i></div>
-                    </div>
-                  </div>
+                  <!-- /ko -->
+                 
                 </div>
                 <div class="column right-portion">
                   <div class="item">
@@ -185,42 +172,38 @@
             <div class="ui bottom attached tab segment" data-tab="second">
               <h3 class="ui heading">manage leads</h3>
               <div class="ui cards">
-                <div class="card">
-                  <div class="content">
-                    <div class="header">Hament Aggarwal</div>
-                    <div class="meta">Buy / Sell / Rent</div>
-                    <div class="description">
-                      hament@aranoah.com<br/>+91 8860998438
+                 <!--ko foreach : leads -->
+                  <div class="card">
+                    <div class="content">
+                      <div class="header" data-bind="text:name"></div>
+                      <div class="meta">Buy / Sell / Rent</div>
+                      <div class="description" >
+                      <!--ko text : emailId --><!-- /ko -->
+                        <br/><!--ko text : mobileNo --><!-- /ko -->
+                      </div>
                     </div>
                   </div>
-                </div><div class="card">
-                  <div class="content">
-                    <div class="header">Hament Aggarwal</div>
-                    <div class="meta">Buy / Sell / Rent</div>
-                    <div class="description">
-                      hament@aranoah.com<br/>+91 8860998438
+                  <!-- /ko -->
+                  <!--ko if : leadsPageObj.hasMore()==true -->
+                  <div class="ui animated button" data-bind="click:
+                  nextLeads">
+                    <div class="visible content">Next</div>
+                    <div class="hidden content">
+                      <i class="right arrow icon"></i>
                     </div>
                   </div>
-                </div><div class="card">
-                  <div class="content">
-                    <div class="header">Hament Aggarwal</div>
-                    <div class="meta">Buy / Sell / Rent</div>
-                    <div class="description">
-                      hament@aranoah.com<br/>+91 8860998438
+                  <!-- /ko -->
+                   <!--ko if : leadsPageObj.showPrevious()==true -->
+                  <div class="ui animated button" data-bind="click:
+                  previousLeads">
+                    <div class="visible content">Previous</div>
+                    <div class="hidden content">
+                      <i class="left arrow icon"></i>
                     </div>
                   </div>
-                </div><div class="card">
-                  <div class="content">
-                    <div class="header">Hament Aggarwal</div>
-                    <div class="meta">Buy / Sell / Rent</div>
-                    <div class="description">
-                      hament@aranoah.com<br/>+91 8860998438
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  <!-- /ko -->
+               </div>
             </div>
-
             <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">Recently viewed</h3>
               <div class="ui horizontal list">
@@ -252,5 +235,170 @@
       <!-- Right panel ends here -->
     </div>    
   </div>
+<<<<<<< HEAD
   <% include ../partials/footer.html.ejs %>
+=======
+  <script type="text/javascript">
+  function AdminProfile(){
+    this.page={
+      start:0,
+      pageSize:3
+    }
+    this.userId="puneet.sharma"
+  }
+  AdminProfile.prototype.init = function() {
+    var classInstance = this;
+    
+    classInstance.viewModel={
+      projects: ko.observableArray(),
+      associatedProjects : ko.observableArray(),
+      leads : ko.observableArray(),
+      addProject : function(id){
+        classInstance.associateProject(id);
+      },
+      removeProject : function(index,id){
+        
+        classInstance.removeAssociatedProject(index,id)
+      },
+      leadsPageObj :{
+        start:ko.observable("0"),
+        pageSize:ko.observable("3"),
+        hasMore:ko.observable("false"),
+        showPrevious:ko.observable("false")
+      },
+      nextLeads : function(){
+         classInstance.listLeads(true);
+      },
+      previousLeads : function(){
+        
+        if(this.leadsPageObj.start() >= this.leadsPageObj.pageSize()){
+          this.leadsPageObj.start(this.leadsPageObj.start()-this.leadsPageObj.pageSize()) 
+        }
+         classInstance.listLeads(true,true);
+      }
+    }
+    ko.applyBindings(classInstance.viewModel,document.getElementById('adminProfile')) 
+    classInstance.listAssociatedProjects();
+    classInstance.listAllProjects();
+    classInstance.listLeads(false);
+
+    $("#__searchPro").autocomplete({
+
+            source: function(request, response){
+                var _self = this;
+                classInstance.viewModel.projects([])
+              classInstance.getProjectListingAutocomplete(request.term,request,response)
+              },
+              minLength: 0,
+              dataType: "json",
+              cache: false,
+              select: function( event, ui ) {
+                 
+              }
+              });
+  }
+ 
+  AdminProfile.prototype.removeAssociatedProject = function(index,id) {
+    var classInstance = this;
+
+    httpUtils.get('/delete-project/'+classInstance.userId+'/'+id,{},"JSON",function(data){
+       if(data.status==0){
+        classInstance.viewModel.associatedProjects.remove(function(item){
+          return item.id == id;
+        });
+       } 
+    })
+ }
+  AdminProfile.prototype.getProjectListingAutocomplete=function(text,request,response){
+      var classInstance = this;
+      httpUtils.get("/project-autocomplete",{"text":text,"page":classInstance.page},"JSON",function(data){
+        if(data.status==0){
+           var arr = new Array();
+          for(var i=0;i<data.result.length;i++){
+              arr.push(data.result[i]._source)
+          }
+        ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)
+        }
+    })
+    }
+  AdminProfile.prototype.associateProject = function(id) {
+    var classInstance = this;
+    
+    httpUtils.get('/associate-project/'+classInstance.userId+'/'+id,{},"JSON",function(data){
+       if(data.status==0){
+
+        classInstance.viewModel.associatedProjects.push(data.result);
+       } 
+    })
+  }
+
+  AdminProfile.prototype.listLeads = function(replace,previous) {
+    var classInstance = this;
+    var pagenation ={
+      start:classInstance.viewModel.leadsPageObj.start(),
+      pageSize:classInstance.viewModel.leadsPageObj.pageSize()
+    }
+    httpUtils.get('/leads',{page:pagenation},"JSON",function(data){
+       if(data.status==0){
+        if(replace){
+          classInstance.viewModel.leads([])
+        }
+        ko.utils.arrayPushAll(classInstance.viewModel.leads,data.result)
+        if(classInstance.viewModel.leadsPageObj.start() !=0){
+          
+          classInstance.viewModel.leadsPageObj.showPrevious(true)
+        }else{
+
+           classInstance.viewModel.leadsPageObj.showPrevious(false)
+        }
+        
+        if(!previous && data.page.hasMore){
+          
+          classInstance.viewModel.leadsPageObj.start( Number(data.page.start)+Number(data.page.pageSize));
+  
+        }
+        
+        classInstance.viewModel.leadsPageObj.hasMore(data.page.hasMore);
+       } 
+    })
+  }
+
+  AdminProfile.prototype.listAssociatedProjects = function() {
+    
+    var classInstance = this;
+
+    httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+       if(data.status==0){
+        ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result)
+        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+      
+       } 
+    })
+  }
+   AdminProfile.prototype.resetPage = function() {
+   var classInstance = this;
+   classInstance.start=0;
+  }
+   AdminProfile.prototype.resetLeadsPageObj = function() {
+   var classInstance = this;
+   classInstance.viewModel.resetLeadsPageObj.start(0);
+  }
+   AdminProfile.prototype.listAllProjects = function() {
+    
+   var classInstance = this;
+      httpUtils.post("/list-projects-elastic",{},{},"JSON",function(data){
+         if(data.status==0){
+         ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)  
+         classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+         
+          }
+    })
+  }
+
+  $(document).ready(function(){
+    var adminProfile = new AdminProfile();
+    adminProfile.init();
+  })
+  </script>
+>>>>>>> 6590014fb0a16dee04d34fbd4b16f9217c60e42b
 </body>

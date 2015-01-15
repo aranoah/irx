@@ -9,10 +9,10 @@
   </div>
   <div id="lower-content" class="actions ui grid">
     <div class="three wide column tab">
-      <div class="ui small button active" attr-tab="login-open"><i class="unlock big icon"></i><br/><br/>Login</div>
-      <div class="ui small button" attr-tab="register-open"><i class="sign in big icon"></i><br/><br/>Register</div>
+      <div class="ui small active" data-bind="click:function(){openTab('login');return false;}"><i class="unlock big icon"></i><br/><br/>Login</div>
+      <div class="ui small" data-bind="click:function(){openTab('register');return false;}"><i class="sign in big icon"></i><br/><br/>Register</div>
     </div>
-    <div id="login-box" class="eight wide column login-open toggleBox">
+    <div id="login-box" class="eight wide column" data-bind="visible: tabID=='login'">
       <div class="ui form">
         <h4 class="ui dividing header">Login to your account</h4>
         <div class="two fields">
@@ -34,7 +34,7 @@
       <div class="action-button"><div class="ui button" data-bind="click: login">login</div></div>      
       <div class="ui vertical divider">Or</div>
     </div>
-    <div id="register-box" class="eight wide column register-open toggleBox">
+    <div id="register-box" class="eight wide column" data-bind="visible: tabID=='register'">
       <div class="ui form">
         <h4 class="ui dividing header">New user register here</h4>
         <div class="grouped fields">

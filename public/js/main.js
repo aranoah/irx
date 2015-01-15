@@ -142,15 +142,16 @@ $(document)
 
     setInterval(changeSides, 3000);
 
-    $(document).on('click','.three.wide.column.tab>.ui.small.button',function(){
-
-      var _self = $(this);
-      var _parent = _self.parents('#lower-content');
-
-      $('.three.wide.column.tab>.ui.small.button').removeClass('active');
-      _self.addClass('active');
-      _parent.find('.toggleBox').hide();
-      _parent.find('.'+_self.attr("attr-tab")).css('display','inline-block');
-    });
+    // $(document).off('click','.three.wide.column.tab>.ui.small.button');
+    // $(document).on('click','.three.wide.column.tab>.ui.small.button',function(event){
+    //   event.stopPropagation();
+    //   var _self = $(this);
+    //   var _parent = _self.parents('#lower-content');
+      
+    //   $('.three.wide.column.tab>.ui.small.button').removeClass('active');
+    //   _self.addClass('active');
+    //   _parent.find('.toggleBox').hide();
+    //   _parent.find('.'+_self.attr("attr-tab")).css('display','inline-block');
+    // });
 
   });

@@ -165,10 +165,13 @@ LeadService.prototype.listLeads = function(data) {
 	console.log("In listLead")
 	var _selfInstance = this;
 	var page = data.page;
+	
 	if(!page){
 		page=defPage
 	}
+
  	var start = page.start;
+
 	var pageSize = Number(page.pageSize)+1;
 	
 	IRXLeadModel.find({},{},{skip:start,limit:pageSize},function(err , result){

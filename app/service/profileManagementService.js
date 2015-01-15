@@ -42,9 +42,10 @@ PMService.prototype.associateProject = function(data) {
  var _selfInstance = this;
  var userId = data.userId;
  var projectId = data.projectId;
+ console.log(userId)
  this.once("stage2",function(project){
  	mongoose.getCollection('irxagentmproducts').findAndModify(
- 		{"agent":userId},
+ 		{"agentId":userId},
  		[],
 		{$addToSet:{"project":projectId}},
 		{upsert:true,"new":false },
@@ -60,7 +61,7 @@ PMService.prototype.associateProject = function(data) {
 					} else if(mapping !=null && mapping.project.indexOf(projectId)==-1){
 						update = true;
 					} else{
-						_selfInstance.emit("done",STATUS.NO_UPDATION.code,STATUS.NO_UPDATION.msg,err,null);
+						_selfInstance.emit("done","Already Exists",STATUS.NO_UPDATION.msg,err,null);
 					}
 					if(update){
 						//update user
@@ -154,7 +155,7 @@ PMService.prototype.deleteProject = function(data) {
  var projectId = data.projectId;
  this.once("delProStage2",function(project){
  	mongoose.getCollection('irxagentmproducts').findAndModify(
- 		{"agent":userId},
+ 		{"agentId":userId},
  		[],
 		{$pull:{"project":projectId}},
 		{"new":true },

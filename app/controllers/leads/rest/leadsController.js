@@ -115,7 +115,7 @@ leadsController.listLeads = function() {
   });
   var data = {
     "userId":_nself.req.session['X-CS-Auth'].userId,
-    page:_nself.req.params.page,
+    page:_nself.req.query.page,
   }
   lService.listLeads(data);
 }

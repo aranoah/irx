@@ -65,8 +65,9 @@
 			        </div>
 			      </div>
 				<div class="ui selection dropdown item">
+				<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
 				    Sort by relevance
-				    <div class="menu" data-bind="value:filters.order">
+				    <div class="menu">
 				      <div class="item" data-value="asc">Newest</div>
 				      <div class="item" data-value="desc">Price : High to Low</div>
 				      <div class="item" data-value="asc">Price : Low to High</div>
@@ -77,7 +78,9 @@
 	    </div>
 
 	    <!-- Project Listing goes here -->
-	    
+	    <div data-bind="visible:projects().length==0">
+	    	No Search Results
+	    </div>
 	    <div data-bind="foreach : projects">
 	    	<div class="ui items proj-listing">
 				<div class="four column row">
@@ -125,6 +128,9 @@
 						<div class="ui basic button">View agents</div>
 						<div class="ui basic button req-details">Request details</div>
 					  </div>
+					  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
+					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					</div>				  
 				</div>
 			</div>
@@ -136,12 +142,13 @@
 	</div>
 	</div>
 	<script type="text/javascript">
-	function Project(options){
-		this.page = {
-			start : 0,
-			pageSize : 3
+
+		function Project(options){
+			this.page = {
+				start : 0,
+				pageSize : 3
+			}
 		}
-	}
 	Project.prototype.init = function() {
 
 		var _classInstance = this;
@@ -194,7 +201,7 @@
 		          	self.updating =(false);
 
 		            _classInstance.listProjects(false,function(success){
-		            	alert(123)
+		            	
 		            	self.updating=success;
 		            	$(element).trigger('__sc__more',success)
 		            })
@@ -210,19 +217,37 @@
 		    }
 		  }
 		 };
-		 
+		 var filterName = $('#__filterName').val()
+		 if(typeof(filterName) == "undefined" || filterName == null ){
+		 	filterName = "";
+		 }
+		 var filterBhk = $('#__filterBhk').val()
+		 if(typeof(filterBhk) == "undefined" || filterBhk == null ){
+		 	filterBhk = "";
+		 }
+		  var filterType = $('#__filterType').val()
+		 if(typeof(filterType) == "undefined" || filterType == null ){
+		 	filterType = "";
+		 }
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
+
 			filters: {
 				displayName:ko.observable("All"),
-				name:ko.observable(""),
-				bhk:ko.observable(""),
-				type:ko.observable(""),
+				name:ko.observable(filterName),
+				bhk:ko.observable(filterBhk),
+				type:ko.observable(filterType),
 				order:ko.observable("asc")
 			},
 			addSome : function(){
 				
 				//_classInstance.listProjects(true);
+			},
+			applyFilters : function(){
+
+				_classInstance.resetPage();
+				_classInstance.listProjects(true);
+				return true;
 			},
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
@@ -235,10 +260,13 @@
 		var _classInstance=this;
 		_classInstance.viewModel.filters.name(filters.name)
 		_classInstance.viewModel.filters.bhk(filters.bhk)
-		classInstance.page.start=0;
 		_classInstance.scroller.updating=true;
+		_classInstance.resetPage();
 	}
-	
+	Project.prototype.resetPage = function(filters) {
+		var _classInstance=this;
+		_classInstance.page.start=0;
+	}
 	Project.prototype.renderResult = function(data,filters) {
 
 
