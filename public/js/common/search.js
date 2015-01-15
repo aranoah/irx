@@ -159,7 +159,7 @@
        
           response($.map(data.result, function(item) {
                         
-                        return {id:item._source.id,name:item._source.name};
+                        return {id:item._source.id,name:item._source.name,location:item._source.location};
                       }));
         }
     })

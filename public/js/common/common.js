@@ -1,6 +1,6 @@
 
 function Common() {
-
+	this.postReqLeads="post";
 }
 
 Common.prototype.init = function(first_argument) {
@@ -29,13 +29,15 @@ Common.prototype.init = function(first_argument) {
       	mobileNo:ko.observable(""),
       	city:ko.observable(""),
       	bhk:ko.observable(""),
-      	type:ko.observable("")
+      	type:ko.observable("user"),
+      	proName:ko.observable(""),
+      	locality:ko.observable("")
       },
       captureLeads:function(){
       	classInstance.captureLeads();
       }
     };
-    $("#__postReqSearch").autocomplete({
+    $("#"+classInstance.postReqLeads).find("#__postReqSearch").autocomplete({
 
             source: function(request, response){
                 var _self = this;
@@ -48,17 +50,19 @@ Common.prototype.init = function(first_argument) {
               cache: false,
               appendTo:'#autoDivPost',
               select: function( event, ui ) {
-                  $('#__postReqSearch').val(ui.item.id)
-                  classInstance.viewModelLeads.data.projectId(ui.item.id)
-                   return false;
+
+                classInstance.viewModelLeads.data.proName(ui.item.name)
+                classInstance.viewModelLeads.data.locality(ui.item.location.locality)
+                classInstance.viewModelLeads.data.projectId(ui.item.id)
+                return false;
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
         $(".ui-widget-content .ui-state-focus");
          return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
       };  
-    ko.applyBindings(classInstance.viewModelLeads,document.getElementById("post"))
+    ko.applyBindings(classInstance.viewModelLeads,document.getElementById(classInstance.postReqLeads))
  
-	 ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
+	ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
 
 
 };

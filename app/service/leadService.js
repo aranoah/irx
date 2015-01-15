@@ -46,7 +46,7 @@ LeadService.prototype.captureLeads = function(data) {
 	 // Make a database entry
 	var id = _selfInstance.getCustomMongoId("IL")
 
-		var leadData = new IRXLeadReviewModel({
+		var leadData = new IRXLeadModel({
 				"id":id,
 	  			"projectId": data.projectId,
 	   			"agentId": data.agentId,
