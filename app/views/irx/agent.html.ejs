@@ -39,10 +39,6 @@
 			      <input type="checkbox">
 			      <label>Distress</label>
 			    </div>
-	    		<div class="ui checkbox">
-			      <input type="checkbox">
-			      <label>Top 5 brokers</label>
-			    </div>
 				<div class="ui basic button">submit request</div>
 	    	</div>
 	    </div>
@@ -55,14 +51,14 @@
 		    <div class="content">
 
 		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-		      <a class="group" data-bind="text : companyName">IRX India</a>
+		      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
 
 		      <div class="content addr-ess">
     			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
     		  </div>
 		      <div class="description">
 		        Specialities : 
-		        <span data-bind="foreach : specialities">
+		        <span data-bind="foreach : specialities" style="margin-right:0;">
 			        <!-- ko if:$index()<=1 -->
 			        	<span class="header" data-bind="text : $data"></span>
 			        	 <!-- ko if:$index()==0 -->
@@ -101,7 +97,7 @@
 	  </div> 
 	    
 	</div>
-		<script type="text/javascript">
+	<script type="text/javascript">
 	function Agent(options){
 		this.page = {
 			start : 0,
@@ -189,7 +185,7 @@
 		 if(typeof(projectIdFilter) == "undefined" || projectIdFilter == null ){
 		 	projectIdFilter = "";
 		 }
-		 alert(projectIdFilter)
+		 
 		_classInstance.viewModel = {
 			agents: ko.observableArray(),
 			filters:{
@@ -226,28 +222,27 @@
     	}
 	    
 	 }
-	 Agent.prototype.processResult = function(data,replace,setUpdate) {
+	Agent.prototype.processResult = function(data,replace,setUpdate) {
 	 	var classInstance=this;
-	 	 if(data.status==0){
-		       	if(typeof(replace) != undefined && replace){
-		       		classInstance.viewModel.agents([]);
-		       	} 
-		       	ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
-		       	if(data.page != null){
-		       		if(classInstance.page.start==0){
-		       		classInstance.viewModel.total(data.page.total) ;
-			       	}
-		       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-		       		classInstance.viewModel.start(Number(data.page.start)+Number(data.result.length)) ;
-					if(setUpdate){
-		       			setUpdate(data.page.hasMore)
-		       		}
+	 	if(data.status==0){
+	       	if(typeof(replace) != undefined && replace){
+	       		classInstance.viewModel.agents([]);
+	       	} 
+	       	ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
+	       	if(data.page != null){
+	       		if(classInstance.page.start==0){
+	       			classInstance.viewModel.total(data.page.total) ;
 		       	}
-		   }
-	 }
+	       		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	       		classInstance.viewModel.start(Number(data.page.start)+Number(data.result.length)) ;
+				if(setUpdate){
+	       			setUpdate(data.page.hasMore)
+	       		}
+	       	}
+	   }
+	}
 	Agent.prototype.renderResult = function(data,filters) {
-
-
+		
 		var classInstance = this;  
 		classInstance.viewModel.agents([]);
 		classInstance.viewModel.filters.name(filters.name);
@@ -256,8 +251,8 @@
 		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
 		$('.doubling.two.column.row').hide();
 		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-	        classInstance.viewModel.start(classInstance.page.start) ;
-	        classInstance.viewModel.pageSize=data.page.pageSize;
+        classInstance.viewModel.start(classInstance.page.start) ;
+        classInstance.viewModel.pageSize=data.page.pageSize;
 
 	}
 	var agent = null;
@@ -268,4 +263,5 @@
 	    
 	  })
 	</script>
+  <% include ../partials/footer.html.ejs %>
 </body>

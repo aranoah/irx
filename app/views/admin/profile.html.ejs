@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../partials/head.html.ejs %>
+ 
 
   <script type="text/javascript" src="/js/library/knockout-3.2.0.js"></script>
   <script type="text/javascript" src="/js/library/knockout.mapping-latest.js"></script>
@@ -235,6 +235,7 @@
       <!-- Right panel ends here -->
     </div>    
   </div>
+
   <script type="text/javascript">
   function AdminProfile(){
     this.page={
@@ -397,4 +398,8 @@
     adminProfile.init();
   })
   </script>
+
+
+  <% include ../partials/footer.html.ejs %>
+
 </body>

@@ -54,3 +54,20 @@
     <!-- Ends here -->  
   </div>
 </div>
+<script>
+  function LeadsCapturing(data){
+    
+  }
+
+  LeadsCapturing.prototype.init = function() {
+    var classInstance = this;
+    classInstance.viewModel = {
+      emailId:ko.observable(""),
+      projectId:ko.observable(""),
+      agentId:ko.observable(""),
+      name:ko.observable(""),
+      mobileNo:ko.observable("")
+    }
+    ko.applyBindings(classInstance.viewModel,document.getElementById("leads"))
+  }
+</script>

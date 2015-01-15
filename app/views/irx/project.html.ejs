@@ -93,7 +93,7 @@
 					    	<span class="cinema">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></span>
 					  	</div><div class="ui checkbox">
 						  <input type="checkbox" value="small" checked="checked">
-						  <label>Distress</label>
+						  <label class="small test modal">Distress</label>
 						</div>			    	
 					</div>
 				</div>
@@ -142,12 +142,13 @@
 	</div>
 	</div>
 	<script type="text/javascript">
-	function Project(options){
-		this.page = {
-			start : 0,
-			pageSize : 3
+
+		function Project(options){
+			this.page = {
+				start : 0,
+				pageSize : 3
+			}
 		}
-	}
 	Project.prototype.init = function() {
 
 		var _classInstance = this;
@@ -300,13 +301,14 @@
 	        }
 		})
 	 }
-	var project = null;
-	$(document).ready(function(){
-	  
-	    project = new Project();
 
-	    project.init();
+		var project = null;
+		$(document).ready(function(){
+	  
+		    project = new Project();
+		    project.init();
 	    
-	  })
+	  	})
 	</script>
+  <% include ../partials/footer.html.ejs %>
 </body>

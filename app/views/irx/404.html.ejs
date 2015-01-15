@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+  <style type="text/css">
+  	.ui.two.column.centered.page.grid {
+  		padding-top:12rem; 
+  	}.ui.two.column.centered.page.grid>.column {
+  		padding: 1rem;
+  		background-color: #fff;
+  		box-shadow: 0 0 2px rgba(0,0,0,0.3);
+  	}
+
+  	.no-result h2, .no-result h4 {
+  		margin: 0 0 1rem;font-weight: normal;
+  	}
+  	.no-result h2 {
+  		color: #607d8b;
+  	}.no-result h4 {
+  		color: #638523;
+  	}
+  	.ui.stackable.three.column.grid {
+  		padding: 2rem 0
+  	}.ui.stackable.three.column.grid>.column {
+  		text-align: center;
+  	}
+  </style>
+</head>
+<body>  
+  <% include ../partials/header.html.ejs %>
+
+  <div class="no-result ui two column centered page grid">
+	  <div class="column">
+	  	<h2>It appears the page you're looking for is empty.</h2>
+	  	<h4>Did you try searching? Enter a keyword(s) in the search field above. Or, try one of the links below.</h4>
+	  	<div class="ui stackable centered three column grid">
+		    <div class="column">
+		    	<div class="ui link list">
+				  <div class="active item">Home</div>
+				  <a class="item">About</a>
+				  <a class="item">Jobs</a>
+				  <a class="item">Team</a>
+				</div>
+		    </div>
+		    <div class="column">
+		    	<div class="ui link list">
+				  <div class="active item">Home</div>
+				  <a class="item">About</a>
+				  <a class="item">Jobs</a>
+				  <a class="item">Team</a>
+				</div>
+		    </div>
+		    <div class="column">
+		    	<div class="ui link list">
+				  <div class="active item">Home</div>
+				  <a class="item">About</a>
+				  <a class="item">Jobs</a>
+				  <a class="item">Team</a>
+				</div>
+		    </div>
+		  </div>
+	  </div>
+	</div>
+		
+</body>

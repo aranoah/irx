@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+  <style type="text/css">
+  /*.sc { 
+  	height: 500px; 
+  	width: 500px; 
+  	overflow: scroll;
+  }*/
+  </style>
+</head>
+<% locals.uiContext.menu=false %>
+<body>  
+  <% include ../partials/header.html.ejs %>
+
+  <!-- Bg image starts here -->
+
+  	<div id="homepage" class="ui grid">
+	  <div class="doubling two column row">
+	    <div class="column left-bg"></div><div class="column right-bg"></div>
+	  </div>
+	</div>
+	<!-- Bg image ends here -->	
+  <% include ../partials/searchbar.html.ejs %>
+
+  <div class="ui one column centered grid">
+  <div class="column">
+  	<h2>It appears the page you're looking for is empty.</h2>
+  	<h4>Did you try searching? Enter a keyword(s) in the search field above. Or, try one of the links below.</h4>
+  	<div class="ui stackable three column grid">
+	    <div class="column">
+	    	<div class="ui link list">
+			  <div class="active item">Home</div>
+			  <a class="item">About</a>
+			  <a class="item">Jobs</a>
+			  <a class="item">Team</a>
+			</div>
+	    </div>
+	    <div class="column">
+	    	<div class="ui link list">
+			  <div class="active item">Home</div>
+			  <a class="item">About</a>
+			  <a class="item">Jobs</a>
+			  <a class="item">Team</a>
+			</div>
+	    </div>
+	    <div class="column">
+	    	<div class="ui link list">
+			  <div class="active item">Home</div>
+			  <a class="item">About</a>
+			  <a class="item">Jobs</a>
+			  <a class="item">Team</a>
+			</div>
+	    </div>
+	  </div>
+  </div>
+</div>
+	
+</body>
