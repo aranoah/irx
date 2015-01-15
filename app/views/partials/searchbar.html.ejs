@@ -1,37 +1,10 @@
 <!-- Search menu goes her
   -->
   <style>
-  .ui-menu .ui-menu-item a {
-    display: block;
-  padding: 8px 10px;
-  text-decoration: none;
-  cursor: pointer;
-  background-color: #FFF;
-  border: 1px solid #eee;
-  border-top: 0;
-  border-bottom: 0;
-  font-weight: 400;
-  color: #555;
-  font-size:12px;
-}
-.ui-menu .ui-menu-item a:hover{
-  color:#555;
-}
-ul{
-    -webkit-margin-before: 0em;
-  -webkit-margin-after: 0em;
-  -webkit-margin-start: 0px;
-  -webkit-margin-end: 0px;
-  -webkit-padding-start: 0px;
-}
-li.ui-menu-item {
-    list-style: none;
-    background:#eee;
-}
-.buttonClass {
-  border: 0;
-  background: none;
-}
+    button.buttonClass {
+      border:0;
+      background:inherit;
+    }
   </style>
   <script type="text/javascript" src="/js/common/search.js"></script>
 <div id="searchF">
@@ -86,10 +59,7 @@ li.ui-menu-item {
        <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
       <div class="item">
         <div class="ui icon input">
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
-          
-
-          <i class="search icon"></i>
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name"><i class="search icon"></i>
         </div>
 
       </div>
@@ -115,10 +85,7 @@ li.ui-menu-item {
       </div>
       <div class="item">
         <button class="buttonClass" type="submit">
-          <div class="ui basic button">
-            <i class="icon search"></i>
-            search
-          </div>
+          <div class="ui button">search</div>
         </button>
       </div>
       <!--<div class="item actions">

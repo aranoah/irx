@@ -45,33 +45,47 @@ $(document).ready(function () {
   $('.ui.radio.checkbox').checkbox();
   $('.ui.checkbox').checkbox();
 
-	$('.log-in').bind('click',function() {
+  $(document).off('click','.small.test.modal');
+  $(document).on('click','.small.test.modal',function () {
+    $('#confirmation').modal({
+      closable:false
+    }).modal('show');
+  });
+
+
+  $(document).off('click','.log-in');
+  $(document).on('click','.log-in',function() {
 		$('#login').modal({
-      closable:false,
+      closable:false
     }).modal('show');
 	});
 
-  $('.sell-in').bind('click',function() {
+
+  $(document).off('click','.sell-in');
+  $(document).on('click','.sell-in',function() {
     $('#sell').modal({
-      closable:false,
+      closable:false
     }).modal('show');
   });
 
-  $('.post-in').bind('click',function() {
+  $(document).off('click','.post-in');
+  $(document).on('click','.post-in',function() {
     $('#post').modal({
-      closable:false,
+      closable:false
     }).modal('show');
   });
 
-  $('.leads-in').bind('click',function() {
+  $(document).off('click','.leads-in');
+  $(document).on('click','.leads-in',function() {
     $('#leads').modal({
-      closable:false,
+      closable:false
     }).modal('show');
   });
 
-  $('.req-details').bind('click',function() {
+  $(document).off('click','.req-details');
+   $(document).on('click','.req-details',function() {
     $('#req-details').modal({
-      closable:false,
+      closable:false
     }).modal('show');
   });
 
@@ -128,15 +142,16 @@ $(document)
 
     setInterval(changeSides, 3000);
 
-    $(document).on('click','.three.wide.column.tab>.ui.small.button',function(){
-
-      var _self = $(this);
-      var _parent = _self.parents('#lower-content');
-
-      $('.three.wide.column.tab>.ui.small.button').removeClass('active');
-      _self.addClass('active');
-      _parent.find('.toggleBox').hide();
-      _parent.find('.'+_self.attr("attr-tab")).css('display','inline-block');
-    });
+    // $(document).off('click','.three.wide.column.tab>.ui.small.button');
+    // $(document).on('click','.three.wide.column.tab>.ui.small.button',function(event){
+    //   event.stopPropagation();
+    //   var _self = $(this);
+    //   var _parent = _self.parents('#lower-content');
+      
+    //   $('.three.wide.column.tab>.ui.small.button').removeClass('active');
+    //   _self.addClass('active');
+    //   _parent.find('.toggleBox').hide();
+    //   _parent.find('.'+_self.attr("attr-tab")).css('display','inline-block');
+    // });
 
   });
