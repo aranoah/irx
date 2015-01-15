@@ -25,6 +25,10 @@ var IRXLeadsSchema =new mongoose.Schema({
    mobileNo: {type:String,required:true},
    emailId: {type:String,required:true},
    type: {type:String,required:true},
+   propertyType: {type:String},
+   bhk: {type:String},
+   origin :{type:String}, //sell or post req or lead
+   action:{type:String},  //buy sell rent
    createdOn: {type:Date},
    updatedOn: {type:Date},
    status: {type:String},

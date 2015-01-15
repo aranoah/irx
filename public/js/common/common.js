@@ -31,7 +31,10 @@ Common.prototype.init = function(first_argument) {
       	bhk:ko.observable(""),
       	type:ko.observable("user"),
       	proName:ko.observable(""),
-      	locality:ko.observable("")
+      	locality:ko.observable(""),
+        propertyType:ko.observable(""),
+        action:ko.observable(""),
+        origin:ko.observable("post-req")
       },
       captureLeads:function(){
       	classInstance.captureLeads();

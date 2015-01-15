@@ -51,6 +51,10 @@ LeadService.prototype.captureLeads = function(data) {
 	  			"projectId": data.projectId,
 	   			"agentId": data.agentId,
 	   			"name": data.name,
+	   			"propertyType":data.propertyType,
+	   			"bhk":data.bhk,
+	   			"action":data.action,
+	   			"origin":data.origin,
 	   			"mobileNo":data.mobileNo,
 	   			"emailId": data.emailId,
 	   			"irxId" : data.irxId,
@@ -65,6 +69,15 @@ LeadService.prototype.captureLeads = function(data) {
 			
 			} else {
 				if(savedData){
+					var qObj = {
+						"action":"leads",
+						"data" : savedData.id
+					}
+					_app_context.sqs.sendMessage({
+                	"QueueUrl" : _app_context.qUrl,
+                	"MessageBody" : JSON.stringify(qObj)
+             	 }, function(err, data){                
+              });
 					_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,savedData,null);
 				} else{
 					_selfInstance.emit("done",STATUS.SERVER_ERROR.code,"Error saving verification",err,null);

@@ -15,8 +15,12 @@
 * CHANGES :
 *
 **/
-
-	var AWS = require('aws-sdk'),
+var emailUtils = require(_path_util+"/email-utils.js");
+var emailTemplates = require('email-templates');
+var mongoose = require('mongoose');
+var properties = require(_path_env+"/properties.js");
+var IRXLeadModel = require(_path_model+"/IRXLead");
+  var AWS = require('aws-sdk'),
     awsCredentialsPath = '/../../app/utils/sqsCredential.json',
     sqsQueueUrl = 'https://sqs.us-east-1.amazonaws.com/916217014216/IRX-test',
   
@@ -25,7 +29,8 @@
   
 	// Instantiate SQS client
 	sqs = new AWS.SQS();
- 
+  _app_context.sqs=sqs;
+  _app_context.qUrl=sqsQueueUrl;
   //console.log("hello",sqs)
   function queueReciever(){
     sqs.receiveMessage({
@@ -46,16 +51,44 @@
     //   doSomethingCool(body, message);  // whatever you wanna do
     //   // Clean up after yourself... delete this message from the queue, so it's not executed again
     //   removeFromQueue(message);  // We'll do this in a second
+    var messages  = data.Messages;
+    for(var i=0;i<messages.length;i++){
+      var message  = messages[i];
+      if(message && message.Body){
+        var messageData = JSON.parse(message.Body);
+        if(messageData.action == 'leads'){
+            console.log("send email and verification code")
+            IRXLeadModel.findOne({ 'id': messageData.data }, function (err, lead) {
+              if (err){
+               console.log(err)
+              } else{
+                var locals = {
+                "name": lead.name,
+                "proName":lead.projectId,
+                "subject":properties.leads_subject,
+                "mobileNo":lead.mobileNo,
+                "userId":lead.emailId
+              }
+              new emailUtils().sendEmail("post-req",locals,function(error,success){
+                if(error != null){
+                  console.error(error);
+                }else if(success != null){
+                  console.log(success)
+                }
+              });
+                
+              }
+            })
+          
+        }
+      }
+    }
     sqs.deleteMessage({
                 "QueueUrl" : sqsQueueUrl,
                 "ReceiptHandle" :data.Messages[0].ReceiptHandle
               }, function(err, data){                
               });
-      sqs.sendMessage({
-                "QueueUrl" : sqsQueueUrl,
-                "MessageBody" :"Test"
-              }, function(err, data){                
-              });
+      
    
    }
    queueReciever();
