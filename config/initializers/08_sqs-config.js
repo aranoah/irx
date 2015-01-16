@@ -16,6 +16,7 @@
 *
 **/
 var emailUtils = require(_path_util+"/email-utils.js");
+var smsUtils = require(_path_util+"/sms-utils.js")
 var emailTemplates = require('email-templates');
 var mongoose = require('mongoose');
 var properties = require(_path_env+"/properties.js");
@@ -57,7 +58,7 @@ var IRXLeadModel = require(_path_model+"/IRXLead");
       if(message && message.Body){
         var messageData = JSON.parse(message.Body);
         if(messageData.action == 'leads'){
-            
+            // Send Email to user 
             IRXLeadModel.findOne({ 'id': messageData.data }, function (err, lead) {
               if (err){
                console.log(err)
@@ -76,6 +77,7 @@ var IRXLeadModel = require(_path_model+"/IRXLead");
                   console.log(success)
                 }
               });
+              new smsUtils().sendSms({"msg":properties.leads_message});
                 
               }
             })
