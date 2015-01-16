@@ -45,6 +45,8 @@ module.exports = function routes() {
   this.match('agent-autocomplete',{ controller: 'list/rest/agentList', action: 'agentAutocomplete' , via: 'GET' });
   this.match('autocomplete',{ controller: 'list/rest/projectList', action: 'autocomplete' , via: 'GET' });
   this.match('project-autocomplete',{ controller: 'list/rest/projectList', action: 'projectAutocomplete' , via: 'GET' });
+
+  this.match('irx/home',{ controller : 'irx/home', action:'main', via:'GET'});
   
   /*
   * Listing Related urls

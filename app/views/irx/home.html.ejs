@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+</head>
+<% locals.uiContext.menu=false %>
+<style type="text/css">
+	#header {
+		background-color: #00bcd4 !important;
+	}
+	#header>._logo_ , #header>._link, #header .right.menu>.item{
+		color: #fff !important;
+	}
+
+	#homescreen.ui.inverted.masthead.segment {
+		background: #1b1c1d url(/img/bg.png) no-repeat center !important;
+		background-size: cover !important;
+		min-height: 380px;
+		margin-top: 4rem;
+	}
+
+	#homescreen.ui.inverted.masthead.segment>.ui.page.grid>.column {
+		text-align: center !important;
+		padding: 5rem 0;
+	}
+	#homescreen h1.ui.inverted.header {
+		padding-top: 1.5rem;
+	}
+
+	#homescreen .field {
+		margin-right: 4rem !important;
+	}
+	#homescreen .field label {
+		color: #fff !important;
+		font-size: 1.2rem;
+		text-transform: uppercase;
+	}
+
+	#search-box {
+		padding: 0 !important;
+		background-color: rgba(0,0,0,0.4) !important;
+		box-shadow: 0 0 1px #fff !important;
+		width: 520px;
+	}
+
+	#search-box .ui.icon.input {
+		display: block;
+	}
+	#search-box .ui.icon.input>i {
+		color: #fafafa !important;
+	}
+	#search-box .ui.icon.input>input {
+		background-color: inherit;
+		border:0;
+		padding: 1.5em !important;
+		font-size: 1.15rem;
+		color: #fafafa!important;
+		border-bottom: 1px solid rgba(255,255,255,.2) !important;
+		border-radius: 0 !important;
+	}
+	#search-box .ui.icon.input>input::-webkit-input-placeholder { /* WebKit browsers */
+		color: #fafafa!important;
+	}
+	#search-box .ui.icon.input>input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		color: #fafafa!important;
+	}
+	#search-box .ui.icon.input>input::-moz-placeholder { /* Mozilla Firefox 19+ */
+		color: #fafafa!important;
+	}
+	#search-box .ui.icon.input>input:-ms-input-placeholder { /* Internet Explorer 10+ */
+		color: #fafafa!important;
+	}
+
+	#search-box .inline.fields {
+		padding:  1.5em !important;
+		text-align: left;
+	}
+</style>
+<body id="home">
+  <% include ../partials/header.html.ejs %>
+
+  	<!-- Homepage Content starts here -->
+
+  		<div id="homescreen" class="ui inverted masthead segment">
+		    <div class="ui page grid">
+		      <div class="column">
+		        <div class="ui transition information visible">
+		          <div class="ui form">
+					  <div class="inline fields">
+					    <div class="field">
+					      <div class="ui radio checkbox">
+					        <input type="radio" name="fruit" checked="">
+					        <label><i class="icon building outline"></i>Projects</label>
+					      </div>
+					    </div>
+					    <div class="field">
+					      <div class="ui radio checkbox">
+					        <input type="radio" name="fruit">
+					        <label><i class="icon user"></i>Agents</label>
+					      </div>
+					    </div>
+					    <div class="field">
+					      <div class="ui radio checkbox">
+					        <input type="radio" name="fruit">
+					        <label><i class="icon marker"></i>Locations</label>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+		          <h1 class="ui inverted header">Explore Projects</h1>
+		          <div id="search-box" class="large basic inverted animated fade ui button">
+		            <div class="ui fluid category search">
+					  <div class="ui icon input">
+					    <input class="prompt" type="text" placeholder="Search projects by name or location...">
+					    <i class="search icon"></i>
+					  </div>
+					  <div class="results"></div>
+					</div>
+					<div class="inline fields">
+						<div class="ui dropdown field">
+						  <div class="text">Type</div>
+						  <i class="angle down icon"></i>
+						  <div class="menu">
+						    <div class="header">Rent</div>
+						    <div class="item">Resale</div>
+						    <div class="header">Land</div>
+						    <div class="item">Project</div>
+						  </div>
+						</div><div class="ui dropdown field">
+						  <div class="text">BHK</div>
+						  <i class="angle down icon"></i>
+						  <div class="menu">
+						    <div class="header">1bhk</div>
+						    <div class="item">2bhk</div>
+						    <div class="header">3bhk</div>
+						    <div class="item">4bhk</div>
+						  </div>
+						</div><div class="ui dropdown field">
+						  <div class="text">Budget</div>
+						  <i class="angle down icon"></i>
+						  <div class="menu">
+						    <div class="header"><10lac</div>
+						    <div class="item">10lac - 50lac</div>
+						    <div class="item">>50lac</div>
+						  </div>
+						</div>
+					</div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+
+  	<!-- Homepage content ends here -->
+ 
+  <% include ../partials/footer.html.ejs %>
+</body>
