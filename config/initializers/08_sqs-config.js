@@ -57,7 +57,7 @@ var IRXLeadModel = require(_path_model+"/IRXLead");
       if(message && message.Body){
         var messageData = JSON.parse(message.Body);
         if(messageData.action == 'leads'){
-            console.log("send email and verification code")
+            
             IRXLeadModel.findOne({ 'id': messageData.data }, function (err, lead) {
               if (err){
                console.log(err)
