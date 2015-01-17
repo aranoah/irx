@@ -27,8 +27,8 @@
 		padding-top: 1.5rem;
 	}
 
-	#homescreen .field {
-		margin-right: 4rem !important;
+	#homescreen .ui.form .field {
+		margin-right: 4rem;
 	}
 	#homescreen .field label {
 		color: #fff !important;
@@ -38,9 +38,10 @@
 
 	#search-box {
 		padding: 0 !important;
-		background-color: rgba(0,0,0,0.4) !important;
+		background-color: rgba(0,0,0,0.3) !important;
 		box-shadow: 0 0 1px #fff !important;
 		width: 520px;
+		margin: 0 auto;
 	}
 
 	#search-box .ui.icon.input {
@@ -58,22 +59,94 @@
 		border-bottom: 1px solid rgba(255,255,255,.2) !important;
 		border-radius: 0 !important;
 	}
-	#search-box .ui.icon.input>input::-webkit-input-placeholder { /* WebKit browsers */
+	#search-box input::-webkit-input-placeholder { /* WebKit browsers */
 		color: #fafafa!important;
 	}
-	#search-box .ui.icon.input>input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	#search-box input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
 		color: #fafafa!important;
 	}
-	#search-box .ui.icon.input>input::-moz-placeholder { /* Mozilla Firefox 19+ */
+	#search-box input::-moz-placeholder { /* Mozilla Firefox 19+ */
 		color: #fafafa!important;
 	}
-	#search-box .ui.icon.input>input:-ms-input-placeholder { /* Internet Explorer 10+ */
+	#search-box input:-ms-input-placeholder { /* Internet Explorer 10+ */
 		color: #fafafa!important;
 	}
 
 	#search-box .inline.fields {
 		padding:  1.5em !important;
 		text-align: left;
+	}
+
+	#search-box .inline.fields>.field:not(:last-child) {
+		margin-right: 2.5rem;
+	}
+
+	#search-box .inline.fields>.field>a.link {
+		color: #fff;
+	}
+
+	#search-box .ui.fluid.search.selection.dropdown.field {
+		display: inline-block;
+		width: 160px;
+		background-color: inherit;
+		padding: 0;
+	}
+	#search-box .ui.fluid.search.selection.dropdown.field i {
+		float: right;
+		color: #fff;
+	}
+	#search-box .ui.fluid.search.selection.dropdown.field .text, #search-box .ui.fluid.search.selection.dropdown.field input {
+		color: #fff !important;
+	}
+
+	/** lower-portion **/
+
+	.lower-portion, #locations {
+		margin-top: 4% !important;
+	}
+
+	.lower-portion h2.ui.inverted.header {
+		position: relative;
+		color: #607d8b;
+		text-transform: uppercase;
+		font-weight: normal;
+		font-family: 'roboto condensed';
+	}
+	.lower-portion h2.ui.inverted.header:after {
+		position: absolute;
+		content: "";
+		width: 10rem;
+		height: 2px;
+		background-color: #607d8b;
+		top: 40px;
+		left: 42%;
+	}
+
+	#locations.lower-portion h2.ui.inverted.header:after {
+		width: 5rem;
+		left: 46%;
+	}
+
+	.lower-portion .ui.centered.page.grid {
+		margin: 2% 0;
+	}
+
+	.lower-portion .ui.three.column.center.aligned.stackable.divided.grid {
+		margin-top: 0;
+	}
+
+	.lower-portion .ui.three.column.center.aligned.stackable.divided.grid>.column {
+		box-shadow: none !important;
+	}
+
+	.lower-portion img {
+		height: 110px !important;
+		width: 100% !important;
+	}
+
+	.ui.card .extra.content>span {
+		display: inline-block;
+		margin-right: 2rem;
 	}
 </style>
 <body id="home">
@@ -102,13 +175,13 @@
 					    <div class="field">
 					      <div class="ui radio checkbox">
 					        <input type="radio" name="fruit">
-					        <label><i class="icon marker"></i>Locations</label>
+					        <label><i class="icon location arrow"></i>Locations</label>
 					      </div>
 					    </div>
 					  </div>
 					</div>
 		          <h1 class="ui inverted header">Explore Projects</h1>
-		          <div id="search-box" class="large basic inverted animated fade ui button">
+		          <div id="search-box" class="large basic inverted animated fade ui">
 		            <div class="ui fluid category search">
 					  <div class="ui icon input">
 					    <input class="prompt" type="text" placeholder="Search projects by name or location...">
@@ -116,30 +189,42 @@
 					  </div>
 					  <div class="results"></div>
 					</div>
-					<div class="inline fields">
+					<div class="inline fields">						
+						<div class="ui fluid search selection dropdown field">
+						  <input type="hidden" name="country">
+						  <i class="angle down icon"></i>
+						  <div class="default text">Select City</div>
+						  <div class="menu">
+						    <div class="item" data-value="ad"><i class="ad flag"></i>New Delhi</div>
+						    <div class="item" data-value="ae"><i class="ae flag"></i>Bangalore</div>
+						    <div class="item" data-value="af"><i class="af flag"></i>Mumbai</div>
+						    <div class="item" data-value="ag"><i class="ag flag"></i>Chennai</div>
+						  </div>
+						</div>
 						<div class="ui dropdown field">
 						  <div class="text">Type</div>
 						  <i class="angle down icon"></i>
 						  <div class="menu">
-						    <div class="header">Rent</div>
+						    <div class="item">Rent</div>
 						    <div class="item">Resale</div>
-						    <div class="header">Land</div>
+						    <div class="item">Land</div>
 						    <div class="item">Project</div>
 						  </div>
 						</div><div class="ui dropdown field">
 						  <div class="text">BHK</div>
 						  <i class="angle down icon"></i>
 						  <div class="menu">
-						    <div class="header">1bhk</div>
+						    <div class="item">1bhk</div>
 						    <div class="item">2bhk</div>
-						    <div class="header">3bhk</div>
+						    <div class="item">3bhk</div>
 						    <div class="item">4bhk</div>
 						  </div>
-						</div><div class="ui dropdown field">
+						</div>
+						<div class="ui dropdown field">
 						  <div class="text">Budget</div>
 						  <i class="angle down icon"></i>
 						  <div class="menu">
-						    <div class="header"><10lac</div>
+						    <div class="item">10lac</div>
 						    <div class="item">10lac - 50lac</div>
 						    <div class="item">>50lac</div>
 						  </div>
@@ -151,7 +236,184 @@
 		    </div>
 		  </div>
 
-  	<!-- Homepage content ends here -->
+  	<!-- Homepage upper portion ends here -->
+
+  		<div id="collections" class="ui very relaxed stackable page grid lower-portion">
+  			<div class="row">
+  				<div class="column">
+		          <h2 class="center aligned ui inverted header">
+		            Don't know what to search? browse from our collections.
+		          </h2>
+		        </div>
+  			</div>
+
+  			<div class="ui centered page grid">
+  				<div class="fourteen wide column">
+  					<div class="ui three column center aligned stackable divided grid">
+			          <div class="column">
+			            <div class="ui medium images transition information">
+						  <img src="/images/rec-image.png">
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui medium images">
+						  <img src="/images/rec-image.png">
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui medium images">
+						  <img src="/images/rec-image.png">
+						</div>
+			          </div>
+			        </div>
+			        <div class="ui three column center aligned stackable divided grid">
+			          <div class="column">
+			            <div class="ui medium images">
+						  <img src="/images/rec-image.png">
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui medium images">
+						  <img src="/images/rec-image.png">
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui medium images">
+						  <img src="/images/rec-image.png">
+						</div>
+			          </div>
+			        </div>
+  				</div>
+  			</div>
+  			
+  		</div>
+
+  		<!-- collections ends here -->
+
+  		<div id="locations" class="ui very relaxed stackable page grid lower-portion">
+  			<div class="row">
+  				<div class="column">
+		          <h2 class="center aligned ui inverted header">
+		            Explore localities.
+		          </h2>
+		        </div>
+  			</div>
+
+  			<div class="ui centered page grid">
+  				<div class="fourteen wide column">
+  					<div class="ui three column center aligned stackable divided grid">
+			          <div class="column">
+			            <div class="ui card">
+						  <div class="content">
+						    <div class="header">Nirala Bazar</div>
+						    <div class="extra content">
+						      <span class="item">
+						        <p>Agents</p>
+						        15
+						      </span>
+						      <span class="item">
+						       	<p>Projects</p>
+						        30
+						      </span>
+						    </div>
+						  </div>
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui card">
+						  <div class="content">
+						    <div class="header">Vedant Nagar</div>
+						    <div class="extra content">
+						      <span class="item">
+						        <p>Agents</p>
+						        15
+						      </span>
+						      <span class="item">
+						       	<p>Projects</p>
+						        30
+						      </span>
+						    </div>
+						  </div>
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui card">
+						  <div class="content">
+						    <div class="header">Gadia Vihar</div>
+						    <div class="extra content">
+						      <span class="item">
+						        <p>Agents</p>
+						        15
+						      </span>
+						      <span class="item">
+						       	<p>Projects</p>
+						        30
+						      </span>
+						    </div>
+						  </div>
+						</div>
+			          </div>
+			        </div>
+			        <div class="ui three column center aligned stackable divided grid">
+			          <div class="column">
+			            <div class="ui card">
+						  <div class="content">
+						    <div class="header">Nirala Bazar</div>
+						    <div class="extra content">
+						      <span class="item">
+						        <p>Agents</p>
+						        15
+						      </span>
+						      <span class="item">
+						       	<p>Projects</p>
+						        30
+						      </span>
+						    </div>
+						  </div>
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui card">
+						  <div class="content">
+						    <div class="header">Vedant Nagar</div>
+						    <div class="extra content">
+						      <span class="item">
+						        <p>Agents</p>
+						        15
+						      </span>
+						      <span class="item">
+						       	<p>Projects</p>
+						        30
+						      </span>
+						    </div>
+						  </div>
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui card">
+						  <div class="content">
+						    <div class="header">Gadia Vihar</div>
+						    <div class="extra content">
+						      <span class="item">
+						        <p>Agents</p>
+						        15
+						      </span>
+						      <span class="item">
+						       	<p>Projects</p>
+						        30
+						      </span>
+						    </div>
+						  </div>
+						</div>
+			          </div>
+			        </div>
+  				</div>
+  			</div>
+  			
+  		</div>
+
+  		<!-- locations ends here -->
+
  
   <% include ../partials/footer.html.ejs %>
 </body>

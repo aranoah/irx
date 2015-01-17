@@ -441,6 +441,13 @@ body {
   .proj-listing .content .social-share {
     right: 0;
   }
+
+  #search-box {
+    width: 330px !important;
+  }
+  #homescreen .ui.form .field {
+    margin-right: 0 !important;
+  }
 }
 
 
