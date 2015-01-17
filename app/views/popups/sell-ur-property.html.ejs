@@ -10,38 +10,54 @@
   <div id="lower-content" class="actions ui grid">
     
     <!-- sell your property starts here -->
-        
+        <input type="hidden" value="sell-property" data-bind="value:data.origin" >
+        <input type="hidden" data-bind="value:data.type" value="user">
         <div class="ui inverted menu">
           <h4 class="ui dividing header">Property Information :</h4>
+
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="city">
-                <div class="default text">City</div>
-                <i class="angle down icon"></i>
-                <div class="menu">
-                  <div class="item" data-value="NewD">New Delhi</div>
-                  <div class="item" data-value="Bang">Bangalore</div>
-                  <div class="item" data-value="Mum">Mumbai</div>
-                  <div class="item" data-value="Che">Chennai</div>
-                </div>
-              </div>
-            </div>
-            <div class="item">
-              <div class="ui selection dropdown">
-                <input type="hidden" name="type">
+                <input type="hidden" name="type" data-bind="value:data.propertyType">
                 <div class="default text">Type</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
-                  <div class="item" data-value="Rent">Rent</div>
-                  <div class="item" data-value="sale">Resale</div>
+                  <div class="item" data-value="Rent">Apartemnt</div>
+                  <div class="item" data-value="sale">Villa</div>
                   <div class="item" data-value="land">Land</div>
-                  <div class="item" data-value="proj">Project</div>
+                  <div class="item" data-value="proj">Flat</div>
                 </div>
               </div>
             </div>
+
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="bhk">
+                <input type="hidden" name="city" data-bind="value:data.city">
+                <div class="default text">City</div>
+                <i class="angle down icon"></i>
+                <div class="menu">
+                  <div class="item" data-value="New Delhi">New Delhi</div>
+                  <div class="item" data-value="Bangalore">Bangalore</div>
+                  <div class="item" data-value="Mumbai">Mumbai</div>
+                  <div class="item" data-value="Chennai">Chennai</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="item">
+              <div class="ui selection dropdown">
+                <input type="hidden" name="buy" data-bind="value:data.action">
+                <div class="default text">Action</div>
+                <i class="angle down icon"></i>
+                <div class="menu">
+                  <div class="item" data-value="rent">Rent</div>
+                  <div class="item" data-value="sell">Sell</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="ui selection dropdown" >
+                <input type="hidden" name="bhk" data-bind="value:data.bhk">
                 <div class="default text">BHK</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
@@ -52,33 +68,38 @@
                 </div>
               </div>
             </div>
+            
             <div class="item field">
-              <input type="text" placeholder="Name">
+              <input type="text" id="__sellPostSearch" placeholder=" Search project.." data-bind="value:data.proName" >
+              <div id="autoDivSell">
             </div>
+            </div>
+            
             <div class="item field">
-              <input type="text" placeholder="Location">
+              <input type="text" placeholder="Location" data-bind="value:data.locality">
             </div>
-            <div class="field item">
+            <!--<div class="field item">
               <textarea placeholder="Write few words about your property..."></textarea>
-            </div>
+            </div>-->
         </div>
 
         <div class="ui inverted menu contact">
-          <h4 class="ui dividing header">Contact Information :</h4>            
+          <h4 class="ui dividing header">Contact Information :</h4>
+             
           <div class="item field">
-            <input type="text" placeholder="Name">
+            <input type="text" placeholder="Name" data-bind="value:data.name">
           </div>
           <div class="item field">
-            <input type="text" placeholder="Email">
+            <input type="text" placeholder="Email" data-bind="value:data.emailId">
           </div>            
           <div class="item field">
-            <input type="text" placeholder="Mobile">
+            <input type="text" placeholder="Mobile" data-bind="value:data.mobileNo">
           </div>
         </div>
 
         <div class="three column row">
           <div class="right floated column">
-            <div class="ui submit button">Submit</div>
+            <div class="ui submit button" data-bind="click: captureLeads">Submit</div>
           </div>
           <div class="left floated column">
             <div class="ui checkbox">
@@ -87,7 +108,6 @@
             </div>
           </div>
         </div>
-
     <!-- Ends here -->  
   </div>
 </div>
