@@ -19,7 +19,7 @@ module.exports = function(done) {
 	this.elasticsearch = require('elasticsearch');
 	try{
 		_app_context.esClient = new this.elasticsearch.Client({
-		  host: '192.168.0.102:9200',
+		  host: '192.168.0.101:9200',
 		  
 		  log: 'trace'
 		});
@@ -27,5 +27,9 @@ module.exports = function(done) {
 	catch(e){
 		console.log(e);
 	}
+	_app_context.esClient = new this.elasticsearch.Client({
+	  host: 'localhost:9200',
+	  log: 'trace'
+	});
 	done();
 }

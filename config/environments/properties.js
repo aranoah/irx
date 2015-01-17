@@ -25,6 +25,7 @@ var properties = {
 	"sms_req_type":"POST",
 	"sms_senderId":"HereIM",
 	"s3_host_name":"irx.s3-website-ap-southeast-1.amazonaws.com",
-	"registeration_subject":"Welcome to IRX"
+	"registeration_subject":"Welcome to IRX",
+	"leads_subject":"A new lead for you"
 }
 module.exports=properties

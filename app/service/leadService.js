@@ -46,11 +46,15 @@ LeadService.prototype.captureLeads = function(data) {
 	 // Make a database entry
 	var id = _selfInstance.getCustomMongoId("IL")
 
-		var leadData = new IRXLeadReviewModel({
+		var leadData = new IRXLeadModel({
 				"id":id,
 	  			"projectId": data.projectId,
 	   			"agentId": data.agentId,
 	   			"name": data.name,
+	   			"propertyType":data.propertyType,
+	   			"bhk":data.bhk,
+	   			"action":data.action,
+	   			"origin":data.origin,
 	   			"mobileNo":data.mobileNo,
 	   			"emailId": data.emailId,
 	   			"irxId" : data.irxId,
@@ -65,6 +69,15 @@ LeadService.prototype.captureLeads = function(data) {
 			
 			} else {
 				if(savedData){
+					var qObj = {
+						"action":"leads",
+						"data" : savedData.id
+					}
+					_app_context.sqs.sendMessage({
+                	"QueueUrl" : _app_context.qUrl,
+                	"MessageBody" : JSON.stringify(qObj)
+             	 }, function(err, data){                
+              });
 					_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,savedData,null);
 				} else{
 					_selfInstance.emit("done",STATUS.SERVER_ERROR.code,"Error saving verification",err,null);
@@ -93,7 +106,7 @@ LeadService.prototype.captureLeads = function(data) {
 	}) 
 
 	// check for valid Project
-	IRXProductLineModel.findOne({"id":"projectId"},{"id":1},function(err,project){
+	IRXProductLineModel.findOne({"id":data.projectId},{"id":1},function(err,project){
 		if(err){
 			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
