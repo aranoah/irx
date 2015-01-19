@@ -9,11 +9,9 @@
       "irx-euser":"user"
     }
   }
-  SearchBar.prototype.init=function(){
-
+  SearchBar.prototype.getViewModel = function(){
     var _classInstance = this;
-
-    _classInstance.viewModel = {
+    var viewModel = {
       name : ko.observable(""),
       bhk : ko.observable(""),
       order : ko.observable("asc"),
@@ -55,8 +53,16 @@
       }
          
     }
-     $("#__searchAuto").autocomplete({
+    return viewModel;
+  }
 
+  SearchBar.prototype.init=function(){
+
+    var _classInstance = this;
+
+    _classInstance.viewModel = _classInstance.getViewModel();
+     $("#__searchAuto").autocomplete({
+           
             source: function(request, response){
                 var _self = this;
                 if(_classInstance.viewModel.searchType()=='project'){
