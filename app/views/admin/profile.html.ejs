@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <% include ../partials/head.html.ejs %>
  
 
   <script type="text/javascript" src="/js/library/knockout-3.2.0.js"></script>
@@ -22,12 +23,26 @@
 
       <!-- Left panel starts here -->
 
-      <div class="four wide column">
+      <div class="four wide column _editable_">
         <div class="column li-box">
-          <i class="profile edit icon"></i>
           <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
-          <div class="item"><div class="header"><%= result.name %></div>Company name</div>
-          <img class="" src="/img/fb.png">
+          <div class="content">
+            <div class="header _name_ profEdit" contenteditable="false"><%= result.name %>
+            <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i></div>
+            <div class="ui buttons">
+              <div class="ui positive button">Save</div>
+              <div class="ui button _cancel_" data-bind="click:function(){profileClose('_name_')}">Cancel</div>
+            </div>
+          </div>
+          <div class="content">
+            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false">Company name
+            <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i></div>
+            <div class="ui buttons">
+              <div class="ui positive button">Save</div>
+              <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
+            </div>
+          </div>
+          <img style="padding: 1rem 0 .5rem;" src="/img/fb.png">
 
           <div class="lib-actions">
             <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
@@ -101,7 +116,7 @@
                         <!-- ko if: projects().length==0 -->
                           <div class="ui info message">
                             <ul class="list">
-                              <li>No locations associated to your profile currently.</li>
+                              <li>No projects associated to your profile currently.</li>
                               <li><a href="link">Click here to add one</a></li>
                             </ul>
                           </div>
@@ -244,6 +259,38 @@
     }
     this.userId="puneet.sharma"
   }
+
+  $('div[contenteditable="false"]:not(.active)').on('mouseenter',function(){
+    var _self = $(this);
+  
+    _self.find('i.write.icon').show();
+  });
+
+  $('div[contenteditable="false"]:not(.active)').on('mouseleave',function(){
+    var _self = $(this);
+  
+    _self.find('i.write.icon').hide();
+  });
+
+  function profileEdit(self) {
+
+    var _self = $('.'+self);
+
+    _self.addClass('active');
+    _self.attr("contenteditable","true");
+    _self.find('i').hide();
+    _self.siblings('.ui.buttons').show();
+  }
+
+  function profileClose(self) {
+    var _self = $('.'+self);
+
+    _self.removeClass('active');
+    _self.attr("contenteditable","false");
+    _self.find('i').css('display','initial');
+    _self.siblings('.ui.buttons').hide();
+  }
+
   AdminProfile.prototype.init = function() {
     var classInstance = this;
     
