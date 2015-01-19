@@ -231,4 +231,24 @@ userController.listUserLocations = function() {
     userSvc.listUserLocations(data);
   
 }
+
+userController.inviteForReview = function(){
+  var _nself = this;
+  var targetId = _nself.req.params.userid;
+  var parentId = "";
+  if(_nself.req.session['X-CS-Auth']){
+    if(_nself.req.session['X-CS-Auth'].user){
+      parentId =_nself.req.session['X-CS-Auth'].user.userId;
+    }
+  }
+  var userSvc = new userService();
+  userSvc.on("done", function(code,msg,result,errValue){
+    _nself.processJson(code,msg,result,errValue);
+  });
+  var data = {
+    "parentId":parentId,
+    "targetId": targetId
+  }
+  userSvc.inviteForReview(data);
+}
 module.exports = userController;   

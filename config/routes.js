@@ -26,6 +26,13 @@ module.exports = function routes() {
   }
 
   /*
+  * Review
+  */
+  
+  this.match("invite-for-review/:userid",{controller: 'user/rest/user',action:'inviteForReview',via:'GET'})
+
+
+  /*
   * Login and logout
   */
 

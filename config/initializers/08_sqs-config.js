@@ -15,6 +15,9 @@
 * CHANGES :
 *
 **/
+var CONSTANTS = require(_path_util+'/constants');
+
+var MAIL_TYPE = CONSTANTS.MAIL_TYPE;
 var emailUtils = require(_path_util+"/email-utils.js");
 var smsUtils = require(_path_util+"/sms-utils.js")
 var emailTemplates = require('email-templates');
@@ -58,7 +61,7 @@ var IRXUserProfileModel = require(_path_model+"/IRXUser");
       var message  = messages[i];
       if(message && message.Body){
         var messageData = JSON.parse(message.Body);
-        if(messageData.action == 'leads'){
+        if(messageData.action == MAIL_TYPE.LEAD){
             // Send Email and sms to user 
             IRXLeadModel.findOne({ 'id': messageData.data }, function (err, lead) {
               if (err){
@@ -106,6 +109,18 @@ var IRXUserProfileModel = require(_path_model+"/IRXUser");
               }
             })
           
+        }
+        if(messageData.action == MAIL_TYPE.INVITATION){
+          console.log("here")
+            var locals =messageData.data;
+            locals.userId=messageData.data.targetId;
+              new emailUtils().sendEmail("invitation",locals,function(error,success){
+                if(error != null){
+                  console.error(error);
+                }else if(success != null){
+                  console.log(success)
+                }
+              });
         }
       }
     }

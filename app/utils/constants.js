@@ -29,8 +29,14 @@ var STATUS={
   CLIENT_ERROR:{code:400,msg:"Client Error"} ,
   SERVER_ERROR:{code:500,msg:"Server Error"} ,
   OK:{code:0,msg:"Ok"} ,
-  NO_UPDATION:{code:22,msg:"Not Updated"} 
+  NO_UPDATION:{code:22,msg:"Not Updated"},
+  FORBIDDEN : {code:401,msg:"Not Allowed"} 
     
+};
+var MAIL_TYPE={
+  INVITATION:"invitation",
+  REGISTER:"register" ,
+  LEAD:"lead" 
 };
 var MONGO_STATUS={
   CLIENT_ERROR:{code:400,msg:"Client Error"} ,
@@ -105,5 +111,5 @@ HEventEmitter.prototype.exec=function(){
 }
 exports.him_constants = new HIM_CONSTANTS() ;
 exports.him_status = STATUS;
-
+exports.MAIL_TYPE = MAIL_TYPE;
 exports.def_page = PAGE;
