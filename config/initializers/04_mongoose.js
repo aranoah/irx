@@ -21,11 +21,12 @@ module.exports = function(done) {
     
  switch (this.env) { 
     case 'development':
-      this.mongoose.connect('mongodb://localhost:27020/IRX');
-      break;
+    this.mongoose.connect('mongodb://122.176.210.251:27017/IRX');
+    break;
+   
     case 'production':
-      this.mongoose.connect('mongodb://192.168.0.102:27017/IRX');
-      break;
+    this.mongoose.connect('mongodb://122.176.210.251:27017/IRX');
+    break;
   }
    
 var _self = this;

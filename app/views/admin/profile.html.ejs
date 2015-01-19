@@ -2,7 +2,6 @@
 <html>
 <head>
   <% include ../partials/head.html.ejs %>
- 
 
   <script type="text/javascript" src="/js/library/knockout-3.2.0.js"></script>
   <script type="text/javascript" src="/js/library/knockout.mapping-latest.js"></script>
@@ -25,7 +24,12 @@
 
       <div class="four wide column _editable_">
         <div class="column li-box">
-          <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
+          <div class="lib-pic">
+            <img id="pic" class="ui circular image" src="/img/pic.png">
+            <div class="Editpic">
+              <input id="_profilePic" type="file"><i class="icon photo"></i>
+            </div>
+          </div>
           <div class="content">
             <div class="header _name_ profEdit" contenteditable="false"><%= result.name %>
             <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i></div>
@@ -260,6 +264,26 @@
     this.userId="puneet.sharma"
   }
 
+  function getImage(input) {
+      
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#pic').attr('src', e.target.result);
+      }
+      var filename = input.value;
+      var lastIndex = filename.lastIndexOf("\\");
+      if (lastIndex >= 0) {
+        filename = filename.substring(lastIndex + 1);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  $("#_profilePic").change(function(){
+    getImage(this);
+  });
+
   $('div[contenteditable="false"]:not(.active)').on('mouseenter',function(){
     var _self = $(this);
   
@@ -271,6 +295,18 @@
   
     _self.find('i.write.icon').hide();
   });
+
+  // $('.lib-pic>img').on('mouseenter',function(){
+  //   var _self = $(this).parent();
+  
+  //   _self.find('.Editpic').show();
+  // });
+
+  // $('.lib-pic>img').on('mouseleave',function(){
+  //   var _self = $(this).parent();;
+  
+  //   _self.find('.Editpic').hide();
+  // });
 
   function profileEdit(self) {
 

@@ -1,5 +1,6 @@
 <!-- Sell-ur-property popup -->
 <script type="text/javascript" src="/js/common/http.js"></script>
+<form class="ui form" >
 <div id="post" class="ui modal pop-up sell-post">  
   <div class="content">
     <div class="ui grid">
@@ -10,7 +11,7 @@
   <div id="lower-content" class="actions ui grid">
     
     <!-- sell your property starts here -->
-        
+        <input type="hidden" data-bind="value:data.origin" value="post-req">
         <div class="ui inverted menu">
           <h4 class="ui dividing header">Property Information :</h4>
 
@@ -45,10 +46,11 @@
             <div class="item">
               <div class="ui selection dropdown">
                 <input type="hidden" name="buy" data-bind="value:data.action">
-                <div class="default text">Buy</div>
+                <div class="default text">Action</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
-                  <div class="item" data-value="Sell">Rent</div>
+                  <div class="item" data-value="rent">Rent</div>
+                  <div class="item" data-value="buy">Buy</div>
                 </div>
               </div>
             </div>
@@ -99,7 +101,7 @@
               </div>
           </div>      
           <div class="item field">
-            <input type="text" placeholder="Name" data-bind="value:data.name">
+            <input type="text" name="name" placeholder="Name" data-bind="value:data.name,css:{'required-field':'must'}">
           </div>
           <div class="item field">
             <input type="text" placeholder="Email" data-bind="value:data.emailId">
@@ -111,7 +113,7 @@
 
         <div class="three column row">
           <div class="right floated column">
-            <div class="ui submit button" data-bind="click: captureLeads">Submit</div>
+            <div class="ui" data-bind="click: captureLeads">Submit</div>
           </div>
           <div class="left floated column">
             <div class="ui checkbox">
@@ -124,3 +126,4 @@
     <!-- Ends here -->  
   </div>
 </div>
+</form>

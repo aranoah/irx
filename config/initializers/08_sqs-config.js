@@ -16,10 +16,12 @@
 *
 **/
 var emailUtils = require(_path_util+"/email-utils.js");
+var smsUtils = require(_path_util+"/sms-utils.js")
 var emailTemplates = require('email-templates');
 var mongoose = require('mongoose');
 var properties = require(_path_env+"/properties.js");
 var IRXLeadModel = require(_path_model+"/IRXLead");
+var IRXUserProfileModel = require(_path_model+"/IRXUser");
   var AWS = require('aws-sdk'),
     awsCredentialsPath = '/../../app/utils/sqsCredential.json',
     sqsQueueUrl = 'https://sqs.us-east-1.amazonaws.com/916217014216/IRX-test',
@@ -57,7 +59,7 @@ var IRXLeadModel = require(_path_model+"/IRXLead");
       if(message && message.Body){
         var messageData = JSON.parse(message.Body);
         if(messageData.action == 'leads'){
-            
+            // Send Email and sms to user 
             IRXLeadModel.findOne({ 'id': messageData.data }, function (err, lead) {
               if (err){
                console.log(err)
@@ -65,7 +67,7 @@ var IRXLeadModel = require(_path_model+"/IRXLead");
                 var locals = {
                 "name": lead.name,
                 "proName":lead.projectId,
-                "subject":properties.leads_subject,
+                "subject":properties.leads_success_subject,
                 "mobileNo":lead.mobileNo,
                 "userId":lead.emailId
               }
@@ -76,7 +78,31 @@ var IRXLeadModel = require(_path_model+"/IRXLead");
                   console.log(success)
                 }
               });
-                
+
+              new smsUtils().sendSms({"msg":properties.leads_message});
+                // send email to brokers
+                IRXUserProfileModel.find({},{},{limit:5 },function(err,users){
+                  if(err){
+                    console.log(err)
+                  }else{
+                    for (var i=0; i<users.length;i++){
+                        var locals = {
+                        "name": lead.name,
+                        "proName":lead.projectId,
+                        "subject":properties.leads_subject,
+                        "mobileNo":lead.mobileNo,
+                        "userId":users[i].userId
+                        }
+                      new emailUtils().sendEmail("leads",locals,function(error,success){
+                        if(error != null){
+                          console.error(error);
+                        }else if(success != null){
+                          console.log(success)
+                        }
+                      });
+                    }
+                  }
+                })
               }
             })
           

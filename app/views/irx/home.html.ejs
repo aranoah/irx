@@ -2,6 +2,7 @@
 <html>
 <head>
   <% include ../partials/head.html.ejs %>
+ 
 </head>
 <% locals.uiContext.menu=false %>
 <style type="text/css">
@@ -158,23 +159,25 @@
 		    <div class="ui page grid">
 		      <div class="column">
 		        <div class="ui transition information visible">
+		        <form data-bind="submit: searchFun" >
 		          <div class="ui form">
+		          	 <input type="hidden" name="projectId" placeholder="Search..." id="__projectId">
 					  <div class="inline fields">
 					    <div class="field">
 					      <div class="ui radio checkbox">
-					        <input type="radio" name="fruit" checked="">
+					        <input type="radio" name="search" class="__searchType"  value="project" checked="">
 					        <label><i class="icon building outline"></i>Projects</label>
 					      </div>
 					    </div>
 					    <div class="field">
 					      <div class="ui radio checkbox">
-					        <input type="radio" name="fruit">
+					        <input type="radio" name="search" class="__searchType" value="agent">
 					        <label><i class="icon user"></i>Agents</label>
 					      </div>
 					    </div>
 					    <div class="field">
 					      <div class="ui radio checkbox">
-					        <input type="radio" name="fruit">
+					        <input type="radio" name="search" class="__searchType" >
 					        <label><i class="icon location arrow"></i>Locations</label>
 					      </div>
 					    </div>
@@ -184,14 +187,21 @@
 		          <div id="search-box" class="large basic inverted animated fade ui">
 		            <div class="ui fluid category search">
 					  <div class="ui icon input">
-					    <input class="prompt" type="text" placeholder="Search projects by name or location...">
-					    <i class="search icon"></i>
+
+					    <input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
+
+					    <i class="search icon">
+						    <div class="ui secondary button">
+							  <button type="submit">Search</button>
+							</div>
+						</i>
+
 					  </div>
 					  <div class="results"></div>
 					</div>
 					<div class="inline fields">						
 						<div class="ui fluid search selection dropdown field">
-						  <input type="hidden" name="country">
+						  <input type="hidden" name="city">
 						  <i class="angle down icon"></i>
 						  <div class="default text">Select City</div>
 						  <div class="menu">
@@ -202,6 +212,7 @@
 						  </div>
 						</div>
 						<div class="ui dropdown field">
+							<input type="hidden" name="action">
 						  <div class="text">Type</div>
 						  <i class="angle down icon"></i>
 						  <div class="menu">
@@ -211,16 +222,18 @@
 						    <div class="item">Project</div>
 						  </div>
 						</div><div class="ui dropdown field">
+						<input type="hidden" name="bhk">
 						  <div class="text">BHK</div>
 						  <i class="angle down icon"></i>
 						  <div class="menu">
-						    <div class="item">1bhk</div>
-						    <div class="item">2bhk</div>
-						    <div class="item">3bhk</div>
-						    <div class="item">4bhk</div>
+						    <div class="item" data-value="1">1bhk</div>
+						    <div class="item" data-value="2">2bhk</div>
+						    <div class="item" data-value="3">3bhk</div>
+						    <div class="item" data-value="4">4bhk</div>
 						  </div>
 						</div>
 						<div class="ui dropdown field">
+						<input type="hidden" name="price">
 						  <div class="text">Budget</div>
 						  <i class="angle down icon"></i>
 						  <div class="menu">
@@ -229,8 +242,10 @@
 						    <div class="item">>50lac</div>
 						  </div>
 						</div>
+						
 					</div>
 		          </div>
+		          </form>
 		        </div>
 		      </div>
 		    </div>
@@ -414,6 +429,131 @@
 
   		<!-- locations ends here -->
 
- 
+ <script type="text/javascript">
+function Home(){
+this.type={
+      "irx-eproduct":"project",
+      "irx-euser":"user"
+    }
+}
+Home.prototype.init = function(first_argument) {
+	 var _classInstance = this;
+  	_classInstance.viewModel = {
+  		searchType:ko.observable("project"),
+  		searchFun : function(formElement){
+  			
+            if(_classInstance.viewModel.searchType()=='project'){
+            	
+               $(formElement).attr('action','/project-listing')
+                return true;
+            
+            } else if(_classInstance.viewModel.searchType()=='agent'){
+             
+               $(formElement).attr('action','/agent-listing')
+                return true;
+              
+            }	
+        
+  		}
+  	}
+     $("#__searchHome").autocomplete({
+           
+            source: function(request, response){
+                var _self = this;
+                
+                if(_classInstance.viewModel.searchType()=='project'){
+                	
+                  _classInstance.projectAutocomplete(request.term,request,response)
+                } else if(_classInstance.viewModel.searchType()=='agent'){
+                	
+                  _classInstance.agentAutocomplete(request.term,request,response)
+                }
+              },
+              minLength: 2,
+              dataType: "json",
+              cache: false,
+             // appendTo:'#autoDivHome',
+              select: function( event, ui ) {
+                  $('#__searchHome').val(ui.item.name)
+                   //_classInstance.viewModel.name(ui.item.name);
+                   if(_classInstance.viewModel.searchType()=='agent'){
+                    if(_classInstance.type[ui.item.type]=='project'){
+                      
+                      $('#__projectId').val(ui.item.id);
+                    } else{
+                      
+                      $('#__projectId').val("");
+                    }
+                    
+                  }
+                   return false;
+              }
+              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+                $(".ui-widget-content .ui-state-focus");
+                var type=""
+                if(item.type){
+                  
+                  type="<div class='itLabel'>"+_classInstance.type[item.type]+"</div>"
+
+                }
+                 return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div>"+type+"</a>" ).appendTo(ul);
+              };  
+  
+   
+		    $(document).on('change','.__searchType',function(){
+		    	var _self = $(this);
+		    	_classInstance.viewModel.searchType(_self.val())
+		    })
+    
+    $('.search.icon').click(function(){
+    	 _classInstance.submitForm();
+    })
+   ko.applyBindings(_classInstance.viewModel,document.getElementById('homescreen'))
+};
+	// Home.prototype.submitForm = function(formElement) {
+	// 	var _classInstance = this;
+	// 	if(formElement){
+ //            if(_classInstance.viewModel.searchType()=='project'){
+ //            	console.log("ffff",formElement)
+ //               $(formElement).attr('action','/project-listing')
+ //                return true;
+            
+ //            } else if(_classInstance.viewModel.searchType()=='agent'){
+             
+ //               $(formElement).attr('action','/agent-listing')
+ //                return true;
+              
+ //            }	
+ //        }
+	// };
+ Home.prototype.projectAutocomplete=function(text,request,response){
+      var classInstance = this;
+      httpUtils.get("/project-autocomplete",{"text":text},"JSON",function(data){
+        if(data.status==0){
+       
+          response($.map(data.result, function(item) {
+                        
+                        return {id:item._source.id,name:item._source.name,location:item._source.location};
+                      }));
+        }
+    })
+    }
+    Home.prototype.agentAutocomplete=function(text,request,response){
+      var classInstance = this;
+      httpUtils.get("/autocomplete",{"text":text},"JSON",function(data){
+        if(data.status==0){
+       
+          response($.map(data.result, function(item) {
+                        
+                        return {id:item._source.id,name:item._source.name,type:item._type};
+                      }));
+        }
+    })
+    }
+$(document).ready(function(){
+	var home = new Home();
+	home.init();
+})
+ </script>
   <% include ../partials/footer.html.ejs %>
 </body>
