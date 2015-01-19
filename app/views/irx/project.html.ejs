@@ -30,14 +30,103 @@
 <body>  
   <% include ../partials/header.html.ejs %>
 
-  <!-- Bg image starts here -->
+  <!-- Homepage Content starts here -->
 
-  	<div id="homepage" class="ui grid">
-	  <div class="doubling two column row">
-	    <div class="column left-bg"></div><div class="column right-bg"></div>
-	  </div>
-	</div>
-	<!-- Bg image ends here -->	
+  		<div id="homescreen" class="ui inverted masthead segment">
+		    <div class="ui page grid">
+		      <div class="column">
+		        <div class="ui transition information visible">
+		        <form data-bind="submit: searchFun" >
+		          <div class="ui form">
+		          	 <input type="hidden" name="projectId" placeholder="Search..." id="__projectId">
+					  <div class="inline fields">
+					    <div class="field">
+					      <div class="ui radio checkbox">
+					        <input type="radio" name="search" class="__searchType"  value="project" checked="">
+					        <label><i class="icon building outline"></i>Projects</label>
+					      </div>
+					    </div>
+					    <div class="field">
+					      <div class="ui radio checkbox">
+					        <input type="radio" name="search" class="__searchType" value="agent">
+					        <label><i class="icon user"></i>Agents</label>
+					      </div>
+					    </div>
+					    <div class="field">
+					      <div class="ui radio checkbox">
+					        <input type="radio" name="search" class="__searchType" >
+					        <label><i class="icon location arrow"></i>Locations</label>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+		          <h1 class="ui inverted header">Explore Projects</h1>
+		          <div id="search-box" class="large basic inverted animated fade ui">
+		            <div class="ui fluid category search">
+					  <div class="ui icon input">
+
+					    <input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
+
+					    <i class="search icon">
+							<button type="submit">Search</button>
+						</i>
+
+					  </div>
+					  <div class="results"></div>
+					</div>
+					<div class="inline fields">						
+						<div class="ui fluid search selection dropdown field">
+						  <input type="hidden" name="city">
+						  <i class="angle down icon"></i>
+						  <div class="default text">Select City</div>
+						  <div class="menu">
+						    <div class="item" data-value="ad"><i class="ad flag"></i>New Delhi</div>
+						    <div class="item" data-value="ae"><i class="ae flag"></i>Bangalore</div>
+						    <div class="item" data-value="af"><i class="af flag"></i>Mumbai</div>
+						    <div class="item" data-value="ag"><i class="ag flag"></i>Chennai</div>
+						  </div>
+						</div>
+						<div class="ui dropdown field">
+							<input type="hidden" name="action">
+						  <div class="text">Type</div>
+						  <i class="angle down icon"></i>
+						  <div class="menu">
+						    <div class="item">Rent</div>
+						    <div class="item">Resale</div>
+						    <div class="item">Land</div>
+						    <div class="item">Project</div>
+						  </div>
+						</div><div class="ui dropdown field">
+						<input type="hidden" name="bhk">
+						  <div class="text">BHK</div>
+						  <i class="angle down icon"></i>
+						  <div class="menu">
+						    <div class="item" data-value="1">1bhk</div>
+						    <div class="item" data-value="2">2bhk</div>
+						    <div class="item" data-value="3">3bhk</div>
+						    <div class="item" data-value="4">4bhk</div>
+						  </div>
+						</div>
+						<div class="ui dropdown field">
+						<input type="hidden" name="price">
+						  <div class="text">Budget</div>
+						  <i class="angle down icon"></i>
+						  <div class="menu">
+						    <div class="item">10lac</div>
+						    <div class="item">10lac - 50lac</div>
+						    <div class="item">>50lac</div>
+						  </div>
+						</div>
+						
+					</div>
+		          </div>
+		          </form>
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+
+  	<!-- Homepage upper portion ends here -->
   <% include ../partials/searchbar.html.ejs %>
 
   <!-- agents Listing goes here -->
