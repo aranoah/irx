@@ -2,21 +2,67 @@
    Admin profie
 ****************/
 
-.column.li-box {
+.lib-pic {
 	position: relative;
 }
 
-.column.li-box>i.icon {
-	position: absolute !important;
-	top: 0;	right: 0;
-	font-size: 1.8rem !important;
-	color: rgba(56, 183, 234, 0.7);
-	margin: 1rem;
+.lib-pic>.Editpic {
+	position: absolute;
+	bottom: 5%;
+	right: 25%;
+	width: 2rem;
+}
+.lib-pic>.Editpic>input {
+	opacity: 0;
+	width: 17px;height: 16px;
+	position: relative;
+	z-index: 10;
+}
+.lib-pic>.Editpic>i {
+	position: absolute;
+	top: 0;left: 0.4rem;
+	opacity: .8;
+	color: #607d8b;
+}
+
+._editable_ .profEdit[contenteditable="true"] {
+	box-shadow: 0 0 2px rgba(0,0,0,0.3);
+	border-radius: 3px;
+	padding: .5rem !important;
+	display: inline-block;
+	width: 90%;
+	position: relative;
+}
+
+._editable_ .content {
+	position: relative;
+}
+
+._editable_ .profEdit>i.write.icon {
+	position: absolute;
+	padding: .2rem 2rem 0;
+	opacity: .8;
+	right: 0;
 	cursor: pointer;
 }
 
-.column.li-box>i.icon:hover {
-	color: rgb(56, 183, 234);
+._editable_ .profEdit>i.write.icon {
+	display: none;
+}
+
+._editable_ .ui.buttons {
+	position: absolute;
+	top: -2rem;
+	right: 1rem;
+	margin-right: 0 !important;
+	display: none;
+}
+
+._editable_ .ui.buttons>div {
+	font-size: .9rem !important;
+	padding: .3rem .5rem !important;
+	margin-left: .3rem;
+	border-radius: 3px;
 }
 
 .admin-profile {
