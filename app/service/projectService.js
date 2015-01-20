@@ -79,7 +79,7 @@ ProjectService.prototype.listPreferedAgents = function(projectId) {
 	this.once("listPrefStage1",function(agentIds){
  	
 	 	IRXUserProfileModel.find({"id":{$in:agentIds}},function(err,agents){
-	 		console.log(agentIds)
+	 		
 	 		if(err){
 	 			console.error(err);
 				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);

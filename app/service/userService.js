@@ -188,6 +188,9 @@ UserService.prototype.updateUser = function(user) {
 	if(user.companyName != null) {
 		updateObject["companyName"]=user.companyName;
 	}
+	if(user.name != null) {
+		updateObject["name"]=user.name;
+	}
 	if(user.specialities != null) {
 		updateObject["specialities"]=user.specialities;
 	}
@@ -400,7 +403,7 @@ UserService.prototype.inviteForReview = function(data) {
 		_selfInstance.emit("done",STATUS.FORBIDDEN.code,"Please login",null,null);
 		return;
 	}
-	console.log(data.targetId)
+	
 	var reviewInvitationModel = new IRXReviewInvitation({
 		"id":id,
 		"parentId":data.parentId,
@@ -412,7 +415,7 @@ UserService.prototype.inviteForReview = function(data) {
 	reviewInvitationModel.save(function(err,reviewInvitation){
 		if (err) {
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving review invitation",err,null);
-		}else {
+		} else {
 			
 			var qObj = {
 						"action":MAIL_TYPE.INVITATION,
@@ -433,15 +436,23 @@ UserService.prototype.review = function(data) {
 	var _selfInstance  = this;
 	//get review invitation
 	var refCode = data.refCode;
-	IRXReviewInvitation.findOne({"refCode":refCode},function(err,review){
+	IRXReviewInvitation.findOne({"refCode":refCode},function(err,reviewInvitation){
 		if(err){
-
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error finding review invitation",err,null);
 		} else {
-			if((review.parentId != data.parentId) && (review.targetId != data.agentId)) {
-				//return
+			if(!reviewInvitation || reviewInvitation == null){
+				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
+				return;
+			}
+				
+			if((reviewInvitation.parentId != data.parentId) || (reviewInvitation.targetId != data.agentId)) {
+				
+				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
+				return;
 			}
 			// save review
-			var id = this.getCustomMongoId("IIn-")
+			
+			var id = _selfInstance.getCustomMongoId("IRev-")
 			var reviewModel = new IRXReviewModel({
 				"id":id,
 				"parentId":data.parentId,
@@ -453,14 +464,45 @@ UserService.prototype.review = function(data) {
 				
 				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving review invitation",err,null);
 			}else {
+				//clear invitation
 				
-				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,review,null);
+				IRXReviewInvitation.remove({}, function (err) {
+					if (err) {
+						console.error(err)
+						_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+					}else{
+						console.log("Review Invitation data cleared");
+						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+					} 
+				});
 				
 				}
 			})
+		
 		}
 	})
 	
 	
+	};
+	
+	//add last visited
+	UserService.prototype.addLastVisited = function(data) {
+		var _selfInstance  = this;
+		var userId = data.agentId;
+		var lastVisited = data.lastVisited;
+		mongoose.getCollection('irxlastvisiteds').findAndModify(
+ 		{"agentId":userId},
+ 		[],
+		{$push:{"lastVisited":{$each:[lastVisited],$slice:-5}}},
+		{upsert:true,"new":false },
+			function(err, mapping){
+				if(err){
+					console.error(err)
+					_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+				} else{
+					console.log("Added to last visited");
+						_selfInstance.emit("done",STATUS.OK.code,"Added to last visited",null,null);
+				}
+			})
 	};
 module.exports = UserService;

@@ -34,15 +34,15 @@
             <div class="header _name_ profEdit" contenteditable="false"><%= result.name %>
             <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i></div>
             <div class="ui buttons">
-              <div class="ui positive button">Save</div>
+              <div class="ui positive button" >Save</div>
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_name_')}">Cancel</div>
             </div>
           </div>
           <div class="content">
-            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false">Company name
+            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false" data-bind="text: companyName">  
             <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i></div>
             <div class="ui buttons">
-              <div class="ui positive button">Save</div>
+              <div class="ui positive button" data-bind="click:function(){updateUser('companyName')}">Save</div>
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
             </div>
           </div>
@@ -333,7 +333,15 @@
     classInstance.viewModel={
       projects: ko.observableArray(),
       associatedProjects : ko.observableArray(),
+      name : ko.observable('<%= result.name %>'),
+      companyName : ko.observable('<%= result.companyName %>'),
+      specialities : ko.observableArray(),
+      location : ko.observable(),
+      phoneNum : ko.observable(),
       leads : ko.observableArray(),
+      updateUser : function(item){
+        classInstance.updateUserProfile(item);
+      },
       addProject : function(id){
         classInstance.associateProject(id);
       },
@@ -343,7 +351,7 @@
       },
       leadsPageObj :{
         start:ko.observable("0"),
-        pageSize:ko.observable("3"),
+        pageSize:ko.observable("9"),
         hasMore:ko.observable("false"),
         showPrevious:ko.observable("false")
       },
@@ -472,7 +480,20 @@
          ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)  
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
          
-          }
+        }
+    })
+  }
+
+  AdminProfile.prototype.updateUserProfile = function(item) {
+     var classInstance = this;
+    var obj = [];
+    obj[item] = classInstance.viewModel[item]();
+
+    console.log("yo yo",obj)
+      httpUtils.post("/update-user/"+classInstance.userId,obj,{},"JSON",function(data){
+        if(data.status==0){
+          alert(1)
+        }
     })
   }
 

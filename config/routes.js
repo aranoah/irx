@@ -90,11 +90,10 @@ module.exports = function routes() {
   this.match('list-product/:type',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
   this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('list-associated-product/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
-  
-  // mark-distress
+  this.match('mark-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'POST' });
+   // remove-distress
   // array of object having bhks which have been marked distress
-  this.match('mark-distress',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
-   
+  //this.match('remove-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
   /*
   * Lead Capture related urls
   */
@@ -110,6 +109,11 @@ module.exports = function routes() {
   
   this.match("/prefered-agents/:projectId",{controller: 'project/rest/projectRest', action:'listPreferedAgents', via:'GET'});
   
+  /*
+  * Last visited
+  */
+  
+  this.match("add-last-visited/:userid",{controller: 'user/rest/user',action:'addLastVisited',via:'POST'})
   /*
   * web urls
   */

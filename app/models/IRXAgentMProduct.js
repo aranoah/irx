@@ -16,7 +16,7 @@
 *
 **/
 var mongoose = require('mongoose');
-
+var Schema = mongoose.Schema;
 var IRXAgentMProductSchema =new mongoose.Schema({
    id:{type:String,required:true},
    agentId:{type:String,required:true},
@@ -25,7 +25,8 @@ var IRXAgentMProductSchema =new mongoose.Schema({
    rank:{type:Number},//indexing
    preferred:{type:Boolean},
    createdOn:{type:Date},
-   updatedOn:{type:Date}
+   updatedOn:{type:Date},
+   distress: Schema.Types.Mixed
 });
 
 IRXAgentMProductModel = mongoose.model('irxagentmproduct', IRXAgentMProductSchema);

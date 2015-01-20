@@ -29,9 +29,10 @@ var STATUS={
   CLIENT_ERROR:{code:400,msg:"Client Error"} ,
   SERVER_ERROR:{code:500,msg:"Server Error"} ,
   OK:{code:0,msg:"Ok"} ,
+  ERROR:{code:1,msg:"Error"} ,
   NO_UPDATION:{code:22,msg:"Not Updated"},
-  FORBIDDEN : {code:401,msg:"Not Allowed"} 
-    
+  FORBIDDEN : {code:403,msg:"Not Allowed"},
+  NOT_AUTHENTICATED : {code:401,msg:"Not Authenticated"}
 };
 var MAIL_TYPE={
   INVITATION:"invitation",

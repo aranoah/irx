@@ -258,7 +258,7 @@ userController.review = function(){
   var _nself = this;
   var parentId = _nself.req.params.parentId;
   var agentId = "";
-  var msg = _nself.req.query.msg;
+  var msg = _nself.req.body.msg;
   if(_nself.req.session['X-CS-Auth']){
     if(_nself.req.session['X-CS-Auth'].user){
       agentId =_nself.req.session['X-CS-Auth'].user.userId;
@@ -274,5 +274,30 @@ userController.review = function(){
     "msg":msg
   }
   userSvc.review(data);
+}
+userController.addLastVisited = function(){
+  var _nself = this;
+  var name = _nself.req.body.name;
+  var url = _nself.req.body.url;
+  var type = _nself.req.body.type;
+  var agentId = "";
+  if(_nself.req.session['X-CS-Auth']){
+    if(_nself.req.session['X-CS-Auth'].user){
+      agentId =_nself.req.session['X-CS-Auth'].user.userId;
+    }
+  }
+  var userSvc = new userService();
+  userSvc.on("done", function(code,msg,result,errValue){
+    _nself.processJson(code,msg,result,errValue);
+  });
+  var data = {
+   "agentId": agentId,
+   "lastVisited":{
+      "name":name,
+      "url":url,
+      "type" : type
+     }
+  }
+  userSvc.addLastVisited(data);
 }
 module.exports = userController;   
