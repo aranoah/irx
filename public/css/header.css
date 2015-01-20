@@ -7,8 +7,10 @@ body {
 
   #header.ui.inverted.menu>* {
    padding: 0.6rem !important;
+   font-weight: 200;
   }#header.ui.inverted.menu .header {
     margin: .5rem 1rem;
+    font-weight: bold;
   }
   #header ._logo_ {
     margin-right: 2rem;
@@ -375,6 +377,9 @@ body {
 .footer .ui.inverted.menu>a.item {
   opacity: .5;
   padding: 1rem !important;
+  font-size: 0.9rem;
+  font-weight: lighter;
+  color: #D5D3D3;
 }.footer .ui.inverted.menu>a.item:hover {
   opacity: 1;
 }.ui.inverted.link.list>a.item {
@@ -388,6 +393,10 @@ body {
 }
 .ui.inverted.footer.vertical.segment .ui.three.column.center.aligned.stackable.grid>* {
   text-align: left;
+  font-size: .86rem;
+  font-weight: normal;
+  color: #EDEDED;
+  border-right: 1px solid #474747;
 }
 .footer .six.wide.column p {
   opacity: .5;
@@ -399,6 +408,12 @@ body {
 .footer .six.wide.column i {
   opacity: .8;
   cursor: pointer;
+}
+.ui.inverted.header{
+  color: #ccc;
+  font-weight: 500;
+  font-family: monospace;
+  font-size: 1rem;
 }
 
 
