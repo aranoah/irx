@@ -22,12 +22,31 @@
 
       <!-- Left panel starts here -->
 
-      <div class="four wide column">
+      <div class="four wide column _editable_">
         <div class="column li-box">
-          <i class="profile edit icon"></i>
-          <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
-          <div class="item"><div class="header"><%= result.name %></div>Company name</div>
-          <img class="" src="/img/fb.png">
+          <div class="lib-pic">
+            <img id="pic" class="ui circular image" src="/img/pic.png">
+            <div class="Editpic">
+              <input id="_profilePic" type="file"><i class="icon photo"></i>
+            </div>
+          </div>
+          <div class="content">
+            <div class="header _name_ profEdit" contenteditable="false"><%= result.name %>
+            <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i></div>
+            <div class="ui buttons">
+              <div class="ui positive button">Save</div>
+              <div class="ui button _cancel_" data-bind="click:function(){profileClose('_name_')}">Cancel</div>
+            </div>
+          </div>
+          <div class="content">
+            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false">Company name
+            <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i></div>
+            <div class="ui buttons">
+              <div class="ui positive button">Save</div>
+              <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
+            </div>
+          </div>
+          <img style="padding: 1rem 0 .5rem;" src="/img/fb.png">
 
           <div class="lib-actions">
             <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
@@ -101,7 +120,7 @@
                         <!-- ko if: projects().length==0 -->
                           <div class="ui info message">
                             <ul class="list">
-                              <li>No locations associated to your profile currently.</li>
+                              <li>No projects associated to your profile currently.</li>
                               <li><a href="link">Click here to add one</a></li>
                             </ul>
                           </div>
@@ -244,6 +263,70 @@
     }
     this.userId="puneet.sharma"
   }
+
+  function getImage(input) {
+      
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        $('#pic').attr('src', e.target.result);
+      }
+      var filename = input.value;
+      var lastIndex = filename.lastIndexOf("\\");
+      if (lastIndex >= 0) {
+        filename = filename.substring(lastIndex + 1);
+      }
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  $("#_profilePic").change(function(){
+    getImage(this);
+  });
+
+  $('div[contenteditable="false"]:not(.active)').on('mouseenter',function(){
+    var _self = $(this);
+  
+    _self.find('i.write.icon').show();
+  });
+
+  $('div[contenteditable="false"]:not(.active)').on('mouseleave',function(){
+    var _self = $(this);
+  
+    _self.find('i.write.icon').hide();
+  });
+
+  // $('.lib-pic>img').on('mouseenter',function(){
+  //   var _self = $(this).parent();
+  
+  //   _self.find('.Editpic').show();
+  // });
+
+  // $('.lib-pic>img').on('mouseleave',function(){
+  //   var _self = $(this).parent();;
+  
+  //   _self.find('.Editpic').hide();
+  // });
+
+  function profileEdit(self) {
+
+    var _self = $('.'+self);
+
+    _self.addClass('active');
+    _self.attr("contenteditable","true");
+    _self.find('i').hide();
+    _self.siblings('.ui.buttons').show();
+  }
+
+  function profileClose(self) {
+    var _self = $('.'+self);
+
+    _self.removeClass('active');
+    _self.attr("contenteditable","false");
+    _self.find('i').css('display','initial');
+    _self.siblings('.ui.buttons').hide();
+  }
+
   AdminProfile.prototype.init = function() {
     var classInstance = this;
     

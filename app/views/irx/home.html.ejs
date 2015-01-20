@@ -1,153 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../partials/head.html.ejs %>
- 
+  <% include ../partials/head.html.ejs %> 
 </head>
 <% locals.uiContext.menu=false %>
 <style type="text/css">
-	#header {
-		background-color: #00bcd4 !important;
-	}
-	#header>._logo_ , #header>._link, #header .right.menu>.item{
-		color: #fff !important;
-	}
 
-	#homescreen.ui.inverted.masthead.segment {
-		background: #1b1c1d url(/img/bg.png) no-repeat center !important;
-		background-size: cover !important;
-		min-height: 380px;
-		margin-top: 4rem;
-	}
-
-	#homescreen.ui.inverted.masthead.segment>.ui.page.grid>.column {
-		text-align: center !important;
-		padding: 5rem 0;
-	}
-	#homescreen h1.ui.inverted.header {
-		padding-top: 1.5rem;
-	}
-
-	#homescreen .ui.form .field {
-		margin-right: 4rem;
-	}
-	#homescreen .field label {
-		color: #fff !important;
-		font-size: 1.2rem;
-		text-transform: uppercase;
-	}
-
-	#search-box {
-		padding: 0 !important;
-		background-color: rgba(0,0,0,0.3) !important;
-		box-shadow: 0 0 1px #fff !important;
-		width: 520px;
+	#_steps_>.column>.content {
+		border: 1px solid #ddd;
+		border-radius: 50px;
+		width: 60px;
+		height: 60px;
 		margin: 0 auto;
-	}
-
-	#search-box .ui.icon.input {
-		display: block;
-	}
-	#search-box .ui.icon.input>i {
-		color: #fafafa !important;
-	}
-	#search-box .ui.icon.input>input {
-		background-color: inherit;
-		border:0;
-		padding: 1.5em !important;
-		font-size: 1.15rem;
-		color: #fafafa!important;
-		border-bottom: 1px solid rgba(255,255,255,.2) !important;
-		border-radius: 0 !important;
-	}
-	#search-box input::-webkit-input-placeholder { /* WebKit browsers */
-		color: #fafafa!important;
-	}
-	#search-box input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-		color: #fafafa!important;
-	}
-	#search-box input::-moz-placeholder { /* Mozilla Firefox 19+ */
-		color: #fafafa!important;
-	}
-	#search-box input:-ms-input-placeholder { /* Internet Explorer 10+ */
-		color: #fafafa!important;
-	}
-
-	#search-box .inline.fields {
-		padding:  1.5em !important;
-		text-align: left;
-	}
-
-	#search-box .inline.fields>.field:not(:last-child) {
-		margin-right: 2.5rem;
-	}
-
-	#search-box .inline.fields>.field>a.link {
-		color: #fff;
-	}
-
-	#search-box .ui.fluid.search.selection.dropdown.field {
-		display: inline-block;
-		width: 160px;
-		background-color: inherit;
-		padding: 0;
-	}
-	#search-box .ui.fluid.search.selection.dropdown.field i {
-		float: right;
-		color: #fff;
-	}
-	#search-box .ui.fluid.search.selection.dropdown.field .text, #search-box .ui.fluid.search.selection.dropdown.field input {
-		color: #fff !important;
-	}
-
-	/** lower-portion **/
-
-	.lower-portion, #locations {
-		margin-top: 4% !important;
-	}
-
-	.lower-portion h2.ui.inverted.header {
 		position: relative;
-		color: #607d8b;
-		text-transform: uppercase;
-		font-weight: normal;
-		font-family: 'roboto condensed';
 	}
-	.lower-portion h2.ui.inverted.header:after {
+
+	#_steps_>.column>.content:not(.last):after {
 		position: absolute;
 		content: "";
-		width: 10rem;
-		height: 2px;
-		background-color: #607d8b;
-		top: 40px;
-		left: 42%;
+		width: 15.7em;
+		height: 1px;
+		background-color: #ddd;
+		top: 32px;
+		left: 100%;
 	}
 
-	#locations.lower-portion h2.ui.inverted.header:after {
-		width: 5rem;
-		left: 46%;
+
+	#_steps_>.column>.content>h3.ui.header {
+		text-align: center;
+		margin-top: 1.2rem;
+		color: #999;
 	}
 
-	.lower-portion .ui.centered.page.grid {
-		margin: 2% 0;
+	i.sitemap.icon {
+		color: #eca95a !important;
+	}
+	i.edit.icon {
+		color: #ab9cd2 !important;
+	}
+	i.users.icon {
+		color: #4d99cb !important;
 	}
 
-	.lower-portion .ui.three.column.center.aligned.stackable.divided.grid {
-		margin-top: 0;
+	#how-it-works .ui.three.column.center.aligned.stackable.divided.grid, #_steps_ {
+		padding: 1.5rem 0;
 	}
-
-	.lower-portion .ui.three.column.center.aligned.stackable.divided.grid>.column {
-		box-shadow: none !important;
+	#how-it-works .ui.three.column.center.aligned.stackable.divided.grid>.column .ui.icon.header {
+		color: #666;
 	}
-
-	.lower-portion img {
-		height: 110px !important;
-		width: 100% !important;
+	#how-it-works .ui.three.column.center.aligned.stackable.divided.grid>.column i {
+		margin-bottom: 1rem;
 	}
-
-	.ui.card .extra.content>span {
-		display: inline-block;
-		margin-right: 2rem;
+	#how-it-works .ui.three.column.center.aligned.stackable.divided.grid>.column p {
+		color: #808080;
 	}
 </style>
 <body id="home">
@@ -191,9 +96,7 @@
 					    <input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
 
 					    <i class="search icon">
-						    <div class="ui secondary button">
-							  <button type="submit">Search</button>
-							</div>
+							<button type="submit">Search</button>
 						</i>
 
 					  </div>
@@ -428,6 +331,64 @@
   		</div>
 
   		<!-- locations ends here -->
+
+  		<!-- collections ends here -->
+
+  		<div id="how-it-works" class="ui very relaxed stackable page grid lower-portion">
+  			<div class="row">
+  				<div class="column">
+		          <h2 class="center aligned ui inverted header">
+		           HOW IT WORKS ?
+		          </h2>
+		        </div>
+  			</div>
+  			<div class="ui centered page grid">
+  				<div class="fourteen wide column">
+  					
+  					<div id="_steps_" class="ui three column center aligned stackable divided grid">
+			          <div class="column">
+			            <div class="content"><h3 class="ui header">1</h3></div>
+				      </div>
+			          <div class="column">
+			            <div class="content"><h3 class="ui header">2</h3></div>
+				      </div>
+			          <div class="column">
+			            <div class="content last"><h3 class="ui header">3</h3></div>
+				      </div>
+				    </div>
+
+  					<!-- content here -->
+
+  						<div class="ui three column center aligned stackable divided grid">
+				          <div class="column">
+				            <div class="ui icon header">
+				              <i class="sitemap icon"></i>
+				              Compare
+				            </div>
+				            <p>Take your kitty to a cat-ducation course and learn how to treat her well.</p>
+				          </div>
+				          <div class="column">
+				            <div class="ui icon header">
+				              <i class="edit icon"></i>
+				              Receive Proposals
+				            </div>
+				            <p>Dig through our cat library to found out amazing things you can do with your kitty.</p>			           
+				          </div>
+				          <div class="column">
+				            <div class="ui icon header">
+				              <i class="users icon"></i>
+				              Sell with the best
+				            </div>
+				            <p>Get feedback on your cat from a community of loving pet owners on our online bulletin board system.</p>
+				          </div>
+				        </div>
+
+			        <!-- content ends here -->
+  				</div>
+  			</div>  			
+  		</div>
+
+  		<!-- How it works ends here -->
 
  <script type="text/javascript">
 function Home(){
