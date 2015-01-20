@@ -236,6 +236,7 @@ userController.inviteForReview = function(){
   var _nself = this;
   var targetId = _nself.req.params.userid;
   var parentId = "";
+  var msg = _nself.req.query.msg;
   if(_nself.req.session['X-CS-Auth']){
     if(_nself.req.session['X-CS-Auth'].user){
       parentId =_nself.req.session['X-CS-Auth'].user.userId;
@@ -247,8 +248,31 @@ userController.inviteForReview = function(){
   });
   var data = {
     "parentId":parentId,
-    "targetId": targetId
+    "targetId": targetId,
+    "msg":msg
   }
   userSvc.inviteForReview(data);
+}
+
+userController.review = function(){
+  var _nself = this;
+  var parentId = _nself.req.params.parentId;
+  var agentId = "";
+  var msg = _nself.req.query.msg;
+  if(_nself.req.session['X-CS-Auth']){
+    if(_nself.req.session['X-CS-Auth'].user){
+      agentId =_nself.req.session['X-CS-Auth'].user.userId;
+    }
+  }
+  var userSvc = new userService();
+  userSvc.on("done", function(code,msg,result,errValue){
+    _nself.processJson(code,msg,result,errValue);
+  });
+  var data = {
+    "parentId":parentId,
+    "agentId": agentId,
+    "msg":msg
+  }
+  userSvc.review(data);
 }
 module.exports = userController;   

@@ -30,6 +30,7 @@ module.exports = function routes() {
   */
   
   this.match("invite-for-review/:userid",{controller: 'user/rest/user',action:'inviteForReview',via:'GET'})
+  this.match("/irx/review/:parentId",{controller: 'user/rest/user',action:'review',via:'POST'})
 
 
   /*

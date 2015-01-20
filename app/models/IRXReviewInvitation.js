@@ -23,6 +23,7 @@ var IRXReviewInvitationSchema =new mongoose.Schema({
    parentId:{type:String,required:true},// Who is sending invitation
    targetId: {type:String,required:true},// To whom invitation is being sent
    name:{type:String},
+   refCode : {type:String,required:true},
    updatedOn:{type:Date},
    postedOn:{type:Date}
   

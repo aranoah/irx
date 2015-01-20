@@ -27,7 +27,7 @@ var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var IRXLocationModel = require(_path_model+"/IRXLocation");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
 var IRXReviewInvitation = require(_path_model+"/IRXReviewInvitation");
-
+var IRXReviewModel = require(_path_model+"/IRXReview");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
 var mongoose = require('mongoose');
@@ -394,21 +394,23 @@ UserService.prototype.createLocation = function(first_argument) {
 
 UserService.prototype.inviteForReview = function(data) {
 	var id = this.getCustomMongoId("IIn-")
+	var refCode = this.getCustomMongoId("REV-");
 	var _selfInstance  = this;
 	if(data.parentId == ""){
 		_selfInstance.emit("done",STATUS.FORBIDDEN.code,"Please login",null,null);
+		return;
 	}
 	console.log(data.targetId)
 	var reviewInvitationModel = new IRXReviewInvitation({
 		"id":id,
 		"parentId":data.parentId,
 		"targetId":data.targetId,
-		"msg" : "hey"
+		"msg" : data.msg,
+		"refCode" : refCode
 	});
 	
 	reviewInvitationModel.save(function(err,reviewInvitation){
 		if (err) {
-			console.log(4)
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving review invitation",err,null);
 		}else {
 			
@@ -426,4 +428,39 @@ UserService.prototype.inviteForReview = function(data) {
 		}
 	})
 };
+
+UserService.prototype.review = function(data) {
+	var _selfInstance  = this;
+	//get review invitation
+	var refCode = data.refCode;
+	IRXReviewInvitation.findOne({"refCode":refCode},function(err,review){
+		if(err){
+
+		} else {
+			if((review.parentId != data.parentId) && (review.targetId != data.agentId)) {
+				//return
+			}
+			// save review
+			var id = this.getCustomMongoId("IIn-")
+			var reviewModel = new IRXReviewModel({
+				"id":id,
+				"parentId":data.parentId,
+				"agentId":data.agentId,
+				"msg" : data.msg
+			});
+			reviewModel.save(function(err,review){
+			if (err) {
+				
+				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving review invitation",err,null);
+			}else {
+				
+				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,review,null);
+				
+				}
+			})
+		}
+	})
+	
+	
+	};
 module.exports = UserService;
