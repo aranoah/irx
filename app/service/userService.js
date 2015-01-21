@@ -16,7 +16,8 @@
 *
 **/
 var CONSTANTS = require(_path_util+'/constants');
-var mongoErr = require(_path_util+'/mongo-error')
+var mongoErr = require(_path_util+'/mongo-error');
+var MAIL_TYPE = CONSTANTS.MAIL_TYPE;
 var STATUS = CONSTANTS.him_status;
 var defPage = CONSTANTS.def_page;
 var hashAlgo = require(_path_util+"/sha1.js");
@@ -25,7 +26,8 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var IRXLocationModel = require(_path_model+"/IRXLocation");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
-
+var IRXReviewInvitation = require(_path_model+"/IRXReviewInvitation");
+var IRXReviewModel = require(_path_model+"/IRXReview");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
 var mongoose = require('mongoose');
@@ -185,6 +187,9 @@ UserService.prototype.updateUser = function(user) {
 	}
 	if(user.companyName != null) {
 		updateObject["companyName"]=user.companyName;
+	}
+	if(user.name != null) {
+		updateObject["name"]=user.name;
 	}
 	if(user.specialities != null) {
 		updateObject["specialities"]=user.specialities;
@@ -362,7 +367,7 @@ UserService.prototype.listUserLocations = function(user) {
 	
 }
 UserService.prototype.createLocation = function(first_argument) {
-	console.log("HEy !!")
+	
 	var userData = new IRXLocationModel({
   			
 
@@ -389,4 +394,115 @@ UserService.prototype.createLocation = function(first_argument) {
 	}
 	)
 };
+
+UserService.prototype.inviteForReview = function(data) {
+	var id = this.getCustomMongoId("IIn-")
+	var refCode = this.getCustomMongoId("REV-");
+	var _selfInstance  = this;
+	if(data.parentId == ""){
+		_selfInstance.emit("done",STATUS.FORBIDDEN.code,"Please login",null,null);
+		return;
+	}
+	
+	var reviewInvitationModel = new IRXReviewInvitation({
+		"id":id,
+		"parentId":data.parentId,
+		"targetId":data.targetId,
+		"msg" : data.msg,
+		"refCode" : refCode
+	});
+	
+	reviewInvitationModel.save(function(err,reviewInvitation){
+		if (err) {
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving review invitation",err,null);
+		} else {
+			
+			var qObj = {
+						"action":MAIL_TYPE.INVITATION,
+						"data" :reviewInvitation
+					}
+					_app_context.sqs.sendMessage({
+                	"QueueUrl" : _app_context.qUrl,
+                	"MessageBody" : JSON.stringify(qObj)
+             	 }, function(err, data){                
+              });
+			_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,reviewInvitation,null);
+			
+		}
+	})
+};
+
+UserService.prototype.review = function(data) {
+	var _selfInstance  = this;
+	//get review invitation
+	var refCode = data.refCode;
+	IRXReviewInvitation.findOne({"refCode":refCode},function(err,reviewInvitation){
+		if(err){
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error finding review invitation",err,null);
+		} else {
+			if(!reviewInvitation || reviewInvitation == null){
+				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
+				return;
+			}
+				
+			if((reviewInvitation.parentId != data.parentId) || (reviewInvitation.targetId != data.agentId)) {
+				
+				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
+				return;
+			}
+			// save review
+			
+			var id = _selfInstance.getCustomMongoId("IRev-")
+			var reviewModel = new IRXReviewModel({
+				"id":id,
+				"parentId":data.parentId,
+				"agentId":data.agentId,
+				"msg" : data.msg
+			});
+			reviewModel.save(function(err,review){
+			if (err) {
+				
+				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving review invitation",err,null);
+			}else {
+				//clear invitation
+				
+				IRXReviewInvitation.remove({}, function (err) {
+					if (err) {
+						console.error(err)
+						_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+					}else{
+						console.log("Review Invitation data cleared");
+						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+					} 
+				});
+				
+				}
+			})
+		
+		}
+	})
+	
+	
+	};
+	
+	//add last visited
+	UserService.prototype.addLastVisited = function(data) {
+		var _selfInstance  = this;
+		var userId = data.agentId;
+		var lastVisited = data.lastVisited;
+		mongoose.getCollection('irxlastvisiteds').findAndModify(
+ 		{"agentId":userId},
+ 		[],
+		{$push:{"lastVisited":{$each:[lastVisited],$slice:-5}}},
+		{upsert:true,"new":false },
+			function(err, mapping){
+				if(err){
+					console.error(err)
+					_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+				} else{
+					console.log("Added to last visited");
+						_selfInstance.emit("done",STATUS.OK.code,"Added to last visited",null,null);
+				}
+			})
+	};
 module.exports = UserService;

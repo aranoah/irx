@@ -38,6 +38,8 @@ var IRXProductLineSchema =new mongoose.Schema({
    agentCounter:{type:Number},
    rank:{type:Number},//indexing
    prefferedAgents:{type:Array},
+   hasDistress : {type:Boolean}
+
 });
 
 IRXProductLineModel = mongoose.model('irxproductline', IRXProductLineSchema);

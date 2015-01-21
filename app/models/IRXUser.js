@@ -37,7 +37,8 @@ var IRXUserProfileSchema =new mongoose.Schema({
    updatedOn:{type:Date},
    status:{type:String},
    phoneNum :{type:String},
-   projectCounter :{type:Number}
+   projectCounter :{type:Number},
+   hasDistress : {type:Boolean}
 });
 
 IRXUserProfileModel = mongoose.model('irxuser', IRXUserProfileSchema);

@@ -19,7 +19,7 @@ var CONSTANTS = require(_path_util+'/constants');
 var mongoErr = require(_path_util+'/mongo-error')
 var STATUS = CONSTANTS.him_status;
 var defPage = CONSTANTS.def_page;
-
+var MAIL_TYPE = CONSTANTS.MAIL_TYPE;
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 
 var mongoose = require('mongoose');
@@ -70,7 +70,7 @@ LeadService.prototype.captureLeads = function(data) {
 			} else {
 				if(savedData){
 					var qObj = {
-						"action":"leads",
+						"action":MAIL_TYPE.LEAD,
 						"data" : savedData.id
 					}
 					_app_context.sqs.sendMessage({

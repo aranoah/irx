@@ -1,7 +1,7 @@
 /***********************************************************************
 *
 * DESCRIPTION :
-*       Database model for reviews,likes ,rating etc
+*       Database model for reviews invitation
 *  
 * Copyright :
 *     Aranoah Technologies Pvt Ltd 2014.  All rights reserved.
@@ -17,21 +17,17 @@
 **/
 var mongoose = require('mongoose');
 
-var IRXReviewSchema =new mongoose.Schema({
+var IRXReviewInvitationSchema =new mongoose.Schema({
    id:{type:String,required:true},
    msg:{type:String,required:true},
-   parentId:{type:String,required:true},
-   agentId: {type:String,required:true},
+   parentId:{type:String,required:true},// Who is sending invitation
+   targetId: {type:String,required:true},// To whom invitation is being sent
    name:{type:String},
-   likeCount:{type:Number},
-   likedByUser:[{userId:String}],
-   ratingByUser:[{userId:String,rating:Number}],
-   rating:{type:Number},
-   ratingCount:{type:Number},
+   refCode : {type:String,required:true},
    updatedOn:{type:Date},
    postedOn:{type:Date}
   
 });
 
-IRXReviewModel = mongoose.model('irxreview', IRXReviewSchema);
-module.exports = IRXReviewModel;
+IRXReviewInvitationModel = mongoose.model('irxreviewinvitation', IRXReviewInvitationSchema);
+module.exports = IRXReviewInvitationModel;
