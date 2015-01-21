@@ -39,10 +39,10 @@
             </div>
           </div>
           <div class="content">
-            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false" data-bind="text: companyName">  
+            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false" >  <!--ko text : companyName --><!-- /ko -->
             <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i></div>
             <div class="ui buttons">
-              <div class="ui positive button" data-bind="click:function(){updateUser('companyName')}">Save</div>
+              <div class="ui positive button" data-bind="click:function(){updateUser('_compname_')}">Save</div>
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
             </div>
           </div>
@@ -339,7 +339,15 @@
       location : ko.observable(),
       phoneNum : ko.observable(),
       leads : ko.observableArray(),
-      updateUser : function(item){
+      updateUser : function(self){
+        var _self = $('.'+self);
+        var item =""
+        if(self == '_compname_'){
+          item = "companyName"
+          classInstance.viewModel.companyName(_self.text())
+        }
+        
+       
         classInstance.updateUserProfile(item);
       },
       addProject : function(id){
@@ -370,6 +378,8 @@
     classInstance.listAssociatedProjects();
     classInstance.listAllProjects();
     classInstance.listLeads(false);
+    
+  
 
     $("#__searchPro").autocomplete({
 
@@ -486,10 +496,9 @@
 
   AdminProfile.prototype.updateUserProfile = function(item) {
      var classInstance = this;
-    var obj = [];
+    var obj = {};
     obj[item] = classInstance.viewModel[item]();
-
-    console.log("yo yo",obj)
+console.log(obj)
       httpUtils.post("/update-user/"+classInstance.userId,obj,{},"JSON",function(data){
         if(data.status==0){
           alert(1)

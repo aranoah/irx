@@ -195,7 +195,7 @@ UserService.prototype.updateUser = function(user) {
 		updateObject["specialities"]=user.specialities;
 	}
 	
-	User.update({"userId":id},
+	User.update({"irxId":id},
 							{
 								$set:updateObject
 							},
