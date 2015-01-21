@@ -171,7 +171,7 @@ UserService.prototype.updateUser = function(user) {
 	console.log("In updateUser")
 	var _selfInstance = this;
 	var User = IRXUserProfileModel;
-	var id = user.id;
+	var id = user.irxId;
 
 	/*
 	*	Update user
@@ -190,6 +190,9 @@ UserService.prototype.updateUser = function(user) {
 	}
 	if(user.name != null) {
 		updateObject["name"]=user.name;
+	}
+	if(user.id != null) {
+		updateObject["id"]=user.id;
 	}
 	if(user.specialities != null) {
 		updateObject["specialities"]=user.specialities;
@@ -501,8 +504,34 @@ UserService.prototype.review = function(data) {
 					_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 				} else{
 					console.log("Added to last visited");
-						_selfInstance.emit("done",STATUS.OK.code,"Added to last visited",null,null);
+					_selfInstance.emit("done",STATUS.OK.code,"Added to last visited",null,null);
 				}
 			})
+	};
+
+	//check whether this username exist or not
+	UserService.prototype.checkUserName = function(data) {
+		var _selfInstance  = this;
+		var text = data.text;
+		var id = data.id
+		IRXUserProfileModel.find({"id":text},{},{},
+					function(err,users){
+						if(err){
+							console.error(err)
+							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+
+						} else {
+							if(users != null && users.length >0){
+								console.log("Name is already taken");
+								_selfInstance.emit("done",STATUS.ERROR.code,"Name is already taken",null,null);
+
+							} else {
+								console.log("Name can be used.");
+								_selfInstance.updateUser({"id":text, "irxId":id})
+								//_selfInstance.emit("done",STATUS.OK.code,"Name can be used",null,null);
+
+							}
+						}
+					})
 	};
 module.exports = UserService;

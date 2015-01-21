@@ -67,12 +67,12 @@ module.exports = function routes() {
   * User Related urls
   */
   this.match('create-user',{ controller: 'user/rest/user', action: 'createUser' , via: 'POST' });
-  this.match('update-user/:userId',{ controller: 'user/rest/user', action: 'updateUser' , via: 'POST' });
+  this.match('update-user',{ controller: 'user/rest/user', action: 'updateUser' , via: 'POST' });
   this.match('user-details/:userId',{ controller: 'user/rest/user', action: 'getUserDetails' , via: 'GET' });
   this.match('verify-user',{ controller: 'user/rest/user', action: 'verifyUser' , via: 'GET' });
   this.match('list-user-projects/:userId',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
   this.match('list-user-locations/:userId',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
-
+  this.match('check-userName/:text',{ controller: 'user/rest/user', action: 'checkUserName' , via: 'GET' });
   /*
   * Utility urls
   */
@@ -85,12 +85,13 @@ module.exports = function routes() {
   * Profile management urls
   */
 
-  this.match('associate-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
-  this.match('delete-project/:userId/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteProject' , via: 'GET' });
+  this.match('associate-project/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
+  this.match('delete-project/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteProject' , via: 'GET' });
   this.match('list-product/:type',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
   this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('list-associated-product/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('mark-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'POST' });
+  
    // remove-distress
   // array of object having bhks which have been marked distress
   //this.match('remove-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
@@ -113,7 +114,8 @@ module.exports = function routes() {
   * Last visited
   */
   
-  this.match("add-last-visited/:userid",{controller: 'user/rest/user',action:'addLastVisited',via:'POST'})
+  this.match("add-last-visited",{controller: 'user/rest/user',action:'addLastVisited',via:'POST'})
+  this.match("last-visited",{controller: 'user/rest/user',action:'listLastVisited',via:'GET'})
   /*
   * web urls
   */

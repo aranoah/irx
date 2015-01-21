@@ -94,7 +94,7 @@ userController.updateUser = function() {
      _nself.processJson(status,msg,result,page);
     });
     var user = _nself.req.body;
-    user.id = _nself.req.params.userId;
+    user.irxId = _nself.getCurrentUser(_nself);;
     userSvc.updateUser(user);
 }
 
@@ -232,16 +232,14 @@ userController.listUserLocations = function() {
   
 }
 
+/*
+* Invite anyone to review your profile. Sends email and sms
+*/
 userController.inviteForReview = function(){
   var _nself = this;
   var targetId = _nself.req.params.userid;
-  var parentId = "";
+  var parentId = _nself.getCurrentUser(_nself);;
   var msg = _nself.req.query.msg;
-  if(_nself.req.session['X-CS-Auth']){
-    if(_nself.req.session['X-CS-Auth'].user){
-      parentId =_nself.req.session['X-CS-Auth'].user.userId;
-    }
-  }
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,errValue){
     _nself.processJson(code,msg,result,errValue);
@@ -254,16 +252,16 @@ userController.inviteForReview = function(){
   userSvc.inviteForReview(data);
 }
 
+/*
+* Review a profile
+*/
 userController.review = function(){
   var _nself = this;
   var parentId = _nself.req.params.parentId;
-  var agentId = "";
+ 
   var msg = _nself.req.body.msg;
-  if(_nself.req.session['X-CS-Auth']){
-    if(_nself.req.session['X-CS-Auth'].user){
-      agentId =_nself.req.session['X-CS-Auth'].user.userId;
-    }
-  }
+  var agentId = _nself.getCurrentUser(_nself);
+ 
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,errValue){
     _nself.processJson(code,msg,result,errValue);
@@ -275,17 +273,16 @@ userController.review = function(){
   }
   userSvc.review(data);
 }
+
+/*
+* Add last visited pages to a user
+*/
 userController.addLastVisited = function(){
   var _nself = this;
   var name = _nself.req.body.name;
   var url = _nself.req.body.url;
   var type = _nself.req.body.type;
-  var agentId = "";
-  if(_nself.req.session['X-CS-Auth']){
-    if(_nself.req.session['X-CS-Auth'].user){
-      agentId =_nself.req.session['X-CS-Auth'].user.userId;
-    }
-  }
+  var agentId = _nself.getCurrentUser(_nself);
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,errValue){
     _nself.processJson(code,msg,result,errValue);
@@ -295,9 +292,44 @@ userController.addLastVisited = function(){
    "lastVisited":{
       "name":name,
       "url":url,
-      "type" : type
+      "type":type
      }
   }
   userSvc.addLastVisited(data);
 }
+
+/*
+* List last visited pages
+*/
+
+userController.listLastVisited = function(){
+  var _nself = this;
+  var agentId = _nself.getCurrentUser(_nself);
+ 
+  var userSvc = new userService();
+  userSvc.on("done", function(code,msg,result,errValue){
+    _nself.processJson(code,msg,result,errValue);
+  });
+ 
+  userSvc.addLastVisited(agentId);
+}
+
+/*
+* check whether this username is available or not
+*/
+userController.checkUserName = function(){
+  var _nself = this;
+  var text = _nself.req.params.text;
+  var agentId = _nself.getCurrentUser(_nself);
+  var userSvc = new userService();
+  userSvc.on("done", function(code,msg,result,errValue){
+    _nself.processJson(code,msg,result,errValue);
+  });
+  var data={
+    "text":text,
+    "id" :agentId
+  }
+  userSvc.checkUserName(data);
+}
+
 module.exports = userController;   
