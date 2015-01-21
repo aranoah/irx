@@ -31,14 +31,18 @@
 	color: #fff !important;
 	font-size: 1.2rem;
 	text-transform: uppercase;
+	font-weight: 200;
 }
 
 #search-box {
 	padding: 0 !important;
 	background-color: rgba(0,0,0,0.3) !important;
 	box-shadow: 0 0 1px #fff !important;
-	width: 520px;
+	width: 620px;
 	margin: 0 auto;
+	border-radius: .3rem;
+	color: #868484;
+	border: 1px solid #797979;
 }
 
 #search-box .ui.icon.input {
@@ -49,12 +53,14 @@
 }
 #search-box .ui.icon.input>input {
 	background-color: inherit;
-	border:0;
+	border: 0;
 	padding: 1.5em !important;
-	font-size: 1.15rem;
-	color: #fafafa!important;
+	font-size: 1.5rem;
+	color: #BDBDBD!important;
 	border-bottom: 1px solid rgba(255,255,255,.2) !important;
 	border-radius: 0 !important;
+	font-weight: 400;
+	letter-spacing: 2px;
 }
 #search-box input::-webkit-input-placeholder { /* WebKit browsers */
 	color: #fafafa!important;
@@ -70,8 +76,11 @@
 }
 
 #search-box .inline.fields {
-	padding:  1.5em !important;
+	padding: 2em !important;
 	text-align: left;
+	font-weight: 100;
+	color: #9D9D9D !important;
+	font-size: 1.3rem;
 }
 
 #search-box .inline.fields>.field:not(:last-child) {
@@ -90,10 +99,10 @@
 }
 #search-box .ui.fluid.search.selection.dropdown.field i {
 	float: right;
-	color: #fff;
+	color: #9D9D9D !important;
 }
 #search-box .ui.fluid.search.selection.dropdown.field .text, #search-box .ui.fluid.search.selection.dropdown.field input {
-	color: #fff !important;
+	color: #9D9D9D !important;
 }
 
 /** lower-portion **/
@@ -108,6 +117,7 @@
 	text-transform: uppercase;
 	font-weight: normal;
 	font-family: 'roboto condensed';
+	font-size: 1.5rem;
 }
 .lower-portion h2.ui.inverted.header:after {
 	position: absolute;

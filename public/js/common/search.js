@@ -93,13 +93,20 @@
               }
               }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
                 $(".ui-widget-content .ui-state-focus");
-                var type=""
+                var type="";
+                var icon ="";
                 if(item.type){
                   
-                  type="<div class='itLabel'>"+_classInstance.type[item.type]+"</div>"
+                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
 
                 }
-                 return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div>"+type+"</a>" ).appendTo(ul);
+
+                if(item.type=='irx-euser') {
+                  icon = "<i class='icon user right floated'></i>"
+                }else {
+                  icon ="<i class='icon building outline right floated'></i>"
+                }
+                 return $( "<li class='ui divided list'>" ).append( "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>" ).appendTo(ul);
               };  
    
     ko.applyBindings(_classInstance.viewModel,document.getElementById('searchF'));
