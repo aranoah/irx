@@ -306,6 +306,59 @@ PMService.prototype.projectAutocomplete = function(data) {
 *  Mark Distress
 */
 PMService.prototype.markDistress = function(data) {
-	
+	var _selfInstance = this;
+	var projectId = data.projectId;
+	var userId = data.irxId;
+	var distress =data.distress
+	mongoose.getCollection('irxagentmproducts').findAndModify(
+ 		{"agentId":userId,"project":projectId},
+ 		[],
+		{$set:{"distress":distress}},
+		{"new":true },
+		function(err, mapping){
+			if(err){
+				console.log(err)
+				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+			} else {
+				if(mapping == null){
+					console.log("No project mapping found")
+				_selfInstance.emit("done",STATUS.ERROR.code,"No Project mapping found",null,null);
+				}
+				//update user
+				console.log("IrxId",userId)
+						IRXUserProfileModel.update({"irxId":userId},
+							{$set:{"hasDistress":true}},
+							function(err,numberAffected,raw){
+								if(err){
+									console.error("distress in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+								} else {
+									if(numberAffected>0){
+										console.log("distress in agent has been udated");
+									}else{
+										console.error("distress in user not updated. ");
+									}
+								}
+							}
+							)
+						//update project
+						console.log("pId",projectId)
+							IRXProductLineModel.update({"id":projectId.trim()},
+							{$set:{"hasDistress":true}},
+							function(err,numberAffected,raw){
+								if(err){
+									console.error("distress in project not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+								} else {
+									if(numberAffected>0){
+										console.log("distress in project has been udated");
+									}else{
+										console.error("distress in project not updated. ");
+									}
+								}
+							}
+							)
+
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+			}
+		})
 }
 module.exports = PMService;

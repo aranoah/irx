@@ -109,11 +109,25 @@ pMController.projectAutocomplete = function() {
 */
 
 pMController.markDistress = function() {
-    var pMService = new profileManagementService();
-    
     var _nself = this;
-   console.log(_nself.request.session)
-   
-    //pMService.markDistress(data);
+    var pMService = new profileManagementService();
+    var distress = _nself.req.body; 
+    
+    pMService.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    
+
+    var userId = "";
+    if(_nself.req.session['X-CS-Auth']){
+        if(_nself.req.session['X-CS-Auth'].user){
+          userId =_nself.req.session['X-CS-Auth'].user.irxId;
+        }
+      }
+      var data={};
+    data.projectId = _nself.req.params.projectId;
+    data.irxId = userId
+    data.distress = distress;
+    pMService.markDistress(data);
 };
 module.exports=pMController
