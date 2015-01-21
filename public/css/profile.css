@@ -2,6 +2,8 @@
 
 #content {
   padding: 13rem 0 0;
+  margin: 0 auto !important;
+  min-width: 992px !important;
 }
 
 #content>.fourteen.wide.column {
@@ -114,6 +116,7 @@
   border: 0 !important;
   padding: 0.5rem 0 !important;
   text-align: initial;
+  overflow: hidden;
 }
 
 .lib-xtras>.item i {
