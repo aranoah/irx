@@ -1,5 +1,10 @@
 <!-- Fixed header and search menu place here -->
 
+<style>
+  .ui.mobile.dropdown.link.item>i {
+    padding:1rem;
+  }
+</style>
 <div id="home" class="ui top fixed menu">
 
   <!-- Header goes here -->
@@ -9,7 +14,8 @@
     <a class="item _link">PROJECTS</a>
     <a class="item _link">AGENTS</a>
     <div class="right menu">
-      <div class="ui mobile dropdown link item" tabindex="0">
+      <div class="ui mobile dropdown link item" tabindex="0" style="padding:0;">
+        <i class="user icon log-in"></i>
        <i class="content icon toggle button"></i>
       </div>
       <a class="item sell-in">Sell your property</a>

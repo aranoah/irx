@@ -1,14 +1,14 @@
 /* content starts here*/
 
 #content {
-  padding: 13rem 0 0;
+  padding: 13rem 0 0;/*
   margin: 0 auto !important;
-  min-width: 992px !important;
+  max-width: 992px !important;*/
 }
 
-#content>.fourteen.wide.column {
+/*#content>.fourteen.wide.column {
   padding: 0;
-}
+}*/
 
 #content.ui.grid .four.wide.column, #content .twelve.wide.column>div {
   background-color: #fff;
