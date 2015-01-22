@@ -58,7 +58,11 @@
 		color: #808080;
 		font-weight: 300;
 		font-size: 1.2rem
-		}
+	}
+	.ui.card>.content>.header:not(.ui){
+		color: #607d8b;
+        font-weight: 400;
+	}
 </style>
 <body id="home">
   <% include ../partials/header.html.ejs %>
@@ -112,7 +116,6 @@
 			        </div>
   				</div>
   			</div>
-  			
   		</div>
 
   		<!-- collections ends here -->
@@ -246,7 +249,7 @@
   		<div id="how-it-works" class="ui very relaxed stackable page grid lower-portion">
   			<div class="row">
   				<div class="column">
-		          <h2 class="center aligned ui inverted header">
+		          <h2 class="center aligned ui inverted header"style="color:#525151;">
 		           HOW IT WORKS ?
 		          </h2>
 		        </div>

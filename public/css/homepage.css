@@ -55,11 +55,15 @@
 #search-box .ui.icon.input>input {
 	background-color: inherit;
 	border: 0;
-	padding: 1.5em !important;
+	padding: 1.2em !important;
 	font-size: 1.5rem;
-	color: #fff;
+	color: #E4E3E3!important;
 	border-bottom: 1px solid rgba(255,255,255,.2) !important;
 	border-radius: 0 !important;
+	font-weight: 100;
+	letter-spacing: 2px;
+    border-radius: 0 !important;
+
 }
 #search-box input::-webkit-input-placeholder { /* WebKit browsers */
 	color: rgba(255,255,255,0.5) !important;
@@ -160,7 +164,11 @@
 *******************/
 
 #agentContent,#projectContent {
-	padding: 4rem 0 !important;
+	padding: 1rem 0 !important;
+}
+
+.ui.grid.two.column.rib-head{
+    border-bottom: 1px solid rgb(231, 231, 231);
 }
 
 #agentContent>div,#projectContent>div {
@@ -175,6 +183,10 @@
 #agentContent .rib-head>h2, #projectContent .rib-head>h2 {
 	margin: 1rem 0 0;
 	padding: 0;
+	font-size: 1.5rem;
+	font-weight: 100;
+	color: #898989;
+	letter-spacing: 2px;
 }
 
 #agentContent .rib-head>.right.menu {
@@ -250,6 +262,10 @@
 .card .inline.field label {
 	padding: 0;
 }
+.pj-items >.cinema{
+	color: #898888;
+	font-weight: 100;
+}
 
 /*******************
 	Project listing
@@ -321,7 +337,9 @@
 	padding-right: 1.5rem;
 	border-right: 2px solid #eaeaea;
 	color: #607d8b;
-	font-size: 1.2em;
+	font-size: 1.3em;
+	font-weight: 400;
+	text-transform: capitalize;
 }
 
 .proj-listing h5.ui.header {
@@ -365,10 +383,13 @@
 }
 
 .proj-listing .content .description {
-	max-height: 90px;
+	max-height: 88px;
 	overflow: hidden;
-	color: #808080;
+	color: #A6A6A6;
 	font-weight: 300;
+	font-size: .94rem;
+	word-spacing: 1px;
+	letter-spacing: .2px;
 }
 
 .content .extra .ui.header {
@@ -405,7 +426,10 @@
 	box-shadow: 0 0 0 #000 !important;
 	background-color: #f6f6f6 !important;
 	color: #607d8b !important;
-	transition:all ease .2s;
+	transition: all ease .2s;
+	padding: .5rem;
+	font-weight: 200;
+	width: 11rem;
 }
 
 .proj-listing .ui.right.floated>.ui.button:hover {
@@ -419,4 +443,10 @@
 
 .proj-listing .ui.right.floated>div:not(:last-child) {
 	margin-bottom: .3rem;
+}
+.ui.radio.checkbox .box:after, .ui.radio.checkbox label:after{
+	background-color: rgb(133, 223, 133);
+	padding: 1.3rem;
+	top: -.74rem;
+	left: -.87rem;
 }

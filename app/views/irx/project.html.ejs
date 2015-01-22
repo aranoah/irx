@@ -13,7 +13,8 @@
 	.proj-listing h5.ui.header {
 	  padding-left: 1.2rem;
 	  opacity: .8;
-	  font-weight: 300;
+	  font-weight: 400;
+	  color: #747474;
 	}
 	.ui.items>.item>.content a {
 	  color: #607d8b !important;
@@ -22,6 +23,10 @@
 	}
 	.pDate {
 		margin-right: 15px;
+	}
+	.extra.pDate{
+		color: #838080;
+        opacity: .8;
 	}
   </style>
   
@@ -71,10 +76,11 @@
 	    </div>
 
 	    <!-- Project Listing goes here -->
-	    <div data-bind="visible:projects().length==0">
+	    <div data-bind="visible:projects().length==0" style=" background: rgba(137, 137, 137, 0.16);padding: .8rem;color: rgb(174, 122, 78);
+             border-left: 2px solid #009fda;">
 	    	No Search Results
 	    </div>
-	    <div data-bind="foreach : projects">
+	    <div data-bind="foreach : projects"style="padding-top:1rem;">
 	    	<div class="ui items proj-listing">
 				<div class="four column row">
 					<div class="left floated column">
@@ -101,11 +107,11 @@
 						</div>
 						<div class="pj-items">
 							<span class="cinema">
-								BHK :<span data-bind="foreach : bhk">
+								BHK -<span data-bind="foreach : bhk">
 										<a href="header" data-bind="text:$data"></a>
 									</span>
 							</span>
-							<span class="cinema">Property type :<a href="header"><!--ko text: type--><!--/ko--></a></span>
+							<span class="cinema">Property type -<a href="header"><!--ko text: type--><!--/ko--></a></span>
 
 							<span class="cinema"><i class="user icon agent"></i><!--ko text: builderName--><!--/ko--></span>
 						</div>
