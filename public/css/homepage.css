@@ -55,7 +55,7 @@
 #search-box .ui.icon.input>input {
 	background-color: inherit;
 	border: 0;
-	padding: 1.5em !important;
+	padding: 1.2em !important;
 	font-size: 1.5rem;
 	color: #E4E3E3!important;
 	border-bottom: 1px solid rgba(255,255,255,.2) !important;
@@ -77,7 +77,7 @@
 }
 
 #search-box .inline.fields {
-	padding: 2em !important;
+	padding: 1.4em !important;
 	text-align: left;
 	font-weight: 100;
 	color: #9D9D9D !important;
@@ -423,5 +423,8 @@
 	margin-bottom: .3rem;
 }
 .ui.radio.checkbox .box:after, .ui.radio.checkbox label:after{
-	background-color: green;
+	background-color: rgb(133, 223, 133);
+	padding: 1.3rem;
+	top: -.74rem;
+	left: -.87rem;
 }
