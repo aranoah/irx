@@ -100,7 +100,7 @@
               <div class="ui button _cancel_" data-bind="click:function(){locationClose('_location_')}">Cancel</div>
             </form>
             <div class="content">
-            <i class="linkify icon"></i>irx.com/
+              <i class="linkify icon"></i>irx.com/
                 <div class="item _unUserName_ profEdit" contenteditable="false">
                    <!--ko text : id --><!-- /ko -->
                    <i data-bind="click:function(){profileEdit('_unUserName_')}" class="write icon"></i>
@@ -110,9 +110,18 @@
                   <div class="ui positive button" data-bind="click:function(){updateUser('_unUserName_')}" >Save</div>
                   <div class="ui button _cancel_" data-bind="click:function(){profileClose('_unUserName_')}">Cancel</div>
                 </div>
-              </div>
+            </div>
             <div class="item"><i class="mail outline icon"></i><%= result.userId%></div>
-            <div class="item"><i class="call icon"></i><%= result.phoneNum%></div>
+            <div class="content">
+              <div class="item _phoneNum_ profEdit" contenteditable="false">
+                <i class="call icon"></i><!--ko text : phoneNum --><!-- /ko -->
+                <i data-bind="click:function(){profileEdit('_phoneNum_')}" class="write icon"></i>
+              </div>
+              <div class="ui buttons">
+                  <div class="ui positive button" data-bind="click:function(){updateUser('_phoneNum_')}" >Save</div>
+                  <div class="ui button _cancel_" data-bind="click:function(){profileClose('_phoneNum_')}">Cancel</div>
+                </div>
+            </div>
             <!--<a class="lib-url">Get a personalized URL?</a>-->
           </div>
 
@@ -393,7 +402,7 @@
                   city:ko.observable("<%= result.location.city %>"),
                   state:ko.observable("<%= result.location.state %>")
                 },
-      phoneNum : ko.observable(),
+      phoneNum : ko.observable('<%= result.phoneNum %>'),
       leads : ko.observableArray(),
       updateUser : function(self){
         var _self = $('.'+self);
@@ -401,17 +410,16 @@
         if(self == '_compname_'){
           item = "companyName"
           classInstance.viewModel.companyName(_self.text().trim())
-        }
-        
-        if(self == '_name_'){
+        } else if(self == '_name_'){
           item = "name"
           classInstance.viewModel.name(_self.text().trim())
-        }
-        if(self == '_location_'){
+        } else if(self == '_location_'){
           item = "location"
          
-        }
-        if(self == '_unUserName_'){
+        } else if(self == '_phoneNum_'){
+          item = "phoneNum"
+          classInstance.viewModel.phoneNum(_self.text().trim())
+        } else if(self == '_unUserName_'){
           item = "id"
          classInstance.viewModel.id(_self.text().trim())
          classInstance.checkAndUpdateUserName();
@@ -591,8 +599,18 @@
         if(data.status==0){
           if(item=='location'){
             locationClose(self);
-          } else{
+          } else if(item=='phoneNum'){
             profileClose(self)
+            
+             $('.compact.button')
+                .popup({
+                  inline: true,
+                  on    : 'click',
+                  position: 'bottom left'
+                })
+              ;
+          } else {
+            profileClose(self);
           }
         }
     })

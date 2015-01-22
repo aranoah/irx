@@ -22,8 +22,11 @@ var IRXVerificationSchema =new mongoose.Schema({
    userId:{type:String,reqired:true},
    vfCode:{type:String,reqired:true},
    vfData :{type:String},
-   createdOn:{type:Date,reqired:true},
-   updatedOn:{type:Date,reqired:true}
+   type : {type:String,required:true},
+   createdOn:{type:Date},
+   updatedOn:{type:Date},
+   emailId :{type:String},
+   phoneNum :{type:String}
 });
 
 IRXVerificationModel = mongoose.model('irxverification', IRXVerificationSchema);

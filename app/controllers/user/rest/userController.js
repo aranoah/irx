@@ -127,18 +127,23 @@ userController.verifyUser = function() {
     userSvc.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
-    var userId = _nself.param("userId");
-    var vfCode = _nself.param("vfCode");
+    var userId = _nself.req.param("userId");
+    var vfCode = _nself.req.param("vfCode");
+    var phoneNum = false;
+    if(_nself.req.query.phoneNum && _nself.req.query.phoneNum !=" "){
+      phoneNum = true;
+    }
     var data = {
     	"userId":userId,
-    	"vfCode":vfCode
+    	"vfCode":vfCode,
+      "phoneNum":phoneNum
     }
     console.log(data)
     userSvc.verifyUser(data);
 }
 /*
 *   Login user 
-*   @TODO : Controller level validation
+*   @TODO : Controller level valid ation
 **/
 
 userController.login = function() {
