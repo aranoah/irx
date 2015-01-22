@@ -30,13 +30,14 @@ var profileManagementService = require(_path_service+"/profileManagementService.
 
 pMController.associateProject = function() {
 	var pMService = new profileManagementService();
-	
-    var _nself = this;
+     var _nself = this;
+	 var userId = _nself.getCurrentUser(_nself);
+   
     pMService.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
     var data = {
-    	userId:_nself.req.params.userId,
+    	userId:userId,
     	projectId:_nself.req.params.projectId
     }
     
@@ -49,13 +50,14 @@ pMController.associateProject = function() {
 
 pMController.deleteProject = function() {
     var pMService = new profileManagementService();
-    
+   
     var _nself = this;
+     var userId = _nself.getCurrentUser(_nself);
     pMService.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
     var data = {
-        userId:_nself.req.params.userId,
+        userId:userId,
         projectId:_nself.req.params.projectId
     }
     

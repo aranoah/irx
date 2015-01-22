@@ -3,6 +3,7 @@
 ***************/
 #header {
 	background-color: #00bcd4 !important;
+	border-radius: 0 !important;
 }
 #header>._logo_ , #header>._link, #header .right.menu>.item{
 	color: #fff !important;

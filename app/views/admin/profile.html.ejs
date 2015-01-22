@@ -31,18 +31,20 @@
             </div>
           </div>
           <div class="content">
-            <div class="header _name_ profEdit" contenteditable="false"><%= result.name %>
-            <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i></div>
+            <div class="header _name_ profEdit" contenteditable="false"><!--ko text : name --><!-- /ko -->
+            <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i>
+            </div>
             <div class="ui buttons">
-              <div class="ui positive button" >Save</div>
+              <div class="ui positive button" data-bind="click:function(){updateUser('_name_')}" >Save</div>
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_name_')}">Cancel</div>
             </div>
           </div>
           <div class="content">
-            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false" data-bind="text: companyName">  
-            <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i></div>
+            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false" >  <!--ko text : companyName --><!-- /ko -->
+            <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i>
+            </div>
             <div class="ui buttons">
-              <div class="ui positive button" data-bind="click:function(){updateUser('companyName')}">Save</div>
+              <div class="ui positive button" data-bind="click:function(){updateUser('_compname_')}">Save</div>
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
             </div>
           </div>
@@ -54,7 +56,7 @@
           </div>
 
           <div class="lib-count">
-            <div class="item left floated"><div class="header">10</div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
+            <div class="item left floated"><div class="header"><%= result.projectCounter %></div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
           </div>
 
          <div class="lib-specs">
@@ -71,11 +73,44 @@
             </div>
             <% } %>
           </div>
+          
            <div class="ui divided list lib-xtras">
             <% if(result.location) {%>
-            <div class="item"><i class="map marker icon"></i><%= result.location.city%>,<%= result.location.state%></div>
-             <% } %>
-            <div class="item"><i class="linkify icon"></i>irx.com/karan</div>
+              <div class="item _location_ profEdit" contenteditable="false">
+                <i class="map marker icon"></i>
+                <!--ko text : location.name --><!-- /ko -->,<!--ko text : location.city --><!-- /ko -->,<!--ko text : location.state --><!-- /ko -->
+                <i data-bind="click:function(){locationEdit('_location_')}" class="write icon"></i>
+              </div>
+            <% } %>
+            
+            <form class="ui form" style="display:none">
+              
+              <div class="field">
+                <input type="text" name="locality" data-bind="textInput :location.name" placeholder="locality">
+              </div>
+              
+              <div class="field">
+                <input type="text" name="city" data-bind="textInput :location.city" placeholder="city">
+              </div>
+             
+              <div class="field">
+                <input type="text" name="state" data-bind="textInput :location.state" placeholder="state">
+              </div>
+              <div class="ui positive button" data-bind="click:function(){updateUser('_location_')}">Save</div>
+              <div class="ui button _cancel_" data-bind="click:function(){locationClose('_location_')}">Cancel</div>
+            </form>
+            <div class="content">
+            <i class="linkify icon"></i>irx.com/
+                <div class="item _unUserName_ profEdit" contenteditable="false">
+                   <!--ko text : id --><!-- /ko -->
+                   <i data-bind="click:function(){profileEdit('_unUserName_')}" class="write icon"></i>
+                    
+                </div>
+                <div class="ui buttons">
+                  <div class="ui positive button" data-bind="click:function(){updateUser('_unUserName_')}" >Save</div>
+                  <div class="ui button _cancel_" data-bind="click:function(){profileClose('_unUserName_')}">Cancel</div>
+                </div>
+              </div>
             <div class="item"><i class="mail outline icon"></i><%= result.userId%></div>
             <div class="item"><i class="call icon"></i><%= result.phoneNum%></div>
             <!--<a class="lib-url">Get a personalized URL?</a>-->
@@ -113,7 +148,7 @@
                       <div class="column left-portion">
                         <div class="item">
                             <div class="ui transparent left icon input">
-                              <input type="text"  id="__searchPro" placeholder="Search projects...">
+                              <input type="text" id="__searchPro" placeholder="Search projects...">
                               <i class="search icon"></i>
                             </div>
                         </div>
@@ -311,16 +346,33 @@
   function profileEdit(self) {
 
     var _self = $('.'+self);
-
+    if(self == "_unUserName_"){
+      $('#_check_').show();
+    }
     _self.addClass('active');
     _self.attr("contenteditable","true");
     _self.find('i').hide();
     _self.siblings('.ui.buttons').show();
   }
 
+  function locationEdit(self) {
+
+    var _self = $('.'+self);
+    _self.find('i').hide();
+    _self.siblings('.ui.form').show();
+  }
+
+  function locationClose(self) {
+    var _self = $('.'+self);
+    _self.find('i').css('display','initial');
+    _self.siblings('.ui.form').hide();
+  }
+
   function profileClose(self) {
     var _self = $('.'+self);
-
+    if(self == "_unUserName_"){
+      $('#_check_').hide();
+    }
     _self.removeClass('active');
     _self.attr("contenteditable","false");
     _self.find('i').css('display','initial');
@@ -332,18 +384,45 @@
     
     classInstance.viewModel={
       projects: ko.observableArray(),
+      id: ko.observable('<%= result.id %>'),
       associatedProjects : ko.observableArray(),
       name : ko.observable('<%= result.name %>'),
       companyName : ko.observable('<%= result.companyName %>'),
       specialities : ko.observableArray(),
-      location : ko.observable(),
+      location : {name:ko.observable("<%= result.location.name %>"),
+                  city:ko.observable("<%= result.location.city %>"),
+                  state:ko.observable("<%= result.location.state %>")
+                },
       phoneNum : ko.observable(),
       leads : ko.observableArray(),
-      updateUser : function(item){
-        classInstance.updateUserProfile(item);
+      updateUser : function(self){
+        var _self = $('.'+self);
+        var item =""
+        if(self == '_compname_'){
+          item = "companyName"
+          classInstance.viewModel.companyName(_self.text().trim())
+        }
+        
+        if(self == '_name_'){
+          item = "name"
+          classInstance.viewModel.name(_self.text().trim())
+        }
+        if(self == '_location_'){
+          item = "location"
+         
+        }
+        if(self == '_unUserName_'){
+          item = "id"
+         classInstance.viewModel.id(_self.text().trim())
+         classInstance.checkAndUpdateUserName();
+         return;
+        }
+        classInstance.updateUserProfile(item,self);
       },
+      
       addProject : function(id){
         classInstance.associateProject(id);
+         
       },
       removeProject : function(index,id){
         
@@ -370,6 +449,8 @@
     classInstance.listAssociatedProjects();
     classInstance.listAllProjects();
     classInstance.listLeads(false);
+    
+  
 
     $("#__searchPro").autocomplete({
 
@@ -390,7 +471,7 @@
   AdminProfile.prototype.removeAssociatedProject = function(index,id) {
     var classInstance = this;
 
-    httpUtils.get('/delete-project/'+classInstance.userId+'/'+id,{},"JSON",function(data){
+    httpUtils.get('/delete-project/'+id,{},"JSON",function(data){
        if(data.status==0){
         classInstance.viewModel.associatedProjects.remove(function(item){
           return item.id == id;
@@ -413,7 +494,7 @@
   AdminProfile.prototype.associateProject = function(id) {
     var classInstance = this;
     
-    httpUtils.get('/associate-project/'+classInstance.userId+'/'+id,{},"JSON",function(data){
+    httpUtils.get('/associate-project/'+id,{},"JSON",function(data){
        if(data.status==0){
 
         classInstance.viewModel.associatedProjects.push(data.result);
@@ -472,6 +553,18 @@
    var classInstance = this;
    classInstance.viewModel.resetLeadsPageObj.start(0);
   }
+  AdminProfile.prototype.checkAndUpdateUserName = function() {
+   var classInstance = this;
+   var text = classInstance.viewModel.id();
+   httpUtils.get('/check-userName/'+text,{},"JSON",function(data){
+       if(data.status==0){
+        alert(data.status)
+       } else {
+        alert(data.status)
+       } 
+    })
+  }
+  
    AdminProfile.prototype.listAllProjects = function() {
     
    var classInstance = this;
@@ -484,15 +577,23 @@
     })
   }
 
-  AdminProfile.prototype.updateUserProfile = function(item) {
+  AdminProfile.prototype.updateUserProfile = function(item,self) {
      var classInstance = this;
-    var obj = [];
-    obj[item] = classInstance.viewModel[item]();
-
-    console.log("yo yo",obj)
-      httpUtils.post("/update-user/"+classInstance.userId,obj,{},"JSON",function(data){
+    var obj = {};
+    if(item=='location'){
+      obj.location = {"name":classInstance.viewModel.location.name,
+                       "city":classInstance.viewModel.location.city,
+                       "state":classInstance.viewModel.location.state };
+    }else{
+      obj[item] = classInstance.viewModel[item]();
+    }
+      httpUtils.post("/update-user",obj,{},"JSON",function(data){
         if(data.status==0){
-          alert(1)
+          if(item=='location'){
+            locationClose(self);
+          } else{
+            profileClose(self)
+          }
         }
     })
   }

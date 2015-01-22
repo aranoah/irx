@@ -5,11 +5,42 @@
       border:0;
       background:inherit;
     }
+
+    .ui.labeled.icon.dropdown.button.item {
+      padding:0 !important;
+    }
+
+    .ui.labeled.icon.dropdown.button.item>span.text {
+      cursor: pointer;
+      word-wrap: break-word;
+      white-space: normal;
+      outline: 0;
+      -webkit-transform: rotateZ(0deg);
+      transform: rotateZ(0deg);
+      min-width: 158px !important;
+      background: inherit !important;
+      display: inline-block;
+      padding: .8em 1.1em;
+      color: rgba(0,0,0,.7);
+      box-shadow: none;
+      border: 1px solid rgba(39,41,43,.15);
+      border-radius: .2857rem;
+      font-weight:normal;
+    }
+    .ui.labeled.icon.dropdown.button.item>span.text:hover {
+      background-color:#fbfbfb !important;
+    }
+    .ui.labeled.icon.dropdown.button.item>i{
+      color: #444;
+      margin-left: 75% !important;
+      float:none !important;
+      background-color: inherit;
+    }
   </style>
   <script type="text/javascript" src="/js/common/search.js"></script>
 <div id="searchF">
 <form data-bind="submit: searchF" id="searchForm">
-  <div id="searchbar" class="ui inverted menu">
+  <div id="searchbar" class="ui inverted menu row computer only">
   
     <div class="ui grid smenu-hide">
       <div class="ui mobile row" tabindex="0">
@@ -77,11 +108,24 @@
           </div>
         </div>
       </div>
-      <div class="item">
-          <div class="ui slider checkbox">
-            <label>Budget</label>
-            <input type="checkbox">
+      <div class="ui labeled icon dropdown button item">
+        <i class="angle down icon"></i>
+        <span class="text">Budget</span>
+        <div class="menu">
+          <div class="header">
+            Select price range
           </div>
+          <div class="divider"></div>
+          <div class="item">
+            Less than 5Lac
+          </div>
+          <div class="item">
+            5Lac - 10Lac
+          </div>
+          <div class="item">
+            More than 10Lac
+          </div>
+        </div>
       </div>
       <div class="item">
         <button class="buttonClass" type="submit">
