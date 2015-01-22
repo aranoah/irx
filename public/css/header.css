@@ -7,7 +7,7 @@ body {
 
   #header.ui.inverted.menu>* {
    padding: 0.6rem !important;
-   font-weight: 200;
+   font-weight: 300;
   }#header.ui.inverted.menu .header {
     margin: .5rem 1rem;
     font-weight: bold;
@@ -125,7 +125,7 @@ body {
 }
 
 #searchbar .ui.mobile.row {
-  padding: 1.4rem 1rem;
+  padding: 1.4rem 1rem .5rem;
 }
 
 #searchbar .angle.down.icon {
@@ -141,20 +141,27 @@ body {
 
 /* Login*/
 
+#login-mobile, #login-desktop {
+  padding: 0;
+}
 .pop-up.ui.modal {
   width: 600px !important;
 }
 
-.pop-up .content>div {
-  padding: 0.5rem 1rem;
+.pop-up.ui.modal .ui.grid {
+  margin: 0 !important;
 }
 
-.pop-up .content h2, .pop-up .content i {
+.pop-up .content>div {
+  padding: 1rem;
+}
+
+.pop-up .content h2, .pop-up .content i.icon.close {
   padding: 0 !important;margin: 0 !important;
   font-size: 1.5rem !important;
 }
 
-.pop-up .content i {
+.pop-up .content i.icon.close {
   opacity: 0.3;
   text-align: right;
 }
@@ -173,6 +180,7 @@ body {
 }
 
 #lower-content .tab .ui.small {
+  font-size: 14px;
   background: #eee !important;
   color: #7b7b7b !important;
   font-weight: normal;
@@ -217,9 +225,19 @@ body {
   padding: 0.3rem 0;
 }
 
+#lower-content label {
+  font-size: 1rem;
+}
+
 #lower-content .fb-login {
   text-align: center;
   margin-top: 4rem;
+}
+
+#login-mobile #lower-content .fb-login {
+  padding: 1rem;
+  margin: 0 !important;
+  font-size: 1rem;
 }
 
 #lower-content .fb-login>.item {
@@ -427,7 +445,7 @@ body {
   background-color: #fff;
   box-shadow: 0 0 5px 1px rgba(0,0,0,0.2);
   padding: 0;
-  z-index: 1;
+  z-index: 100;
 }
 
 #autoDiv>ul>li {
@@ -494,6 +512,10 @@ body {
   }
   #homescreen .ui.form .field {
     margin-right: 0 !important;
+  }
+
+  #login {
+    width: auto !important;
   }
 }
 
