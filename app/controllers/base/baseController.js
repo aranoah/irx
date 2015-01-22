@@ -66,5 +66,22 @@ BaseController.prototype.processJson=function(status,msg,result,page){
 BaseController.prototype.processTableJson=function(status,msg,result,total){
     this.res.json({"status":status,"message":msg,records:result,"total":total});   
 };
-
+BaseController.prototype.getCurrentUser=function(_nself){
+  var irxId = "";
+  if(_nself.req.session['X-CS-Auth']){
+    if(_nself.req.session['X-CS-Auth'].user){
+      irxId =_nself.req.session['X-CS-Auth'].user.irxId;
+    }
+  }
+  return irxId;
+};
+BaseController.prototype.getCurrentUserInfo=function(_nself){
+  var user = "";
+  if(_nself.req.session['X-CS-Auth']){
+    if(_nself.req.session['X-CS-Auth'].user){
+      user =_nself.req.session['X-CS-Auth'].user;
+    }
+  }
+  return user;
+};
 module.exports = BaseController;
