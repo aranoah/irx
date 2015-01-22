@@ -152,8 +152,20 @@ body {
   margin: 0 !important;
 }
 
+.pop-up .content {
+  padding: 0 !important;
+}
+
 .pop-up .content>div {
   padding: 1rem;
+}
+
+#login-mobile .content {
+  padding: 1rem !important;
+}
+
+#login-mobile .content>div {
+  padding: 0 !important;
 }
 
 .pop-up .content h2, .pop-up .content i.icon.close {
@@ -171,8 +183,8 @@ body {
   cursor: pointer;
 }
 
-#lower-content.actions.ui.grid {
-  background: #f8f8f8;
+#lower-content.actions.ui.grid, #login-mobile>#lower-content {
+  background: #f8f8f8 !important;
   margin: 0;
   padding: 1rem;
   border-top-color: #eaeaea;
@@ -206,6 +218,10 @@ body {
   -webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
   transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
   -webkit-tap-highlight-color: transparent;
+}
+
+#login-mobile .tab .ui.small {
+  margin-right: 1rem;
 }
 
 #lower-content>.tab {
@@ -276,6 +292,15 @@ body {
   margin-top: 1rem;
 }
 
+#login-mobile .action-button {
+  width: 85%;
+  margin: 0;
+}
+
+#login-mobile #register-box>.action-button {
+  padding: 1rem 0 !important;
+}
+
 .action-button>.ui.button {
   background: #74c9f4;
   color: #fff;
@@ -301,6 +326,11 @@ body {
   padding-right: .5rem;
 }#lower-content .grouped.fields>div {
   display: inline-block;
+}
+
+#login-mobile .grouped.fields>* {
+vertical-align: middle;
+margin-right: 1rem;
 }
 
 /** sell-ur-property */
@@ -396,7 +426,7 @@ body {
   opacity: .5;
   padding: 1rem !important;
   font-size: 0.9rem;
-  font-weight: lighter;
+  font-weight: 300;
   color: #D5D3D3;
 }.footer .ui.inverted.menu>a.item:hover {
   opacity: 1;
@@ -427,12 +457,7 @@ body {
   opacity: .8;
   cursor: pointer;
 }
-.ui.inverted.header{
-  color: #ccc;
-  font-weight: 500;
-  font-family: monospace;
-  font-size: 1rem;
-}
+
 
 /** autocomplete **/
 
@@ -480,6 +505,10 @@ body {
   display: none;
 }
 
+#sidebar>.ui.mobile.item {
+    display: none;
+  }
+
 /*******************************
           Responsive
 *******************************/
@@ -514,9 +543,50 @@ body {
     margin-right: 0 !important;
   }
 
-  #login {
+  .pop-up.ui.modal {
     width: auto !important;
+  }
+
+  #sidebar>.ui.mobile.item {
+    display: block;
   }
 }
 
+@media only screen and (max-width : 992px) {
+
+  #home .menu .right.menu > .item, #searchbar > .search-menu {
+    display: none;
+  }
+
+  #home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
+    display: block;
+  }
+  #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
+    left: auto;
+    right: 0em; 
+  }
+
+  .proj-listing .ui.left.floated {
+    width: auto;
+  }
+
+  .proj-listing .content .social-share {
+    right: 0;
+  }
+
+  #search-box {
+    width: 330px !important;
+  }
+  #homescreen .ui.form .field {
+    margin-right: 0 !important;
+  }
+
+  .pop-up.ui.modal {
+    width: auto !important;
+  }
+
+  #sidebar>.ui.mobile.item {
+    display: block;
+  }
+}
 

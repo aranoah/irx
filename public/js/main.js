@@ -16,7 +16,7 @@ $(document).ready(function () {
 
 	$('.ui.dropdown').dropdown();
 
-	$('.right.demo.sidebar').first().sidebar('attach events', '.toggle.button');
+	$('.right.demo.sidebar').sidebar('attach events', '.toggle.button', 'show');
 
 	$('.toggle.button').removeClass('disabled');
 

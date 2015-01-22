@@ -1,0 +1,83 @@
+/****************
+Forgot password
+*****************/
+
+.irx-misc .ui.card {
+    margin: 0 auto;
+    width: 460px !important;
+}
+
+.irx-misc .ui.card>.content {
+    padding: 1rem;
+}
+
+.lock{
+    background: #38B7EA;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 2rem;
+    margin: 0 auto;
+}
+
+.lock>i.icon{
+    color: #fff;
+    margin: 0;
+    margin-top: 1.2rem;
+    font-size: x-large;
+}
+
+.irx-misc .star{
+    font-size: xx-small;
+    opacity: 0.5;
+}
+
+.irx-misc span.description{
+    color: #666;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+
+.irx-misc h3.ui.header {
+    color: rgba(0,0,0,0.6) !important;
+    padding: .5rem;
+}
+
+.irx-misc .description>p{
+    font-size: 1rem;
+    padding: .5rem 0;
+}
+
+.irx-misc .ui.input.focus{
+    margin-top: 1rem;
+    width: 70%;
+}
+
+.irx-misc .ui.input.focus input{
+    border: 2px solid #E8E8E8;
+    color: #7b7b7b;
+}
+
+.irx-misc .ui.buttons{
+    margin: 2rem 0;
+}
+
+.irx-misc .ui.buttons>div{
+    background: #fff;
+    border: 2px solid #eee;
+    color: #38B7EA;
+    margin-left: .5rem;
+    border-radius: .2857rem;
+}
+
+.irx-misc .ui.button.submit{
+    background: #67C60A;
+    color: #fff;
+    border-radius: .2857rem;
+    border: 2px solid #eee;
+}
+
+
+
+
+

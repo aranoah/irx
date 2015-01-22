@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head.html.ejs %>
+
+    <!--   Css files -->
+    <link rel="stylesheet" type="text/css" href="/css/irxmisc/contact.css">
+
+  </head>
+  <body>
+    <% locals.uiContext.menu=false %>
+    <% include ../partials/header.html.ejs %>
+
+    <div class="irx-misc ui very relaxed stackable page grid" style="padding-top:10rem;">
+      <div class="ui centered page grid">
+        <div class="two column row">
+
+          <!-- left column -->
+          <div class="column">
+            <h3 class="ui header">CONTACT US</h3>
+            <div class="ui form">
+              <div class="two fields">
+                <div class="field">
+                  <input placeholder="Name :"type="text">
+                </div>
+                <div class="field">
+                  <input placeholder="Company :"type="text">
+                </div>
+              </div>
+              <div class="two fields mail_phone">
+                <div class="field email">
+                  <input placeholder="Email :"type="text">
+                </div>
+                <div class="field phone">
+                  <input placeholder="Phone :"type="text">
+                </div>
+              </div>
+              <div class="field">
+                <textarea placeholder="Message :"></textarea>
+              </div>
+              <div class="right floated column ui small button message">
+                SEND MESSAGE
+              </div>
+            </div>
+          </div>
+
+          <!-- left column ends here -->
+
+          <div class="column">
+            <div class="content">
+              <h3 class="ui header">LANDMARKIT</h3>
+              <div class="item"><i class="marker icon"></i>No.602,2nd floor,madhavpur,<br><span style="margin-left: 4rem;">banglore,560050</span></div>
+              <div class="item"><i class="call icon"></i>+91 9953568748</div>
+              <div class="item"><i class="mail square icon"></i>Contact.info@irx.com</div>
+            </div>
+            <img class="ui big image" src="/images/map.jpg">
+          </div>
+
+        </div>
+      </div>
+    </div>
+    </div>
+    <% include ../partials/footer.html.ejs %>
+  </body>
+</html>
