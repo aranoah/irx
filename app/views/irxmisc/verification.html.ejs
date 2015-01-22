@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <% include ../partials/head.html.ejs %>
+
+    <!--   Css files -->
+    <link rel="stylesheet" type="text/css" href="/css/irxmisc/forgot.css">
+
+  </head>
+  <body>
+    <% locals.uiContext.menu=false %>
+    <% include ../partials/header.html.ejs %>
+    <div class="irx-misc ui very relaxed stackable page grid" style="padding-top:10rem;">
+      <div class="ui centered page grid">
+        <div class="ui card">
+          <div class="content">
+            <div class="lock"><i class="mobile icon"></i></div>
+            <h3 class="ui header">Verification password ?</h3>
+            <div class="description">
+              <p>A text message with your code has been sent to:</p>
+            </div>
+            <div class="star">
+              <i class="star icon"></i>
+              <i class="star icon"></i>
+              <i class="star icon"></i>
+              <i class="star icon"></i>
+              <i class="star icon"></i>
+              <i class="star icon"></i>
+              <i class="star icon"></i>
+              <i class="star icon"></i>
+              <span class="description">20</span>
+            </div>
+            <div class="ui input focus">Enter code:
+              <input type="text" placeholder="">
+            </div>
+            <div class="ui buttons">
+              <button class="ui button submit">Verify</button>
+              <div class="ui button cancel" tabindex="0">Cancel</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% include ../partials/footer.html.ejs %>
+  </body>
+</html>

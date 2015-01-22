@@ -1,0 +1,169 @@
+/*****************
+package selection
+******************/
+
+.irx-misc h3.ui.header {
+	border-bottom: 2px solid #EFEFEF;
+	color: #38B7EA;
+	text-align: left;
+	padding-bottom: .5rem;
+}
+
+.package-selection>.card {
+	padding: 1rem !important;
+}
+
+.package-selection>.card.basic:hover {
+	cursor: pointer;
+	border: 2px solid #38B7EA;
+}
+
+.package-selection>.card:nth-child(2n) {
+	margin: 0 2rem;
+}
+
+.package-selection>.card .description {
+  font-size: 1rem;
+}
+.package-selection>.card.pro .description {
+  color: #fff !important;
+}
+
+.header_basic{
+	font-size: 1.5rem;
+    color: #7b7b7b;
+}
+.ui.cards >.card.basic{
+	background: #eee;
+	box-shadow: 0 0 0 #fff,0 0 0 0 #fff;
+}
+
+.meta.benefits{
+	border-top: 1px solid #fff;
+	margin-top: 1rem;
+	padding-top: 1rem;
+}
+
+.ui.header.bento{
+	margin-top: -0.7rem;
+	margin-bottom: 9rem;
+}
+
+.ui.header{
+	font-weight: 400;
+    color: #737373;
+}
+
+.ui.header_footer{
+	margin-top: 0.5rem;
+	margin-left: 12rem;
+	font-weight: 500;
+	color: #737373;
+}
+
+.ui.mini.horizontal.statistic{
+	float: right;
+	margin-top: -3rem;
+}
+
+.ui.mini.horizontal.statistic >.value{
+	font-size: 2rem;
+	color: #737373;
+}
+
+.description_basic{
+	color: #A8A4A4;
+    font-weight: 100;
+}
+
+
+/* Standard Tab*/
+
+.ui.header.standard{
+	margin-top: -0.7rem;
+}
+
+.ui.header.standards{
+	margin-bottom: 7rem;
+	margin-top: -0.7rem;
+	font-weight: 500;
+}
+
+.ui.cards >.card.standard{
+	background: #eee;
+	border: 2px solid #38B7EA;
+	box-shadow: 0 0 0 #fff,0 0 0 0 #fff;
+}
+
+.description_standard{
+	color: #A8A4A4;
+    font-weight: 100;
+}
+
+/* Standard pro(third tab)*/
+
+.ui.cards >.card.pro{
+	background: #38B7EA;
+	box-shadow: 0 0 0 #fff,0 0 0 0 #fff;
+	color: #fff;
+}
+
+.header_pro{
+	font-size: 1.5rem;
+    font-weight: 400;
+    color: #fff;
+}
+
+.description_pro{
+	color: #EDEDED;
+	font-weight: 100;
+}
+
+.ui.header.pros{
+	margin-top: -0.7rem;
+	color: #F2F2F2;
+
+}
+
+.ui.header.pross{
+	margin-top: -0.7rem;
+	margin-bottom: 5.7rem;
+	color: #F2F2F2;
+	font-weight: 500;
+}
+
+.ui.header_footers{
+	color: #F2F2F2;
+	margin-top: 0.5rem;
+	margin-left: 12rem;
+	font-weight: 500;
+}
+
+.ui.mini.horizontal.statistic.value >.value{
+	font-size: 2rem;
+	color: #F2F2F2;
+}
+
+.ui.header.process{
+	color: #F2F2F2;
+	margin-top: -0.7rem;
+}
+.ui.header.pro{
+	color: #F2F2F2;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
