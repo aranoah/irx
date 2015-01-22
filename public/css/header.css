@@ -11,6 +11,7 @@ body {
   }#header.ui.inverted.menu .header {
     margin: .5rem 1rem;
     font-weight: bold;
+    cursor: pointer;
   }
   #header ._logo_ {
     margin-right: 2rem;
