@@ -32,7 +32,7 @@
 	color: #fff !important;
 	font-size: 1.2rem;
 	text-transform: uppercase;
-	font-weight: 200;
+	font-weight: 300;
 }
 
 #search-box {
@@ -62,25 +62,27 @@
 	border-radius: 0 !important;
 	font-weight: 100;
 	letter-spacing: 2px;
+    border-radius: 0 !important;
+
 }
 #search-box input::-webkit-input-placeholder { /* WebKit browsers */
-	color: #fafafa!important;
+	color: rgba(255,255,255,0.5) !important;
 }
 #search-box input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-	color: #fafafa!important;
+	color: rgba(255,255,255,0.5) !important;
 }
 #search-box input::-moz-placeholder { /* Mozilla Firefox 19+ */
-	color: #fafafa!important;
+	color: rgba(255,255,255,0.5) !important;
 }
 #search-box input:-ms-input-placeholder { /* Internet Explorer 10+ */
-	color: #fafafa!important;
+	color: rgba(255,255,255,0.5) !important;
 }
 
 #search-box .inline.fields {
-	padding: 1.4em !important;
+	padding: 1.5em !important;
 	text-align: left;
-	font-weight: 100;
-	color: #9D9D9D !important;
+	font-weight: 400;
+	color: #ddd !important;
 	font-size: 1.3rem;
 }
 
@@ -100,10 +102,10 @@
 }
 #search-box .ui.fluid.search.selection.dropdown.field i {
 	float: right;
-	color: #9D9D9D !important;
+	color: #DDD !important;
 }
 #search-box .ui.fluid.search.selection.dropdown.field .text, #search-box .ui.fluid.search.selection.dropdown.field input {
-	color: #9D9D9D !important;
+	color: #DDD !important;
 }
 
 /** lower-portion **/

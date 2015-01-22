@@ -1,0 +1,88 @@
+/* General classes*/
+body {
+  font-family: roboto,sans-serif !important;
+}
+
+.ui.card{
+    margin: 0 auto;
+    width: 38% !important;
+}
+
+.content{
+    text-align: center;
+}
+
+.ui.card.verification{
+    border: 2px solid #E4E4E4;
+    box-shadow: 0 0 0 0 #fff,0 0 0 0 #fff;
+}
+
+.lock{
+    background: #38B7EA;
+    padding: 1.3rem;
+    border-radius: 2rem;
+    padding-top: 2rem;
+}
+
+.mobile.icon{
+    color: #fff;
+    margin-top: 1rem;
+    font-size: x-large;
+    padding: 1rem;
+    margin-left: -0.5rem;
+}
+
+
+
+.ui.header._reset.pass{
+    margin-top: 2rem;
+    font-weight: 400;
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.description.email{
+    font-size: .8rem;
+    font-weight: 600;
+    opacity: .6;
+}
+
+.ui.form.enter_code{
+    margin-top: 1.5rem;
+}
+
+._butn{
+    margin-top: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.ui.button.verify{
+    background: #67C60A;
+    color: #fff;
+    width: 6rem;
+    padding: 0.5rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+}
+
+.ui.button.cancel{
+    background: #fff;
+    border: 2px solid #F5F0F0;
+    padding: 0.4rem;
+    width: 6rem;
+    color: #38B7EA;
+    font-weight: 500;
+    font-size: 0.8rem;
+}
+
+.ui.card.verification input{
+    padding: .4rem;
+    width: 10rem;
+    border: 1px solid rgba(56, 183, 234, 0.57);
+}
+
+
+
+
+

@@ -25,6 +25,17 @@ module.exports = function routes() {
     res.redirect('/login');
   }
 
+
+  /* Irx-misc */
+
+  this.match("/irx/contact",{controller:'irx-misc/contactus', action:'main', via:'GET'})
+  this.match("irx/about",{controller:'irx-misc/aboutus', action:'main',via:'GET'})
+  this.match("irx/package",{controller:'irx-misc/package', action:'main',via:'GET'})
+  this.match("irx/reset",{controller:'irx-misc/reset', action:'main',via:'GET'})
+  this.match("irx/t&c",{controller:'irx-misc/terms', action:'main',via:'GET'})
+  this.match("irx/forgot-password",{controller:'irx-misc/forgotpassword', action:'main',via:'GET'})
+  this.match("irx/verification",{controller:'irx-misc/verification', action:'main',via:'GET'})
+
   /*
   * Review
   */

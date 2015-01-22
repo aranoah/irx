@@ -1,0 +1,33 @@
+/* General classes*/
+body {
+  font-family: roboto,sans-serif !important;
+}
+
+.ui.left.aligned.inverted.header{
+	width: 47% !important;
+	color: #38B7EA;
+	margin-left: 6rem;
+	border-bottom: 2px solid #ECECEC;
+	font-size: .9rem;
+	font-weight: 400;
+	padding: .5rem;
+	letter-spacing: .5px;
+}
+
+.ui.header.update{
+	margin-left: 6rem;
+	font-size: .8rem;
+	color: #737373;
+	font-weight: 500;
+}
+
+.ui.basic.segment.descrip{
+	width: 47% !important;
+	margin-left: 5rem;
+	font-size: 11px;
+}
+
+.ui.basic.segment.descrip >p{
+	line-height: 1.4rem;
+    color: #918F8F;
+}

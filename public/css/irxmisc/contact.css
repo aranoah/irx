@@ -1,0 +1,38 @@
+/************
+  contactus
+*************/
+
+
+.irx-misc .column>h3.ui.header {
+	color: #00bcd4;
+}
+
+.irx-misc .column>.ui.form {
+	padding-top: 1.5rem;
+	border-top: 2px solid #eee;
+}
+
+.irx-misc .column>.content {
+	padding: 1.5rem;
+	background-color: #eee;
+	margin-bottom: 1rem;
+	color: #7b7b7b;
+}
+
+.irx-misc .column>.content>h3 {
+	color: #666;
+}
+
+.irx-misc .column>.content>.item {
+	padding: .5rem 0;
+}
+
+.irx-misc .column.ui.button.message{
+	color: #fff;
+	background: #38B7EA;
+	letter-spacing: .5px;
+}
+
+
+
+
