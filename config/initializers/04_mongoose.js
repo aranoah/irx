@@ -21,11 +21,11 @@ module.exports = function(done) {
     
  switch (this.env) { 
     case 'development':
-    this.mongoose.connect('mongodb://localhost:27017/IRX');
+    this.mongoose.connect('mongodb://ec2-54-86-93-198.compute-1.amazonaws.com:8000/IRX');
     break;
    
     case 'production':
-    this.mongoose.connect('mongodb://122.176.206.39:27017/IRX');
+    this.mongoose.connect('mongodb://ec2-54-86-93-198.compute-1.amazonaws.com:8000/IRX');
     break;
   }
    
