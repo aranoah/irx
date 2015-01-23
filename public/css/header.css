@@ -501,6 +501,17 @@ margin-right: 1rem;
   color: rgba(0,0,0,0.5);
 }
 
+/**radio button **/
+
+
+.ui.radio.checkbox .box:after, .ui.radio.checkbox label:after{
+  background-color: #6bf983;
+  padding: 1.3rem;
+  top: -.74rem;
+  left: -.87rem;
+}
+
+
 
 /*******************************
             Global
@@ -555,6 +566,14 @@ margin-right: 1rem;
   #sidebar>.ui.mobile.item {
     display: block;
   }
+
+  .lower-portion h2.ui.inverted.header:after{
+    background-color: inherit !important;
+  }
+
+  #_steps_ {
+    display: none !important;
+  }
 }
 
 @media only screen and (max-width : 992px) {
@@ -592,6 +611,14 @@ margin-right: 1rem;
 
   #sidebar>.ui.mobile.item {
     display: block;
+  }
+
+  .lower-portion h2.ui.inverted.header:after{
+    background-color: inherit !important;
+  }
+
+  #_steps_ {
+    display: none !important;
   }
 }
 

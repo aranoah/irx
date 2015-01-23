@@ -4,6 +4,15 @@
   <% include ../partials/head.html.ejs %>
   <link rel="stylesheet" type="text/css" href="/css/projdet.css">
 </head>
+<style type="text/css">
+	.ui.images {
+		padding: 1rem 0;
+	}
+
+	.ui.images .image, .ui.images img {
+		width: 120px !important;
+	}
+</style>
 <body>
   <% include ../partials/header.html.ejs %>
 
@@ -115,6 +124,12 @@
 	</div>
 	<div class="seven wide column">
 		<img class="ui medium rounded image" src="/images/project.jpg">
+		<div class="ui images">
+		  <img class="ui image" src="/images/square-image.png">
+		  <img class="ui image" src="/images/square-image.png">
+		  <img class="ui image" src="/images/square-image.png">
+		  <img class="ui image" src="/images/square-image.png">
+		</div>
 	</div>
 </div>
   <!-- Proj detailing ends here -->

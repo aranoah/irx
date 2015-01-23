@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 /***********************************************************************
 *
 * DESCRIPTION :
@@ -174,5 +172,3 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
 });
   }
 queueReciever();
-
->>>>>>> 9dce78dbc5972cb4b49dc77881da0c8a65786885
