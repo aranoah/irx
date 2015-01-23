@@ -117,9 +117,23 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		}
 		query.push(match);
 	}
-	if(filters && filters.budget != null && filters.budget != "") {
-		query.price=filters.budget;
+	
+	var rangeObj= { 
+        "price" : {
+            "boost" : 2.0
+        }
+    }
+	if(filters && filters.minPrice != null && filters.minPrice != "") {
+		rangeObj.price.gte=filters.minPrice;
+		
+	}else{
+		rangeObj.price.gte=0;
+
 	}
+	if(filters && filters.maxPrice != null && filters.maxPrice != "") {
+		rangeObj.price.lte=filters.maxPrice;
+	}
+
 	if(filters && filters.name != null &&  filters.name != "") {
 		var match = {
 			"match":{
@@ -146,7 +160,8 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
       query: {bool:{must:query}},
       from:start,
       size:pageSize,
-      sort:[{ "price" : {"order" : sortOrder}}]
+      sort:[{ "price" : {"order" : sortOrder}}],
+      range : rangeObj
     }
   }).then(function (resp) {
     var hits = resp.hits.hits;

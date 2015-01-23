@@ -20,6 +20,9 @@
       projectId : ko.observable(""),
       city : ko.observable(""),
       showCity : ko.observable("city"),
+
+      minPrice : ko.observable(),
+      maxPrice : ko.observable(),
       searchF : function(formElement) {
         
         var self= this;
@@ -29,7 +32,9 @@
               bhk : self.bhk(),
               order : self.order(),
               projectId : self.projectId(),
-              city : self.city()     
+              city : self.city(),
+              minPrice : self.minPrice(),
+              maxPrice : self.maxPrice()     
             }; 
             
             if(self.searchType()=='project'){
@@ -37,6 +42,7 @@
                 
                 _classInstance.fetchProjectResult(data)
               }else{
+                alert(1)
                $(formElement).attr('action','/project-listing')
                 return true;
               }
@@ -57,6 +63,7 @@
       }
          
     }
+     
     return viewModel;
   }
 
@@ -65,7 +72,30 @@
     var _classInstance = this;
 
     _classInstance.viewModel = _classInstance.getViewModel();
-    
+
+   _classInstance.viewModel.minPriceText = ko.pureComputed(function() {
+        var minPrice =  _classInstance.viewModel.minPrice();
+        var minPriceText = "";
+        if(minPrice){
+          return _classInstance.getPriceText(minPrice)
+        }else{
+          return minPrice;
+        }
+        
+    }, _classInstance.viewModel);
+
+   _classInstance.viewModel.maxPriceText = ko.pureComputed(function() {
+
+        var maxPrice =  _classInstance.viewModel.maxPrice();
+        var minPriceText = "";
+        if(maxPrice){
+          return _classInstance.getPriceText(maxPrice)
+        }else{
+          return maxPrice;
+        }
+
+    }, _classInstance.viewModel);
+
     $('#searchF').on('change','#_city_',function(){
       var city = $(this).val();
       city = city.replace(/&nbsp;/gi,'')
@@ -74,10 +104,10 @@
       localStorage.setItem("city", city);
     });
 
-    $(".min").focus(function(){
-      $(".min").toggleClass("active");
-      $(".__visible").toggleClass("hidden")
-    });
+    // $(".min").focus(function(){
+    //   $(".min").toggleClass("active");
+    //   $(".__visible").toggleClass("hidden")
+    // });
      $("#__searchAuto").autocomplete({
            
             source: function(request, response){
@@ -128,6 +158,22 @@
 
     ko.applyBindings(_classInstance.viewModel,document.getElementById('searchF'));
   }
+  SearchBar.prototype.getPriceText = function(amount) {
+    var text = "";
+    if(amount.length==4 || amount.length==5){
+        amount = Number(amount)/1000;
+        text = amount+"K";
+      } else if(amount.length==6 || amount.length==7){
+        amount = Number(amount)/100000;
+        text = amount+"L";
+      } else if(amount.length>8){
+        amount = Number(amount)/10000000;
+        text = amount+"Cr";
+      } else {
+        text = amount
+      }
+      return text;
+  };
    SearchBar.prototype.fetchProjectResult=function(data){
       var classInstance = this;
       
