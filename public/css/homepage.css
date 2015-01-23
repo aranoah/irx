@@ -229,6 +229,7 @@
 
 #agentContent .rib-head>.right.menu {
 	padding-bottom: 1rem !important;
+    margin-top: 1rem;
 }
 
 #agentContent .rib-head>.right.menu>.ui.button {
@@ -301,6 +302,7 @@
 	padding: 0;
 }
 .pj-items >.cinema{
+<<<<<<< HEAD
 	color: #808080;
 	font-weight: 300;
 	display: block;
@@ -336,7 +338,9 @@
 
 .header.ui.two.column.grid.right.menu>.six.wide.column>div {
 	background-color: inherit;
-	border: 0;
+	border: 1px solid #ddd;
+	text-transform: uppercase;
+	font-size: .9em;
 }
 
 .default.text {
@@ -431,6 +435,7 @@
 	margin-bottom: .5rem;
 	font-size: .8em;
 	display: inline-block;
+	font-weight: 400;
 }
 
 .proj-listing .content .description {

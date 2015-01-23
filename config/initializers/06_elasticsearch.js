@@ -17,7 +17,6 @@
 **/
 module.exports = function(done) {
 	this.elasticsearch = require('elasticsearch');
-
 	
 	try{
 		_app_context.esClient = new this.elasticsearch.Client({
