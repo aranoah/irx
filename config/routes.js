@@ -64,7 +64,7 @@ module.exports = function routes() {
   this.match('agent-autocomplete',{ controller: 'list/rest/agentList', action: 'agentAutocomplete' , via: 'GET' });
   this.match('autocomplete',{ controller: 'list/rest/projectList', action: 'autocomplete' , via: 'GET' });
   this.match('project-autocomplete',{ controller: 'list/rest/projectList', action: 'projectAutocomplete' , via: 'GET' });
-
+  this.match('city-autocomplete',{ controller: 'list/rest/locationList', action: 'cityAutocomplete' , via: 'GET' });
   this.match('irx/home',{ controller : 'irx/home', action:'main', via:'GET'});
   
   /*
@@ -131,7 +131,7 @@ module.exports = function routes() {
   * web urls
   */
   
-  this.root({ controller: 'general/pages', action: 'main' });
+
   this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
   // this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
@@ -144,6 +144,10 @@ module.exports = function routes() {
   
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
-
+  
+  /*
+  * root
+  */
+  this.root({controller: 'irx/home', action:'main', via:'GET'});
 }
   
