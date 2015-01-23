@@ -15,13 +15,36 @@
   <% include ../partials/header.html.ejs %>
 
  <% include ../partials/subhome.html.ejs %>
-  <% include ../partials/searchbar.html.ejs %>
 
   <!-- agents Listing goes here -->
 
   	<div id="agentContent" class="ui centered page grid">
 	  <div class="fourteen wide column">
-	  	<div class="ui grid two column rib-head">
+
+	  	<!-- For mobile and tablet -->
+
+	  		<div class="ui grid rib-head mobile tablet only">
+		    	<h2 class="ui header">Showing results for 
+
+	    		<a data-bind="text:filters.displayName"></a>
+	    	
+	    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a></h2>
+		    	<div class="ui grid">  
+				  <div class="row centered aligned">
+				    <div class="header right menu">
+			    		<div class="ui checkbox" style="margin:0 2rem;">
+					    	<input type="checkbox">
+					    	<label>Distress</label>
+					    </div>
+						<div class="ui basic button">submit request</div>
+			    	</div>
+				  </div>
+				</div>
+		    </div>
+
+	  	<!-- ends here -->
+
+	  	<div class="ui grid two column rib-head computer only">
 	    	<h2 class="ui header column">Showing results for 
 
 	    		<a data-bind="text:filters.displayName"></a>

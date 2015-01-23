@@ -14,6 +14,12 @@ $(document).ready(function () {
 		_self.siblings().removeClass('active');
 	});
 
+  $('#filter').popup({
+    inline: true,
+    on: 'click',
+    position : 'bottom center',
+  });
+
 	$('.ui.dropdown').dropdown();
 
 	$('.right.demo.sidebar').sidebar('attach events', '.toggle.button', 'show');
@@ -52,7 +58,14 @@ $(document).ready(function () {
     }).modal('show');
   });
 
+  $(document).off('click','.search-filter');
+  $(document).on('click','.search-filter',function() {
+    $('#adv-search-filter').modal({
+      closable:false
+    }).modal('show');
+  });
 
+  
   $(document).off('click','.log-in');
   $(document).on('click','.log-in',function() {
 		$('#login').modal({

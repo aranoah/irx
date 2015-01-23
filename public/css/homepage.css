@@ -1,6 +1,7 @@
 /**************
 	Homescreen
 ***************/
+
 #header {
 	background-color: #00bcd4 !important;
 	border-radius: 0 !important;
@@ -51,6 +52,24 @@
 }
 #search-box .ui.icon.input>i {
 	color: #fafafa !important;
+	background: #00bcd4;
+	height: 3rem;
+	width: 3rem;
+	border-radius: 60px;
+	margin: 1.2rem 1.2rem 0 0;
+	opacity: .6;
+}
+
+#search-box .ui.icon.input>i:hover {
+	opacity: 1;
+}
+
+#search-box .ui.icon.input>i>button {
+	position: absolute;
+	top: 0;right: .1rem;
+	height: 3rem;
+	width: 3rem;
+	opacity: 0;
 }
 #search-box .ui.icon.input>input {
 	background-color: inherit;
@@ -61,10 +80,10 @@
 	border-bottom: 1px solid rgba(255,255,255,.2) !important;
 	border-radius: 0 !important;
 	font-weight: 100;
-	letter-spacing: 2px;
     border-radius: 0 !important;
-
 }
+
+
 #search-box input::-webkit-input-placeholder { /* WebKit browsers */
 	color: rgba(255,255,255,0.5) !important;
 }
@@ -106,6 +125,25 @@
 }
 #search-box .ui.fluid.search.selection.dropdown.field .text, #search-box .ui.fluid.search.selection.dropdown.field input {
 	color: #DDD !important;
+}
+
+/* search-box for mobile and tablet */
+
+.column.tablet.mobile.only #search-box .ui.icon.input>input {
+	font-size: 1.2rem !important;
+	padding: 1em !important;
+}
+
+.column.tablet.mobile.only .ui.page.grid {
+	padding-top: 1rem;
+}
+
+.column.tablet.mobile.only .ui.page.grid>div {
+	text-align: center;
+}
+
+.column.tablet.mobile.only .ui.page.grid>.six.column.row>.column>div {
+	display: table-cell;
 }
 
 /** lower-portion **/
@@ -164,11 +202,12 @@
 *******************/
 
 #agentContent,#projectContent {
-	padding: 1rem 0 !important;
+	padding: 4rem 0 !important;
 }
 
 .ui.grid.two.column.rib-head{
     border-bottom: 1px solid rgb(231, 231, 231);
+    padding: 0 !important;
 }
 
 #agentContent>div,#projectContent>div {
@@ -181,16 +220,16 @@
 }
 
 #agentContent .rib-head>h2, #projectContent .rib-head>h2 {
-	margin: 1rem 0 0;
+	margin: 1rem 0;
 	padding: 0;
-	font-size: 1.5rem;
-	font-weight: 100;
-	color: #898989;
-	letter-spacing: 2px;
+	font-size: 1.2rem;
+	font-weight: 400;
+	color: #7b7b7b;
 }
 
 #agentContent .rib-head>.right.menu {
 	padding-bottom: 1rem !important;
+    margin-top: 1rem;
 }
 
 #agentContent .rib-head>.right.menu>.ui.button {
@@ -263,13 +302,27 @@
 	padding: 0;
 }
 .pj-items >.cinema{
-	color: #898888;
-	font-weight: 100;
+<<<<<<< HEAD
+	color: #808080;
+	font-weight: 300;
+	display: block;
+}
+.pj-items >.cinema>* {
+	font-weight: 400;
+	padding-left: .5rem;
 }
 
 /*******************
 	Project listing
 ********************/
+
+.ui.items.proj-listing.column {
+	width: 49% !important;
+	margin: 0 0 1.4rem;
+}
+.ui.items.proj-listing.column:nth-child(odd) {
+	margin-right: 1.4rem;
+}
 
 .header.ui.two.column.grid.right.menu {
 	padding: 0;
@@ -285,7 +338,9 @@
 
 .header.ui.two.column.grid.right.menu>.six.wide.column>div {
 	background-color: inherit;
-	border: 0;
+	border: 1px solid #ddd;
+	text-transform: uppercase;
+	font-size: .9em;
 }
 
 .default.text {
@@ -324,9 +379,9 @@
 	margin-left: 1rem;
 }
 
-.proj-listing .ui.left.floated {
+/*.proj-listing .ui.left.floated {
 	width: 550px;
-}
+}*/
 
 .proj-listing .ui.header {
 	display: inline-block !important;
@@ -357,10 +412,10 @@
 
 .proj-listing .content {
 	position: relative;
-	padding-top: 1rem !important;
+	padding-top: 0.5rem !important;
 }
 
-.proj-listing .content:before {
+.proj-listing .item>.content:before {
 	position: absolute;
 	top: 0;
 	left: 15px;
@@ -369,17 +424,18 @@
 	width: 98%;
 }
 
-.content .social-share {
+.proj-listing .social-share {
 	position: absolute;
-	top: 1rem;
-	right: 12rem;
+	bottom: 1rem;
+	right: 1rem;
 }
 
-.content .social-share>.ui.button {
+.proj-listing .social-share>.ui.button {
 	padding: .5rem;
 	margin-bottom: .5rem;
 	font-size: .8em;
-	text-transform: uppercase;
+	display: inline-block;
+	font-weight: 400;
 }
 
 .proj-listing .content .description {
@@ -410,8 +466,8 @@
 	padding: .6rem 0;
 }
 
-.pj-items>span:nth-child(2n) {
-	margin: 0 2rem;
+.pj-items>span.cinema:not(:last-child) {
+	margin-bottom: 1rem;
 }
 
 .pj-items span>span {
@@ -420,33 +476,21 @@
 	color: #607d8b;
 }
 
-.proj-listing .ui.right.floated>div {
+.proj-listing .ui.buttons>div {
 	border: 0 !important;
 	border-radius: 0 !important;
 	box-shadow: 0 0 0 #000 !important;
-	background-color: #f6f6f6 !important;
+	background-color: #f4f4f4 !important;
 	color: #607d8b !important;
 	transition: all ease .2s;
-	padding: .5rem;
-	font-weight: 200;
+	padding: .75rem;
+	font-weight: 400;
 	width: 11rem;
+	margin: 0 .75rem .5rem 0;
 }
 
-.proj-listing .ui.right.floated>.ui.button:hover {
+.proj-listing .ui.buttons>.ui.button:hover {
 	background-color: #607d8b !important;
 	color: #fff !important;
 }
 
-.proj-listing .ui.right.floated>div:nth-child(3n) {
-	margin-top: 1rem;
-}
-
-.proj-listing .ui.right.floated>div:not(:last-child) {
-	margin-bottom: .3rem;
-}
-.ui.radio.checkbox .box:after, .ui.radio.checkbox label:after{
-	background-color: rgb(133, 223, 133);
-	padding: 1.3rem;
-	top: -.74rem;
-	left: -.87rem;
-}

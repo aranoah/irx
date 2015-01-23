@@ -28,6 +28,17 @@
 		color: #838080;
         opacity: .8;
 	}
+
+	.ui.grid.rib-head.mobile.tablet.only .ui.selection.dropdown>.text {
+		margin-right: .5rem !important;
+	}
+	.ui.grid.rib-head.mobile.tablet.only .eight.wide.column {
+		padding:0;
+		text-align: center;
+	}
+	.ui.grid.rib-head.mobile.tablet.only .sort.right.icon {
+		float: right;
+	}
   </style>
   
 </head>
@@ -36,14 +47,52 @@
   <% include ../partials/header.html.ejs %>
 
   <% include ../partials/subhome.html.ejs %>
-  <% include ../partials/searchbar.html.ejs %>
 
   <!-- agents Listing goes here -->
 <div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
 	  <div class="twelve wide column">
 
-	  	<div class="ui grid two column rib-head">
+	  	<!-- For mobile and tablet -->
+
+	  		<div class="ui grid rib-head mobile tablet only">
+		    	<h2 class="ui header">Showing results for
+		    		<a data-bind="text:filters.displayName"></a>
+		    	</h2>
+		    	<div class="ui grid">  
+				  <div class="row">
+				    <div class="eight wide column">
+				    	<div class="ui selection dropdown">
+							<input type="hidden" name="city">
+							<div class="default text">Property Type</div>
+							<i class="angle down icon"></i>
+							<div class="menu">
+								<div class="item" data-value="NewD">Apartment</div>
+								<div class="item" data-value="Bang">Independent House</div>
+								<div class="item" data-value="Mum">Independent Floor</div>
+								<div class="item" data-value="Che">Penthouse</div>
+							</div>
+						</div>
+				    </div>
+				    <div class="eight wide column">
+				    	<div class="ui selection dropdown item">
+							<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
+						    Sort by
+						    <div class="menu">
+						      <div class="item" data-value="asc">Newest</div>
+						      <div class="item" data-value="desc">Price : High to Low</div>
+						      <div class="item" data-value="asc">Price : Low to High</div>
+						    </div>
+						    <i class="sort right icon"></i>
+						</div>
+				    </div>
+				  </div>
+				</div>
+		    </div>
+
+	  	<!-- ends here -->
+
+	  	<div class="ui grid two column rib-head computer only">
 	    	<h2 class="ui header column">Showing results for 
 
 	    		<a data-bind="text:filters.displayName"></a>
@@ -76,21 +125,19 @@
 	    </div>
 
 	    <!-- Project Listing goes here -->
-	    <div data-bind="visible:projects().length==0" style=" background: rgba(137, 137, 137, 0.16);padding: .8rem;color: rgb(174, 122, 78);
-             border-left: 2px solid #009fda;">
+	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
 	    	No Search Results
 	    </div>
-	    <div data-bind="foreach : projects"style="padding-top:1rem;">
-	    	<div class="ui items proj-listing">
+	    <div data-bind="foreach : projects" class="ui stackable two column grid"style="margin:2rem 0;">
+	    	<div class="ui items proj-listing column">
 				<div class="four column row">
 					<div class="left floated column">
 						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name">12 Years a Slave</h3></a>
 						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.city--><!--/ko--></h5>
 					</div>					
 					<div class="right floated column menu">						
-					  	<div class="extra pDate">
-					    	<span class="cinema">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></span>
-					  	</div><div class="ui checkbox">
+					  	<div class="ui checkbox">
 						  <input type="checkbox" value="small" checked="checked">
 						  <label class="small test modal">Distress</label>
 						</div>			    	
@@ -101,37 +148,34 @@
 					  <img src="/images/project.jpg">
 					</div>
 					<div class="content">				  
-					  <div class="ui left floated">				  	
+					  <div class="ui content">				  	
 						<div class="extra">
 							<h3 class="ui header"><i class="rupee icon"></i><!--ko text: price--><!--/ko--></h3>
 						</div>
-						<div class="pj-items">
-							<span class="cinema">
-								BHK -<span data-bind="foreach : bhk">
-										<a href="header" data-bind="text:$data"></a>
-									</span>
-							</span>
-							<span class="cinema">Property type -<a href="header"><!--ko text: type--><!--/ko--></a></span>
-
-							<span class="cinema"><i class="user icon agent"></i><!--ko text: builderName--><!--/ko--></span>
+						<div class="pj-items extra">
+        					<div class="ui horizontal label">BHK -<span data-bind="foreach : bhk">
+								<a href="header" data-bind="text:$data"></a>
+							</span></div>
+							<div class="ui horizontal label">Property type -<a href="header"><!--ko text: type--><!--/ko--></a></div>
+							<div class="ui horizontal label"><i class="user icon agent"></i><!--ko text: builderName--><!--/ko--></div>
+							<div class="ui horizontal label">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></div>
 						</div>
-					  	<div class="description"><!--ko text: description--><!--/ko--></div>
-					  	<div class="social-share">
-					  		<div class="ui facebook button"><i class="facebook icon"></i>Like</div>
-					  		<div class="ui teal button"><i class="share icon"></i>share</div>
-					  	</div>
-					  </div>
-					  <div class="ui right floated">
-						<div class="ui basic button">View details</div>
-						<div class="ui basic button leads-in">Enquiry now</div>
-						<div class="ui basic button">View agents</div>
-						<div class="ui basic button req-details">Request details</div>
-					  </div>
+					  </div>					  
 					  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
 					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
 					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
-					</div>				  
+					</div>							  
 				</div>
+				<div class="ui buttons">
+					<div class="ui basic button">View details</div>
+					<div class="ui basic button leads-in">Enquiry now</div>
+					<div class="ui basic button">View agents</div>
+					<div class="ui basic button req-details">Request details</div>
+				</div>	
+			  	<div class="social-share">
+			  		<div class="ui facebook button"><i class="facebook icon"></i>Like</div>
+			  		<div class="ui teal button"><i class="share icon"></i>share</div>
+			  	</div>
 			</div>
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
