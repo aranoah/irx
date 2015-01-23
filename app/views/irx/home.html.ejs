@@ -303,130 +303,137 @@
   		<!-- How it works ends here -->
 
  <script type="text/javascript">
-function Home(){
-this.type={
-      "irx-eproduct":"project",
-      "irx-euser":"user"
-    }
-}
-Home.prototype.init = function(first_argument) {
-	 var _classInstance = this;
-  	_classInstance.viewModel = {
-  		searchType:ko.observable("project"),
-  		searchFun : function(formElement){
-  			
-            if(_classInstance.viewModel.searchType()=='project'){
-            	
-               $(formElement).attr('action','/project-listing')
-                return true;
-            
-            } else if(_classInstance.viewModel.searchType()=='agent'){
-             
-               $(formElement).attr('action','/agent-listing')
-                return true;
-              
-            }	
-        
-  		}
-  	}
-     $("#__searchHome").autocomplete({
-           
-            source: function(request, response){
-                var _self = this;
-                
-                if(_classInstance.viewModel.searchType()=='project'){
-                	
-                  _classInstance.projectAutocomplete(request.term,request,response)
-                } else if(_classInstance.viewModel.searchType()=='agent'){
-                	
-                  _classInstance.agentAutocomplete(request.term,request,response)
-                }
-              },
-              minLength: 2,
-              dataType: "json",
-              cache: false,
-             // appendTo:'#autoDivHome',
-              select: function( event, ui ) {
-                  $('#__searchHome').val(ui.item.name)
-                   //_classInstance.viewModel.name(ui.item.name);
-                   if(_classInstance.viewModel.searchType()=='agent'){
-                    if(_classInstance.type[ui.item.type]=='project'){
-                      
-                      $('#__projectId').val(ui.item.id);
-                    } else{
-                      
-                      $('#__projectId').val("");
-                    }
-                    
-                  }
-                   return false;
-              }
-              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-                $(".ui-widget-content .ui-state-focus");
-                var type=""
-                if(item.type){
-                  
-                  type="<div class='itLabel'>"+_classInstance.type[item.type]+"</div>"
+	function Home(){
+		this.type={
+	      "irx-eproduct":"project",
+	      "irx-euser":"user"
+	    }
+	    this.parent = "homescreen"
+	}
+	Home.prototype.init = function(first_argument) {
+		 var _classInstance = this;
+	  	_classInstance.viewModel = {
+	  		searchType:ko.observable("project"),
+	  		searchFun : function(formElement){
+	  			
+	            if(_classInstance.viewModel.searchType()=='project'){
+	            	
+	               $(formElement).attr('action','/project-listing')
+	                return true;
+	            
+	            } else if(_classInstance.viewModel.searchType()=='agent'){
+	             
+	               $(formElement).attr('action','/agent-listing')
+	                return true;
+	              
+	            }	
+	        
+	  		}
+	  	}
+	     $('#'+_classInstance.parent).find("#__searchHome").autocomplete({
+	           
+	            source: function(request, response){
 
-                }
-                 return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div>"+type+"</a>" ).appendTo(ul);
-              };  
-  
-   
-		    $(document).on('change','.__searchType',function(){
-		    	var _self = $(this);
-		    	_classInstance.viewModel.searchType(_self.val())
-		    })
-    
-    $('.search.icon').click(function(){
-    	 _classInstance.submitForm();
-    })
-   ko.applyBindings(_classInstance.viewModel,document.getElementById('homescreen'))
-};
+	                var _self = this;
+	                
+	                if(_classInstance.viewModel.searchType()=='project'){
+	                	
+	                  _classInstance.projectAutocomplete(request.term,request,response)
+	                
+	                } else if(_classInstance.viewModel.searchType()=='agent'){
+	                	
+	                  _classInstance.agentAutocomplete(request.term,request,response)
+	                
+	                }
+	              },
+	              minLength: 2,
+	              dataType: "json",
+	              cache: false,
+	             // appendTo:'#autoDivHome',
+	              select: function( event, ui ) {
+	                  $('#__searchHome').val(ui.item.name)
+	                   //_classInstance.viewModel.name(ui.item.name);
+	                   if(_classInstance.viewModel.searchType()=='agent'){
+	                    if(_classInstance.type[ui.item.type]=='project'){
+	                      
+	                      $('#__projectId').val(ui.item.id);
+	                    } else{
+	                      
+	                      $('#__projectId').val("");
+	                    }
+	                    
+	                  }
+	                   return false;
+	              }
+	              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+	                $(".ui-widget-content .ui-state-focus");
+	                var type=""
+	                if(item.type){
+	                  
+	                  type="<div class='itLabel'>"+_classInstance.type[item.type]+"</div>"
+
+	                }
+	                 return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div>"+type+"</a>" ).appendTo(ul);
+	              };  
+	  
+	   
+			    $(document).on('change','.__searchType',function(){
+			    	var _self = $(this);
+			    	_classInstance.viewModel.searchType(_self.val())
+			    })
+	    
+	    $('.search.icon').click(function(){
+	    	 _classInstance.submitForm();
+	    })
+	   ko.applyBindings(_classInstance.viewModel,document.getElementById('homescreen'))
+	};
+	
 	// Home.prototype.submitForm = function(formElement) {
 	// 	var _classInstance = this;
 	// 	if(formElement){
- //            if(_classInstance.viewModel.searchType()=='project'){
- //            	console.log("ffff",formElement)
- //               $(formElement).attr('action','/project-listing')
- //                return true;
+ 	//            if(_classInstance.viewModel.searchType()=='project'){
+ 	//            	console.log("ffff",formElement)
+ 	//               $(formElement).attr('action','/project-listing')
+ 	//                return true;
             
- //            } else if(_classInstance.viewModel.searchType()=='agent'){
+ 	//            } else if(_classInstance.viewModel.searchType()=='agent'){
              
- //               $(formElement).attr('action','/agent-listing')
- //                return true;
+ 	//               $(formElement).attr('action','/agent-listing')
+ 	//                return true;
               
- //            }	
- //        }
+ 	//            }	
+ 	//        }
 	// };
- Home.prototype.projectAutocomplete=function(text,request,response){
+ 	
+ 	Home.prototype.projectAutocomplete=function(text,request,response){
       var classInstance = this;
       httpUtils.get("/project-autocomplete",{"text":text},"JSON",function(data){
         if(data.status==0){
        
           response($.map(data.result, function(item) {
-                        
-                        return {id:item._source.id,name:item._source.name,location:item._source.location};
-                      }));
+             return {id:item._source.id,name:item._source.name,location:item._source.location};
+          }));
         }
     })
     }
+    
     Home.prototype.agentAutocomplete=function(text,request,response){
       var classInstance = this;
       httpUtils.get("/autocomplete",{"text":text},"JSON",function(data){
         if(data.status==0){
        
           response($.map(data.result, function(item) {
-                        
-                        return {id:item._source.id,name:item._source.name,type:item._type};
-                      }));
+              return {id:item._source.id,name:item._source.name,type:item._type};
+          }));
         }
     })
     }
-$(document).ready(function(){
-	var home = new Home();
-	home.init();
-})
+
+	$(document).ready(function(){
+		var home = new Home();
+		home.init();
+	
+	})
  </script>
   <% include ../partials/footer.html.ejs %>
 </body>

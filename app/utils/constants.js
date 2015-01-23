@@ -37,7 +37,13 @@ var STATUS={
 var MAIL_TYPE={
   INVITATION:"invitation",
   REGISTER:"register" ,
-  LEAD:"lead" 
+  LEAD:"lead",
+  VERIFICATION:"verification"
+};
+var VERIFICATION_TYPE={
+  ACCOUNT:"account-register",
+  PHONE:"phone-no" ,
+  PASSWORD:"password"
 };
 var MONGO_STATUS={
   CLIENT_ERROR:{code:400,msg:"Client Error"} ,
@@ -110,7 +116,8 @@ HEventEmitter.prototype.exec=function(){
    args[arguments.length]=this;
    this.refObj.apply(null,args);
 }
-exports.him_constants = new HIM_CONSTANTS() ;
+exports.him_constants = new HIM_CONSTANTS();
 exports.him_status = STATUS;
 exports.MAIL_TYPE = MAIL_TYPE;
+exports.VERIFICATION_TYPE = VERIFICATION_TYPE;
 exports.def_page = PAGE;
