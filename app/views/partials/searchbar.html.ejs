@@ -5,6 +5,37 @@
       border:0;
       background:inherit;
     }
+    
+    .ui.button {
+      cursor: pointer;
+      display: inline-block;
+      min-height: 1em;
+      outline: 0;
+      border: 1px solid #ddd;
+      vertical-align: baseline;
+      background-color: #FFFFFF;
+      color: rgba(0,0,0,.6);
+      font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+      margin: 0 .25em 0 0;
+      padding: .8em 1.5em;
+      text-transform: none;
+      text-shadow: none;
+      font-weight: 700;
+      line-height: 1;
+      font-style: normal;
+      text-align: center;
+      text-decoration: none;
+      background-image: none;
+      border-radius: .2857rem;
+      box-shadow: 0 0 0 1px transparent inset,0 0 0 0 rgba(39,41,43,.15) inset;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+      transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
 
     .ui.labeled.icon.dropdown.button.item {
       padding:0 !important;
@@ -36,6 +67,9 @@
       float:none !important;
       background-color: inherit;
     }
+    .hidden{
+    display:none;
+    }
   </style>
   <script type="text/javascript" src="/js/common/search.js"></script>
 <div id="searchF">
@@ -62,7 +96,7 @@
       </div>
     </div>
     <div class="cont-ainer search-menu computer only row">
-      <div class="item">
+      <!--<div class="item">
         <div class="ui selection dropdown">
           <input type="hidden" name="city">
           <div class="default text">City</div>
@@ -74,6 +108,25 @@
             <div class="item" data-value="Che">Chennai</div>
           </div>
         </div>
+      </div> -->
+      <div class="item">
+         <div class="ui floating dropdown labeled icon button" style="height:39px;width:130px">
+            <i class="filter icon"></i>
+            <span class="text" style="margin-top:8px;text-align:left"> <!--ko text: showCity--><!--/ko--> </span>
+            <input class="text" id="_city_" type="hidden" data-bind="value:city">
+            <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
+              <div class="ui icon search input">
+                <i class="search icon"></i>
+                <input type="text" name="search" placeholder="Search city...">
+              </div>
+              <div class="divider"></div>
+              <div class="header">
+                <i class="tags icon"></i>
+               Select City
+              </div>
+              <% include city.html %> 
+            </div>
+          </div>
       </div>
       <div class="item">
         <div class="ui selection dropdown">
@@ -112,18 +165,33 @@
         <i class="angle down icon"></i>
         <span class="text">Budget</span>
         <div class="menu">
-          <div class="header">
-            Select price range
+          <div class="header" style="background: #eaecee;  margin: 0;  padding: 1rem;">
+            <input type="text" class="min active" style="width:50px;">
+            <span>-</span>
+            <input type="text" class="min" style="width:50px;">
           </div>
           <div class="divider"></div>
-          <div class="item">
-            Less than 5Lac
+          <div class="minCostLeft __visible" style="text-align:left;max-width:150px;overflow:hidden;">
+            <div class="item" style="width:100%;float:left">
+              Less than 5Lac
+            </div>
+            <div class="item" style="width:100%;float:left">
+              5Lac - 10Lac
+            </div>
+            <div class="item" style="width:100%;float:left">
+              More than 10Lac
+            </div>
           </div>
-          <div class="item">
-            5Lac - 10Lac
-          </div>
-          <div class="item">
-            More than 10Lac
+          <div class="maxCostRight __visible hidden" style="text-align:right;max-width:150px;overflow:hidden;">
+            <div class="item" style="width:100%;float:left">
+              Less than 5Lac
+            </div>
+            <div class="item" style="width:100%;float:left">
+              5Lac - 10Lac
+            </div>
+            <div class="item" style="width:100%;float:left">
+              More than 10Lac
+            </div>
           </div>
         </div>
       </div>

@@ -18,6 +18,8 @@
       searchType : ko.observable(""),
       sProAgents : ko.observable(false),
       projectId : ko.observable(""),
+      city : ko.observable(""),
+      showCity : ko.observable("city"),
       searchF : function(formElement) {
         
         var self= this;
@@ -26,11 +28,13 @@
               name : self.name(),
               bhk : self.bhk(),
               order : self.order(),
-              projectId : self.projectId()        
+              projectId : self.projectId(),
+              city : self.city()     
             }; 
             
             if(self.searchType()=='project'){
               if(typeof(project)!="undefined"){
+                
                 _classInstance.fetchProjectResult(data)
               }else{
                $(formElement).attr('action','/project-listing')
@@ -61,6 +65,19 @@
     var _classInstance = this;
 
     _classInstance.viewModel = _classInstance.getViewModel();
+    
+    $('#searchF').on('change','#_city_',function(){
+      var city = $(this).val();
+      city = city.replace(/&nbsp;/gi,'')
+      city = city.trim();
+      _classInstance.viewModel.city(city)
+      localStorage.setItem("city", city);
+    });
+
+    $(".min").focus(function(){
+      $(".min").toggleClass("active");
+      $(".__visible").toggleClass("hidden")
+    });
      $("#__searchAuto").autocomplete({
            
             source: function(request, response){
@@ -108,7 +125,7 @@
                 }
                  return $( "<li class='ui divided list'>" ).append( "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>" ).appendTo(ul);
               };  
-   
+
     ko.applyBindings(_classInstance.viewModel,document.getElementById('searchF'));
   }
    SearchBar.prototype.fetchProjectResult=function(data){
@@ -194,4 +211,11 @@ $(document).ready(function(){
 
    sBar = new SearchBar();
   sBar.init();
+  var city = localStorage.getItem("city");
+  if(city){
+    sBar.viewModel.showCity(city)
+  } else{
+    sBar.viewModel.showCity("city")
+  }
+
 })
