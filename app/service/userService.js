@@ -18,6 +18,7 @@
 var CONSTANTS = require(_path_util+'/constants');
 var mongoErr = require(_path_util+'/mongo-error');
 var MAIL_TYPE = CONSTANTS.MAIL_TYPE;
+var VERIFICATION_TYPE = CONSTANTS.VERIFICATION_TYPE;
 var STATUS = CONSTANTS.him_status;
 var defPage = CONSTANTS.def_page;
 var hashAlgo = require(_path_util+"/sha1.js");
@@ -61,45 +62,32 @@ UserService.prototype.registerUser = function(user) {
 			,"type" : user.type
 			,"companyName" :user.companyName
 			,"specialities": user.specialities
-			,"status":CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION
+			,"status": CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION
 	});
 	var _selfInstance = this;
 
 	userData.save(function(err, userData) {
 		if (err) {
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
-		}else{
+		} else{
 			// save verification code
-			var id = _selfInstance.getCustomMongoId("IVER-")
-			var verification = new IRXVerificationModel({
-				"id":id,
-	  			"vfData": userData.irxId
-				,"vfCode":"IRX-ABCD"
-				,"createdOn":new Date(),
-	   			"updatedOn":new Date()
-			});
-			verification.save(function(err, verification) {
-				if(err){
-					_selfInstance.emit("done",STATUS.SERVER_ERROR.code,"Error saving verification",err,null);
-				}else {
-					_selfInstance.emit("done",STATUS.OK.code,userData,err,null);
-					
-					// send email and verification code
-					var locals = {
-						"irxId": userData.irxId,
-						"userId":userData.userId,
-						"subject":properties.registeration_subject,
-						"vfCode":verification.vfCode
-					}
-					new emailUtils().sendEmail("test",locals,function(error,success){
-						if(error != null){
-							console.error(error);
-						}else if(success != null){
-							console.log(success)
-						}
-					});
+			var id = _selfInstance.getCustomMongoId("IVER-");
+			var type =  VERIFICATION_TYPE.ACCOUNT;
+			var vData = {
+				"data":userData.irxId,
+				"irxId" : userData.irxId,
+				"emailId" : userData.userId,
+				"phoneNum" : userData.phoneNum
+			}
+			 _selfInstance.saveVerificationCode(vData,type,function(code,msg){
+			 	
+			 	if(code == STATUS.OK.code){
+					_selfInstance.emit("done",code,msg,userData,null);
+				} else{
+					_selfInstance.emit("done",code,msg,null,null);
 				}
-			});
+			 }
+			)
 		}
 		
 	});
@@ -113,9 +101,11 @@ UserService.prototype.verifyUser = function(data) {
 	console.log("In verifyUser")
 	// Make a database entry
 	var mongoose = require('mongoose');
-	var verificationModel = IRXVerificationModel
-	var User = IRXUserProfileModel
+	var verificationModel = IRXVerificationModel;
+	var User = IRXUserProfileModel;
 	var _selfInstance = this;
+	var updateObj = {$set:{"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED}};
+
 	verificationModel.findOne({ 'vfData': data.userId, "vfCode":data.vfCode }, function (err, verification) {
  		if (err){
  			console.error(err)
@@ -126,8 +116,11 @@ UserService.prototype.verifyUser = function(data) {
  			if(verification && verification != null){
  				console.log('Verification code verified');
  				console.log("Updating user",data.userId);
+ 				if(data.phoneNum && data.phoneNum == true){
+					updateObj={$set:{"phoneNum":verification.phoneNum}};
+				}
 				User.update({"irxId":data.userId},
-							{$set:{"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED}},
+							updateObj,
 							function(err, numberAffected, raw){
 								console.log(numberAffected)
 								if(err){
@@ -197,7 +190,26 @@ UserService.prototype.updateUser = function(user) {
 	if(user.specialities != null) {
 		updateObject["specialities"]=user.specialities;
 	}
-	
+	if(user.phoneNum != null) {
+		updateObject["phoneNum"]=user.phoneNum;
+		var id = _selfInstance.getCustomMongoId("IVER-");
+			var type =  VERIFICATION_TYPE.PHONE;
+			var vData = {
+				"data" : user.phoneNum,
+				"irxId" : user.irxId,
+				"phoneNum" : user.phoneNum
+			}
+			 _selfInstance.saveVerificationCode(vData,type,function(code,msg){
+			 	
+			 	if(code == STATUS.OK.code){
+					_selfInstance.emit("done",code,msg,"yo yo",null);
+				} else{
+					_selfInstance.emit("done",code,msg,null,null);
+				}
+			 }
+			)
+			 return;
+	}
 	User.update({"irxId":id},
 							{
 								$set:updateObject
@@ -533,5 +545,98 @@ UserService.prototype.review = function(data) {
 							}
 						}
 					})
+	};
+
+	//check whether this username exist or not
+	UserService.prototype.saveVerificationCode = function(vData,type,callback) {
+		var _selfInstance  = this;
+			var id = _selfInstance.getCustomMongoId("IVER-")
+
+		// send email
+		_selfInstance.once('sendEmail',function(sVerification){
+			var action="";
+			var data={};
+			if(type==VERIFICATION_TYPE.REGISTER){
+				action = MAIL_TYPE.REGISTER;
+				data = sVerification.userId;
+			} else if(type==VERIFICATION_TYPE.PHONE){
+				action=MAIL_TYPE.VERIFICATION
+				data = sVerification.phoneNum;
+			}
+			var qObj = {
+				"action":action,
+				"data" : data
+			}
+			var strQObj = JSON.stringify(qObj)
+			console.log("qObject",qObj)
+			_app_context.sqs.sendMessage({
+	        	"QueueUrl" : _app_context.qUrl,
+	        	"MessageBody" : strQObj
+	     	 }, function(err, data){ 
+	     	      if(err){
+	     	      	console.log("Error putting in queue")
+	     	      	callback(STATUS.ERROR.code,"Error putting in queue");
+					return;
+	     	      } else{
+	     	      	console.log("Successfully queued")
+	     	      	callback(STATUS.OK.code,STATUS.OK.msg);
+					return;
+	     	      }         
+	      });
+
+			
+		})
+		// save verification data
+		_selfInstance.once('saveVerification',function(){
+			
+			var verification = new IRXVerificationModel({
+					"id":id
+		  			,"vfData": vData.data
+		  			,"type" : type
+		  			,"userId" : vData.irxId
+					,"vfCode":"IRX-ABCD"
+					,"createdOn":new Date()
+		   			,"updatedOn":new Date()
+		   			,"emailId" : vData.emailId
+		   			,"phoneNum" : vData.phoneNum
+				});
+				verification.save(function(err, sVerification) {
+					if(err){
+						console.error("Error saving verification data :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+					     callback(mongoErr.resolveError(err.code).code,"Error updating verification data");
+							return;								
+						} else {
+						console.log("Verification saved")
+						_selfInstance.emit("sendEmail",sVerification);
+					}
+					return;
+				});
+		})
+
+	
+		mongoose.getCollection('irxverifications').findAndModify(
+			{"userId":vData.irxId,"type":type},
+			[],
+			{$set:{"vfData":vData.data}},
+			{"new":true },
+			function(err,mVerification){
+				if(err){
+					console.error("Error updating verification data :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+					callback(mongoErr.resolveError(err.code).code,"Error updating verification data");
+					return;
+				} else {
+					if(mVerification != null && mVerification.vfData==vData.data){
+						console.log("Verification data has been updated");
+						_selfInstance.emit("sendEmail",mVerification)
+						return;
+					}else{
+						_selfInstance.emit("saveVerification")
+						return;
+					}
+							
+				}
+			}
+			)
+			
 	};
 module.exports = UserService;

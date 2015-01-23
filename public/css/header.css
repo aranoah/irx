@@ -1,4 +1,8 @@
 /* General classes*/
+@font-face {
+ font-family:roboto; 
+ src: url(/css/fonts/Roboto-Light.ttf) format('ttf');
+}
 body {
   font-family: roboto,sans-serif !important;
 }
@@ -11,6 +15,7 @@ body {
   }#header.ui.inverted.menu .header {
     margin: .5rem 1rem;
     font-weight: bold;
+    cursor: pointer;
   }
   #header ._logo_ {
     margin-right: 2rem;

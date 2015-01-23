@@ -28,6 +28,7 @@ var properties = {
 	"registeration_subject":"Welcome to IRX",
 	"leads_subject":"A new lead for you",
 	"leads_message" :"yo yo !!",
-	"leads_success_subject" : "Your requirement has been successfully published"
+	"leads_success_subject" : "Your requirement has been successfully published",
+	"phone_sms" : "Your requirement has been successfully published"
 }
 module.exports=properties
