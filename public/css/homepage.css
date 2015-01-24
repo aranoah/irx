@@ -24,6 +24,10 @@
 }
 #homescreen h1.ui.inverted.header {
 	padding-top: 1.5rem;
+	font-weight: 300;
+	font-size: 1rem;
+	letter-spacing: 2px;
+	color: rgba(182, 182, 182, 0.82) !important;
 }
 
 #homescreen .ui.form .field {
@@ -100,13 +104,16 @@
 #search-box .inline.fields {
 	padding: 1.5em !important;
 	text-align: left;
-	font-weight: 400;
-	color: #ddd !important;
+	font-weight: 300;
 	font-size: 1.3rem;
+	color: rgba(182, 182, 182, 0.82) !important;
 }
 
 #search-box .inline.fields>.field:not(:last-child) {
 	margin-right: 2.5rem;
+	color: rgba(182, 182, 182, 0.82) !important;
+	border-right: 1px solid #808080;
+	font-weight: 300;
 }
 
 #search-box .inline.fields>.field>a.link {
@@ -118,13 +125,15 @@
 	width: 160px;
 	background-color: inherit;
 	padding: 0;
+	border-right: 1px solid #808080;
 }
 #search-box .ui.fluid.search.selection.dropdown.field i {
 	float: right;
 	color: #DDD !important;
 }
 #search-box .ui.fluid.search.selection.dropdown.field .text, #search-box .ui.fluid.search.selection.dropdown.field input {
-	color: #DDD !important;
+	color: rgba(182, 182, 182, 0.82) !important;
+    font-weight: 300;
 }
 
 /* search-box for mobile and tablet */
@@ -163,13 +172,16 @@
 .lower-portion h2.ui.inverted.header:after {
 	position: absolute;
 	content: "";
-	width: 10rem;
+	width: 12rem;
 	height: 2px;
 	background-color: #607d8b;
-	top: 40px;
+	top: 38px;
 	left: 42%;
 }
-
+.ui.dropdown .menu>.item{
+	font-weight: 300;
+	color: #737373;
+}
 #locations.lower-portion h2.ui.inverted.header:after {
 	width: 5rem;
 	left: 46%;
