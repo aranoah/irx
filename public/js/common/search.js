@@ -42,7 +42,7 @@
                 
                 _classInstance.fetchProjectResult(data)
               }else{
-                alert(1)
+               alert($('#_city_').val())
                $(formElement).attr('action','/project-listing')
                 return true;
               }
@@ -89,6 +89,12 @@
         var maxPrice =  _classInstance.viewModel.maxPrice();
         var minPriceText = "";
         if(maxPrice){
+          var minPrice = _classInstance.viewModel.minPrice;
+          if(minPrice && maxPrice<minPrice){
+            
+            _classInstance.viewModel.minPrice(100)
+          } 
+          
           return _classInstance.getPriceText(maxPrice)
         }else{
           return maxPrice;
@@ -103,6 +109,17 @@
       _classInstance.viewModel.city(city)
       localStorage.setItem("city", city);
     });
+    $('#searchF').on('click','._budgetItem_',function(){
+      var minPrice = $('#_budget_').find(".minP").val();
+      var maxPrice = $('#_budget_').find(".maxP").val();
+      if(minPrice){
+        _classInstance.viewModel.minPrice(minPrice)
+      }
+      if(maxPrice){
+        _classInstance.viewModel.maxPrice(maxPrice)
+      }
+    });
+    
 
     // $(".min").focus(function(){
     //   $(".min").toggleClass("active");
@@ -165,7 +182,7 @@
         text = amount+"K";
       } else if(amount.length==6 || amount.length==7){
         amount = Number(amount)/100000;
-        text = amount+"L";
+        text = amount+"Lac";
       } else if(amount.length>8){
         amount = Number(amount)/10000000;
         text = amount+"Cr";
@@ -260,6 +277,7 @@ $(document).ready(function(){
   var city = localStorage.getItem("city");
   if(city){
     sBar.viewModel.showCity(city)
+    sBar.viewModel.city(city)
   } else{
     sBar.viewModel.showCity("city")
   }

@@ -133,7 +133,10 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	if(filters && filters.maxPrice != null && filters.maxPrice != "") {
 		rangeObj.price.lte=filters.maxPrice;
 	}
-
+	var range = {
+		"range":rangeObj
+	}
+	query.push(range)
 	if(filters && filters.name != null &&  filters.name != "") {
 		var match = {
 			"match":{
@@ -160,8 +163,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
       query: {bool:{must:query}},
       from:start,
       size:pageSize,
-      sort:[{ "price" : {"order" : sortOrder}}],
-      range : rangeObj
+      sort:[{ "price" : {"order" : sortOrder}}]
     }
   }).then(function (resp) {
     var hits = resp.hits.hits;

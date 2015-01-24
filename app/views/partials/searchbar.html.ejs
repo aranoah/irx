@@ -109,7 +109,7 @@
             <i class="filter icon"></i>
 
             <span class="text" style="margin-top:8px;text-align:left"> <!--ko text: showCity--><!--/ko--> </span>
-            <input class="text" id="_city_" type="hidden" data-bind="value:city">
+            <input id="_city_" type="hidden" name="city" data-bind="textInput:city">
             <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
               <div class="ui icon search input">
                 <i class="search icon"></i>
@@ -160,24 +160,46 @@
 
       <div class="ui labeled icon dropdown button item">
         <i class="angle down icon"></i>
-        <span class="text">Budget</span>
+        <span class="text" id="_budget_">Budget</span>
         <div class="menu">
           <div class="header" style="background: #fff;  margin: 0;  padding: 1rem;">
             <input type="text" class="min" style="width:50px;" name="minPrice" data-bind="value:minPrice">
             <span >-</span>
             <input type="text" class="min" style="width:50px;" name="maxPrice" data-bind="value:maxPrice"><br>
-            <span style="margin-top:15px;border:1px solid #ddd;"><!-- ko text:minPriceText --><!-- /ko -->-<!-- ko text:maxPriceText --><!-- /ko --></span>
+            
           </div>
+          
+
           <div class="divider"></div>
+
           <div class="minCostLeft __visible" style="text-align:left;max-width:150px;overflow:hidden;">
-            <div class="item" style="width:100%;float:left">
+            <div class="item">
+              <span class="text"><!-- ko text:minPriceText --><!-- /ko --></span>-
+              <span class="text"><!-- ko text:maxPriceText --><!-- /ko --></span>
+            </div>
+            <div class="item _budgetItem_" style="width:100%;float:left">
+              <input class="minP" type="hidden" value="0">
+              <input class="maxP" type="hidden" value="500000">
               Less than 5Lac
             </div>
-            <div class="item" style="width:100%;float:left">
-              5Lac - 10Lac
+            <div class="item _budgetItem_" style="width:100%;float:left">
+              <input class="minP" type="hidden" value="500000">
+              <input class="maxP" type="hidden" value="2500000">
+              5Lac - 25Lac
             </div>
-            <div class="item" style="width:100%;float:left">
-              More than 10Lac
+            <div class="item _budgetItem_" style="width:100%;float:left">
+              <input class="minP" type="hidden" value="2500000">
+              <input class="maxP" type="hidden" value="5000000">
+              25Lac - 50Lac
+            </div>
+            <div class="item _budgetItem_" style="width:100%;float:left">
+              <input class="minP" type="hidden" value="5000000">
+              <input class="maxP" type="hidden" value="10000000">
+              50Lac - 1cr
+            </div>
+            <div class="item _budgetItem_" style="width:100%;float:left">
+              <input class="minP" type="hidden" value="10000000">
+              More than 1cr
             </div>
           </div>
         </div>
