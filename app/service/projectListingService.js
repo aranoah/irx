@@ -104,7 +104,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	if(filters && filters.type != null &&  filters.type != "") {
 		var match = {
 			"match":{
-				"type":Number(filters.type)
+				"type":filters.type
 			}
 		}
 		query.push(match);

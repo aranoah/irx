@@ -287,13 +287,13 @@ userController.addLastVisited = function(){
   var name = _nself.req.body.name;
   var url = _nself.req.body.url;
   var type = _nself.req.body.type;
-  var agentId = _nself.getCurrentUser(_nself);
+  var user = _nself.getCurrentUserInfo(_nself);
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,errValue){
     _nself.processJson(code,msg,result,errValue);
   });
   var data = {
-   "agentId": agentId,
+   "agentId": user.irxId,
    "lastVisited":{
       "name":name,
       "url":url,
@@ -309,14 +309,18 @@ userController.addLastVisited = function(){
 
 userController.listLastVisited = function(){
   var _nself = this;
-  var agentId = _nself.getCurrentUser(_nself);
+  var user = _nself.getCurrentUserInfo(_nself);
  
   var userSvc = new userService();
-  userSvc.on("done", function(code,msg,result,errValue){
-    _nself.processJson(code,msg,result,errValue);
+  userSvc.on("done", function(code,msg,result,page){
+    console.log("yo yo",result)
+    _nself.processJson(code,msg,result,page);
   });
- 
-  userSvc.addLastVisited(agentId);
+
+ var data ={
+  "irxId" : user.irxId
+ }
+  userSvc.listLastVisited(data);
 }
 
 /*

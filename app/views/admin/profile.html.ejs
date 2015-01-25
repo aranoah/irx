@@ -242,7 +242,7 @@
                               <div class="content left floated">
                                 <a class="header" data-bind="text:name"></a>
                                 <div class="meta">
-                                  <div class="time" data-bind="text:builderName"></div>
+                                 
                                   <div class="category" data-bind="text:location.locality"></div>
                                 </div>
                               </div>
@@ -272,7 +272,7 @@
                           <a class="header" data-bind="text:name"></a>
                           
                           <div class="meta">
-                            <div class="time" data-bind="text:builderName"></div>
+                           
                             <div class="category" data-bind="text:location.locality"></div>
                           </div>
                         </div>
@@ -324,25 +324,21 @@
             <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">Recently viewed</h3>
               <div class="ui horizontal list">
+              <!-- ko foreach:lastVisited -->
                 <div class="item">
+                  <!-- ko if:type=='user' -->
                   <i class="icon user"></i>
-                  <div class="content">
-                    <div class="header">Vineet Kumar</div>
-                    20,Nov 2014<span class="item">7:00 AM</span>
-                  </div>
-                </div><div class="item">
+                  <!-- /ko-->
+                  <!-- ko if:type=='project' -->
                   <i class="icon building outline"></i>
+                  <!-- /ko-->
                   <div class="content">
-                    <div class="header">DLF,Cyber city</div>
-                    20,Nov 2014<span class="item">7:00 AM</span>
-                  </div>
-                </div><div class="item">
-                  <i class="icon marker"></i>
-                  <div class="content">
-                    <div class="header">Gurgaon,Haryana</div>
+                    <div class="header"><!-- ko text:name --><!-- /ko --></div>
                     20,Nov 2014<span class="item">7:00 AM</span>
                   </div>
                 </div>
+              <!-- /ko-->
+                
               </div>
             </div>
           </div>
@@ -448,6 +444,7 @@
     classInstance.viewModel={
       projects: ko.observableArray(),
       locations : ko.observableArray(),
+      lastVisited : ko.observableArray(),
       associatedLocations :ko.observableArray(),
       id: ko.observable('<%= result.id %>'),
       associatedProjects : ko.observableArray(),
@@ -494,12 +491,11 @@
       },
       addLocation : function(id){
 
-        classInstance.associateProject(id,true);
+        classInstance.associateLocation(id);
          
       },
       removeLocation : function(index,id){
-        
-        classInstance.removeAssociatedProject(index,id,true)
+        classInstance.removeAssociatedLocation(index,id)
       },
       leadsPageObj :{
         start:ko.observable("0"),
@@ -524,6 +520,7 @@
     classInstance.listAssociatedLocations();
     classInstance.listAllLocations();
     classInstance.listLeads(false);
+    classInstance.listLastVisited();
     
     $('#addLoc').click(function(){
       
@@ -560,24 +557,31 @@
               });
   }
  
-  AdminProfile.prototype.removeAssociatedProject = function(index,id,location) {
+  AdminProfile.prototype.removeAssociatedProject = function(index,id) {
     var classInstance = this;
-
-    httpUtils.get('/delete-project/'+id,{},"JSON",function(data){
+    var obj = {}
+  
+    httpUtils.get('/delete-project/'+id,obj,"JSON",function(data){
        if(data.status==0){
-        if(location){
-          classInstance.viewModel.associatedLocations.remove(function(item){
+         classInstance.viewModel.associatedProjects.remove(function(item){
           return item.id == id;
         });
-        }else{
-          classInstance.viewModel.associatedProjects.remove(function(item){
-          return item.id == id;
-        });
-        }
-        
-       } 
+      } 
     })
  }
+ 
+  AdminProfile.prototype.removeAssociatedLocation = function(index,id) {
+      var classInstance = this;
+      var obj = {}
+    
+      httpUtils.get('/delete-location/'+id,obj,"JSON",function(data){
+         if(data.status==0){
+           classInstance.viewModel.associatedLocations.remove(function(item){
+            return item.id == id;
+          });
+        } 
+      })
+   }
   AdminProfile.prototype.getProjectListingAutocomplete=function(text,request,response){
       var classInstance = this;
       httpUtils.get("/project-autocomplete",{"text":text,"page":classInstance.page},"JSON",function(data){
@@ -602,17 +606,24 @@
         }
     })
     }
-  AdminProfile.prototype.associateProject = function(id,location) {
+
+  AdminProfile.prototype.associateProject = function(id) {
     var classInstance = this;
+    var obj = {}
     
-    httpUtils.get('/associate-project/'+id,{},"JSON",function(data){
+    httpUtils.get('/associate-project/'+id,obj,"JSON",function(data){
        if(data.status==0){
-        if (location) {
+          classInstance.viewModel.associatedProjects.push(data.result);
+       } 
+    })
+  }
+
+  AdminProfile.prototype.associateLocation = function(id) {
+    var classInstance = this;
+    var obj = {}
+    httpUtils.get('/associate-location/'+id,obj,"JSON",function(data){
+       if(data.status==0){
            classInstance.viewModel.associatedLocations.push(data.result);
-        }else{
-           classInstance.viewModel.associatedProjects.push(data.result);
-        }
- 
        } 
     })
   }
@@ -660,11 +671,24 @@
        } 
     })
   }
+  
+  AdminProfile.prototype.listLastVisited = function() {
+    
+    var classInstance = this;
+
+    httpUtils.get("/last-visited",{},"JSON",function(data){
+       if(data.status==0){
+        ko.utils.arrayPushAll(classInstance.viewModel.lastVisited,data.result)
+       // classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+      
+       } 
+    })
+  }
   AdminProfile.prototype.listAssociatedLocations = function() {
     
     var classInstance = this;
 
-    httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+    httpUtils.get("/list-user-locations/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
        if(data.status==0){
         ko.utils.arrayPushAll(classInstance.viewModel.associatedLocations,data.result)
         classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
@@ -706,7 +730,7 @@
   AdminProfile.prototype.listAllLocations = function() {
     
    var classInstance = this;
-      httpUtils.post("/list-projects-elastic",{},{},"JSON",function(data){
+      httpUtils.post("/list-projects-elastic",{"productType":"location"},{},"JSON",function(data){
          if(data.status==0){
          ko.utils.arrayPushAll(classInstance.viewModel.locations,data.result)  
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);

@@ -38,6 +38,7 @@ var IRXUserProfileSchema =new mongoose.Schema({
    status:{type:String},
    phoneNum :{type:String},
    projectCounter :{type:Number},
+   locationCounter :{type:Number},
    hasDistress : {type:Boolean}
 });
 
