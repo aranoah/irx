@@ -23,6 +23,27 @@
 
       minPrice : ko.observable(),
       maxPrice : ko.observable(),
+
+      // showFilters : function () {
+      //   var filter = [];
+      //     if(name()!="")
+      //     filter.push(name())
+
+      //      if(bhk()!="")
+      //     filter.push(bhk())
+
+      //      if(name()!="")
+      //     filter.push(name())
+
+      //    if(type()!="")
+      //     filter.push(type())
+
+      //    if(city()!="")
+      //     filter.push(city())
+
+      //    if(price()!="")
+      //     filter.push(price())
+      // },
       searchF : function(formElement) {
         
         var self= this;

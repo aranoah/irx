@@ -42,13 +42,13 @@
   </style>
   
 </head>
-<% locals.uiContext.menu=true %>
-<body>  
-  <% include ../partials/header.html.ejs %>
+<body>
+	<% locals.uiContext.menu=false %>
+  	<% include ../partials/header.html.ejs %>
 
-  <% include ../partials/subhome.html.ejs %>
+  	<% include ../partials/subhome.html.ejs %>
 
-  <% include ../partials/searchbar.html.ejs %>
+  	<% include ../partials/searchbar.html.ejs %>
   <!-- agents Listing goes here -->
 <div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
@@ -58,7 +58,7 @@
 
 	  		<div class="ui grid rib-head mobile tablet only">
 		    	<h2 class="ui header">Showing results for
-		    		<a data-bind="text:filters.displayName"></a>
+		    		<a ><!--ko text: name--><!--/ko--> ddddd </a>
 		    	</h2>
 		    	<div class="ui grid">  
 				  <div class="row">
@@ -94,9 +94,9 @@
 	  	<!-- ends here -->
 
 	  	<div class="ui grid two column rib-head computer only">
-	    	<h2 class="ui header column">Showing results for 
+	    	<h2 class="ui header column">Showing results for xxxxxxxx
 
-	    		<a data-bind="text:filters.displayName"></a>
+	    		<!--ko text: name--><!--/ko-->
 	    	</h2>
 	    	<div class="header ui two column grid right menu">
 				<div class="six wide column">
@@ -170,11 +170,11 @@
 						      <td><a class="header"><!--ko text: type--><!--/ko--></a></td>
 						    </tr>
 						    <tr>
-						      <td>Agent</td>
+						      <td>Builder Name</td>
 						      <td><a class="header"><!--ko text: builderName--><!--/ko--></a></td>
 						    </tr>
 						    <tr>
-						      <td>Possesion</td>
+						      <td>Possesion Date</td>
 						      <td><a class="header"><!--ko text: possession--><!--/ko--></a></td>
 						    </tr>
 						  </tbody>
