@@ -327,7 +327,7 @@ PMService.prototype.markDistress = function(data) {
 				//update user
 				console.log("IrxId",userId)
 						IRXUserProfileModel.update({"irxId":userId},
-							{$set:{"hasDistress":true}},
+							{$inc:{"distress":1}},
 							function(err,numberAffected,raw){
 								if(err){
 									console.error("distress in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
@@ -343,7 +343,7 @@ PMService.prototype.markDistress = function(data) {
 						//update project
 						console.log("pId",projectId)
 							IRXProductLineModel.update({"id":projectId.trim()},
-							{$set:{"hasDistress":true}},
+							{$inc:{"distress":1}},
 							function(err,numberAffected,raw){
 								if(err){
 									console.error("distress in project not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
