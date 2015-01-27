@@ -48,6 +48,7 @@
 
   <% include ../partials/subhome.html.ejs %>
 
+  <% include ../partials/searchbar.html.ejs %>
   <!-- agents Listing goes here -->
 <div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
@@ -129,53 +130,67 @@
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
 	    	No Search Results
 	    </div>
-	    <div data-bind="foreach : projects" class="ui stackable two column grid"style="margin:2rem 0;">
+	    <div data-bind="foreach : projects" style="margin:2rem 0;">
 	    	<div class="ui items proj-listing column">
+  				<a class="ui green ribbon label">Distress</a>
 				<div class="four column row">
 					<div class="left floated column">
 						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name">12 Years a Slave</h3></a>
 						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.city--><!--/ko--></h5>
 					</div>					
 					<div class="right floated column menu">						
-					  	<div class="ui checkbox">
-						  <input type="checkbox" value="small" checked="checked">
-						  <label class="small test modal">Distress</label>
-						</div>			    	
+					  	<div class="social-share">
+					  		<div class="ui facebook button"><i class="facebook icon"></i>Like</div>
+					  		<div class="ui teal button"><i class="share icon"></i>share</div>
+					  	</div>			    	
 					</div>
 				</div>
 				<div class="item">
-					<div class="image">
+					<div class="ui medium image">
 					  <img src="/images/project.jpg">
+					  <div class="slider">
+					  	<i class="chevron right icon"></i>
+					  	<span>3 PHOTOS</span>
+					  	<i class="chevron left icon"></i>
+					  </div>
 					</div>
 					<div class="content">				  
 					  <div class="ui content">				  	
 						<div class="extra">
 							<h3 class="ui header"><i class="rupee icon"></i><!--ko text: price--><!--/ko--></h3>
 						</div>
-						<div class="pj-items extra">
-        					<div class="ui horizontal label">BHK -<span data-bind="foreach : bhk">
-								<a href="header" data-bind="text:$data"></a>
-							</span></div>
-							<div class="ui horizontal label">Property type -<a href="header"><!--ko text: type--><!--/ko--></a></div>
-							<div class="ui horizontal label"><i class="user icon agent"></i><!--ko text: builderName--><!--/ko--></div>
-							<div class="ui horizontal label">Posession date :<a class="header"><!--ko text: possession--><!--/ko--></a></div>
-						</div>
+						<table class="ui small table pj-items extra">
+						  <tbody>
+						    <tr>
+						      <td>Unit</td>
+						      <td><span data-bind="foreach : bhk"><a href="header" data-bind="text:$data"></a><a href="header">BHK</a></td>
+						    </tr>
+						    <tr>
+						      <td>Type</td>
+						      <td><a class="header"><!--ko text: type--><!--/ko--></a></td>
+						    </tr>
+						    <tr>
+						      <td>Agent</td>
+						      <td><a class="header"><!--ko text: builderName--><!--/ko--></a></td>
+						    </tr>
+						    <tr>
+						      <td>Possesion</td>
+						      <td><a class="header"><!--ko text: possession--><!--/ko--></a></td>
+						    </tr>
+						  </tbody>
+						</table>
 					  </div>					  
 					  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
 					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
 					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
-					</div>							  
+					</div>
+					<div class="ui buttons right floated">
+						<div class="ui basic button">View details</div>
+						<div class="ui basic button leads-in">Enquiry now</div>
+						<div class="ui basic button">View agents</div>
+						<div class="ui basic button req-details">Request details</div>
+					</div>					  
 				</div>
-				<div class="ui buttons">
-					<div class="ui basic button">View details</div>
-					<div class="ui basic button leads-in">Enquiry now</div>
-					<div class="ui basic button">View agents</div>
-					<div class="ui basic button req-details">Request details</div>
-				</div>	
-			  	<div class="social-share">
-			  		<div class="ui facebook button"><i class="facebook icon"></i>Like</div>
-			  		<div class="ui teal button"><i class="share icon"></i>share</div>
-			  	</div>
 			</div>
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
