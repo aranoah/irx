@@ -48,7 +48,7 @@
 
   	<% include ../partials/subhome.html.ejs %>
 
-  	<% include ../partials/searchbar.html.ejs %>
+  
   <!-- agents Listing goes here -->
 <div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
@@ -185,10 +185,10 @@
 					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					</div>
 					<div class="ui buttons right floated">
-						<div class="ui basic button">View details</div>
-						<div class="ui basic button leads-in">Enquiry now</div>
-						<div class="ui basic button">View agents</div>
-						<div class="ui basic button req-details">Request details</div>
+						<div class="ui basic button"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
+						<div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquiry now</div>
+						<div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}">View agents</a></div>
+						<div class="ui basic button req-details" data-bind="click:function(){$parent.requestDetails($data) }">Request details</div>
 					</div>					  
 				</div>
 			</div>
