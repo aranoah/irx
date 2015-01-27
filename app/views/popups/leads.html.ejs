@@ -1,5 +1,6 @@
 <!-- Leads-Capture popup -->
 <script type="text/javascript" src="/js/common/http.js"></script>
+
 <div id="leads" class="ui modal pop-up sell-post">  
   <div class="content">
     <div class="ui grid">
@@ -17,34 +18,35 @@
               <h5 for="user">you are a:</h5>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="user" checked="checked">
+                  <input type="radio" name="type" value="user" checked="checked">
                   <label>Individual</label>
                 </div>
               </div>
               <div class="field">
                 <div class="ui radio checkbox">
-                  <input type="radio" name="user">
+                  <input type="radio" name="type" value="agent">
                   <label>Dealer</label>
                 </div>
               </div>
           </div>      
           <div class="item field">
-            <input type="text" placeholder="Name">
+            <input type="text" name="name" placeholder="Name">
           </div>
           <div class="item field">
-            <input type="text" placeholder="Email">
+            <input type="text" name="emailId" placeholder="Email">
           </div>            
           <div class="item field">
-            <input type="text" placeholder="Mobile">
+            <input type="text" name="mobileNo" placeholder="Mobile">
           </div>
         </div>
-
+         <input name="projectId" id="_projectIdP_" type="hidden" value="" placeholder="Mobile">
         <div class="three column row">
           <div class="right floated column">
-            <div class="ui submit button" data-bind="click: captureLeads">Submit</div>
+          <input type="submit" style="height:0;width:0;outline:0" id="_clickable_">
+            <div class="ui submit button " id="_leadP_">Submit</div>
           </div>
           <div class="left floated column">
-            <div class="ui checkbox">
+            <div class="ui checkbox _createLoginP_">
               <input type="checkbox">
               <label>Also create a login</label>
             </div>
@@ -54,37 +56,4 @@
     <!-- Ends here -->  
   </div>
 </div>
-<script>
-  function LeadsCapturing(data){
-    
-  }
 
-  LeadsCapturing.prototype.init = function() {
-    var classInstance = this;
-    classInstance.viewModel = {
-      data:{
-          emailId:ko.observable(""),
-          projectId:ko.observable(""),
-          agentId:ko.observable(""),
-          name:ko.observable(""),
-          mobileNo:ko.observable("")
-      },
-      captureLeads:function(){
-          classInstance.captureLeads(type);
-      }
-    }
-    ko.applyBindings(classInstance.viewModel,document.getElementById("leads"))
-  }
-  LeadsCapturing.prototype.captureLeads = function(type) {
-      var classInstance = this;
-      httpUtils.post("/capture-lead",
-        classInstance.viewModel.data,
-         { },"JSON",function(data){
-        if(data.status==0){
-             alert(1)
-        }else {
-          
-        }
-      })
-    };  
-</script>

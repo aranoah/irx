@@ -195,7 +195,37 @@
 	Project.prototype.init = function() {
 
 		var _classInstance = this;
-  
+  		
+  		$(document).on('click','#_leadP_', function(){
+  			var projectId = $("#_projectIdP_").val();
+  			var name = $(this).parents('#leads').find("input[name='name']").val();
+  			var emailId = $(this).parents('#leads').find("input[name='emailId']").val();
+  			var mobileNo = $(this).parents('#leads').find("input[name='mobileNo']").val();
+  			var type = $(this).parents('#leads').find("input[name='type']:checked").val();
+  			var ceateLogin =false;
+  			if($(this).parents('#leads').find("._createLoginP_.checked")){
+  				createLogin = true;
+  			}
+  			var data={
+  				"projectId": projectId,
+  				"name":name,
+  				"emailId":emailId,
+  				"mobileNo":mobileNo,
+  				"type":type,
+  				"createLogin":createLogin
+  			}
+  			console.log("qwerty",data)
+  			httpUtils.post("/capture-lead",
+				data,
+				 { },"JSON",function(data){
+				if(data.status==0){
+			       alert(1)
+				}else {
+					
+				}
+			})
+  			
+  		})
 		_classInstance.scroller = ko.bindingHandlers.scroll = {
 
 		  updating:true,
@@ -313,10 +343,12 @@
 		_classInstance.scroller.updating=true;
 		_classInstance.resetPage();
 	}
+	
 	Project.prototype.resetPage = function(filters) {
 		var _classInstance=this;
 		_classInstance.page.start=0;
 	}
+	
 	Project.prototype.requestDetails = function(projectId) {
 		httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
        if(data.status==0){
@@ -326,17 +358,12 @@
          }
         })
       };
+      
       Project.prototype.enquireNow = function(projectId) {
       	 $('#leads').modal({
 		      closable:false
 		    }).modal('show');
-		// httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
-  //      if(data.status==0){
-	 //       	$('#req-details').modal({
-	 //      		closable:false
-	 //    	}).modal('show');
-  //        }
-  //       })
+      	 $("#_projectIdP_").val(projectId);
       };
 
 

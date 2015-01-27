@@ -119,7 +119,8 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                 "proName":lead.projectId,
                 "subject":properties.leads_success_subject,
                 "mobileNo":lead.mobileNo,
-                "userId":lead.emailId
+                "userId":lead.emailId,
+                "password":messageData.password
               }
               new emailUtils().sendEmail("post-req",locals,function(error,success){
                 if(error != null){

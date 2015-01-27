@@ -29,6 +29,8 @@ var baseService = require(_path_service+"/base/baseService");
 var IRXLeadModel = require(_path_model+"/IRXLead");
 var IRXLeadReviewModel = require(_path_model+"/IRXLeadReview");
 var mongoose = require('mongoose');
+var userService = require(_path_service+"/userService.js" )
+
 function LeadService(){    
 	baseService.call(this);
 }
@@ -69,15 +71,24 @@ LeadService.prototype.captureLeads = function(data) {
 			
 			} else {
 				if(savedData){
+					var password =  _selfInstance.getCustomMongoId("P");
 					var qObj = {
 						"action":MAIL_TYPE.LEAD,
-						"data" : savedData.id
+						"data" : savedData.id,
+						"password" :password
 					}
 					_app_context.sqs.sendMessage({
-                	"QueueUrl" : _app_context.qUrl,
-                	"MessageBody" : JSON.stringify(qObj)
-             	 }, function(err, data){                
-              });
+                		"QueueUrl" : _app_context.qUrl,
+                		"MessageBody" : JSON.stringify(qObj)
+
+             			 }, function(err, data){                
+             		});
+					if(data.createLogin){
+                		var userSvc = new userService();
+                		
+                		userSvc.registerUser({"emailId":data.emailId,"name":data.name,"password":password,type:data.type});
+                		return;
+                	}
 					_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,savedData,null);
 				} else{
 					_selfInstance.emit("done",STATUS.SERVER_ERROR.code,"Error saving verification",err,null);

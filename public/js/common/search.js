@@ -160,9 +160,7 @@
                 var type="";
                 var icon ="";
                 if(item.type){
-                  
                   type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
-
                 }
 
                 if(item.type=='irx-euser') {
@@ -249,11 +247,11 @@
       var classInstance = this;
       httpUtils.get("/project-autocomplete",{"text":text},"JSON",function(data){
         if(data.status==0){
-       
+         
           response($.map(data.result, function(item) {
                         
-                        return {id:item._source.id,name:item._source.name,location:item._source.location};
-                      }));
+            return {id:item._source.id,name:item._source.name,location:item._source.location};
+          }));
         }
     })
     }
@@ -261,11 +259,11 @@
       var classInstance = this;
       httpUtils.get("/autocomplete",{"text":text},"JSON",function(data){
         if(data.status==0){
-       
+         
           response($.map(data.result, function(item) {
                         
-                        return {id:item._source.id,name:item._source.name,type:item._type};
-                      }));
+            return {id:item._source.id,name:item._source.name,type:item._type};
+          }));
         }
     })
     }
