@@ -38,7 +38,8 @@ var MAIL_TYPE={
   INVITATION:"invitation",
   REGISTER:"register" ,
   LEAD:"lead",
-  VERIFICATION:"verification"
+  VERIFICATION:"verification",
+  PROJECT_DETAILS:"project-details"
 };
 var VERIFICATION_TYPE={
   ACCOUNT:"account-register",

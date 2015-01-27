@@ -42,7 +42,7 @@
   </style>
   
 </head>
-<% locals.uiContext.menu=false %>
+<% locals.uiContext.menu=true %>
 <body>  
   <% include ../partials/header.html.ejs %>
 
@@ -167,14 +167,14 @@
 					</div>							  
 				</div>
 				<div class="ui buttons">
-					<div class="ui basic button">View details</div>
-					<div class="ui basic button leads-in">Enquiry now</div>
-					<div class="ui basic button">View agents</div>
-					<div class="ui basic button req-details">Request details</div>
+					<div class="ui basic button"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
+					<div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquiry now</div>
+					<div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}">View agents</a></div>
+					<div class="ui basic button req-details" data-bind="click:function(){$parent.requestDetails($data) }">Request details</div>
 				</div>	
 			  	<div class="social-share">
-			  		<div class="ui facebook button"><i class="facebook icon"></i>Like</div>
-			  		<div class="ui teal button"><i class="share icon"></i>share</div>
+			  		<div class="fb-like" data-bind="attr: { 'data-href': 'http://122.176.220.113:3000/project/'+ id }" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+			  		<!--<div class="ui teal button"><i class="share icon"></i>share</div>-->
 			  	</div>
 			</div>
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
@@ -292,6 +292,13 @@
 				_classInstance.listProjects(true);
 				return true;
 			},
+			requestDetails : function(data){
+				_classInstance.requestDetails(data.id);
+			},
+			enquireNow : function(data){
+				_classInstance.enquireNow(data.id);
+			},
+			
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
 		}
@@ -310,6 +317,29 @@
 		var _classInstance=this;
 		_classInstance.page.start=0;
 	}
+	Project.prototype.requestDetails = function(projectId) {
+		httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
+       if(data.status==0){
+	       	$('#req-details').modal({
+	      		closable:false
+	    	}).modal('show');
+         }
+        })
+      };
+      Project.prototype.enquireNow = function(projectId) {
+      	 $('#leads').modal({
+		      closable:false
+		    }).modal('show');
+		// httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
+  //      if(data.status==0){
+	 //       	$('#req-details').modal({
+	 //      		closable:false
+	 //    	}).modal('show');
+  //        }
+  //       })
+      };
+
+
 	Project.prototype.renderResult = function(data,filters) {
 
 
@@ -355,3 +385,11 @@
 	</script>
   <% include ../partials/footer.html.ejs %>
 </body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>

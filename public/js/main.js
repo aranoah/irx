@@ -88,19 +88,17 @@ $(document).ready(function () {
     }).modal('show');
   });
 
-  $(document).off('click','.leads-in');
-  $(document).on('click','.leads-in',function() {
-    $('#leads').modal({
-      closable:false
-    }).modal('show');
-  });
+  // $(document).off('click','.leads-in');
+  // $(document).on('click','.leads-in',function() {
+  //   $('#leads').modal({
+  //     closable:false
+  //   }).modal('show');
+  // });
 
-  $(document).off('click','.req-details');
-   $(document).on('click','.req-details',function() {
-    $('#req-details').modal({
-      closable:false
-    }).modal('show');
-  });
+  // $(document).off('click','.req-details');
+  //  $(document).on('click','.req-details',function() {
+  
+  // });
 
 });
 
