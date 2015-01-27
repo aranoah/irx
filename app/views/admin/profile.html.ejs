@@ -217,17 +217,71 @@
                  
                 </div>
                 <div class="column right-portion">
+
                   <div class="item">
-                    <div class="content">
-                      <h4 class="header">My Locations</h4>
+                    <div class="right floated compact ui button" id="addLoc">Add new</div>                    
+                    <div class="ui fluid popup">
+                      <div class="column left-portion">
+                        <div class="item">
+                            <div class="ui transparent left icon input">
+                              <input type="text" id="__searchLoc" placeholder="Search locations...">
+                              <i class="search icon"></i>
+                            </div>
+                        </div>
+                        <!-- ko if: locations().length==0 -->
+                          <div class="ui info  message">
+                            <ul class="list">
+                              <li>No projects associated to your profile currently.</li>
+                              <li><a href="link">Click here to add one</a></li>
+                            </ul>
+                          </div>
+                         <!-- /ko -->
+                        <!-- ko foreach: locations -->
+                          <div class="ui items">
+                            <div class="item">
+                              <div class="content left floated">
+                                <a class="header" data-bind="text:name"></a>
+                                <div class="meta">
+                                 
+                                  <div class="category" data-bind="text:location.locality"></div>
+                                </div>
+                              </div>
+                              <div class="right floated content" data-bind="click:function () { $parent.addLocation(id)}"><i class="add circle icon"></i></div>
+                            </div>
+                          </div>
+                           <!-- /ko -->
+                      
+                        
+                      </div>
                     </div>
+                    <div class="content">
+                      <h4 class="header">My Location</h4>
+                    </div>
+                    <!-- ko if: associatedLocations().length==0 -->
+                    <div class="ui info message">
+                      <ul class="list">
+                        <li>No location associated to your profile currently.</li>
+                        <li>Click add new</li>
+                      </ul>
+                    </div>
+                   <!-- /ko -->
+                 <!-- ko foreach: associatedLocations -->
+                    <div class="ui items">
+                      <div class="item">
+                        <div class="content left floated">
+                          <a class="header" data-bind="text:name"></a>
+                          
+                          <div class="meta">
+                           
+                            <div class="category" data-bind="text:location.locality"></div>
+                          </div>
+                        </div>
+                         <div class="right floated content" data-bind="click:function () { $parent.removeLocation($index,id)}"><i class="remove circle outline icon"></i></div>
+                      </div>
+                    </div>
+                  <!-- /ko -->
                   </div>
-                  <div class="ui info message">
-                    <ul class="list">
-                      <li>No locations associated to your profile currently.</li>
-                      <li><a href="link">Click here to add one</a></li>
-                    </ul>
-                  </div>
+                  
                 </div>
               </div>
             </div>
@@ -270,25 +324,21 @@
             <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">Recently viewed</h3>
               <div class="ui horizontal list">
+              <!-- ko foreach:lastVisited -->
                 <div class="item">
+                  <!-- ko if:type=='user' -->
                   <i class="icon user"></i>
-                  <div class="content">
-                    <div class="header">Vineet Kumar</div>
-                    20,Nov 2014<span class="item">7:00 AM</span>
-                  </div>
-                </div><div class="item">
+                  <!-- /ko-->
+                  <!-- ko if:type=='project' -->
                   <i class="icon building outline"></i>
+                  <!-- /ko-->
                   <div class="content">
-                    <div class="header">DLF,Cyber city</div>
-                    20,Nov 2014<span class="item">7:00 AM</span>
-                  </div>
-                </div><div class="item">
-                  <i class="icon marker"></i>
-                  <div class="content">
-                    <div class="header">Gurgaon,Haryana</div>
+                    <div class="header"><!-- ko text:name --><!-- /ko --></div>
                     20,Nov 2014<span class="item">7:00 AM</span>
                   </div>
                 </div>
+              <!-- /ko-->
+                
               </div>
             </div>
           </div>
@@ -393,6 +443,9 @@
     
     classInstance.viewModel={
       projects: ko.observableArray(),
+      locations : ko.observableArray(),
+      lastVisited : ko.observableArray(),
+      associatedLocations :ko.observableArray(),
       id: ko.observable('<%= result.id %>'),
       associatedProjects : ko.observableArray(),
       name : ko.observable('<%= result.name %>'),
@@ -436,6 +489,14 @@
         
         classInstance.removeAssociatedProject(index,id)
       },
+      addLocation : function(id){
+
+        classInstance.associateLocation(id);
+         
+      },
+      removeLocation : function(index,id){
+        classInstance.removeAssociatedLocation(index,id)
+      },
       leadsPageObj :{
         start:ko.observable("0"),
         pageSize:ko.observable("9"),
@@ -456,9 +517,15 @@
     ko.applyBindings(classInstance.viewModel,document.getElementById('adminProfile')) 
     classInstance.listAssociatedProjects();
     classInstance.listAllProjects();
+    classInstance.listAssociatedLocations();
+    classInstance.listAllLocations();
     classInstance.listLeads(false);
+    classInstance.listLastVisited();
     
-  
+    $('#addLoc').click(function(){
+      
+              $('.column.left-portion').toggle()
+    })
 
     $("#__searchPro").autocomplete({
 
@@ -474,19 +541,47 @@
                  
               }
               });
+    $("#__searchLoc").autocomplete({
+
+            source: function(request, response){
+                var _self = this;
+                classInstance.viewModel.projects([])
+              classInstance.getLocationListingAutocomplete(request.term,request,response)
+              },
+              minLength: 0,
+              dataType: "json",
+              cache: false,
+              select: function( event, ui ) {
+                 
+              }
+              });
   }
  
   AdminProfile.prototype.removeAssociatedProject = function(index,id) {
     var classInstance = this;
-
-    httpUtils.get('/delete-project/'+id,{},"JSON",function(data){
+    var obj = {}
+  
+    httpUtils.get('/delete-project/'+id,obj,"JSON",function(data){
        if(data.status==0){
-        classInstance.viewModel.associatedProjects.remove(function(item){
+         classInstance.viewModel.associatedProjects.remove(function(item){
           return item.id == id;
         });
-       } 
+      } 
     })
  }
+ 
+  AdminProfile.prototype.removeAssociatedLocation = function(index,id) {
+      var classInstance = this;
+      var obj = {}
+    
+      httpUtils.get('/delete-location/'+id,obj,"JSON",function(data){
+         if(data.status==0){
+           classInstance.viewModel.associatedLocations.remove(function(item){
+            return item.id == id;
+          });
+        } 
+      })
+   }
   AdminProfile.prototype.getProjectListingAutocomplete=function(text,request,response){
       var classInstance = this;
       httpUtils.get("/project-autocomplete",{"text":text,"page":classInstance.page},"JSON",function(data){
@@ -499,13 +594,36 @@
         }
     })
     }
+     AdminProfile.prototype.getLocationListingAutocomplete=function(text,request,response){
+      var classInstance = this;
+      httpUtils.get("/project-autocomplete",{"text":text,"page":classInstance.page},"JSON",function(data){
+        if(data.status==0){
+           var arr = new Array();
+          for(var i=0;i<data.result.length;i++){
+              arr.push(data.result[i]._source)
+          }
+        ko.utils.arrayPushAll(classInstance.viewModel.locations,arr)
+        }
+    })
+    }
+
   AdminProfile.prototype.associateProject = function(id) {
     var classInstance = this;
+    var obj = {}
     
-    httpUtils.get('/associate-project/'+id,{},"JSON",function(data){
+    httpUtils.get('/associate-project/'+id,obj,"JSON",function(data){
        if(data.status==0){
+          classInstance.viewModel.associatedProjects.push(data.result);
+       } 
+    })
+  }
 
-        classInstance.viewModel.associatedProjects.push(data.result);
+  AdminProfile.prototype.associateLocation = function(id) {
+    var classInstance = this;
+    var obj = {}
+    httpUtils.get('/associate-location/'+id,obj,"JSON",function(data){
+       if(data.status==0){
+           classInstance.viewModel.associatedLocations.push(data.result);
        } 
     })
   }
@@ -553,6 +671,31 @@
        } 
     })
   }
+  
+  AdminProfile.prototype.listLastVisited = function() {
+    
+    var classInstance = this;
+
+    httpUtils.get("/last-visited",{},"JSON",function(data){
+       if(data.status==0){
+        ko.utils.arrayPushAll(classInstance.viewModel.lastVisited,data.result)
+       // classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+      
+       } 
+    })
+  }
+  AdminProfile.prototype.listAssociatedLocations = function() {
+    
+    var classInstance = this;
+
+    httpUtils.get("/list-user-locations/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+       if(data.status==0){
+        ko.utils.arrayPushAll(classInstance.viewModel.associatedLocations,data.result)
+        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+      
+       } 
+    })
+  }
    AdminProfile.prototype.resetPage = function() {
    var classInstance = this;
    classInstance.start=0;
@@ -584,7 +727,17 @@
         }
     })
   }
-
+  AdminProfile.prototype.listAllLocations = function() {
+    
+   var classInstance = this;
+      httpUtils.post("/list-projects-elastic",{"productType":"location"},{},"JSON",function(data){
+         if(data.status==0){
+         ko.utils.arrayPushAll(classInstance.viewModel.locations,data.result)  
+         classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+         
+        }
+    })
+  }
   AdminProfile.prototype.updateUserProfile = function(item,self) {
      var classInstance = this;
     var obj = {};

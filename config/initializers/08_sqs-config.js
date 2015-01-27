@@ -1,3 +1,4 @@
+
 /***********************************************************************
 *
 * DESCRIPTION :
@@ -89,6 +90,21 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
 
              
         }
+        if(messageData.action == MAIL_TYPE.PROJECT_DETAILS){
+          var url = properties.pro_det_url+messageData.data.projectId
+          var locals = {
+                "url": url,
+                "userId":messageData.data.userId,
+                "subject":properties.detail_subject,
+              }
+              new emailUtils().sendEmail(MAIL_TYPE.PROJECT_DETAILS,locals,function(error,success){
+                if(error != null){
+                  console.error(error);
+                }else if(success != null){
+                  console.log(success)
+                }
+              });
+        }
         if(messageData.action == MAIL_TYPE.VERIFICATION){
           new smsUtils().sendSms({"msg":properties.phone_sms,"phoneNo":messageData.phoneNum});
         }
@@ -168,7 +184,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
  catch(e) {
   console.log(e)
 }
- queueReciever();
+queueReciever();
 });
   }
 queueReciever();

@@ -361,4 +361,224 @@ PMService.prototype.markDistress = function(data) {
 			}
 		})
 }
+
+/**
+*   Associate a location to agent
+*/
+PMService.prototype.associateLocation = function(data) {
+ var _selfInstance = this;
+ var userId = data.userId;
+ var projectId = data.projectId;
+ console.log(userId)
+ this.once("stage2",function(project){
+ 	mongoose.getCollection('irxagentmproducts').findAndModify(
+ 		{"agentId":userId},
+ 		[],
+		{$addToSet:{"location":projectId}},
+		{upsert:true,"new":false },
+			function(err, mapping){
+				
+				if(err){
+					console.error(err)
+					_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+				} else {
+					var update = false;
+					if(mapping ==null ){
+						update = true;
+					} else if(mapping !=null && mapping.project.indexOf(projectId)==-1){
+						update = true;
+					} else{
+						_selfInstance.emit("done","Already Exists",STATUS.NO_UPDATION.msg,err,null);
+					}
+					if(update){
+						//update user
+						IRXUserProfileModel.update({"irxId":userId},
+							{$inc:{"locationCounter":1}},
+							function(err,numberAffected,raw){
+								if(err){
+									console.error("locationCounter in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+								} else {
+									if(numberAffected>0){
+										console.log("locationCounter has been udated");
+									}else{
+										console.error("locationCounter in user not updated. ");
+									}
+								}
+							}
+							)
+						//update project
+							IRXProductLineModel.update({"id":projectId},
+							{$inc:{"agentCounter":1}},
+							function(err,numberAffected,raw){
+								if(err){
+									console.error("agentCounter in product not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+								} else {
+									if(numberAffected>0){
+										console.log("agentCounter has been udated");
+									}else{
+										console.error("agentCounter in user not updated. ");
+									}
+								}
+							}
+							)
+						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,project,null);	
+					}
+					
+				}	
+			}
+ 	
+	)
+  })
+ 
+  this.once("stage1",function(){
+ 	/*
+ 	* Check Valid project
+ 	*/
+ 	IRXProductLineModel.findOne({"id":projectId},function(err,project){
+ 		if(err){
+ 			console.error(err);
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+		}else {
+			if(project && project != null){
+				_selfInstance.emit('stage2',project);	
+			} else {
+				console.error("No project found")
+	 			_selfInstance.emit("done",404,"No project found",null,null);
+			}
+			
+		}
+ 	})
+	
+ }) 
+ 
+
+/*
+* Check valid agent
+*/
+IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED,"type":"agent"},
+	function(err,data){
+		if(err){
+			console.error(err);
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+		} else {
+			if(data && data != null){
+				_selfInstance.emit('stage1');	
+			} else {
+				console.error("No User found")
+	 			_selfInstance.emit("done",404,"No User found",null,null);
+			}
+		}
+	})
+	
+	
+};
+
+/**
+*   Delete a location from agent
+*/
+PMService.prototype.deleteLocation = function(data) {
+ var _selfInstance = this;
+ var userId = data.userId;
+ var projectId = data.projectId;
+ this.once("delProStage2",function(project){
+ 	mongoose.getCollection('irxagentmproducts').findAndModify(
+ 		{"agentId":userId},
+ 		[],
+		{$pull:{"location":projectId}},
+		{"new":true },
+			function(err, mapping){
+				
+				if(err){
+					console.error(err)
+					_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+				} else {
+					
+					var update = false;
+					if(mapping !=null && mapping.project.indexOf(projectId)==-1){
+						update = true;
+					} else{
+						_selfInstance.emit("done",STATUS.NO_UPDATION.code,STATUS.NO_UPDATION.msg,err,null);
+					}
+					if(update){
+						//update user
+						IRXUserProfileModel.update({"irxId":userId,"locationCounter":{$gt:1}},
+							{$inc:{"locationCounter":-1}},
+							function(err,numberAffected,raw){
+								if(err){
+									console.error("locationCount in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+								} else {
+									if(numberAffected>0){
+										console.log("locationCount has been udated");
+									}else{
+										console.error("locationCount in user not updated. ");
+									}
+								}
+							}
+							)
+						//update project
+							IRXProductLineModel.update({"id":projectId,"agentCounter":{$gt:1}},
+							{$inc:{"agentCounter":-1}},
+							function(err,numberAffected,raw){
+								if(err){
+									console.error("agentCounter in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+								} else {
+									if(numberAffected>0){
+										console.log("agentCounter has been udated");
+									}else{
+										console.error("agentCounter in project not updated. ");
+									}
+								}
+							}
+							)
+						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,project,null);	
+					}
+					
+				}	
+			}
+ 	
+	)
+  })
+ 
+  this.once("delProStage1",function(){
+ 	/*
+ 	* Check Valid project
+ 	*/
+ 	IRXProductLineModel.findOne({"id":projectId},function(err,project){
+ 		if(err){
+ 			console.error(err);
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+		}else {
+			if(project && project != null){
+				_selfInstance.emit('delProStage2',project);	
+			} else {
+				console.error("No location found")
+	 			_selfInstance.emit("done",404,"No location found",null,null);
+			}
+			
+		}
+ 	})
+	
+ }) 
+ 
+
+/*
+* Check valid agent
+*/
+IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED,"type":"agent"},
+	function(err,data){
+		if(err){
+			console.error(err);
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+		} else {
+			if(data && data != null){
+				_selfInstance.emit('delProStage1');	
+			} else {
+				console.error("No User found")
+	 			_selfInstance.emit("done",404,"No User found",null,null);
+			}
+		}
+	})
+	
+	
+};
 module.exports = PMService;

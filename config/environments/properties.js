@@ -29,6 +29,8 @@ var properties = {
 	"leads_subject":"A new lead for you",
 	"leads_message" :"yo yo !!",
 	"leads_success_subject" : "Your requirement has been successfully published",
-	"phone_sms" : "Your requirement has been successfully published"
+	"phone_sms" : "Your requirement has been successfully published",
+	"pro_det_url" : "http://localhost:3000/project/",
+	"detail_subject" : "Project details"
 }
 module.exports=properties

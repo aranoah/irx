@@ -132,4 +132,44 @@ pMController.markDistress = function() {
     data.distress = distress;
     pMService.markDistress(data);
 };
+/**
+*   Associate a location to agent
+*/
+
+pMController.associateLocation = function() {
+    var pMService = new profileManagementService();
+     var _nself = this;
+     var userId = _nself.getCurrentUser(_nself);
+   
+    pMService.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    var data = {
+        userId:userId,
+        projectId:_nself.req.params.projectId
+    }
+    
+    pMService.associateLocation(data);
+};
+
+/**
+*   Delete a location from agent's associated projects
+*/
+
+pMController.deleteLocation = function() {
+    var pMService = new profileManagementService();
+   
+    var _nself = this;
+     var userId = _nself.getCurrentUser(_nself);
+    pMService.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    var data = {
+        userId:userId,
+        projectId:_nself.req.params.projectId
+    }
+    
+    pMService.deleteLocation(data);
+};
+
 module.exports=pMController

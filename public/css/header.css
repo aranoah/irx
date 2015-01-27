@@ -6,7 +6,24 @@
 body {
   font-family: roboto,sans-serif !important;
 }
+/* Rupee */
+ @font-face {
+ font-family:rupee; 
+ src: url(/css/fonts/rupee.woff) format('woff');
+}
+.rupee {
+ position: relative;
+ padding-left: 15px;
+}
 
+._rupee_:before {
+ position: absolute !important;
+ font-family: rupee !important;
+ content: "r";
+ left: 0 !important;
+
+}
+/* Rupee ends here */
 /* Header starts here *#06865F*#13436C */
 
   #header.ui.inverted.menu>* {

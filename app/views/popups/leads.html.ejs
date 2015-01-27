@@ -41,7 +41,7 @@
 
         <div class="three column row">
           <div class="right floated column">
-            <div class="ui submit button">Submit</div>
+            <div class="ui submit button" data-bind="click: captureLeads">Submit</div>
           </div>
           <div class="left floated column">
             <div class="ui checkbox">
@@ -62,12 +62,29 @@
   LeadsCapturing.prototype.init = function() {
     var classInstance = this;
     classInstance.viewModel = {
-      emailId:ko.observable(""),
-      projectId:ko.observable(""),
-      agentId:ko.observable(""),
-      name:ko.observable(""),
-      mobileNo:ko.observable("")
+      data:{
+          emailId:ko.observable(""),
+          projectId:ko.observable(""),
+          agentId:ko.observable(""),
+          name:ko.observable(""),
+          mobileNo:ko.observable("")
+      },
+      captureLeads:function(){
+          classInstance.captureLeads(type);
+      }
     }
     ko.applyBindings(classInstance.viewModel,document.getElementById("leads"))
   }
+  LeadsCapturing.prototype.captureLeads = function(type) {
+      var classInstance = this;
+      httpUtils.post("/capture-lead",
+        classInstance.viewModel.data,
+         { },"JSON",function(data){
+        if(data.status==0){
+             alert(1)
+        }else {
+          
+        }
+      })
+    };  
 </script>

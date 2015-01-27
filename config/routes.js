@@ -64,7 +64,7 @@ module.exports = function routes() {
   this.match('agent-autocomplete',{ controller: 'list/rest/agentList', action: 'agentAutocomplete' , via: 'GET' });
   this.match('autocomplete',{ controller: 'list/rest/projectList', action: 'autocomplete' , via: 'GET' });
   this.match('project-autocomplete',{ controller: 'list/rest/projectList', action: 'projectAutocomplete' , via: 'GET' });
-
+  this.match('city-autocomplete',{ controller: 'list/rest/locationList', action: 'cityAutocomplete' , via: 'GET' });
   this.match('irx/home',{ controller : 'irx/home', action:'main', via:'GET'});
   
   /*
@@ -102,6 +102,8 @@ module.exports = function routes() {
   this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('list-associated-product/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('mark-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'POST' });
+  this.match('associate-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateLocation' , via: 'GET' });
+  this.match('delete-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteLocation' , via: 'GET' });
   
    // remove-distress
   // array of object having bhks which have been marked distress
@@ -120,6 +122,7 @@ module.exports = function routes() {
   */
   
   this.match("/prefered-agents/:projectId",{controller: 'project/rest/projectRest', action:'listPreferedAgents', via:'GET'});
+  this.match("/request-details/:projectId",{controller: 'project/rest/projectRest', action:'requestDetails', via:'GET'});
   
   /*
   * Last visited
@@ -131,7 +134,7 @@ module.exports = function routes() {
   * web urls
   */
   
-  this.root({ controller: 'general/pages', action: 'main' });
+
   this.match("public-profile",{controller: 'profile/public', action:'main', via:'GET'});
   // this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
@@ -144,6 +147,10 @@ module.exports = function routes() {
   
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
-
+  
+  /*
+  * root
+  */
+  this.root({controller: 'irx/home', action:'main', via:'GET'});
 }
   
