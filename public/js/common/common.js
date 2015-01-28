@@ -39,6 +39,13 @@ Common.prototype.init = function(first_argument) {
 		userId: ko.observableArray(),
 		tabID : ko.observable('login'),
 		password: ko.observable(),
+    emailId: ko.observable(''),
+    password : ko.observable(''),
+    type :ko.observable(''),
+    name :ko.observable(''),
+    register : function() {
+       classInstance.register();
+    },
 		openTab:function(tabID) {
 			classInstance.viewModel.tabID(tabID);
 			return false;
@@ -49,7 +56,9 @@ Common.prototype.init = function(first_argument) {
 
 	};
 	
-   
+   $('#login').on('change','._type_', function(){
+      classInstance.viewModel.type($(this).val())
+   })
      $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
             source: function(request, response){
@@ -100,6 +109,7 @@ Common.prototype.init = function(first_argument) {
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
  	ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
 	ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
+ // ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
 
 
 };
@@ -115,6 +125,23 @@ Common.prototype.login = function() {
 		}
 	})
 };		 
+Common.prototype.register = function() {
+  var classInstance = this;
+  httpUtils.post("/create-user",
+    {
+      emailId:classInstance.viewModel.emailId,
+      password:classInstance.viewModel.password,
+      name:classInstance.viewModel.name, 
+      type:classInstance.viewModel.type
+    },
+     {  },"JSON",function(data){
+    if(data.status==0){
+        alert(1)
+    }else {
+      
+    }
+  })
+};  
 Common.prototype.captureLeads = function(type) {
 	var classInstance = this;
 	var viewModel = null;

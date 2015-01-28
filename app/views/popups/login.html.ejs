@@ -43,13 +43,13 @@
           <label for="user">You are a</label>
           <div class="field">
             <div class="ui radio checkbox checked">
-              <input type="radio" checked="" name="user">
+              <input class="_type_" type="radio" data-bind="checked :type" value="user" >
               <label>Individual</label>
             </div>
           </div>
           <div class="field">
             <div class="ui radio checkbox checked">
-              <input type="radio" name="user">
+              <input class="_type_" type="radio" data-bind="checked :type" value="agent" >
               <label>Dealer</label>
             </div>
           </div>
@@ -57,17 +57,17 @@
         <div class="two fields">
           <div class="required field">
             <div class="ui input">
-              <input type="text" placeholder="Name">
+              <input type="text" data-bind="value:name" placeholder="Name">
             </div>
           </div>
           <div class="required field">
             <div class="ui input">
-              <input type="text" placeholder="Email">
+              <input type="text" data-bind="value:emailId" placeholder="Email">
             </div>
           </div>
           <div class="required field">
             <div class="ui input">
-              <input type="password" placeholder="Password">
+              <input type="password" data-bind="value:password" placeholder="Password">
             </div>
           </div>
           <div class="required field">
@@ -81,7 +81,7 @@
         <input type="checkbox" name="hot-deals">
         <label>I agree to the <a href="#">Terms of Service</a>.</label>
       </div>
-      <div class="action-button"><div class="ui button">register</div></div>      
+      <div class="action-button"><div class="ui button" data-bind="click: register">register</div></div>      
       <div class="ui horizontal divider">Or</div>
     </div>
     <div class="content fb-login">
@@ -134,13 +134,13 @@
           <label for="user">You are a</label>
           <div class="field">
             <div class="ui radio checkbox checked">
-              <input type="radio" checked="" name="user">
+              <input class="_type_" type="radio" data-bind="checked :type" value="user" >
               <label>Individual</label>
             </div>
           </div>
           <div class="field">
             <div class="ui radio checkbox checked">
-              <input type="radio" name="user">
+              <input class="_type_" type="radio" data-bind="checked :type" value="agent" >
               <label>Dealer</label>
             </div>
           </div>
@@ -148,17 +148,17 @@
         <div class="two fields">
           <div class="required field">
             <div class="ui input">
-              <input type="text" placeholder="Name">
+              <input type="text" data-bind="value:name" placeholder="Name">
             </div>
           </div>
           <div class="required field">
             <div class="ui input">
-              <input type="text" placeholder="Email">
+              <input type="text" data-bind="value:emailId" placeholder="Email">
             </div>
           </div>
           <div class="required field">
             <div class="ui input">
-              <input type="password" placeholder="Password">
+              <input type="password" data-bind="value:password" placeholder="Password">
             </div>
           </div>
           <div class="required field">
@@ -172,7 +172,7 @@
         <input type="checkbox" name="hot-deals">
         <label>I agree to the <a href="#">Terms of Service</a>.</label>
       </div>
-      <div class="action-button"><div class="ui button">register</div></div>      
+      <div class="action-button"><div class="ui button" data-bind="click: register">register</div></div>      
       <div class="ui vertical divider">Or</div>
     </div>
     <div class="four wide column fb-login">

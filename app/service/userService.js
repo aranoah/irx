@@ -29,6 +29,7 @@ var IRXLocationModel = require(_path_model+"/IRXLocation");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
 var IRXReviewInvitation = require(_path_model+"/IRXReviewInvitation");
 var IRXReviewModel = require(_path_model+"/IRXReview");
+var IRXLastVisitedModel = require(_path_model+"/IRXLastVisited");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
 var mongoose = require('mongoose');
@@ -639,4 +640,24 @@ UserService.prototype.review = function(data) {
 			)
 			
 	};
+	
+	UserService.prototype.listLastVisited = function(data){
+		var irxId = data.irxId;
+		var _selfInstance = this;
+		IRXLastVisitedModel.find({"agentId":irxId},{},{},
+					function(err,lastVisitedData){
+						if(err){
+								console.error(err)
+								_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+							} else{
+								if(lastVisitedData){
+									
+									_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,lastVisitedData.lastVisited,null);			
+								} else {
+									_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,new Array(),null);
+								}
+								
+							}		
+					})
+	}
 module.exports = UserService;

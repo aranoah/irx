@@ -36,7 +36,7 @@ EMAIL_UTILS.prototype.sendEmail=function(templateName,data,callback){
 		      if (err) {
 		        console.log(err);
 		      } else {
-			        _app_context.emailSender.sendMail({
+     			        _app_context.emailSender.sendMail({
 					   	from: "him-mail@aranoah.com", // sender address
 					   	to: data.userId, // comma separated list of receivers
 					  	subject: data.subject, // Subject line

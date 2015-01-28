@@ -43,4 +43,19 @@ projectRestController.getProjectDetails = function() {
     projService.getProjectDetails(_nself.req.params.projectId);
 };
 
+projectRestController.requestDetails = function() {
+    var projService = new projectService();
+    
+    var _nself = this;
+    projService.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    var agentId = _nself.getCurrentUserInfo(_nself).userId;
+    var data ={
+        "projectId": _nself.req.params.projectId,
+        "userId" : agentId
+    };
+
+    projService.requestDetails(data);
+};
 module.exports=projectRestController

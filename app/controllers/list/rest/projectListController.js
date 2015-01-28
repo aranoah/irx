@@ -35,8 +35,12 @@ projectController.listProjectsElastic = function() {
     	filters:_nself.req.body.filters,
     	page:_nself.req.body.page
     }
-  
-    projectListService.listProjectsElastic(userFilters);
+    if(_nself.req.body.filters.distress){
+      projectListService.listProjects(userFilters);
+    } else{
+       projectListService.listProjectsElastic(userFilters);
+    }
+   
 };
 
 projectController.listProjects = function() {
@@ -50,7 +54,7 @@ projectController.listProjects = function() {
       filters:_nself.req.body.filters,
       page:_nself.req.body.page
     }
-   console.log("yo yo ",userFilters)
+   
     projectListService.listProjects(userFilters);
 };
 

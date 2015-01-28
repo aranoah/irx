@@ -18,6 +18,32 @@
       searchType : ko.observable(""),
       sProAgents : ko.observable(false),
       projectId : ko.observable(""),
+      city : ko.observable(""),
+      showCity : ko.observable("city"),
+
+      minPrice : ko.observable(),
+      maxPrice : ko.observable(),
+
+      // showFilters : function () {
+      //   var filter = [];
+      //     if(name()!="")
+      //     filter.push(name())
+
+      //      if(bhk()!="")
+      //     filter.push(bhk())
+
+      //      if(name()!="")
+      //     filter.push(name())
+
+      //    if(type()!="")
+      //     filter.push(type())
+
+      //    if(city()!="")
+      //     filter.push(city())
+
+      //    if(price()!="")
+      //     filter.push(price())
+      // },
       searchF : function(formElement) {
         
         var self= this;
@@ -26,13 +52,18 @@
               name : self.name(),
               bhk : self.bhk(),
               order : self.order(),
-              projectId : self.projectId()        
+              projectId : self.projectId(),
+              city : self.city(),
+              minPrice : self.minPrice(),
+              maxPrice : self.maxPrice()     
             }; 
             
             if(self.searchType()=='project'){
               if(typeof(project)!="undefined"){
+                
                 _classInstance.fetchProjectResult(data)
               }else{
+               alert($('#_city_').val())
                $(formElement).attr('action','/project-listing')
                 return true;
               }
@@ -53,6 +84,7 @@
       }
          
     }
+     
     return viewModel;
   }
 
@@ -61,6 +93,59 @@
     var _classInstance = this;
 
     _classInstance.viewModel = _classInstance.getViewModel();
+
+   _classInstance.viewModel.minPriceText = ko.pureComputed(function() {
+        var minPrice =  _classInstance.viewModel.minPrice();
+        var minPriceText = "";
+        if(minPrice){
+          return _classInstance.getPriceText(minPrice)
+        }else{
+          return minPrice;
+        }
+        
+    }, _classInstance.viewModel);
+
+   _classInstance.viewModel.maxPriceText = ko.pureComputed(function() {
+
+        var maxPrice =  _classInstance.viewModel.maxPrice();
+        var minPriceText = "";
+        if(maxPrice){
+          var minPrice = _classInstance.viewModel.minPrice;
+          if(minPrice && maxPrice<minPrice){
+            
+            _classInstance.viewModel.minPrice(100)
+          } 
+          
+          return _classInstance.getPriceText(maxPrice)
+        }else{
+          return maxPrice;
+        }
+
+    }, _classInstance.viewModel);
+
+    $('#searchF').on('change','#_city_',function(){
+      var city = $(this).val();
+      city = city.replace(/&nbsp;/gi,'')
+      city = city.trim();
+      _classInstance.viewModel.city(city)
+      localStorage.setItem("city", city);
+    });
+    $('#searchF').on('click','._budgetItem_',function(){
+      var minPrice = $('#_budget_').find(".minP").val();
+      var maxPrice = $('#_budget_').find(".maxP").val();
+      if(minPrice){
+        _classInstance.viewModel.minPrice(minPrice)
+      }
+      if(maxPrice){
+        _classInstance.viewModel.maxPrice(maxPrice)
+      }
+    });
+    
+
+    // $(".min").focus(function(){
+    //   $(".min").toggleClass("active");
+    //   $(".__visible").toggleClass("hidden")
+    // });
      $("#__searchAuto").autocomplete({
            
             source: function(request, response){
@@ -96,9 +181,7 @@
                 var type="";
                 var icon ="";
                 if(item.type){
-                  
                   type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
-
                 }
 
                 if(item.type=='irx-euser') {
@@ -108,9 +191,25 @@
                 }
                  return $( "<li class='ui divided list'>" ).append( "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>" ).appendTo(ul);
               };  
-   
+
     ko.applyBindings(_classInstance.viewModel,document.getElementById('searchF'));
   }
+  SearchBar.prototype.getPriceText = function(amount) {
+    var text = "";
+    if(amount.length==4 || amount.length==5){
+        amount = Number(amount)/1000;
+        text = amount+"K";
+      } else if(amount.length==6 || amount.length==7){
+        amount = Number(amount)/100000;
+        text = amount+"Lac";
+      } else if(amount.length>8){
+        amount = Number(amount)/10000000;
+        text = amount+"Cr";
+      } else {
+        text = amount
+      }
+      return text;
+  };
    SearchBar.prototype.fetchProjectResult=function(data){
       var classInstance = this;
       
@@ -169,11 +268,11 @@
       var classInstance = this;
       httpUtils.get("/project-autocomplete",{"text":text},"JSON",function(data){
         if(data.status==0){
-       
+         
           response($.map(data.result, function(item) {
                         
-                        return {id:item._source.id,name:item._source.name,location:item._source.location};
-                      }));
+            return {id:item._source.id,name:item._source.name,location:item._source.location};
+          }));
         }
     })
     }
@@ -181,11 +280,11 @@
       var classInstance = this;
       httpUtils.get("/autocomplete",{"text":text},"JSON",function(data){
         if(data.status==0){
-       
+         
           response($.map(data.result, function(item) {
                         
-                        return {id:item._source.id,name:item._source.name,type:item._type};
-                      }));
+            return {id:item._source.id,name:item._source.name,type:item._type};
+          }));
         }
     })
     }
@@ -194,4 +293,12 @@ $(document).ready(function(){
 
    sBar = new SearchBar();
   sBar.init();
+  var city = localStorage.getItem("city");
+  if(city){
+    sBar.viewModel.showCity(city)
+    sBar.viewModel.city(city)
+  } else{
+    sBar.viewModel.showCity("city")
+  }
+
 })

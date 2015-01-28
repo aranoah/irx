@@ -17,6 +17,7 @@
 **/
 var CONSTANTS = require(_path_util+'/constants');
 var mongoErr = require(_path_util+'/mongo-error')
+var MAIL_TYPE = CONSTANTS.MAIL_TYPE;
 var STATUS = CONSTANTS.him_status;
 
 var defPage = CONSTANTS.def_page;
@@ -119,6 +120,34 @@ ProjectService.prototype.listPreferedAgents = function(projectId) {
 
 
 
+}
+
+/* Request Details of a project . Sends a mail with the url of project details*/
+
+ProjectService.prototype.requestDetails = function(data){
+			var _selfInstance= this;
+
+			var qObj = {
+				"action":MAIL_TYPE.PROJECT_DETAILS,
+				"data" : data
+			}
+			var strQObj = JSON.stringify(qObj)
+			
+			_app_context.sqs.sendMessage({
+	        	"QueueUrl" : _app_context.qUrl,
+	        	"MessageBody" : strQObj
+	     	 }, function(err, data){ 
+	     	      if(err){
+	     	      	console.log("Error putting in queue")
+	     	      	_selfInstance.emit("done",STATUS.ERROR.code,"Error putting in queue",null,null);
+	     	    
+					return;
+	     	      } else{
+	     	      	console.log("Successfully queued")
+	     	      	_selfInstance.emit("done",STATUS.OK.code,"Successfully queued",null,null);
+					return;
+	     	      }         
+	      });	
 }
 
 module.exports = ProjectService;

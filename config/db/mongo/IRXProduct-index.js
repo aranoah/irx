@@ -1,0 +1,1 @@
+db.irxproductlines.ensureIndex( { name: "text" } )

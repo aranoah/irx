@@ -329,13 +329,9 @@
 ********************/
 
 .ui.items.proj-listing.column {
-	width: 49% !important;
-	margin: 0 0 1.4rem;
+	margin-bottom: 0 !important;
+	position: relative;
 }
-.ui.items.proj-listing.column:nth-child(odd) {
-	margin-right: 1.4rem;
-}
-
 .header.ui.two.column.grid.right.menu {
 	padding: 0;
 	margin: 0;
@@ -436,11 +432,11 @@
 	width: 98%;
 }
 
-.proj-listing .social-share {
+/*.proj-listing .social-share {
 	position: absolute;
 	bottom: 1rem;
 	right: 1rem;
-}
+}*/
 
 .proj-listing .social-share>.ui.button {
 	padding: .5rem;
@@ -488,6 +484,10 @@
 	color: #607d8b;
 }
 
+.proj-listing .ui.buttons {
+	margin-top: 2rem;
+}
+
 .proj-listing .ui.buttons>div {
 	border: 0 !important;
 	border-radius: 0 !important;
@@ -501,8 +501,47 @@
 	margin: 0 .75rem .5rem 0;
 }
 
-.proj-listing .ui.buttons>.ui.button:hover {
+.proj-listing .ui.buttons>div:hover {
 	background-color: #607d8b !important;
 	color: #fff !important;
+	cursor: pointer;
+}
+
+.proj-listing table, .proj-listing table tr td {
+	border: 0 !important;
+}
+.proj-listing table tr td {
+	text-transform: capitalize;
+	font-size: 1rem;
+}
+
+.proj-listing .ui.medium.image {
+	position: relative;
+}
+
+.proj-listing .ui.medium.image>.slider {
+	position: absolute;
+	padding: 1.2rem;
+	background: rgba(0,0,0,0.5);
+	bottom: 0;
+	width: 100%;
+}
+
+.proj-listing .ui.medium.image>.slider>i.icon, .proj-listing .ui.medium.image>.slider>span {
+	position: absolute;
+	top: 30%;
+	font-size: 1rem;
+	color: #fff;
+}
+
+.proj-listing .ui.medium.image>.slider>span {
+	left: 32%;
+	padding: 0 1rem;
+}
+.proj-listing .ui.medium.image>.slider>i.icon.chevron.right {
+	left: 65%;
+}
+.proj-listing .ui.medium.image>.slider>i.icon.chevron.left {
+	left: 25%;
 }
 
