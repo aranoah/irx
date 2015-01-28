@@ -1,0 +1,29 @@
+/************
+  aboutus
+*************/
+
+
+.irx-misc .column>h4.ui.header {
+	color: #00bcd4;
+	background: #fff;
+	padding: 1rem;
+	font-weight: 500;
+}
+
+.column>h5.ui.header{
+	background: #fff;
+	padding: 1rem;
+	margin-top: -.8rem;
+	font-weight: 400;
+	font-size: .8rem;
+	color: #B0B0B0;
+	line-height: 22px;
+}
+
+.column>.six.wide.column{
+	background: #fff;
+	padding: 8rem;
+}
+.irx-misc.ui.very.relaxed.stackable.page.grid{
+	padding-top: 6rem;
+}
