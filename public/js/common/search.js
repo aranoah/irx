@@ -192,7 +192,7 @@
                 }
                 var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
                 if(item.id == -1){
-                    data = "<div class='itLabel header'>Press search ..</div>"
+                    data = "<div class='itLabel header _enter_'>Press enter to search...</div>"
                 }
                  return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
                 
