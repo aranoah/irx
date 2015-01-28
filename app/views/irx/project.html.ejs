@@ -68,9 +68,30 @@
 	  	<!-- For mobile and tablet -->
 
 	  		<div class="ui grid rib-head mobile tablet only">
-		    	<h2 class="ui header">Showing results for
-		    		<a ><!--ko text: name--><!--/ko--> ddddd </a>
-		    	</h2>
+		    	<h2 class="ui header column">Showing results for 
+
+	    		<!--ko text: filters.displayName--><!--/ko-->
+	    		
+	    		<div class=""><!--ko text: filters.bhk--><!--/ko-->
+	    			<!--ko if: filters.bhk() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+
+	    		
+	    		<div><!--ko text: filters.type--><!--/ko-->
+	    			<!--ko if: filters.type() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('type')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+				
+				<div><!--ko text: filters.status--><!--/ko-->
+	    			<!--ko if: filters.status() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+	    		
+	    	</h2>
 		    	<div class="ui grid">  
 				  <div class="row">
 				    <div class="eight wide column">
@@ -86,6 +107,20 @@
 							</div>
 						</div>
 				    </div>
+				    <div class="six wide column">
+						<div class="ui floating labeled icon dropdown button" style="padding: 10px;font-weight: 400;color: #000000;">
+							<input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
+							<div class="default text">status</div>
+							<i class="angle down icon"></i>
+							<div class="menu">
+								<div class="item" data-value="apartments">Apartment</div>
+								<div class="item" data-value="independent house">Independent House</div>
+								<div class="item" data-value="villas">Villas</div>
+								<div class="item" data-value="plot">Plot</div>
+								<div class="item" data-value="row house">Row House</div>
+							</div>
+						</div>
+					</div>
 				    <div class="eight wide column">
 				    	<div class="ui selection dropdown item">
 							<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
@@ -98,7 +133,10 @@
 						    <i class="sort right icon"></i>
 						</div>
 				    </div>
-				    
+				    <div class="ui checkbox _hasDistress_">
+					    <input type="checkbox" name="distress">
+					    <label>Show Distress</label>
+					</div>
 				  </div>
 				</div>
 		    </div>
@@ -109,9 +147,26 @@
 	    	<h2 class="ui header column">Showing results for 
 
 	    		<!--ko text: filters.displayName--><!--/ko-->
-	    		<!--ko text: filters.bhk--><!--/ko-->
-	    		<!--ko text: filters.type--><!--/ko-->
-	    		<!--ko text: filters.status--><!--/ko-->
+	    		
+	    		<div class=""><!--ko text: filters.bhk--><!--/ko-->
+	    			<!--ko if: filters.bhk() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+
+	    		
+	    		<div><!--ko text: filters.type--><!--/ko-->
+	    			<!--ko if: filters.type() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('type')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+				
+				<div><!--ko text: filters.status--><!--/ko-->
+	    			<!--ko if: filters.status() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+	    		
 	    	</h2>
 	    	<div class="header ui two column grid right menu">
 				<div class="six wide column">
@@ -155,10 +210,10 @@
 				    <input type="checkbox" name="distress">
 				    <label>Show Distress</label>
 				</div>
-				<div class="ui checkbox _hasDistress_">
+				<!-- <div class="ui checkbox _hasDistress_">
 				    <input type="checkbox" name="distress">
 				    <label>Show Distress</label>
-				</div>
+				</div> -->
 	    	</div>
 	    </div>
 
@@ -405,6 +460,12 @@
 			},
 			applyFilters : function(){
 
+				_classInstance.resetPage();
+				_classInstance.listProjects(true);
+				return true;
+			},
+			removeFilters : function(filterName){
+				_classInstance.viewModel.filters[filterName]("");
 				_classInstance.resetPage();
 				_classInstance.listProjects(true);
 				return true;
