@@ -109,7 +109,7 @@
 				    </div>
 				    <div class="six wide column">
 						<div class="ui floating labeled icon dropdown button" style="padding: 10px;font-weight: 400;color: #000000;">
-							<input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
+							<input type="hidden" name="status" data-bind="value:filters.status, event: {  change:function(){applyFilters()} }">
 							<div class="default text">status</div>
 							<i class="angle down icon"></i>
 							<div class="menu">
@@ -123,7 +123,7 @@
 					</div>
 				    <div class="eight wide column">
 				    	<div class="ui selection dropdown item">
-							<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
+							<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:function(){applyFilters()} }">
 						    Sort by
 						    <div class="menu">
 						      <div class="item" data-value="asc">Newest</div>
@@ -171,7 +171,7 @@
 	    	<div class="header ui two column grid right menu">
 				<div class="six wide column">
 					<div class="ui floating labeled icon dropdown button" style="padding: 10px;font-weight: 400;color: #000000;">
-						<input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
+						<input type="hidden" name="type" data-bind="value:filters.type, event: {change:function(){applyFilters()} }">
 						<div class="default text">Property Type</div>
 						<i class="angle down icon"></i>
 						<div class="menu">
@@ -185,7 +185,7 @@
 				</div>
 				<div class="six wide column">
 					<div class="ui floating labeled icon dropdown button" style="padding: 10px;font-weight: 400;color: #000000;">
-						<input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
+						<input type="hidden" name="status" data-bind="value:filters.status, event: {  change:function(){applyFilters()} }">
 						<div class="default text">status</div>
 						<i class="angle down icon"></i>
 						<div class="menu">
@@ -197,7 +197,7 @@
 					</div>
 				</div>
 				<div class="ui selection dropdown item">
-					<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
+					<input type="hidden" name="order" data-bind="value:filters.order, event: {  change:function(){applyFilters()} }">
 				    Sort by relevance
 				    <div class="menu">
 				      <div class="item" data-value="asc">Newest</div>
@@ -220,8 +220,54 @@
 	    <!-- Project Listing goes here -->
 	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
-	    	No Search Results
+	    	No Search Results for this search. Showing agents in your city
 	    </div>
+	    <div class="ui cards sc" data-bind="foreach : agents">
+
+		  <div class="card">
+		    <div class="ui image tiny">
+		      <img src="/images/elliot.jpg">
+		    </div>
+		    <div class="content">
+
+		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
+		      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
+
+		      <div class="content addr-ess">
+    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+    		  </div>
+		      <div class="description">
+		        Specialities : 
+		        <span data-bind="foreach : specialities" style="margin-right:0;">
+			        <!-- ko if:$index()<=1 -->
+			        	<span class="header" data-bind="text : $data"></span>
+			        	 <!-- ko if:$index()==0 -->
+			        	 	<span class="header">,</span>
+			        	 <!-- /ko -->
+			        <!-- /ko -->
+			    </span>
+		        <span data-bind="if:specialities.length>2">
+		        (+
+		        	<span class="header" data-bind="text : specialities.length-2"></span>)
+		        </span>
+		       </div>
+		    </div>
+		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
+		    <div class="extra content">
+		      <div class="right floated created">
+		        <a href=""><i class="facebook square icon"></i></a>
+		        <a href=""><i class="share square icon"></i></a>
+		      </div>
+		      <a class="friends">
+		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
+		         &nbsp;&nbsp;Projects
+		      </a><a class="friends">
+		        <i class="location arrow icon"></i>
+		        22 Locations
+		      </a>
+		    </div>
+		  </div>					  
+		</div>
 	    <div data-bind="foreach : projects" style="margin:2rem 0;">
 	    	<div class="ui items proj-listing column">
   				<a class="ui green ribbon label">Distress</a>
@@ -232,9 +278,9 @@
 					</div>					
 					<div class="right floated column menu">						
 					  	<div class="social-share">
-					  		<div class="ui facebook button"><i class="facebook icon"></i>Like</div>
-					  		<div class="ui teal button"><i class="share icon"></i>share</div>
-					  	</div>			    	
+						  	<div class="fb-like " data-bind="attr: { 'data-href': 'http://122.176.220.113:3000/project/'+ id }" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+						  		<!--<div class="ui teal button"><i class="share icon"></i>share</div>-->
+					  	</div>				    	
 					</div>
 				</div>
 				<div class="item">
@@ -334,6 +380,7 @@
   			}else{
   				_classInstance.viewModel.filters.distress(false);
   			}
+  			
   			_classInstance.listProjects(true)
   		})
   		$(document).on('click','#_leadP_', function(){
@@ -444,7 +491,7 @@
 		 }
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
-
+			agents : ko.observableArray(),
 			filters: {
 				displayName:ko.observable("All"),
 				name:ko.observable(filterName),
@@ -459,12 +506,13 @@
 				//_classInstance.listProjects(true);
 			},
 			applyFilters : function(){
-
+				
 				_classInstance.resetPage();
 				_classInstance.listProjects(true);
 				return true;
 			},
 			removeFilters : function(filterName){
+				
 				_classInstance.viewModel.filters[filterName]("");
 				_classInstance.resetPage();
 				_classInstance.listProjects(true);
@@ -483,6 +531,7 @@
 		}
 				
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
+		 
 		_classInstance.listProjects(true);
 	};
 
@@ -548,7 +597,17 @@
 
 	}
 	
+	Project.prototype.listLocationAgent = function() {
+		var classInstance = this;
+		httpUtils.post("/list-agents",{filters:{"city":""},page:{"start":0,"pageSize":5}},{},"JSON",function(data){
+	    		if(data.result != null && data.result.length !=0 ){
+	    			classInstance.viewModel.agents([])
+	    			 ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
+	    		}	
+	      })
+	}
 	Project.prototype.listProjects = function(replace,setUpdate) {
+		
 		var classInstance = this;
 		//alert(classInstance.viewModel.filters.type)
     	
@@ -556,7 +615,13 @@
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
-	       	} 
+	       	}
+	       	if(data.result == null || data.result.length == 0){
+	       		classInstance.listLocationAgent();
+	       		return;
+	       	} else{
+	       		classInstance.viewModel.agents([]);
+	       	}
 	       	var arr = data.result;
 		 		for (var i=0;i<arr.length;i++){
 		 			

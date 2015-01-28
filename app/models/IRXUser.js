@@ -25,6 +25,7 @@ var IRXUserProfileSchema =new mongoose.Schema({
    password:{type:String,required:true},
    location:{city:String,state:String,country:String,name:String,pincode:String,lat:Number,lon:Number},
    locationProjects:{type:Array},
+   projects:{type:Array},
    type:{type:String,required:true},
    companyName: {type:String},
    imageUrl:{type:String},
