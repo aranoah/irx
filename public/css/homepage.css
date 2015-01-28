@@ -115,6 +115,9 @@
 	border-right: 1px solid #808080;
 	font-weight: 300;
 }
+#search-box .inline.fields>.ui.dropdown.field{
+	border-right: 1px solid #808080;
+}
 
 #search-box .inline.fields>.field>a.link {
 	color: #fff;
@@ -129,7 +132,7 @@
 }
 #search-box .ui.fluid.search.selection.dropdown.field i {
 	float: right;
-	color: #DDD !important;
+	color: #9D9D9D !important;
 }
 #search-box .ui.fluid.search.selection.dropdown.field .text, #search-box .ui.fluid.search.selection.dropdown.field input {
 	color: rgba(182, 182, 182, 0.82) !important;
