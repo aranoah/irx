@@ -161,6 +161,7 @@
               cache: false,
               appendTo:'#autoDiv',
               select: function( event, ui ) {
+                  
                   $('#__searchAuto').val(ui.item.name)
                    _classInstance.viewModel.name(ui.item.name);
                    if(_classInstance.viewModel.searchType()=='agent'){
@@ -189,7 +190,12 @@
                 }else {
                   icon ="<i class='icon building outline right floated'></i>"
                 }
-                 return $( "<li class='ui divided list'>" ).append( "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>" ).appendTo(ul);
+                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
+                if(item.id == -1){
+                    data = "<div class='itLabel header'>Press search ..</div>"
+                }
+                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+                
               };  
 
     ko.applyBindings(_classInstance.viewModel,document.getElementById('searchF'));
@@ -267,9 +273,15 @@
     SearchBar.prototype.projectAutocomplete=function(text,request,response){
       var classInstance = this;
       httpUtils.get("/project-autocomplete",{"text":text},"JSON",function(data){
-        if(data.status==0){
-         
-          response($.map(data.result, function(item) {
+       if(data.status==0){
+        
+          var arr = data.result;
+         if(data.result == null){
+          arr = new Array();
+         }
+         console.log(arr)
+         arr.push({_source:{id:-1}})
+          response($.map(arr, function(item) {
                         
             return {id:item._source.id,name:item._source.name,location:item._source.location};
           }));
@@ -280,7 +292,12 @@
       var classInstance = this;
       httpUtils.get("/autocomplete",{"text":text},"JSON",function(data){
         if(data.status==0){
-         
+           var arr = data.result;
+         if(data.result == null){
+          arr = new Array();
+         }
+         console.log(arr)
+         arr.push({_source:{id:-1}})
           response($.map(data.result, function(item) {
                         
             return {id:item._source.id,name:item._source.name,type:item._type};
