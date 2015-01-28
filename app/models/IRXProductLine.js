@@ -23,13 +23,13 @@ var IRXProductLineSchema =new mongoose.Schema({
    id:{type:String,required:true},
    name:{type:String,required:true},
    location:{name:String,city:String,state:String,country:String,locality:String,pincode:String,latitude:Number,longitude:Number},
-   type:{type:String,required:true},//rent,sell
+   type:{type:String,required:true},//villa,plot etc
    description: {type:String},
    profileImage:{type:String},
    bhk:{type:Array},
    gallery:[{url:String}],
-   builtUpArea:[{lowerRange:Number, higerRange:Number, unit:String}],
-   price: {type:String},
+   builtUpArea:{type:String},
+   price: {type:Array},
    possession :{type:String},
    builderName:{type:String},
    productType :{type:String},//project or location
@@ -38,7 +38,8 @@ var IRXProductLineSchema =new mongoose.Schema({
    agentCounter:{type:Number},
    rank:{type:Number},//indexing
    prefferedAgents:{type:Array},
-   distress : {type:Number}
+   distress : {type:Number},
+   status : {type:String}
 
 });
 

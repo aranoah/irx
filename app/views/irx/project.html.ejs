@@ -113,7 +113,7 @@
 						<div class="default text">Property Type</div>
 						<i class="angle down icon"></i>
 						<div class="menu">
-						<div class="item" data-value="apartment">Apartment</div>
+						<div class="item" data-value="apartments">Apartment</div>
 						<div class="item" data-value="independent house">Independent House</div>
 						<div class="item" data-value="villas">Villas</div>
 						<div class="item" data-value="plot">Plot</div>
@@ -198,12 +198,16 @@
 						      <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
 						    </tr>
 						    <tr>
-						      <td>Possesion Date</td>
+						      <td>Possesion</td>
 						      <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
 						    </tr> 
 						    <tr>
 						      <td>Area</td>
-						      <td><a href="javascript:void(0)" class="header proContent">							937Sq ft - 1250 Sq ft</a></td>
+						      <td><a href="javascript:void(0)" class="header proContent">							<!--ko text: builtUpArea--><!--/ko--></a></td>
+						    </tr>
+						    <tr>
+						      <td>Status</td>
+						      <td><a href="javascript:void(0)" class="header proContent">							<!--ko text: status--><!--/ko--></a></td>
 						    </tr>
 						  </tbody>
 						</table>
