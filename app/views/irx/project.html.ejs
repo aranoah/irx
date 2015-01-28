@@ -111,11 +111,12 @@
 	    		<!--ko text: filters.displayName--><!--/ko-->
 	    		<!--ko text: filters.bhk--><!--/ko-->
 	    		<!--ko text: filters.type--><!--/ko-->
+	    		<!--ko text: filters.status--><!--/ko-->
 	    	</h2>
 	    	<div class="header ui two column grid right menu">
 				<div class="six wide column">
 					<div class="ui floating labeled icon dropdown button" style="padding: 10px;font-weight: 400;color: #000000;">
-						<input type="hidden" name="order" data-bind="value:filters.type, event: {  change:applyFilters }">
+						<input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
 						<div class="default text">Property Type</div>
 						<i class="angle down icon"></i>
 						<div class="menu">
@@ -124,6 +125,19 @@
 						<div class="item" data-value="villas">Villas</div>
 						<div class="item" data-value="plot">Plot</div>
 						<div class="item" data-value="row house">Row House</div>
+						</div>
+					</div>
+				</div>
+				<div class="six wide column">
+					<div class="ui floating labeled icon dropdown button" style="padding: 10px;font-weight: 400;color: #000000;">
+						<input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
+						<div class="default text">status</div>
+						<i class="angle down icon"></i>
+						<div class="menu">
+						<div class="item" data-value="ongoing">ongoing</div>
+						<div class="item" data-value="completed">completed</div>
+						<div class="item" data-value="upcoming">upcoming</div>
+						
 						</div>
 					</div>
 				</div>
@@ -136,6 +150,10 @@
 				      <div class="item" data-value="asc">Price : Low to High</div>
 				    </div>
 				    <i class="sort right icon"></i>
+				</div>
+				<div class="ui checkbox _hasDistress_">
+				    <input type="checkbox" name="distress">
+				    <label>Show Distress</label>
 				</div>
 				<div class="ui checkbox _hasDistress_">
 				    <input type="checkbox" name="distress">
@@ -178,8 +196,8 @@
 						<div class="extra">
 							<h3 class="ui header">
 								<i class="rupee icon"></i>
-								<!-- ko if:Array.isArray(price) -->
-									<!-- ko foreach:price -->
+								<!-- ko if:Array.isArray(priceText) -->
+									<!-- ko foreach:priceText -->
 										<!-- ko if:$index -->-<!-- /ko -->
 											<!-- ko if:$data != 0 -->
 												<!-- ko text:$data --><!-- /ko -->
@@ -189,8 +207,8 @@
 											<!-- /ko -->
 									<!-- /ko -->
 								<!-- /ko -->
-								<!-- ko if:!Array.isArray(price) -->
-									<!-- ko text:price --><!-- /ko -->
+								<!-- ko if:!Array.isArray(priceText) -->
+									<!-- ko text:priceText --><!-- /ko -->
 								<!-- /ko -->
 							</h3>
 						</div>
@@ -378,7 +396,8 @@
 				bhk:ko.observable(filterBhk),
 				type:ko.observable(filterType),
 				order:ko.observable("asc"),
-				distress:ko.observable(false)
+				distress:ko.observable(false),
+				status:ko.observable("")
 			},
 			addSome : function(){
 				
@@ -401,6 +420,7 @@
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
 		}
+				
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
 		_classInstance.listProjects(true);
 	};
@@ -417,7 +437,23 @@
 		var _classInstance=this;
 		_classInstance.page.start=0;
 	}
-	
+	Project.prototype.getPriceText = function(amount) {
+		
+    var text = "";
+    if(amount.length==4 || amount.length==5){
+        amount = Number(amount)/1000;
+        text = amount+"K";
+      } else if(amount.length==6 || amount.length==7){
+        amount = Number(amount)/100000;
+        text = amount+"Lac";
+      } else if(amount.length>8){
+        amount = Number(amount)/10000000;
+        text = amount+"Cr";
+      } else {
+        text = amount
+      }
+      return text;
+  };
 	Project.prototype.requestDetails = function(projectId) {
 		httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
        if(data.status==0){
@@ -460,7 +496,27 @@
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	} 
-	       ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+	       	var arr = data.result;
+		 		for (var i=0;i<arr.length;i++){
+		 			
+		 			var price =  arr[i].price;
+			        var aPriceArr = new Array();
+
+			        for (var j=0;j<price.length;j++){
+			        	var aPrice = price[j];
+			        	
+			        	 if(aPrice){
+				          var aPriceText =  classInstance.getPriceText(""+aPrice)
+
+				          aPriceArr.push(aPriceText);
+				        }else{
+				         aPriceArr.push(aPrice);
+				        }
+			        }
+			       arr[i].priceText =  aPriceArr;
+		 		}
+			
+	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;

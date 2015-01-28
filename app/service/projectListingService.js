@@ -95,7 +95,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		page = defPage;
 		
 	}
-	
+
 	if(filters && filters.city != null &&  filters.city != "") {
 		//query.push(location={city:filters.city};
 			var match = {
@@ -110,6 +110,14 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		var match = {
 			"match":{
 				"type":filters.type
+			}
+		}
+		query.push(match);
+	}
+	if(filters && filters.status != null &&  filters.status != "") {
+		var match = {
+			"match":{
+				"status":filters.status
 			}
 		}
 		query.push(match);
