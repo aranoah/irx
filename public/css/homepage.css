@@ -24,10 +24,7 @@
 }
 #homescreen h1.ui.inverted.header {
 	padding-top: 1.5rem;
-	font-weight: 300;
-	font-size: 1rem;
-	letter-spacing: 2px;
-	color: rgba(182, 182, 182, 0.82) !important;
+	font-weight: normal;
 }
 
 #homescreen .ui.form .field {
@@ -226,17 +223,31 @@
 	padding: 0;
 }
 
-#agentContent .ui.grid.two.column.rib-head {
+#agentContent .rib-head, #projectContent .rib-head {
 	padding: 0 !important;
 	border-bottom: 1px solid #eaeaea !important;
 }
 
+#projectContent .ui.menu.rib-head {
+	background: inherit !important;
+	box-shadow: none !important;
+}
+
+#projectContent .ui.menu.rib-head>.right.menu>.item:before {
+	background: inherit; !important;
+}
+
 #agentContent .rib-head>h2, #projectContent .rib-head>h2 {
+	background: inherit;
 	margin: 1rem 0;
 	padding: 0;
 	font-size: 1.2rem;
 	font-weight: 400;
 	color: #7b7b7b;
+}
+
+#projectContent .rib-head .ui.grid>div {
+	padding: 0 !important;
 }
 
 #agentContent .rib-head>.right.menu {
@@ -500,7 +511,11 @@
 	margin: 0 .75rem .5rem 0;
 }
 
-.proj-listing .ui.buttons>div:hover {
+.proj-listing .ui.buttons>div>a {
+	color: #607d8b !important;	
+}
+
+.proj-listing .ui.buttons>div:hover, .proj-listing .ui.buttons>div>a:hover {
 	background-color: #607d8b !important;
 	color: #fff !important;
 	cursor: pointer;
@@ -521,7 +536,7 @@
 .proj-listing .ui.medium.image>.slider {
 	position: relative;
 	padding: 1.2rem;
-	background: #00B5AD;
+	background: #446C6A;
 }
 
 .proj-listing .ui.medium.image>.slider>i.icon, .proj-listing .ui.medium.image>.slider>span {
@@ -537,8 +552,10 @@
 }
 .proj-listing .ui.medium.image>.slider>i.icon.chevron.right {
 	left: 65%;
+	cursor: pointer;
 }
 .proj-listing .ui.medium.image>.slider>i.icon.chevron.left {
 	left: 25%;
+	cursor: pointer;
 }
 

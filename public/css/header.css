@@ -28,7 +28,7 @@ body {
 
   #header.ui.inverted.menu>* {
    padding: 0.6rem !important;
-   font-weight: 300;
+   font-weight: 400;
   }#header.ui.inverted.menu .header {
     margin: .5rem 1rem;
     font-weight: bold;
@@ -92,7 +92,8 @@ body {
 }
 
 #searchbar .cont-ainer {
-  padding: 0.5rem 6% 0.5rem 6%;
+  padding: 0.5rem 0 0.5rem 0;
+  text-align: center;
 }
 
 #searchbar .cont-ainer.search-menu>.item {
@@ -631,6 +632,12 @@ margin-right: 1rem;
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
   }
+
+  .proj-listing .ui.medium.image>.slider {
+    position: absolute;
+    width: 23.8rem;
+    bottom: 0;
+}
 }
 
 @media only screen and (max-width : 992px) {

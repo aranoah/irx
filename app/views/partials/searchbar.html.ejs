@@ -125,25 +125,20 @@
           </div>
       </div>
       <div class="item">
-        <div class="ui selection dropdown">
-          <input type="hidden" data-bind="value: searchType" name="searchType">
-          <div class="default text">Select</div>
-          <i class="angle down icon"></i>
-          <div class="menu">
-            <div class="item" data-value="project">Project</div>
-            <div class="item" data-value="agent">Agent</div>
+        <div class="ui labeled input">
+          <input type="hidden" data-bind="value: searchType" name="searchType">  
+          <div class="ui dropdown label">
+            <div class="text">Select</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item">Projects</div>
+              <div class="item">Agents</div>
+            </div>
           </div>
+          <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
         </div>
       </div>
-      
-       <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
-      <div class="item">
-        <div class="ui icon input">
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name"><i class="search icon"></i>
-        </div>
-
-      </div>
-
       <div class="item">
         <div class="ui selection dropdown">
           <input type="hidden" data-bind="value: bhk" name="bhk">
