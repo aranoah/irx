@@ -174,7 +174,12 @@
 								<!-- ko if:Array.isArray(price) -->
 									<!-- ko foreach:price -->
 										<!-- ko if:$index -->-<!-- /ko -->
-										<!-- ko text:$data --><!-- /ko -->
+											<!-- ko if:$data != 0 -->
+												<!-- ko text:$data --><!-- /ko -->
+											<!-- /ko -->
+											<!-- ko if:$data == 0 -->
+												Not Available
+											<!-- /ko -->
 									<!-- /ko -->
 								<!-- /ko -->
 								<!-- ko if:!Array.isArray(price) -->
@@ -189,7 +194,7 @@
 						      <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builderName--><!--/ko--></a></td>
 						    </tr>
 						    <tr>
-						      <td>Type</td>
+						      <td>Property Type</td>
 						      <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
 						    </tr>
 						    <tr>
@@ -275,7 +280,7 @@
 				 { },"JSON",function(data){
 				if(data.status==0){
 			       alert(1)
-				}else {
+				} else {
 					
 				}
 			})
