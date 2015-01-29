@@ -73,6 +73,30 @@
 	          <!--ko text: filters.type--><!--/ko-->
 	          <!--ko text: filters.status--><!--/ko--></span>
 	        </h2>
+	        <h2 class="ui header column">Showing results for 
+
+	    		<!--ko text: filters.displayName--><!--/ko-->
+	    		
+	    		<div class=""><!--ko text: filters.bhk--><!--/ko-->
+	    			<!--ko if: filters.bhk() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+
+	    		
+	    		<div><!--ko text: filters.type--><!--/ko-->
+	    			<!--ko if: filters.type() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('type')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+				
+				<div><!--ko text: filters.status--><!--/ko-->
+	    			<!--ko if: filters.status() != "" -->
+						<i data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i>
+					<!--/ko-->
+				</div>
+	    		
+	    	</h2>
 	        <div class="right menu">
 		        <div class="item">
 		          <div class="ui right labeled icon dropdown button">
