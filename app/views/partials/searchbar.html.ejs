@@ -86,7 +86,7 @@
     ._searchInput_ .ui.dropdown.label {
       position:absolute;
       top:0;right:0;
-      padding-top: 0.7em;
+      padding-top: 0.75em;
       padding-bottom: .75em;
     }
   </style>
@@ -97,12 +97,21 @@
   
     <div class="ui grid smenu-hide mobile tablet only">
       <div class="ui mobile row" tabindex="0">
-        <div class="item twelve wide column">
-          <div class="ui icon input">
-            <input type="text" placeholder="Search..." >
-            <i class="search icon"></i>
+        <div class="item _searchInput_ twelve wide column">
+        <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
+        <div class="ui right labeled input" style="border-radius:0;">
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
+          <div class="ui dropdown teal label">
+            <input type="hidden" data-bind="value: searchType" name="searchType">
+            <div class="text">Select</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="project">Projects</div>
+              <div class="item" data-value="agent">Agents</div>
+            </div>
           </div>
         </div>
+      </div>
         <div class="item filter ui dropdown link four wide column">
           Filter
           <i class="filter icon search-filter"></i>
@@ -142,6 +151,24 @@
           </div>
         </div>
       </div>
+      <!-- search input here -->
+
+      <div class="item _searchInput_">
+        <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
+        <div class="ui right labeled input" style="width:420px;border-radius:0;">
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
+          <div class="ui dropdown teal label">
+            <input type="hidden" data-bind="value: searchType" name="searchType">
+            <div class="text">Select</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="project">Projects</div>
+              <div class="item" data-value="agent">Agents</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ends here -->
 
       <div class="item">
         <div class="ui selection dropdown">
@@ -203,28 +230,10 @@
         </div>
 
       </div>
-      <!-- search input here -->
-
-      <div class="item _searchInput_">
-        <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
-        <div class="ui right labeled input" style="width:420px;">
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
-          <div class="ui dropdown label">
-            <input type="hidden" data-bind="value: searchType" name="searchType">
-            <div class="text">Select</div>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-              <div class="item" data-value="project">Projects</div>
-              <div class="item" data-value="agent">Agents</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- ends here -->
 
       <div class="item">
         <button class="buttonClass" type="submit">
-          <div class="ui button blue"><i class="search icon"></i>search</div>
+          <div class="ui button"><i class="search icon"></i>search</div>
         </button>
       </div>
 

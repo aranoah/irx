@@ -15,6 +15,26 @@ $(document).ready(function () {
 		_self.siblings().removeClass('active');
 	});
 
+  $('#mobFilter').on('click',function() {
+    var _self = $(this);
+
+    _self.hide();
+    _self.siblings('#HideFilter').show();
+    $('.mobileFilter').show();
+
+  });
+
+  $('#HideFilter').on('click',function() {
+    var _self = $(this);
+
+    _self.hide();
+    _self.siblings('#mobFilter').show();
+    $('.mobileFilter').hide();
+
+  });
+
+ 
+
   $('#filter').popup({
     inline: true,
     on: 'click',
