@@ -25,6 +25,9 @@
 #homescreen h1.ui.inverted.header {
 	padding-top: 1.5rem;
 	font-weight: normal;
+	font-size: 1rem;
+	color: #ADADAD;
+	letter-spacing: .5px;
 }
 
 #homescreen .ui.form .field {
