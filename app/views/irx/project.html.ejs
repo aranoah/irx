@@ -222,52 +222,7 @@
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
 	    	No Search Results for this search. Showing agents in your city
 	    </div>
-	    <div class="ui cards sc" data-bind="foreach : agents">
-
-		  <div class="card">
-		    <div class="ui image tiny">
-		      <img src="/images/elliot.jpg">
-		    </div>
-		    <div class="content">
-
-		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-		      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
-
-		      <div class="content addr-ess">
-    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
-    		  </div>
-		      <div class="description">
-		        Specialities : 
-		        <span data-bind="foreach : specialities" style="margin-right:0;">
-			        <!-- ko if:$index()<=1 -->
-			        	<span class="header" data-bind="text : $data"></span>
-			        	 <!-- ko if:$index()==0 -->
-			        	 	<span class="header">,</span>
-			        	 <!-- /ko -->
-			        <!-- /ko -->
-			    </span>
-		        <span data-bind="if:specialities.length>2">
-		        (+
-		        	<span class="header" data-bind="text : specialities.length-2"></span>)
-		        </span>
-		       </div>
-		    </div>
-		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
-		    <div class="extra content">
-		      <div class="right floated created">
-		        <a href=""><i class="facebook square icon"></i></a>
-		        <a href=""><i class="share square icon"></i></a>
-		      </div>
-		      <a class="friends">
-		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
-		         &nbsp;&nbsp;Projects
-		      </a><a class="friends">
-		        <i class="location arrow icon"></i>
-		        22 Locations
-		      </a>
-		    </div>
-		  </div>					  
-		</div>
+	   
 	    <div data-bind="foreach : projects" style="margin:2rem 0;">
 	    	<div class="ui items proj-listing column">
   				<a class="ui green ribbon label">Distress</a>
