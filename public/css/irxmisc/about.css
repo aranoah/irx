@@ -10,7 +10,7 @@
 	font-weight: 500;
 }
 
-.column>h5.ui.header{
+.two.column.row>.column>h5.ui.header{
 	background: #fff;
 	padding: 1rem;
 	margin-top: -.8rem;
