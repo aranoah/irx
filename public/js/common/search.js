@@ -130,6 +130,7 @@
       _classInstance.viewModel.city(city)
       localStorage.setItem("city", city);
     });
+    
     $('#searchF').on('click','._budgetItem_',function(){
       var minPrice = $('#_budget_').find(".minP").val();
       var maxPrice = $('#_budget_').find(".maxP").val();
@@ -161,7 +162,7 @@
               cache: false,
               appendTo:'#autoDiv',
               select: function( event, ui ) {
-                  
+
                   $('#__searchAuto').val(ui.item.name)
                    _classInstance.viewModel.name(ui.item.name);
                    if(_classInstance.viewModel.searchType()=='agent'){
@@ -216,7 +217,7 @@
       }
       return text;
   };
-   SearchBar.prototype.fetchProjectResult=function(data){
+    SearchBar.prototype.fetchProjectResult=function(data){
       var classInstance = this;
       
           httpUtils.post("/list-projects-elastic",
@@ -232,7 +233,7 @@
         })
      
     }
-     SearchBar.prototype.fetchAgentResult=function(data){
+    SearchBar.prototype.fetchAgentResult=function(data){
       var classInstance = this;
       classInstance.viewModel.projectId("");
       classInstance.viewModel.sProAgents(false);
