@@ -1,6 +1,12 @@
 <!-- Search menu goes her
   -->
   <style>
+    .ui.default.dropdown>.text, .ui.dropdown>.default.text {
+      text-transform :capitalize;
+    }
+    .header>.min {
+      border:1px solid #eaeaea;
+    }
     button.buttonClass {
       border:0;
       background:inherit;
@@ -70,6 +76,19 @@
     .hidden{
     display:none;
     }
+
+    ._searchInput_ {
+      position:relative;
+    }
+    ._searchInput_>.ui.right.labeled.input>input {
+      width:330px;
+    }
+    ._searchInput_ .ui.dropdown.label {
+      position:absolute;
+      top:0;right:0;
+      padding-top: 0.7em;
+      padding-bottom: .75em;
+    }
   </style>
   <script type="text/javascript" src="/js/common/search.js"></script>
 <div id="searchF">
@@ -105,44 +124,25 @@
         </div>
       </div> -->
       <div class="item">
-         <div class="ui floating dropdown labeled icon button" style="height:39px;width:130px">
-            <i class="filter icon"></i>
-
-            <span class="text" style="margin-top:8px;text-align:left"> <!--ko text: showCity--><!--/ko--> </span>
-            <input id="_city_" type="hidden" name="city" data-bind="textInput:city">
-            <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
-              <div class="ui icon search input">
-                <i class="search icon"></i>
-                <input type="text" name="search" placeholder="Search city...">
-              </div>
-              <div class="divider"></div>
-              <div class="header">
-                <i class="tags icon"></i>
-               Select City
-              </div>
-              <% include city.html %> 
-            </div>
-          </div>
-      </div>
-      <div class="item">
-        <div class="ui selection dropdown">
-          <input type="hidden" data-bind="value: searchType" name="searchType">
-          <div class="default text">Select</div>
+         <div class="ui selection dropdown">
+          <input id="_city_" type="hidden" name="city" data-bind="textInput:city">
+          <div class="default text"><!--ko text: showCity--><!--/ko--></div>
           <i class="angle down icon"></i>
-          <div class="menu">
-            <div class="item" data-value="project">Project</div>
-            <div class="item" data-value="agent">Agent</div>
+          <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
+            <div class="ui icon search input">
+              <i class="search icon"></i>
+              <input type="text" name="search" placeholder="Search city...">
+            </div>
+            <div class="divider"></div>
+            <div class="header">
+              <i class="tags icon"></i>
+             Select City
+            </div>
+            <% include city.html %> 
           </div>
         </div>
       </div>
-      
-       <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
-      <div class="item">
-        <div class="ui icon input">
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name"><i class="search icon"></i>
-        </div>
 
-      </div>
       <div class="item">
         <div class="ui selection dropdown">
           <input type="hidden" data-bind="value: bhk" name="bhk">
@@ -157,75 +157,81 @@
         </div>
       </div>
 
-      <div class="ui labeled icon dropdown button item">
-        <i class="angle down icon"></i>
-        <span class="text" id="_budget_">Budget</span>
-        <div class="menu">
-          <div class="header" style="background: #fff;  margin: 0;  padding: 1rem;">
-            <input type="text" class="min" style="width:50px;" name="minPrice" data-bind="value:minPrice">
-            <span >-</span>
-            <input type="text" class="min" style="width:50px;" name="maxPrice" data-bind="value:maxPrice"><br>
-            
+      <div class="item">
+
+        <div class="ui selection dropdown">
+          <div class="default text" id="_budget_">Budget</div>
+          <i class="angle down icon"></i>
+          <div class="menu">
+            <div class="header">
+              <input type="text" class="min" style="width:50px;" name="minPrice" placeholder="Min" data-bind="value:minPrice">
+              <span >-</span>
+              <input type="text" class="min" style="width:50px;" name="maxPrice" placeholder="Max" data-bind="value:maxPrice"><br>      
+            </div>
+            <div class="divider"></div>
+            <div class="minCostLeft __visible" style="text-align:left;max-width:150px;overflow:hidden;">
+              <div class="item">
+                <span class="text"><!-- ko text:minPriceText --><!-- /ko --></span>-
+                <span class="text"><!-- ko text:maxPriceText --><!-- /ko --></span>
+              </div>
+              <div class="item _budgetItem_" style="width:100%;float:left">
+                <input class="minP" type="hidden" value="0">
+                <input class="maxP" type="hidden" value="500000">
+                Less than 5Lac
+              </div>
+              <div class="item _budgetItem_" style="width:100%;float:left">
+                <input class="minP" type="hidden" value="500000">
+                <input class="maxP" type="hidden" value="2500000">
+                5Lac - 25Lac
+              </div>
+              <div class="item _budgetItem_" style="width:100%;float:left">
+                <input class="minP" type="hidden" value="2500000">
+                <input class="maxP" type="hidden" value="5000000">
+                25Lac - 50Lac
+              </div>
+              <div class="item _budgetItem_" style="width:100%;float:left">
+                <input class="minP" type="hidden" value="5000000">
+                <input class="maxP" type="hidden" value="10000000">
+                50Lac - 1cr
+              </div>
+              <div class="item _budgetItem_" style="width:100%;float:left">
+                <input class="minP" type="hidden" value="10000000">
+                More than 1cr
+              </div>
+            </div>
           </div>
-          
+        </div>
 
-          <div class="divider"></div>
+      </div>
+      <!-- search input here -->
 
-          <div class="minCostLeft __visible" style="text-align:left;max-width:150px;overflow:hidden;">
-            <div class="item">
-              <span class="text"><!-- ko text:minPriceText --><!-- /ko --></span>-
-              <span class="text"><!-- ko text:maxPriceText --><!-- /ko --></span>
-            </div>
-            <div class="item _budgetItem_" style="width:100%;float:left">
-              <input class="minP" type="hidden" value="0">
-              <input class="maxP" type="hidden" value="500000">
-              Less than 5Lac
-            </div>
-            <div class="item _budgetItem_" style="width:100%;float:left">
-              <input class="minP" type="hidden" value="500000">
-              <input class="maxP" type="hidden" value="2500000">
-              5Lac - 25Lac
-            </div>
-            <div class="item _budgetItem_" style="width:100%;float:left">
-              <input class="minP" type="hidden" value="2500000">
-              <input class="maxP" type="hidden" value="5000000">
-              25Lac - 50Lac
-            </div>
-            <div class="item _budgetItem_" style="width:100%;float:left">
-              <input class="minP" type="hidden" value="5000000">
-              <input class="maxP" type="hidden" value="10000000">
-              50Lac - 1cr
-            </div>
-            <div class="item _budgetItem_" style="width:100%;float:left">
-              <input class="minP" type="hidden" value="10000000">
-              More than 1cr
+      <div class="item _searchInput_">
+        <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
+        <div class="ui right labeled input" style="width:420px;">
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
+          <div class="ui dropdown label">
+            <input type="hidden" data-bind="value: searchType" name="searchType">
+            <div class="text">Select</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="project">Projects</div>
+              <div class="item" data-value="agent">Agents</div>
             </div>
           </div>
         </div>
       </div>
+      <!-- ends here -->
+
       <div class="item">
         <button class="buttonClass" type="submit">
-          <div class="ui button">search</div>
+          <div class="ui button blue"><i class="search icon"></i>search</div>
         </button>
       </div>
-      <!--<div class="item actions">
-        <div class="ui selection dropdown">
 
-          <div class="default text">Search</div>
-          <i class="angle down icon"></i>
-          <div class="menu">
-
-             
-            <button class="item" data-value="agent" type="submit">Project</button>
-            <div class="item" data-value="project">Agent</div>
-
-          </div>
-        </div>-->
       </div>
     </div>
 
-  </div>
+    </div>
   </form>
-
-  </div>
+</div>
 <div id="autoDiv" class="item" style="width:100px"></div>
