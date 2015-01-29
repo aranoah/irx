@@ -63,7 +63,7 @@ ProjectListingService.prototype.listProjects = function(data){
 	if(filters && filters.distress != null &&  filters.distress != "") {
 		query["distress"] ={$gt:0};
 	}
-	console.log("Here...",query)
+
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
 	
@@ -95,6 +95,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		page = defPage;
 		
 	}
+
 	if(filters && filters.city != null &&  filters.city != "") {
 		//query.push(location={city:filters.city};
 			var match = {
@@ -109,6 +110,14 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		var match = {
 			"match":{
 				"type":filters.type
+			}
+		}
+		query.push(match);
+	}
+	if(filters && filters.status != null &&  filters.status != "") {
+		var match = {
+			"match":{
+				"status":filters.status
 			}
 		}
 		query.push(match);

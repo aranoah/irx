@@ -28,7 +28,7 @@ body {
 
   #header.ui.inverted.menu>* {
    padding: 0.6rem !important;
-   font-weight: 300;
+   font-weight: 400;
   }#header.ui.inverted.menu .header {
     margin: .5rem 1rem;
     font-weight: bold;
@@ -92,7 +92,8 @@ body {
 }
 
 #searchbar .cont-ainer {
-  padding: 0.5rem 6% 0.5rem 6%;
+  padding: 0.5rem 0 0.5rem 0;
+  text-align: center;
 }
 
 #searchbar .cont-ainer.search-menu>.item {
@@ -477,7 +478,7 @@ margin-right: 1rem;
   padding: 0 !important;
   background: #FAFAFA;
 }
-.ui.inverted.link.list a.item:hove{
+.ui.inverted.link.list a.item:hover {
   color: black;
 }
 .six.wide.column .ui.inverted.header{
@@ -551,6 +552,16 @@ margin-right: 1rem;
 
 #autoDiv>ul>li .itLabel.description {
   color: rgba(0,0,0,0.5);
+}
+
+#autoDiv>ul>li:last-child {
+  background: #f8f8f8;
+}
+
+#autoDiv>ul>li .itLabel.header._enter_ {
+  text-transform: inherit;
+  text-align: center;
+  font-size: .9em;
 }
 
 /**radio button **/
@@ -631,6 +642,12 @@ margin-right: 1rem;
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
   }
+
+  .proj-listing .ui.medium.image>.slider {
+    position: absolute;
+    width: 23.8rem;
+    bottom: 0;
+}
 }
 
 @media only screen and (max-width : 992px) {

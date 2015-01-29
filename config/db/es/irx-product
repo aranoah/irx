@@ -5,12 +5,13 @@
     	"properties":{ 
 	        "id":{"type":"string"},
 	   	    "name":{"type": "string","index_analyzer": "shingle_analyzer"},
-	   	    "builtUpArea":{"type": "nested"},
+	   	    "builtUpArea":{"type": "string"},
 		    "price":{"type":"integer"},
-	   	    "type":{"type": "string"},
-	   	    "bhk":{"type": "string","index_analyzer": "shingle_analyzer"},
+	   	    "type":{"type": "string","index_analyzer": "shingle_analyzer"},
+	   	    "bhk":{"type": "integer"},
             "possession":{"type":"string"},
-            "location":{"type":"nested"}
+            "location":{"type":"nested"},
+            "status" : {"type":"string"}
         }
 	},
 	  		

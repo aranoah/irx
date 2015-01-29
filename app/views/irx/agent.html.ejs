@@ -10,16 +10,17 @@
   }*/
   </style>
 </head>
-<% locals.uiContext.menu=false %>
+<% locals.uiContext.menu=true %>
 <body>  
   <% include ../partials/header.html.ejs %>
 
  <% include ../partials/subhome.html.ejs %>
+ 
 
   <!-- agents Listing goes here -->
 
   	<div id="agentContent" class="ui centered page grid">
-	  <div class="fourteen wide column">
+	  <div class="twelve wide column">
 
 	  	<!-- For mobile and tablet -->
 
@@ -73,8 +74,8 @@
     			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
     		  </div>
 		      <div class="description">
-		        Specialities : 
-		        <span data-bind="foreach : specialities" style="margin-right:0;">
+		        Projects : 
+		        <span data-bind="foreach : projects" style="margin-right:0;">
 			        <!-- ko if:$index()<=1 -->
 			        	<span class="header" data-bind="text : $data"></span>
 			        	 <!-- ko if:$index()==0 -->
@@ -82,9 +83,24 @@
 			        	 <!-- /ko -->
 			        <!-- /ko -->
 			    </span>
-		        <span data-bind="if:specialities.length>2">
+		        <span data-bind="if:projects.length>2">
 		        (+
-		        	<span class="header" data-bind="text : specialities.length-2"></span>)
+		        	<span class="header" data-bind="text : projects.length-2"></span>)
+		        </span>
+		       </div>
+		       <div class="description">
+		        Operating Localities : 
+		        <span data-bind="foreach : locationProjects" style="margin-right:0;">
+			        <!-- ko if:$index()<=1 -->
+			        	<span class="header" data-bind="text : $data"></span>
+			        	 <!-- ko if:$index()==0 -->
+			        	 	<span class="header">,</span>
+			        	 <!-- /ko -->
+			        <!-- /ko -->
+			    </span>
+		        <span data-bind="if:locationProjects.length>2">
+		        (+
+		        	<span class="header" data-bind="text : locationProjects.length-2"></span>)
 		        </span>
 		       </div>
 		    </div>
@@ -94,13 +110,13 @@
 		        <a href=""><i class="facebook square icon"></i></a>
 		        <a href=""><i class="share square icon"></i></a>
 		      </div>
-		      <a class="friends">
+		      <!--<a class="friends">
 		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
 		         &nbsp;&nbsp;Projects
 		      </a><a class="friends">
 		        <i class="location arrow icon"></i>
 		        22 Locations
-		      </a>
+		      </a>-->
 		    </div>
 		  </div>
 		  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
