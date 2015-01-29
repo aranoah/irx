@@ -5,6 +5,7 @@
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Post your requirement</h2>
+      
       <i class="column right floated remove circle close icon"></i>
     </div>
   </div>
@@ -13,6 +14,10 @@
     <!-- sell your property starts here -->
         <input type="hidden" data-bind="value:data.origin" value="post-req">
         <div class="ui inverted menu">
+          <span data-bind="foreach:data.agentId">
+            <h4 style="display:inline-block"><!-- ko text:$data --><!-- /ko -->
+            <i data-bind=" event: {  click:function(){removeFilters('type')} }" class="remove icon"></i></h4>
+          </span>
           <h4 class="ui dividing header">Property Information :</h4>
 
             <div class="item">

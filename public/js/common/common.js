@@ -9,7 +9,7 @@ Common.prototype.getViewModel = function(type) {
       data:{
       	emailId:ko.observable(""),
       	projectId:ko.observable(""),
-      	agentId:ko.observable(""),
+      	agentId:ko.observableArray(["puneet","sunny","hament"]),
       	name:ko.observable("").extend({ required: true}),
       	mobileNo:ko.observable(""),
       	city:ko.observable(""),

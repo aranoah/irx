@@ -56,7 +56,7 @@
 			      <input type="checkbox">
 			      <label>Distress</label>
 			    </div>
-				<div class="ui basic button">submit request</div>
+				<div class="ui basic button" id="_subReq_">submit request</div>
 	    	</div>
 	    </div>
 	    <div class="ui cards sc" data-bind="foreach : agents">
@@ -120,8 +120,8 @@
 		    </div>
 		  </div>
 		  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
-					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
-					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
+		  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+		  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
 					  
 		</div>	   
@@ -233,7 +233,15 @@
 				//_classInstance.listAgents(true);
 			}
 		}
+		$(document).off('click','#_subReq_')
+		$(document).on('click','#_subReq_',function(){
+			 $('#post').modal({
+			      closable:false
+			    }).modal('show');
+		})
+
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));
+		
 		_classInstance.listAgents(true);
 	}
 	
