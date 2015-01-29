@@ -2,7 +2,7 @@
 <script type="text/javascript" src="/js/common/http.js"></script>
 
 <form class="ui form" >
-<div id="post" class="ui modal pop-up sell-post">  
+<div id="_postA_" class="ui modal pop-up sell-post">  
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Post your requirement</h2>
@@ -15,7 +15,10 @@
     <!-- sell your property starts here -->
         <input type="hidden" data-bind="value:data.origin" value="post-req">
         <div class="ui inverted menu">
-          
+          <span data-bind="foreach:data.agentId">
+            <h4 style="display:inline-block"><!-- ko text:name --><!-- /ko -->
+            <i data-bind=" event: {  click:function(){$parent.removeAgent($data)} }" class="remove icon"></i></h4>
+          </span>
           <h4 class="ui dividing header">Property Information :</h4>
 
             <div class="item">
@@ -74,7 +77,7 @@
             
             <div class="item field">
               <input type="text" id="__postReqSearch" placeholder=" Search project.." data-bind="value:data.proName" >
-              <div id="autoDivPost">
+              <div id="autoDivPostA">
             </div>
             </div>
             

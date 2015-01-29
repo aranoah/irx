@@ -1,15 +1,19 @@
 
 function Common() {
 	this.postReqLeads="post";
-	this.sellPostLeads="sell"
+	this.sellPostLeads="sell";
+  this.postReqLeadsA = "_postA_";
+  this.agentIdArr = [];
+  this.viewModelPost=null;
+  this.aPostReqViewModel = null;
 }
 Common.prototype.getViewModel = function(type) {
 	var classInstance = this;
-	var viewModel = {
+	  var viewModel = {
       data:{
       	emailId:ko.observable(""),
       	projectId:ko.observable(""),
-      	agentId:ko.observableArray(["puneet","sunny","hament"]),
+      	agentId:ko.observableArray(),
       	name:ko.observable("").extend({ required: true}),
       	mobileNo:ko.observable(""),
       	city:ko.observable(""),
@@ -24,17 +28,22 @@ Common.prototype.getViewModel = function(type) {
       captureLeads:function(){
 
       	classInstance.captureLeads(type);
+      },
+      removeAgent:function(data){
+        //alert(2)
+        viewModel.data.agentId.remove(data)
       }
+      
     };
     return viewModel;
 }
 Common.prototype.init = function(first_argument) {
-
 	var classInstance = this;
 	
 	classInstance.viewModelPost = classInstance.getViewModel(classInstance.postReqLeads);
 	classInstance.viewModelSell = classInstance.getViewModel(classInstance.sellPostLeads);
-	
+  	
+
 	classInstance.viewModel = {
 		userId: ko.observableArray(),
 		tabID : ko.observable('login'),
@@ -82,6 +91,30 @@ Common.prototype.init = function(first_argument) {
         $(".ui-widget-content .ui-state-focus");
          return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
       }; 
+       $("#"+classInstance.postReqLeadsA).find("#__postReqSearch").autocomplete({
+
+            source: function(request, response){
+                var _self = this;
+               
+                  sBar.projectAutocomplete(request.term,request,response)
+                
+              },
+              minLength: 2,
+              dataType: "json",
+              cache: false,
+              appendTo:'#autoDivPostA',
+              select: function( event, ui ) {
+
+                classInstance.aPostReqViewModel.data.proName(ui.item.name)
+                classInstance.aPostReqViewModel.data.locality(ui.item.location.locality)
+                classInstance.aPostReqViewModel.data.projectId(ui.item.id)
+                return false;
+              }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        $(".ui-widget-content .ui-state-focus");
+        alert(item.name)
+         return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
+      };  
    
     $("#"+classInstance.postReqLeads).find("#__postReqSearch").autocomplete({
 
@@ -107,8 +140,8 @@ Common.prototype.init = function(first_argument) {
          return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
       };  
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
- 	ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
-	ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
+ 	  ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
+	  ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
  // ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
 
 
@@ -160,3 +193,11 @@ Common.prototype.captureLeads = function(type) {
 		}
 	})
 };	
+var common =null;
+$(document).ready(function(){
+  if(common == null){
+   common = new Common();
+   common.init();
+  }
+})
+ 
