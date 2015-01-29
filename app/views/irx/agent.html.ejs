@@ -144,7 +144,7 @@
 	}
 	Agent.prototype.init = function() {
 		var _classInstance = this;
-		_classInstance.aPostReqViewModel = common.getViewModel('post');
+		_classInstance.aPostReqViewModel = common.getViewModel('postAgent');
 		common.aPostReqViewModel = _classInstance.aPostReqViewModel;
 		ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
 		

@@ -26,7 +26,7 @@ Common.prototype.getViewModel = function(type) {
         origin:ko.observable(type)
       },
       captureLeads:function(){
-
+        alert(2)
       	classInstance.captureLeads(type);
       },
       removeAgent:function(data){
@@ -112,7 +112,7 @@ Common.prototype.init = function(first_argument) {
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
         $(".ui-widget-content .ui-state-focus");
-        alert(item.name)
+        
          return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
       };  
    
@@ -178,11 +178,16 @@ Common.prototype.register = function() {
 Common.prototype.captureLeads = function(type) {
 	var classInstance = this;
 	var viewModel = null;
+  alert(3)
 	if(type == classInstance.postReqLeads){
 		viewModel = classInstance.viewModelPost;
-	} else{
+	} else if(type == classInstance.sellPostLeads){
 		viewModel = classInstance.viewModelSell;
-	}
+	}else{
+    alert(1)
+    console.log(viewModel)
+    viewModel = classInstance.aPostReqViewModel;
+  }
 	httpUtils.post("/capture-lead",
 		viewModel.data,
 		 { },"JSON",function(data){
