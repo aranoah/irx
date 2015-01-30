@@ -17,7 +17,7 @@
   <% include ../partials/header.html.ejs %>
 
   <!-- Proj Detailing starts here -->
-
+<div id="__proDet__">
   	<!-- For mobile screens -->
 
   		<div id="mobile-projDet" class="ui relaxed stackable grid mobile tablet only">
@@ -80,7 +80,7 @@
 			<div class="content">
 				<div class="ui top attached tabular menu">
 			  <a class="active item" data-tab="first">Description</a>
-			  <a class="item" id="pref_agents_btn" data-tab="second">Preferred Agents</a>
+			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="second">Preferred Agents</a>
 			</div>
 			<div class="ui bottom attached active tab segment" data-tab="first"><%= result.description %></div>
 			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="second">
@@ -197,7 +197,7 @@
 			<div class="ui top attached tabular menu">
 			  <a class="active item" data-tab="first">Amenities</a>
 			  <a class="item" data-tab="second">Floor Plan</a>
-			  <a class="item" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
+			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
 			</div>
 			<div class="ui bottom attached active tab segment" data-tab="first">
 				<div class="ui accordion">
@@ -231,7 +231,7 @@
 				<img class="ui medium image" src="/images/square-image.png">
 			</div>
 			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
-<% for(var iii=0;iii<5;iii++){ %>
+
 			   <div class="ui cards sc" data-bind="foreach : agents">
 
 			  <div class="card">
@@ -289,7 +289,7 @@
 
 
 			</div>	
-			<%}%>
+		
 			</div>
 		</div>
 		<div class="seven wide column">
@@ -303,7 +303,7 @@
 		</div>
 	</div>
   <!-- Proj detailing ends here -->
-
+</div>
 <script type="text/javascript">
 	function Project(option){
 		page={
@@ -318,8 +318,8 @@
 	      agents: ko.observableArray()
 	    }
 
-	  	ko.applyBindings(_classInstance.viewModel,document.getElementById('pref_agents'));
-	  	$('#pref_agents_btn').click(function(){
+	  	ko.applyBindings(_classInstance.viewModel,document.getElementById('__proDet__'));
+	  	$('.pref_agents_btn').click(function(){
 	  		
 	  		if(_classInstance.viewModel.agents().length ==0){
 	  			var projectId= $('#_projectId').val();
