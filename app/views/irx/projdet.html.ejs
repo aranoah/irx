@@ -227,8 +227,8 @@
 					<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
 				</div>
 				<div class="right floated column">
-					<div class="ui blue button req-details"><i class="icon edit"></i>Request Details</div>
-					<div class="ui blue button leads-in"><i class="icon help circle"></i>Enquiry Now</div>
+					<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
+					<div class="ui blue button leads-in" data-bind="click:function(){enquireNow('<%= result.id %>') }"><i class="icon help circle"></i>Enquiry Now</div>
 				</div>
 			</div>
 			<div class="ui top attached tabular menu">
@@ -347,7 +347,15 @@
 	Project.prototype.init = function() {
 	    var _classInstance = this;
 	    _classInstance.viewModel = {
-	      agents: ko.observableArray()
+	      agents: ko.observableArray(),
+	      requestDetails : function(id){
+				_classInstance.requestDetails(id);
+			},
+			enquireNow : function(id){
+
+				_classInstance.enquireNow(id);
+			},
+			
 	    }
 
 	  	ko.applyBindings(_classInstance.viewModel,document.getElementById('__proDet__'));
@@ -370,6 +378,21 @@
 	       	} 
     	})
 	}
+	Project.prototype.requestDetails = function(projectId) {
+		httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
+       if(data.status==0){
+	       	$('#req-details').modal({
+	      		closable:false
+	    	}).modal('show');
+         }
+        })
+      };
+      Project.prototype.enquireNow = function(projectId) {
+      	 $('#leads').modal({
+		      closable:false
+		    }).modal('show');
+      	 $("#_projectIdP_").val(projectId);
+      };
 
 	$(document).ready(function(){
 		var proj = new Project();

@@ -245,7 +245,9 @@
 
                   $("#__searchAutoM").val(ui.item.name)
                     _classInstance.resetReqParams();
-                   _classInstance.viewModel.name(ui.item.name);
+                    var textName = ui.item.name;
+                     textName = textName.replace(/<(?:.|\n)*?>/gm, '');
+                   _classInstance.viewModel.name(textName);
                    if(_classInstance.viewModel.searchType()=='agent'){
                     if(_classInstance.type[ui.item.type]=='project'){
                       if(ui.item.productType == 'project'){
@@ -333,7 +335,7 @@
     }
 
     SearchBar.prototype.resetReqParams=function(data){
-      alert(1)
+      
       var _classInstance = this;
       _classInstance.viewModel.name("");
       _classInstance.viewModel.projectId("");
