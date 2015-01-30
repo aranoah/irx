@@ -117,13 +117,13 @@ body {
 }
 
 #searchbar input {
-  padding: .7em 1.1em;
+  padding: .7em 1.1em .7em 8.4rem;
   background-color: inherit !important;
 }
 
-#searchbar .search-menu input {
+/*#searchbar .search-menu input {
   width: 340px;
-}
+}*/
 
 .ui.slider.checkbox {
   width: 158px;

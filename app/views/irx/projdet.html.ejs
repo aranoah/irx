@@ -76,69 +76,106 @@
 					<div class="ui blue small button req-details"><i class="icon edit"></i>Request Details</div>
 					<div class="ui blue small button leads-in"><i class="icon help circle"></i>Enquiry Now</div>
 				</div>
-			</div>
-			<div class="content">
-				<div class="ui top attached tabular menu">
-			  <a class="active item" data-tab="first">Description</a>
-			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="second">Preferred Agents</a>
-			</div>
-			<div class="ui bottom attached active tab segment" data-tab="first"><%= result.description %></div>
-			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="second">
-			   <div class="ui cards sc" data-bind="foreach : agents">
-
-			  <div class="card">
-			    <div class="ui image tiny">
-			      <img src="/images/elliot.jpg">
-			    </div>
-			    <div class="content">
-
-			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-			      <a class="group" data-bind="text : companyName">IRX India</a>
-
-			      <div class="content addr-ess">
-	    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
-	    		  </div>
-			      <div class="description">
-			        Specialities : 
-			        <span data-bind="foreach : specialities">
-				        <!-- ko if:$index()<=1 -->
-				        	<span class="header" data-bind="text : $data"></span>
-				        	 <!-- ko if:$index()==0 -->
-				        	 	<span class="header">,</span>
-				        	 <!-- /ko -->
-				        <!-- /ko -->
-				    </span>
-			        <span data-bind="if:specialities.length>2">
-			        (+
-			        	<span class="header" data-bind="text : specialities.length-2"></span>)
-			        </span>
-			       </div>
-			    </div>
-			    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
-			    <div class="extra content">
-			      <div class="right floated created">
-			        <a href=""><i class="facebook square icon"></i></a>
-			        <a href=""><i class="share square icon"></i></a>
-			      </div>
-			      <a class="friends">
-			        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
-			         &nbsp;&nbsp;Projects
-			      </a><a class="friends">
-			        <i class="location arrow icon"></i>
-			        22 Locations
-			      </a>
-			    </div>
-			  </div>
-
-			</div>	
-			</div>
-			</div>
+			</div>			
 			<img class="ui medium rounded image" src="/images/project.jpg">
 			<div class="ui images">
 			  <img class="ui tiny image" src="/images/square-image.png">
 			  <img class="ui tiny image" src="/images/square-image.png">
 			  <img class="ui tiny image" src="/images/square-image.png">
 			  <img class="ui tiny image" src="/images/square-image.png">
+			</div><div class="content">
+				<!-- tab goes here -->
+
+					<div class="ui top attached tabular menu">
+					  <a class="active item" data-tab="first">Amenities</a>
+					  <a class="item" data-tab="second">Floor Plan</a>
+					  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
+					</div>
+					<div class="ui bottom attached active tab segment" data-tab="first">
+						<div class="ui accordion">
+						    <div class="active title">
+						      <i class="dropdown icon"></i>
+						      What is a dog?
+						    </div>
+						    <div class="active content">
+						      <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+						    </div>
+						    <div class="title">
+						      <i class="dropdown icon"></i>
+						      What kinds of dogs are there?
+						    </div>
+						    <div class="content">
+						      <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+						    </div>
+						    <div class="title">
+						      <i class="dropdown icon"></i>
+						      How do you acquire a dog?
+						    </div>
+						    <div class="content">
+						      <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
+						      <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
+						    </div>
+						  </div>
+					</div>
+					<div class="ui bottom attached tab segment" data-tab="second">
+						<img class="ui medium image" src="/images/square-image.png"><br>
+						<img class="ui medium image" src="/images/square-image.png"><br>
+						<img class="ui medium image" src="/images/square-image.png">
+					</div>
+					<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
+
+						<div class="ui divided items" data-bind="foreach : agents">
+						  <div class="item">
+						    <div class="image">
+						      <img src="http://semantic-ui.com/images/avatar/large/stevie.jpg">
+						    </div>
+						    <div class="content">
+						      <a data-bind="attr: { href:irxId}" class="header" data-bind="text : name">Elliot Fu</a>
+						      <div class="meta">
+						        <span class="price" data-bind="text : companyName">IRX,India</span><br>
+						        <span class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--> </span>
+						      </div>
+						      <div class="description">
+						        Projects : 
+						        <span data-bind="foreach : projects" style="margin-right:0;">
+						          <!-- ko if:$index()<=1 -->
+						            <span class="header" data-bind="text : $data"></span>
+						             <!-- ko if:$index()==0 -->
+						              <span class="header">,</span>
+						             <!-- /ko -->
+						          <!-- /ko -->
+						        </span>
+						        <span data-bind="if:projects.length>2">
+						        (+
+						          <span class="header" data-bind="text : projects.length-2"></span>)
+						        </span>
+						       </div>
+						       <div class="description">
+						          Operating Localities : 
+						          <span data-bind="foreach : locationProjects" style="margin-right:0;">
+						            <!-- ko if:$index()<=1 -->
+						              <span class="header" data-bind="text : $data"></span>
+						               <!-- ko if:$index()==0 -->
+						                <span class="header">,</span>
+						               <!-- /ko -->
+						            <!-- /ko -->
+						        </span>
+						        <span data-bind="if:locationProjects.length>2">
+						        (+
+						          <span class="header" data-bind="text : locationProjects.length-2"></span>)
+						        </span>
+						      </div>
+						      <div class="extra">
+						        <div class="ui right floated label">Enquiry now</div>
+						        <a href=""><i class="facebook big square icon"></i></a>
+						        <a href=""><i class="share big square icon"></i></a>
+						      </div>
+						    </div>
+						  </div>
+						</div>		
+					</div>
+
+				<!-- ends here -->
 			</div>
 		</div>
 
@@ -226,70 +263,64 @@
 				  </div>
 			</div>
 			<div class="ui bottom attached tab segment" data-tab="second">
-				<img class="ui medium image" src="/images/square-image.png"><br>
+				<img class="ui medium image" src="/images/map.jpg"><br>
 				<img class="ui medium image" src="/images/square-image.png"><br>
 				<img class="ui medium image" src="/images/square-image.png">
 			</div>
 			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
 
-			   <div class="ui cards sc" data-bind="foreach : agents">
-
-			  <div class="card">
-			    <div class="ui image tiny">
-			      <img src="/images/elliot.jpg">
-			    </div>
-			    <div class="content">
-
-			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-			      <a class="group" data-bind="text : companyName">IRX India</a>
-
-			      <div class="content addr-ess">
-	    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
-	    		  </div>
-			      <div class="description">
-			        Projects : 
-			        <span data-bind="foreach : projects" style="margin-right:0;">
-				        <!-- ko if:$index()<=1 -->
-				        	<span class="header" data-bind="text : $data"></span>
-				        	 <!-- ko if:$index()==0 -->
-				        	 	<span class="header">,</span>
-				        	 <!-- /ko -->
-				        <!-- /ko -->
-				    </span>
-			        <span data-bind="if:projects.length>2">
-			        (+
-			        	<span class="header" data-bind="text : projects.length-2"></span>)
-			        </span>
-			       </div>
-			       <div class="description">
-			        Operating Localities : 
-			        <span data-bind="foreach : locationProjects" style="margin-right:0;">
-				        <!-- ko if:$index()<=1 -->
-				        	<span class="header" data-bind="text : $data"></span>
-				        	 <!-- ko if:$index()==0 -->
-				        	 	<span class="header">,</span>
-				        	 <!-- /ko -->
-				        <!-- /ko -->
-				    </span>
-			        <span data-bind="if:locationProjects.length>2">
-			        (+
-			        	<span class="header" data-bind="text : locationProjects.length-2"></span>)
-			        </span>
-			       </div>
-			    </div>
-			    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
-			    <div class="extra content">
-			      <div class="right floated created">
-			        <a href=""><i class="facebook square icon"></i></a>
-			        <a href=""><i class="share square icon"></i></a>
-			      </div>
-			    </div>
-			  </div>
-
-
-
-			</div>	
-		
+				<div class="ui divided items" data-bind="foreach : agents">
+				  <div class="item">
+				    <div class="image">
+				      <img src="/images/elliot.jpg">
+				    </div>
+				    <div class="content">
+				      <a data-bind="attr: { href:irxId}" class="header" data-bind="text : name">Elliot Fu</a>
+				      <div class="meta">
+				        <div class="price" data-bind="text : companyName" style="padding:.5rem 0;">IRX,India</div>
+				        <div class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--></div>
+				      </div>
+				      <div class="description">
+				        Projects : 
+				        <span data-bind="foreach : projects" style="margin-right:0;">
+				          <!-- ko if:$index()<=1 -->
+				            <span class="header" data-bind="text : $data"></span>
+				             <!-- ko if:$index()==0 -->
+				              <span class="header">,</span>
+				             <!-- /ko -->
+				          <!-- /ko -->
+				        </span>
+				        <span data-bind="if:projects.length>2">
+				        (+
+				          <span class="header" data-bind="text : projects.length-2"></span>)
+				        </span>
+				       </div>
+				       <div class="description">
+				          Operating Localities : 
+				          <span data-bind="foreach : locationProjects" style="margin-right:0;">
+				            <!-- ko if:$index()<=1 -->
+				              <span class="header" data-bind="text : $data"></span>
+				               <!-- ko if:$index()==0 -->
+				                <span class="header">,</span>
+				               <!-- /ko -->
+				            <!-- /ko -->
+				        </span>
+				        <span data-bind="if:locationProjects.length>2">
+				        (+
+				          <span class="header" data-bind="text : locationProjects.length-2"></span>)
+				        </span>
+				      </div>
+				      <div class="extra">
+				        <div class="ui right floated label">Enquiry now</div>
+				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="facebook square icon"></i></a>
+				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="share square icon"></i></a>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<div class="ui centered aligned grid" style="padding: 2rem 0;">
+					<div class="ui button">View all agents</div>
+				</div>
 			</div>
 		</div>
 		<div class="seven wide column">
@@ -300,6 +331,7 @@
 			  <img class="ui image" src="/images/square-image.png">
 			  <img class="ui image" src="/images/square-image.png">
 			</div>
+			<img class="ui medium rounded image" src="/images/map.jpg">
 		</div>
 	</div>
   <!-- Proj detailing ends here -->

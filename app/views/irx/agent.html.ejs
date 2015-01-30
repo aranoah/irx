@@ -101,17 +101,18 @@
 		        </span>
 		       </div>
 		    </div>
-		    <div class="inline field" data-bind="click:function(){$parent.addAgent(name,irxId)}">
+		    <!-- <div class="inline field" data-bind="click:function(){$parent.addAgent(name,irxId)}">
 			    <div class="ui checkbox">
 			    	<input type="checkbox">
 			    	<label></label>
 			    </div>
-		    </div>
+		    </div> -->
 		    <div class="extra content">
-		      <div class="right floated created">
-		        <a href=""><i class="facebook square icon"></i></a>
-		        <a href=""><i class="share square icon"></i></a>
-		      </div>
+		    	<a href=""><i class="facebook square icon"></i></a>
+				<a href=""><i class="share square icon"></i></a>
+				<div class="right floated created">
+					<div class="ui label" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId)}">Enquiry</div>
+				</div>
 		      <!--<a class="friends">
 		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
 		         &nbsp;&nbsp;Projects
