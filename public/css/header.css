@@ -122,7 +122,7 @@ body {
 }
 
 #searchbar .search-menu input {
-  width: 420px;
+  width: 340px;
 }
 
 .ui.slider.checkbox {
@@ -550,7 +550,7 @@ p >.mail.icon{
 }
 
 #autoDiv>ul>li .itLabel.header {
-  font-size: 1.2rem;
+  font-size: 1rem;
   text-transform: capitalize;
   color: #607d8b;
   font-weight: normal;
@@ -653,7 +653,15 @@ p >.mail.icon{
     position: absolute;
     width: 23.8rem;
     bottom: 0;
-}
+  }
+
+  .proj-listing .proj-content {
+    display: initial !important;
+  }
+
+  .proj-listing .ui.medium.image>.slider {
+    width: 100%;
+  }
 }
 
 @media only screen and (max-width : 992px) {
@@ -704,6 +712,10 @@ p >.mail.icon{
   .ui.stackable.grid>.column:first-child {
     padding-top: 1rem !important;
     padding-bottom: 1rem !important;
+  }
+
+  .proj-listing .proj-content {
+    display: initial !important;
   }
 }
 

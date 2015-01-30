@@ -48,11 +48,24 @@
 	.proContent {
 		color: #607d8b !important;
 		cursor: default !important;
-
 	}
+
   </style>
   
 </head>
+<style type="text/css">
+	.mobileFilter.ui.menu {
+		background: inherit !important;
+		box-shadow: none !important;
+	}
+
+	.mobileFilter.ui.menu>.item {
+		display: block !important;
+	}
+	#HideFilter {
+		display: none;
+	}
+</style>
 <body>
 	<% locals.uiContext.menu=false %>
   	<% include ../partials/header.html.ejs %>
@@ -66,38 +79,70 @@
   	<div id="projectContent" class="ui centered page grid">
 	  <div class="twelve wide column">
 
-	  	<div class="ui menu rib-head computer only">
-	        <h2 class="ui header item">Showing results for
-	          <span class="ui teal label"><!--ko text: filters.displayName--><!--/ko-->
-	          <!--ko text: filters.bhk--><!--/ko-->
-	          <!--ko text: filters.type--><!--/ko-->
-	          <!--ko text: filters.status--><!--/ko--></span>
-	        </h2>
-	        <h2 class="ui header column">Showing results for 
+	  	<!-- For mobile screens -->
 
-	    		<!--ko text: filters.displayName--><!--/ko-->
-	    		
-	    		<div class=""><!--ko text: filters.bhk--><!--/ko-->
-	    			<!--ko if: filters.bhk() != "" -->
-						<i data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i>
-					<!--/ko-->
+	  		<div class="ui menu rib-head tablet mobile only grid">
+			    <h2 class="ui header item">Showing results for 
+					<!--ko text: filters.displayName--><!--/ko-->   		
+				</h2>
+			    <a class="right menu">
+			    	<div id="mobFilter" class="ui teal label">Add Filter</div>
+			    	<div id="HideFilter" class="ui teal label">Hide Filter</div>
+			    </a>
+			</div>
+			<div class="mobileFilter ui menu tablet mobile only grid" style="display:none;">
+				<div class="item">
+				  <div class="ui right labeled icon dropdown button">
+				    <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
+				    <div class="default text">Property Type</div>
+				    <i class="angle down icon"></i>
+				    <div class="menu">
+				    <div class="item" data-value="apartments">Apartment</div>
+				    <div class="item" data-value="independent house">Independent House</div>
+				    <div class="item" data-value="villas">Villas</div>
+				    <div class="item" data-value="plot">Plot</div>
+				    <div class="item" data-value="row house">Row House</div>
+				    </div>
+				  </div>
 				</div>
+				<div class="item">
+				  <div class="ui right labeled icon dropdown button">
+				    <input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
+				    <div class="default text">Status</div>
+				    <i class="angle down icon"></i>
+				    <div class="menu">
+				      <div class="item" data-value="ongoing">ongoing</div>
+				      <div class="item" data-value="completed">completed</div>
+				      <div class="item" data-value="upcoming">upcoming</div>            
+				    </div>
+				  </div>
+				</div>
+				<div class="item">
+				  	<div class="ui right labeled icon dropdown button">
+					  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
+					  <div class="default text">Sort by relevance</div>
+					  <i class="sort right icon"></i>
+					  <div class="menu">
+					    <div class="item" data-value="asc">Newest</div>
+					    <div class="item" data-value="desc">Price : High to Low</div>
+					    <div class="item" data-value="asc">Price : Low to High</div>            
+					  </div>
+					</div>
+				</div>
+				<div class="item">
+				  <div class="ui checkbox _hasDistress_">
+				    <input type="checkbox" name="distress">
+				    <label>Show Distress</label>
+				  </div>
+				</div>
+			</div>
+	  	<!-- ends here -->
 
-	    		
-	    		<div><!--ko text: filters.type--><!--/ko-->
-	    			<!--ko if: filters.type() != "" -->
-						<i data-bind=" event: {  click:function(){removeFilters('type')} }" class="remove icon"></i>
-					<!--/ko-->
-				</div>
-				
-				<div><!--ko text: filters.status--><!--/ko-->
-	    			<!--ko if: filters.status() != "" -->
-						<i data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i>
-					<!--/ko-->
-				</div>
-	    		
+	  	<div class="ui menu rib-head computer only grid">
+	        <h2 class="ui header item">Showing results for 
+	    		<!--ko text: filters.displayName--><!--/ko-->    		
 	    	</h2>
-	        <div class="right menu">
+	        <a class="right menu">
 		        <div class="item">
 		          <div class="ui right labeled icon dropdown button">
 		            <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
@@ -142,7 +187,19 @@
 		            <label>Show Distress</label>
 		          </div>
 		        </div>
-		    </div>
+		    </a>
+	  	</div>
+
+	  	<div class="_filters_">
+	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''"><!--ko text: filters.bhk--><!--/ko-->
+    			<!--ko if: filters.bhk() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i><!--/ko-->
+			</span>	    		
+    		<span class="ui teal label" data-bind="visible:filters.type() != ''"><!--ko text: filters.type--><!--/ko-->
+    			<!--ko if: filters.type() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('type')} }" class="remove icon"></i><!--/ko-->
+			</span>				
+			<span class="ui teal label" data-bind="visible:filters.status() != ''"><!--ko text: filters.status--><!--/ko-->
+    			<!--ko if: filters.status() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i><!--/ko-->
+			</span>   		
 	  	</div>
 
 	    <!-- Project Listing goes here -->
@@ -196,7 +253,9 @@
 		    </div>
 		  </div>					  
 		</div>
-	    <div data-bind="foreach : projects" style="margin:2rem 0;">
+	    <div class="ui relaxed divided items" data-bind="foreach : projects" style="margin:2rem 0;">
+
+	    	
 	    	<div class="ui items proj-listing column"><!-- 
   				<a class="ui green ribbon label">Distress</a> -->
 				<div class="four column row">
@@ -206,81 +265,135 @@
 					</div>					
 					<div class="right floated column menu">						
 					  	<div class="social-share">
-						  	<div class="fb-like " data-bind="attr: { 'data-href': 'http://122.176.220.113:3000/project/'+ id }" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
-						  		<!--<div class="ui teal button"><i class="share icon"></i>share</div>-->
+						  	<!--<div class="fb-like " data-bind="attr: { 'data-href': 'http://122.176.220.113:3000/project/'+ id }" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
+						  		<div class="ui teal button"><i class="share icon"></i>share</div>-->
 					  	</div>				    	
 					</div>
 				</div>
 				<div class="item">
-					<div class="ui medium image">
-					  <img src="/images/project.jpg">
-					  <div class="slider">
-					  	<i class="chevron right icon"></i>
-					  	<span>3 PHOTOS</span>
-					  	<i class="chevron left icon"></i>
-					  </div>
-					</div>
-					<div class="content" style="width:54%;">				  
-					  <div class="ui content">				  	
-						<div class="extra">
-							<h3 class="ui header">
-								<i class="rupee icon"></i>
-								<!-- ko if:Array.isArray(priceText) -->
-									<!-- ko foreach:priceText -->
-										<!-- ko if:$index -->-<!-- /ko -->
-											<!-- ko if:$data != 0 -->
-												<!-- ko text:$data --><!-- /ko -->
-											<!-- /ko -->
-											<!-- ko if:$data == 0 -->
-												Not Available
-											<!-- /ko -->
-									<!-- /ko -->
-								<!-- /ko -->
-								<!-- ko if:!Array.isArray(priceText) -->
-									<!-- ko text:priceText --><!-- /ko -->
-								<!-- /ko -->
-							</h3>
+				  <div class="ui medium image">
+				      <img src="/images/project.jpg">
+				      <div class="slider">
+				        <i class="chevron right icon"></i>
+				        <span>3 PHOTOS</span>
+				        <i class="chevron left icon"></i>
+				      </div>
+				  </div>
+				  <div class="content">
+				    <a class="header" style="padding-top:1rem;"><i class="rupee icon"></i>
+				        <!-- ko if:Array.isArray(priceText) -->
+				          <!-- ko foreach:priceText -->
+				            <!-- ko if:$index -->-<!-- /ko -->
+				              <!-- ko if:$data != 0 -->
+				                <!-- ko text:$data --><!-- /ko -->
+				              <!-- /ko -->
+				              <!-- ko if:$data == 0 -->
+				                Not Available
+				              <!-- /ko -->
+				          <!-- /ko -->
+				        <!-- /ko -->
+				        <!-- ko if:!Array.isArray(priceText) -->
+				          <!-- ko text:priceText --><!-- /ko -->
+				        <!-- /ko -->
+				    </a>
+
+				    <!-- For mobile screens -->
+
+						<div class="ui one column grid mobile tablet only">
+						  <div class="column">
+						    <table class="ui small table pj-items extra column">
+						      <tbody>
+						        <tr>
+						          <td>Builder Name</td>
+						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builderName--><!--/ko--></a></td>
+						        </tr>
+						        <tr>
+						          <td>Property Type</td>
+						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
+						        </tr>
+						        <tr>
+						          <td>Unit</td>
+						          <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
+						        </tr>
+						        <tr>
+						          <td>Possesion</td>
+						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
+						        </tr> 
+						        <tr>
+						          <td>Area</td>
+						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: builtUpArea--><!--/ko--></a></td>
+						        </tr>
+						        <tr>
+						          <td>Status</td>
+						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: status--><!--/ko--></a></td>
+						        </tr>
+						      </tbody>
+						    </table> 
+						    <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
+						    <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+						    <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
+						  </div>
 						</div>
-						<table class="ui small table pj-items extra">
-						  <tbody>
-						  	<tr>
-						      <td>Builder Name</td>
-						      <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builderName--><!--/ko--></a></td>
-						    </tr>
-						    <tr>
-						      <td>Property Type</td>
-						      <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
-						    </tr>
-						    <tr>
-						      <td>Unit</td>
-						      <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
-						    </tr>
-						    <tr>
-						      <td>Possesion</td>
-						      <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
-						    </tr> 
-						    <tr>
-						      <td>Area</td>
-						      <td><a href="javascript:void(0)" class="header proContent">							<!--ko text: builtUpArea--><!--/ko--></a></td>
-						    </tr>
-						    <tr>
-						      <td>Status</td>
-						      <td><a href="javascript:void(0)" class="header proContent">							<!--ko text: status--><!--/ko--></a></td>
-						    </tr>
-						  </tbody>
-						</table>
-					  </div>					  
-					  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
-					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
-					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
-					</div>
-					<div class="ui buttons">
-						<div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
-						<div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquiry now</div>
-						<div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}">View agents</a></div>
-						<div class="ui basic button req-details" data-bind="click:function(){$parent.requestDetails($data) }">Request details</div>
-					</div>					  
+
+	    			<!-- ends here -->
+
+				    <div class="ui two column grid computer only">
+				    	<div class="column">
+				    		<table class="ui small table pj-items extra column">
+						      <tbody>
+						        <tr>
+						          <td>Builder Name</td>
+						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builderName--><!--/ko--></a></td>
+						        </tr>
+						        <tr>
+						          <td>Property Type</td>
+						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
+						        </tr>
+						        <tr>
+						          <td>Unit</td>
+						          <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
+						        </tr>
+						        <tr>
+						          <td>Possesion</td>
+						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
+						        </tr> 
+						        <tr>
+						          <td>Area</td>
+						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: builtUpArea--><!--/ko--></a></td>
+						        </tr>
+						        <tr>
+						          <td>Status</td>
+						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: status--><!--/ko--></a></td>
+						        </tr>
+						      </tbody>
+						    </table> 
+					      <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
+					      <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+					      <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
+					  	</div>
+					    <div class="column">
+					      <div class="ui right floated item _actButtons">
+					        <div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
+					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquiry now</div>
+					        <div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}">View agents</a></div>
+					        <div class="ui basic button req-details" data-bind="click:function(){$parent.requestDetails($data) }">Request details</div>
+					      </div>
+					    </div>
+				    </div>
+				  </div>
 				</div>
+
+				<!-- For tablet -->
+
+
+				  <div class="ui four column grid mobile tablet only _actButtons">				    
+				    <div class="column" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }"><i class="unhide icon" data-content="View details"></i></a></div>
+				    <div class="column leads-in" data-bind="click:function(){$parent.enquireNow($data) }"><i data-content="Enquiry now" class="edit icon"></i></div>
+				    <div class="column"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}"><i data-content="View agents" class="user icon"></i></a></div>
+				    <div class="column req-details" data-bind="click:function(){$parent.requestDetails($data) }"><i data-content="Request details" class="help circle icon"></i></div>				    
+				  </div>
+
+				<!-- ends here -->
 			</div>
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>

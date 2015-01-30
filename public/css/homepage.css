@@ -504,7 +504,7 @@
 	margin-top: 2rem;
 }
 
-.proj-listing .ui.buttons>div {
+.proj-listing ._actButtons>.ui.basic.button {
 	border: 0 !important;
 	border-radius: 0 !important;
 	box-shadow: 0 0 0 #000 !important;
@@ -517,15 +517,36 @@
 	margin: 0 .75rem .5rem 0;
 }
 
-.proj-listing .ui.buttons>div>a {
+.proj-listing ._actButtons>.ui.basic.button>a {
 	color: #607d8b !important;	
 }
 
-.proj-listing .ui.buttons>div:hover, .proj-listing .ui.buttons>div>a:hover {
+.proj-listing ._actButtons>.ui.basic.button:hover, .proj-listing ._actButtons>.ui.basic.button>a:hover {
 	background-color: #607d8b !important;
 	color: #fff !important;
 	cursor: pointer;
 }
+
+/** mobile and tablet **/
+
+.mobile.tablet.only._actButtons i.icon {
+	background: #f5f5f5 !important;
+	color: #607d8b !important;
+	font-size: 1.2rem;
+	padding: 1rem;
+	width: auto;
+	height: auto;
+	margin: inherit;
+
+}
+
+.mobile.tablet.only._actButtons i.icon:hover {
+	cursor: pointer;
+	background: #607d8b !important;
+	color: #fff !important;
+}
+
+/* ends here */
 
 .proj-listing table, .proj-listing table tr td {
 	border: 0 !important;
@@ -564,4 +585,3 @@
 	left: 25%;
 	cursor: pointer;
 }
-
