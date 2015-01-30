@@ -302,14 +302,21 @@
 		
 		var classInstance = this;  
 		classInstance.viewModel.agents([]);
-		classInstance.viewModel.filters.name(filters.name);
-		classInstance.viewModel.filters.projectId(filters.projectId);
-		classInstance.viewModel.filters.displayName(filters.name);
-		ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
+		if(filters){
+			classInstance.viewModel.filters.name(filters.name);
+			classInstance.viewModel.filters.projectId(filters.projectId);
+			classInstance.viewModel.filters.displayName(filters.name);
+		}
+		if(data && data.result){
+			ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
+		}	
 		$('.doubling.two.column.row').hide();
-		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+		if(data.page != null){
+			classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
         classInstance.viewModel.start(classInstance.page.start) ;
         classInstance.viewModel.pageSize=data.page.pageSize;
+		}
+		
 
 	}
 	var agent = null;

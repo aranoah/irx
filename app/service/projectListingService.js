@@ -48,6 +48,10 @@ ProjectListingService.prototype.listProjects = function(data){
 	if(filters && filters.city != null &&  filters.city != "") {
 		query["location.city"]=filters.city;
 	}
+	if(filters && filters.localityId != null &&  filters.localityId != "") {
+		console.log("filters",filters.localityId)
+		query["location.locality"]=filters.localityId;
+	}
 	if(filters && filters.type != null &&  filters.type != "") {
 		query["type"]=filters.type;
 	}

@@ -647,11 +647,11 @@
 
 			       arr[i].priceText =  aPriceArr;
 		 		}
-			console.log(arr)
-	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
-		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
+			classInstance.viewModel.projects([])
+	       	ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
+			//ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
 		$('.doubling.two.column.row').hide();
-		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+			classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;
 
@@ -666,6 +666,7 @@
 	    		}	
 	      })
 	}
+	
 	Project.prototype.listProjects = function(replace,setUpdate) {
 		
 		var classInstance = this;

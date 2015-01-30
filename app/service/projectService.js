@@ -71,8 +71,9 @@ ProjectService.prototype.getProjectDetails = function(projectId) {
 *	List Preferred agents
 *
 **/
-ProjectService.prototype.listPreferedAgents = function(projectId) {
+ProjectService.prototype.listPreferedAgents = function(data) {
 	console.log("In listPreferedAgents")
+	var projectId = data.projectId;
 	var _selfInstance = this;
 	var Mapping = IRXAgentMProductModel;
 	var id = projectId;
@@ -96,7 +97,14 @@ ProjectService.prototype.listPreferedAgents = function(projectId) {
 	 	})
 		
 	}) 
-	Mapping.find({"project":id},{"agentId":1},{skip:0,limit:4 },
+	var query ={"project":id};
+	console.log("qq",data.location)
+	if(data.location){
+		console.log("ka be")
+		query={"location":id}
+	}
+	console.log("hey",query)
+	Mapping.find(query,{"agentId":1},{skip:0,limit:4 },
 					function(err,mapping){
 						if(err){
 							console.log(err)

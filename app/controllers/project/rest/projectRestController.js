@@ -31,7 +31,12 @@ projectRestController.listPreferedAgents = function() {
     projService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
-    projService.listPreferedAgents(_nself.req.params.projectId);
+   
+    var data = {
+        "projectId":_nself.req.params.projectId,
+        "location":_nself.req.query.location
+    }
+    projService.listPreferedAgents(data);
 };
 projectRestController.getProjectDetails = function() {
     var projService = new projectService();

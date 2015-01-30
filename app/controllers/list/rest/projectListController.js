@@ -143,7 +143,7 @@ projectController.autocomplete = function() {
     index: 'irx_schema',
     type:"irx-euser,irx-eproduct",
     body: {
-      fields : ["id", "name", "type"],
+      fields : ["id", "name", "type","productType"],
       query: {
         prefix: {
           name: text

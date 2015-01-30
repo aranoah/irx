@@ -17,6 +17,7 @@
       order : ko.observable("asc"),
       searchType : ko.observable("project"),
       sProAgents : ko.observable(false),
+      sLocAgents : ko.observable(false),
       projectId : ko.observable(""),
       city : ko.observable(""),
       showCity : ko.observable("city"),
@@ -68,9 +69,13 @@
                 return true;
               }
             } else if(self.searchType()=='agent'){
+              alert(self.sLocAgents())
               if(typeof(agent)!="undefined"){
                 if(self.sProAgents()){
-                  _classInstance.fetchAgentOfProResult(data)
+                  _classInstance.fetchAgentOfProResult(data,false)
+                }else if(self.sLocAgents()){
+                  
+                   _classInstance.fetchAgentOfProResult(data,true)
                 }else{
                   _classInstance.fetchAgentResult(data)  
                 }
@@ -151,12 +156,14 @@
            
             source: function(request, response){
                 var _self = this;
+
                 if(_classInstance.viewModel.searchType()=='project'){
                   _classInstance.projectAutocomplete(request.term,request,response)
                 } else if(_classInstance.viewModel.searchType()=='agent'){
                   _classInstance.agentAutocomplete(request.term,request,response)
-                } else if(_classInstance.viewModel.searchType()=='location'){
-                  _classInstance.projectAutocomplete(request.term,request,response,location)
+                } else if(_classInstance.viewModel.searchType()=='locality'){
+                  alert(_classInstance.viewModel.searchType())
+                  _classInstance.projectAutocomplete(request.term,request,response,"location")
                 }
               },
               minLength: 2,
@@ -165,16 +172,32 @@
               appendTo:'#autoDiv',
               select: function( event, ui ) {
 
-                  $('#__searchAuto').val(ui.item.name)
+                  $("#__searchAuto").val(ui.item.name)
+                    _classInstance.resetReqParams();
                    _classInstance.viewModel.name(ui.item.name);
                    if(_classInstance.viewModel.searchType()=='agent'){
                     if(_classInstance.type[ui.item.type]=='project'){
-                      
-                      _classInstance.viewModel.sProAgents(true);
+                      if(ui.item.productType == 'project'){
+                        _classInstance.viewModel.sProAgents(true);
                       _classInstance.viewModel.projectId(ui.item.id);
+                      }else{
+                        alert(1)
+                        _classInstance.viewModel.sLocAgents(true);
+                      _classInstance.viewModel.projectId(ui.item.id);
+                      }
+                      
                     } else{
                        _classInstance.viewModel.sProAgents(false);
                       _classInstance.viewModel.projectId("");
+                    }
+                    
+                  } else if(_classInstance.viewModel.searchType()=='project'){
+                    
+                    if(ui.item.productType == 'project'){
+                    
+                      location.href="/project/"+ui.item.id;
+                    } else {
+                      _classInstance.listProjectsOfLocation(ui.item.id)
                     }
                     
                   }
@@ -221,12 +244,20 @@
               select: function( event, ui ) {
 
                   $("#__searchAutoM").val(ui.item.name)
+                    _classInstance.resetReqParams();
                    _classInstance.viewModel.name(ui.item.name);
                    if(_classInstance.viewModel.searchType()=='agent'){
                     if(_classInstance.type[ui.item.type]=='project'){
-                      
-                      _classInstance.viewModel.sProAgents(true);
+                      if(ui.item.productType == 'project'){
+                        
+                        _classInstance.viewModel.sProAgents(true);
                       _classInstance.viewModel.projectId(ui.item.id);
+                      }else{
+                         
+                        _classInstance.viewModel.sLocAgents(true);
+                      _classInstance.viewModel.projectId(ui.item.id);
+                      }
+                      
                     } else{
                        _classInstance.viewModel.sProAgents(false);
                       _classInstance.viewModel.projectId("");
@@ -237,6 +268,9 @@
                     if(ui.item.productType == 'project'){
                     
                       location.href="/project/"+ui.item.id;
+                    } else {
+                      
+                      _classInstance.listProjectsOfLocation(ui.item.id)
                     }
                     
                   }
@@ -297,10 +331,41 @@
         })
      
     }
+
+    SearchBar.prototype.resetReqParams=function(data){
+      alert(1)
+      var _classInstance = this;
+      _classInstance.viewModel.name("");
+      _classInstance.viewModel.projectId("");
+    }
+    SearchBar.prototype.listProjectsOfLocation=function(localityId){
+      var classInstance = this;
+          var data = {
+            "localityId":localityId
+          }
+          var filters = {
+            "name" : classInstance.viewModel.name()
+          }
+          console.log()
+          httpUtils.post("/list-projects",
+                        {filters:data,page:classInstance.page},
+                        {},"JSON",function(result){
+            if(result.status==0){
+
+              project.renderResult(result,filters)
+            }else{
+            var arr = new Array();
+              project.renderResult(arr,filters)
+            }
+        })
+     
+    }
     SearchBar.prototype.fetchAgentResult=function(data){
       var classInstance = this;
       classInstance.viewModel.projectId("");
       classInstance.viewModel.sProAgents(false);
+      classInstance.viewModel.sProAgents(false);
+      
       
            httpUtils.post("/list-agents",
             {filters:classInstance.viewModel.filters,page:classInstance.page}
@@ -317,11 +382,21 @@
           })
      
     }
-    SearchBar.prototype.fetchAgentOfProResult=function(data){
+    SearchBar.prototype.resetAutocompleteFilters=function(data,location){
       var classInstance = this;
-      alert(classInstance.viewModel.projectId())
+      classInstance.viewModel.sProAgents(false);
+      classInstance.viewModel.sLocAgents(false);
+    }
+    SearchBar.prototype.fetchAgentOfProResult=function(data,location){
+      var classInstance = this;
+        classInstance.resetAutocompleteFilters();
+          var params= {}
+          if(location ){
+            params = {"location":location}
+          }
+
            httpUtils.get("/prefered-agents/"+classInstance.viewModel.projectId(),
-            {}
+            params
             ,"JSON"
             ,function(result){
           
@@ -383,8 +458,11 @@
             }else{
               name = item.fields.name
             }    
-
-            return {id:item.fields.id[0],name:name,type:item._type};
+            var productType="";
+            if(item.fields.productType && item.fields.productType.length >0){
+              productType = item.fields.productType[0]
+            }
+            return {id:item.fields.id[0],name:name,type:item._type,productType:productType};
           }));
         }
     })
