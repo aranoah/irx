@@ -66,7 +66,7 @@
 		display: none;
 	}
 </style>
-<body>
+<body class="<%="irx-"+(locals.req.device.type)%>">
 	<% locals.uiContext.menu=true %>
   	<% include ../partials/header.html.ejs %>
 
@@ -78,13 +78,13 @@
 	  	
 	  	<!-- For mobile screens -->
 
-	  		<div class="ui menu rib-head tablet mobile only grid">
-			    <h2 class="ui header item">Showing results for 
+	  		<div class="ui menu rib-head tablet mobile only grid" style="border:0 !important;">
+			    <h2 class="ui header item">Showing results for
 					<!--ko text: filters.displayName--><!--/ko-->   		
 				</h2>	   
-			    <a class="right menu">
-			    	<div id="mobFilter" class="ui teal label">Add Filter</div>
-			    	<div id="HideFilter" class="ui teal label">Hide Filter</div>
+			    <a class="right menu" style="padding:.5rem 0;">
+			    	<div id="mobFilter" class="ui teal label"><i style="margin-right: 0;" class="icon filter"></i></div>
+			    	<div id="HideFilter" class="ui teal label"><i style="margin-right: 0;" class="icon hide"></i></div>
 			    </a>
 			</div>
 			<div class="mobileFilter ui menu tablet mobile only grid" style="display:none;">
@@ -136,7 +136,7 @@
 	  	<!-- ends here -->
 
 	  	<div class="ui menu rib-head computer only grid">
-	        <h2 class="ui header item">Showing results for 
+	        <h2 class="ui header item">Showing results for
 	    		<!--ko text: filters.displayName--><!--/ko-->    		
 	    	</h2>
 	        <a class="right menu">
@@ -270,11 +270,11 @@
 				<div class="item">
 				  <div class="ui medium image">
 				      <img src="/images/project.jpg">
-				      <div class="slider">
+				      <!-- <div class="slider">
 				        <i class="chevron right icon"></i>
 				        <span>3 PHOTOS</span>
 				        <i class="chevron left icon"></i>
-				      </div>
+				      </div> -->
 				  </div>
 				  <div class="content">
 				    <a class="header" style="padding-top:1rem;"><i class="rupee icon"></i>

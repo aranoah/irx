@@ -1,6 +1,10 @@
 <!-- Search menu goes her
   -->
   <style>
+    #__searchAuto {
+      padding-left:7.7rem !important;
+      width:100% !important;
+    }
     .ui.default.dropdown>.text, .ui.dropdown>.default.text {
       text-transform :capitalize;
     }
@@ -85,7 +89,7 @@
     }
     ._searchInput_ .ui.dropdown.label {
       position:absolute;
-      top:0;right:0;
+      top:0;left:0;
       padding-top: 0.75em;
       padding-bottom: .75em;
     }
@@ -97,23 +101,22 @@
   
     <div class="ui grid smenu-hide mobile tablet only">
       <div class="ui mobile row" tabindex="0">
-        <div class="item _searchInput_ twelve wide column">
-        <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
-        <div class="ui right labeled input" style="border-radius:0;">
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
-          <div class="ui dropdown teal label">
-            <input type="hidden" data-bind="value: searchType" name="searchType">
-            <div class="text">Select</div>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-              <div class="item" data-value="project">Projects</div>
-              <div class="item" data-value="agent">Agents</div>
+        <div class="item _searchInput_ fourteen wide column">
+          <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
+          <div class="ui labeled input" style="border-radius:0;">
+            <div class="ui dropdown teal label">
+              <input type="hidden" data-bind="value: searchType" name="searchType">
+              <div class="text">Select</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item" data-value="project">Projects</div>
+                <div class="item" data-value="agent">Agents</div>
+              </div>
             </div>
+            <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">            
           </div>
         </div>
-      </div>
-        <div class="item filter ui dropdown link four wide column">
-          Filter
+        <div class="item filter ui dropdown link one wide column">
           <i class="filter icon search-filter"></i>
         </div>
       </div>
@@ -155,9 +158,8 @@
 
       <div class="item _searchInput_">
         <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
-        <div class="ui right labeled input" style="width:420px;border-radius:0;">
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
-          <div class="ui dropdown teal label">
+        <div class="ui labeled input" style="width:420px;border-radius:0;">
+          <div class="ui dropdown basic label">
             <input type="hidden" data-bind="value: searchType" name="searchType">
             <div class="text">Select</div>
             <i class="dropdown icon"></i>
@@ -166,6 +168,7 @@
               <div class="item" data-value="agent">Agents</div>
             </div>
           </div>
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">          
         </div>
       </div>
       <!-- ends here -->
@@ -239,8 +242,9 @@
 
       </div>
     </div>
-
+      <div id="autoDiv" style="width:100px;"></div>
     </div>
   </form>
 </div>
-<div id="autoDiv" class="item" style="width:100px"></div>
+
+

@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
 
 	$('.middleBox>div').mouseenter(function() {
@@ -31,6 +32,10 @@ $(document).ready(function () {
     $('.mobileFilter').hide();
 
   });
+
+  $('.ui.accordion')
+  .accordion()
+;
 
  
 

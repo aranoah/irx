@@ -11,8 +11,8 @@
   </style>
 </head>
 <% locals.uiContext.menu=true %>
-<body>  
-  <% include ../partials/header.html.ejs %> 
+<body>
+  <% include ../partials/header.html.ejs %>
 
   <!-- agents Listing goes here -->
 
@@ -53,7 +53,7 @@
 			      <input type="checkbox">
 			      <label>Distress</label>
 			    </div>
-				<div class="ui basic button">submit request</div>
+				<div class="ui basic button" id="_subReq_">submit request</div>
 	    	</div>
 	    </div>
 	    <div class="ui cards sc" data-bind="foreach : agents">
@@ -101,7 +101,12 @@
 		        </span>
 		       </div>
 		    </div>
-		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
+		    <div class="inline field" data-bind="click:function(){$parent.addAgent(name,irxId)}">
+			    <div class="ui checkbox">
+			    	<input type="checkbox">
+			    	<label></label>
+			    </div>
+		    </div>
 		    <div class="extra content">
 		      <div class="right floated created">
 		        <a href=""><i class="facebook square icon"></i></a>
@@ -117,8 +122,8 @@
 		    </div>
 		  </div>
 		  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
-					  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
-					  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
+		  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+		  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
 					  
 		</div>	   
@@ -132,10 +137,14 @@
 			start : 0,
 			pageSize : 3
 		}
+		this.agentIds = [];
 	}
 	Agent.prototype.init = function() {
-
 		var _classInstance = this;
+		_classInstance.aPostReqViewModel = common.getViewModel('postAgent');
+		common.aPostReqViewModel = _classInstance.aPostReqViewModel;
+		ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
+		
 		ko.bindingHandlers.scroll = {
 
 		  updating:true,
@@ -228,9 +237,28 @@
 			total: ko.observable(),
 			addSome : function(){
 				//_classInstance.listAgents(true);
-			}
+			},
+			addAgent:function(name,id){
+				var agent={"name":name,"id":id}
+		        _classInstance.agentIds.push(agent)
+		        
+		     }
 		}
+		$(document).off('click','#_subReq_')
+		$(document).on('click','#_subReq_',function(){
+
+			var arr = _classInstance.agentIds;
+			
+			ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
+			console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
+			 _classInstance.agentIds=[];
+			$('#_postA_').modal({
+			      closable:false
+			    }).modal('show');
+			})
+
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));
+		
 		_classInstance.listAgents(true);
 	}
 	

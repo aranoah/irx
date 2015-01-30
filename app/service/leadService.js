@@ -182,7 +182,7 @@ LeadService.prototype.reviewLeadVerify = function(data) {
 };
 
 /*
-* List Lead 
+* List Lead // Add criteria
 */
 
 LeadService.prototype.listLeads = function(data) {
