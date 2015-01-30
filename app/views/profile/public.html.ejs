@@ -87,8 +87,8 @@
                 <img src="/img/proj.png">
                 <div class="meta">
                   <h4 class="header projectName" data-bind="text: name">THE PRESIDENTIAL TOWER</h4>
-                  <p class="cinema projectDetail" data-bind="text: builderName">Mantri Developers</p>
-                  <p class="cinema projectDetail" data-bind="text: location.city">DLF,Gurgaon,Haryana</p>
+                  <p class="cinema projectDetail" data-bind="text: builderName"style="text-align:center;">Mantri Developers</p>
+                  <p class="cinema projectDetail" data-bind="text: location.city"style="text-align:center;">DLF,Gurgaon,Haryana</p>
                 </div>
             </div>
             
@@ -109,7 +109,7 @@
               <div class="meta loc-item">
                 <h4 class="header projectName" data-bind="text: name">mgf city center</h4>
                 <p class="cinema projectDetail" data-bind="text: location.city">Gurgaon,Haryana</p>
-                <span class="header"><i class="user icon"></i>24</span>
+                <span class="header"><i class="user icon"></i><b style="color:#00bcd4;">24</b></span>
                 <span class="header"><i class="file image outline icon"></i>24</span>
               </div>
             </div>
@@ -125,8 +125,15 @@
           <div class="rib-items ui grid">
 
             <div class="ui relaxed list ten wide column review-item">
-              <div class="item">
-                <img class="ui avatar image" src="http://semantic-ui.com/images/avatar/small/daniel.jpg">
+              <h3 class="ui header column"style="font-weight: 500; font-size: 0.9rem; margin-top: -0.7rem;">Write a Review</h3>
+                <form class="ui reply form">
+                  <div class="field">
+                    <textarea placeholder="Write a Review here..." style="min-height: 2em; max-height: 6em; margin-top:-0.7rem;font-weight:300;"></textarea>
+                  </div>
+                  <div class="ui button reply">Add Reply</div>
+                </form>
+                <div class="item">
+                <img class="ui avatar image" src="images/property.jpg">
                 <div class="content">
                   <a class="header">Daniel Louise</a>
                   <div class="description">Nov 20,2014</div>
