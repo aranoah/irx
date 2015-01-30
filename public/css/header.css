@@ -112,7 +112,7 @@ body {
 }
 
 #searchbar .cont-ainer .ui.selection.dropdown {
-  min-width: 158px !important;
+  min-width: 180px !important;
   background-color: inherit !important;
 }
 
@@ -615,6 +615,23 @@ margin-right: 1rem;
     right: 0;
   }
 
+  .proj-listing h3.ui.header{
+    border-right: 0;
+    padding-right: 0;
+  }
+
+  .proj-listing h5.ui.header {
+    padding-left: 0;
+  }
+
+  .mobileFilter.ui.menu.tablet.mobile.only.grid>.item:before {
+    background: inherit !important;
+  }
+
+  ._searchInput_>.ui.right.labeled.input>input {
+    width: inherit !important;
+  }
+
   #search-box {
     width: 330px !important;
   }
@@ -653,9 +670,6 @@ margin-right: 1rem;
     display: initial !important;
   }
 
-  .proj-listing .ui.medium.image>.slider {
-    width: 100%;
-  }
 }
 
 @media only screen and (max-width : 992px) {

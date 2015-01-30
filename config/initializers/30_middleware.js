@@ -21,6 +21,8 @@ var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var hashAlgo = require(_path_util+"/sha1.js");
 var cors=require("cors");
 var messages = require(_path_env+'/message');
+var device = require('express-device');
+ 
 
 module.exports = function() {
   // Use middleware.  Standard [Connect](http://www.senchalabs.org/connect/)
@@ -73,9 +75,9 @@ module.exports = function() {
   this.use(express.cookieParser());
   this.use(express.session({secret: 'aniyus'}));
   this.use(express.bodyParser());
-
   this.use(express.methodOverride());
   this.use(cansec);
+  this.use(device.capture());
   this.use(function(req, res, next) {
     res.locals.req = req;
     if(req.session['X-CS-Auth']){
@@ -83,12 +85,14 @@ module.exports = function() {
       } else{
           res.locals.session = {};
       }
-  
+     console.log("shshshhshshshs---->",req.device);
+
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
   });
+  
   this.use(this.router);
   this.use(express.errorHandler());
   

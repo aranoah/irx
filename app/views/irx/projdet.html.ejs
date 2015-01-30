@@ -5,11 +5,11 @@
   <link rel="stylesheet" type="text/css" href="/css/projdet.css">
 </head>
 <style type="text/css">
-	.ui.images {
+	#desktop-projDet .ui.images {
 		padding: 1rem 0;
 	}
 
-	.ui.images .image, .ui.images img {
+	#desktop-projDet .ui.images .image, #desktop-projDet .ui.images img {
 		width: 120px !important;
 	}
 </style>
@@ -18,120 +18,290 @@
 
   <!-- Proj Detailing starts here -->
 
-	<div class="ui divided padded grid">
+  	<!-- For mobile screens -->
 
-	<div class="nine wide column">
-		<div class="ui inverted segment head four column row">
-			<h3 class="left floated column"><%= result.name %></h3>			
-			<div class="right floated column">
-				<i class="mail icon"></i> i'm interested
+  		<div id="mobile-projDet" class="ui relaxed stackable grid mobile tablet only">
+
+			
+			<div class="ui inverted segment head">
+				<h3 class="ui header"><%= result.name %></h3>			
+				<h4 class="ui header">
+					<i class="mail icon"></i> i'm interested
+				</h4>
+			</div>
+			<input id="_projectId" value="<%= projectId %>" type="hidden">
+			<div class="ui inverted title">
+				<div class="item">				
+					<h2 class="ui header">Golden Panorama</h2>
+					<h4 class="ui header"><%= result.builderName %></h4>
+				</div>
+				<div class="item _price">
+					<h2><i class="rupee icon"></i> <%= result.price %></h2>
+				</div>
+			</div>
+			<div class="ui one column grid">
+				<div class="column">
+					<table>
+						<tbody>
+							<tr>
+								<td>Built-up Area</td>
+								<th>580-1350 sq.ft.</th>
+							</tr>
+							<tr>
+								<td>BHK</td>
+								<th><%= result.bhk %></th>
+							</tr>
+							<tr>
+								<td>Possession</td>
+								<th><%= result.possession %></th>
+							</tr>
+							<tr>
+								<td>Property Type</td>
+								<th><%= result.type %></th>
+							</tr>
+							<tr>
+								<td>Locality</td>
+								<th><%= result.location.locality %></th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>		
+			<div class="ui inverted xtra">
+				<div class="item">				
+					<h3 class="ui header">Region</h3>
+					<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
+				</div>
+				<div class="item _button">
+					<div class="ui blue small button req-details"><i class="icon edit"></i>Request Details</div>
+					<div class="ui blue small button leads-in"><i class="icon help circle"></i>Enquiry Now</div>
+				</div>
+			</div>
+			<div class="content">
+				<div class="ui top attached tabular menu">
+			  <a class="active item" data-tab="first">Description</a>
+			  <a class="item" id="pref_agents_btn" data-tab="second">Preferred Agents</a>
+			</div>
+			<div class="ui bottom attached active tab segment" data-tab="first"><%= result.description %></div>
+			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="second">
+			   <div class="ui cards sc" data-bind="foreach : agents">
+
+			  <div class="card">
+			    <div class="ui image tiny">
+			      <img src="/images/elliot.jpg">
+			    </div>
+			    <div class="content">
+
+			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
+			      <a class="group" data-bind="text : companyName">IRX India</a>
+
+			      <div class="content addr-ess">
+	    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+	    		  </div>
+			      <div class="description">
+			        Specialities : 
+			        <span data-bind="foreach : specialities">
+				        <!-- ko if:$index()<=1 -->
+				        	<span class="header" data-bind="text : $data"></span>
+				        	 <!-- ko if:$index()==0 -->
+				        	 	<span class="header">,</span>
+				        	 <!-- /ko -->
+				        <!-- /ko -->
+				    </span>
+			        <span data-bind="if:specialities.length>2">
+			        (+
+			        	<span class="header" data-bind="text : specialities.length-2"></span>)
+			        </span>
+			       </div>
+			    </div>
+			    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
+			    <div class="extra content">
+			      <div class="right floated created">
+			        <a href=""><i class="facebook square icon"></i></a>
+			        <a href=""><i class="share square icon"></i></a>
+			      </div>
+			      <a class="friends">
+			        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
+			         &nbsp;&nbsp;Projects
+			      </a><a class="friends">
+			        <i class="location arrow icon"></i>
+			        22 Locations
+			      </a>
+			    </div>
+			  </div>
+
+			</div>	
+			</div>
+			</div>
+			<img class="ui medium rounded image" src="/images/project.jpg">
+			<div class="ui images">
+			  <img class="ui tiny image" src="/images/square-image.png">
+			  <img class="ui tiny image" src="/images/square-image.png">
+			  <img class="ui tiny image" src="/images/square-image.png">
+			  <img class="ui tiny image" src="/images/square-image.png">
 			</div>
 		</div>
-		<input id="_projectId" value="<%= projectId %>" type="hidden">
-		<div class="ui inverted title four column row">
-			<div class="left floated column">				
-				<h2 class="ui header">Golden Panorama</h2>
-				<h4 class="ui header"><%= result.builderName %></h4>
+
+
+  	<!-- ends here -->
+
+	<div id="desktop-projDet" class="ui divided padded grid computer only">
+
+		<div class="nine wide column">
+			<div class="ui inverted segment head four column row">
+				<h3 class="left floated column"><%= result.name %></h3>			
+				<div class="right floated column">
+					<i class="mail icon"></i> i'm interested
+				</div>
 			</div>
-			<div class="right floated column">
-				<h2><i class="rupee icon"></i> <%= result.price %></h2>
+			<input id="_projectId" value="<%= projectId %>" type="hidden">
+			<div class="ui inverted title four column row">
+				<div class="left floated column">				
+					<h2 class="ui header">Golden Panorama</h2>
+					<h4 class="ui header" style="margin-bottom:1rem;"><%= result.builderName %></h4>
+				</div>
+				<div class="right floated column">
+					<h2><i class="rupee icon"></i> <%= result.price %></h2>
+				</div>
+			</div>
+			<table class="ui table">
+			  <thead>
+			    <tr>
+			      <th>Built-up Area</th>
+			      <th>BHK</th>
+			      <th>Possession</th>
+			      <th>Property Type</th>
+			      <th>Locality</th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr>
+			      <td>580-1350 sq.ft.</td>
+			      <td><%= result.bhk %></td>
+			      <td><%= result.possession %></td>
+			      <td><%= result.type %></td>
+			      <td><%= result.location.locality %></td>
+			    </tr>
+			  </tbody>
+			</table>		
+			<div class="ui inverted xtra four column row">
+				<div class="left floated column">				
+					<h3 class="ui header">Region</h3>
+					<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
+				</div>
+				<div class="right floated column">
+					<div class="ui blue button req-details"><i class="icon edit"></i>Request Details</div>
+					<div class="ui blue button leads-in"><i class="icon help circle"></i>Enquiry Now</div>
+				</div>
+			</div>
+			<div class="ui top attached tabular menu">
+			  <a class="active item" data-tab="first">Amenities</a>
+			  <a class="item" data-tab="second">Floor Plan</a>
+			  <a class="item" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
+			</div>
+			<div class="ui bottom attached active tab segment" data-tab="first">
+				<div class="ui accordion">
+				    <div class="active title">
+				      <i class="dropdown icon"></i>
+				      What is a dog?
+				    </div>
+				    <div class="active content">
+				      <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+				    </div>
+				    <div class="title">
+				      <i class="dropdown icon"></i>
+				      What kinds of dogs are there?
+				    </div>
+				    <div class="content">
+				      <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+				    </div>
+				    <div class="title">
+				      <i class="dropdown icon"></i>
+				      How do you acquire a dog?
+				    </div>
+				    <div class="content">
+				      <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
+				      <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
+				    </div>
+				  </div>
+			</div>
+			<div class="ui bottom attached tab segment" data-tab="second">
+				<img class="ui medium image" src="/images/square-image.png"><br>
+				<img class="ui medium image" src="/images/square-image.png"><br>
+				<img class="ui medium image" src="/images/square-image.png">
+			</div>
+			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
+<% for(var iii=0;iii<5;iii++){ %>
+			   <div class="ui cards sc" data-bind="foreach : agents">
+
+			  <div class="card">
+			    <div class="ui image tiny">
+			      <img src="/images/elliot.jpg">
+			    </div>
+			    <div class="content">
+
+			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
+			      <a class="group" data-bind="text : companyName">IRX India</a>
+
+			      <div class="content addr-ess">
+	    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+	    		  </div>
+			      <div class="description">
+			        Projects : 
+			        <span data-bind="foreach : projects" style="margin-right:0;">
+				        <!-- ko if:$index()<=1 -->
+				        	<span class="header" data-bind="text : $data"></span>
+				        	 <!-- ko if:$index()==0 -->
+				        	 	<span class="header">,</span>
+				        	 <!-- /ko -->
+				        <!-- /ko -->
+				    </span>
+			        <span data-bind="if:projects.length>2">
+			        (+
+			        	<span class="header" data-bind="text : projects.length-2"></span>)
+			        </span>
+			       </div>
+			       <div class="description">
+			        Operating Localities : 
+			        <span data-bind="foreach : locationProjects" style="margin-right:0;">
+				        <!-- ko if:$index()<=1 -->
+				        	<span class="header" data-bind="text : $data"></span>
+				        	 <!-- ko if:$index()==0 -->
+				        	 	<span class="header">,</span>
+				        	 <!-- /ko -->
+				        <!-- /ko -->
+				    </span>
+			        <span data-bind="if:locationProjects.length>2">
+			        (+
+			        	<span class="header" data-bind="text : locationProjects.length-2"></span>)
+			        </span>
+			       </div>
+			    </div>
+			    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
+			    <div class="extra content">
+			      <div class="right floated created">
+			        <a href=""><i class="facebook square icon"></i></a>
+			        <a href=""><i class="share square icon"></i></a>
+			      </div>
+			    </div>
+			  </div>
+
+
+
+			</div>	
+			<%}%>
 			</div>
 		</div>
-		<table class="ui table">
-		  <thead>
-		    <tr>
-		      <th>Built-up Area</th>
-		      <th>BHK</th>
-		      <th>Possession</th>
-		      <th>Property Type</th>
-		      <th>Locality</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr>
-		      <td>580-1350 sq.ft.</td>
-		      <td><%= result.bhk %></td>
-		      <td><%= result.possession %></td>
-		      <td><%= result.type %></td>
-		      <td><%= result.location.locality %></td>
-		    </tr>
-		  </tbody>
-		</table>		
-		<div class="ui inverted xtra four column row">
-			<div class="left floated column">				
-				<h3 class="ui header">Region</h3>
-				<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
+		<div class="seven wide column">
+			<img class="ui medium rounded image" src="/images/project.jpg">
+			<div class="ui images">
+			  <img class="ui image" src="/images/square-image.png">
+			  <img class="ui image" src="/images/square-image.png">
+			  <img class="ui image" src="/images/square-image.png">
+			  <img class="ui image" src="/images/square-image.png">
 			</div>
-			<div class="right floated column">
-				<div class="ui blue button req-details"><i class="icon edit"></i>Request Details</div>
-				<div class="ui blue button leads-in"><i class="icon help circle"></i>Enquiry Now</div>
-			</div>
-		</div>
-		<div class="ui top attached tabular menu">
-		  <a class="active item" data-tab="first">Description</a>
-		  <a class="item" id="pref_agents_btn" data-tab="second">Preferred Agents</a>
-		</div>
-		<div class="ui bottom attached active tab segment" data-tab="first"><%= result.description %></div>
-		<div id="pref_agents" class="ui bottom attached tab segment" data-tab="second">
-		   <div class="ui cards sc" data-bind="foreach : agents">
-
-		  <div class="card">
-		    <div class="ui image tiny">
-		      <img src="/images/elliot.jpg">
-		    </div>
-		    <div class="content">
-
-		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-		      <a class="group" data-bind="text : companyName">IRX India</a>
-
-		      <div class="content addr-ess">
-    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
-    		  </div>
-		      <div class="description">
-		        Specialities : 
-		        <span data-bind="foreach : specialities">
-			        <!-- ko if:$index()<=1 -->
-			        	<span class="header" data-bind="text : $data"></span>
-			        	 <!-- ko if:$index()==0 -->
-			        	 	<span class="header">,</span>
-			        	 <!-- /ko -->
-			        <!-- /ko -->
-			    </span>
-		        <span data-bind="if:specialities.length>2">
-		        (+
-		        	<span class="header" data-bind="text : specialities.length-2"></span>)
-		        </span>
-		       </div>
-		    </div>
-		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
-		    <div class="extra content">
-		      <div class="right floated created">
-		        <a href=""><i class="facebook square icon"></i></a>
-		        <a href=""><i class="share square icon"></i></a>
-		      </div>
-		      <a class="friends">
-		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
-		         &nbsp;&nbsp;Projects
-		      </a><a class="friends">
-		        <i class="location arrow icon"></i>
-		        22 Locations
-		      </a>
-		    </div>
-		  </div>
-
-		</div>	
 		</div>
 	</div>
-	<div class="seven wide column">
-		<img class="ui medium rounded image" src="/images/project.jpg">
-		<div class="ui images">
-		  <img class="ui image" src="/images/square-image.png">
-		  <img class="ui image" src="/images/square-image.png">
-		  <img class="ui image" src="/images/square-image.png">
-		  <img class="ui image" src="/images/square-image.png">
-		</div>
-	</div>
-</div>
   <!-- Proj detailing ends here -->
 
 <script type="text/javascript">
