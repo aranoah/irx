@@ -170,14 +170,14 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	}
 	
     _app_context.esClient.search({
-    index: 'irx_schema',
-    type:"irx-eproduct",
-    body: {
-      query: {bool:{must:query}},
-      from:start,
-      size:pageSize,
-      sort:[{ "price" : {"order" : sortOrder}}]
-    }
+	    index: 'irx_schema',
+	    type:"irx-eproduct",
+	    body: {
+	      query: {bool:{must:query}},
+	      from:start,
+	      size:pageSize,
+	      sort:[{ "price" : {"order" : sortOrder}}]
+	    }
   }).then(function (resp) {
     var hits = resp.hits.hits;
    

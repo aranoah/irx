@@ -156,14 +156,15 @@
       <div class="item _searchInput_">
         <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
         <div class="ui right labeled input" style="width:420px;border-radius:0;">
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
+          <input type="text" id="__searchAutoM" name="name" placeholder="Search..." data-bind="value: name">
           <div class="ui dropdown teal label">
             <input type="hidden" data-bind="value: searchType" name="searchType">
-            <div class="text">Select</div>
+            <div class="text" ><p style="text-transform: uppercase;"><!--ko text: searchType --><!-- /ko --></p></div>
             <i class="dropdown icon"></i>
             <div class="menu">
               <div class="item" data-value="project">Projects</div>
               <div class="item" data-value="agent">Agents</div>
+              <div class="item" data-value="locality">Locality</div>
             </div>
           </div>
         </div>

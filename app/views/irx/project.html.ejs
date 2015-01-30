@@ -375,7 +375,7 @@
 					      <div class="ui right floated item _actButtons">
 					        <div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
 					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquiry now</div>
-					        <div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}">View agents</a></div>
+					        <div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id+'&name='+name}">View agents</a></div>
 					        <div class="ui basic button req-details" data-bind="click:function(){$parent.requestDetails($data) }">Request details</div>
 					      </div>
 					    </div>
@@ -630,6 +630,28 @@
 		classInstance.viewModel.projects([]);
 		classInstance.viewModel.filters.name(filters.name);
 		classInstance.viewModel.filters.displayName(filters.name);
+			var arr = data.result;
+		 		for (var i=0;i<arr.length;i++){
+		 			
+		 			var price =  arr[i].price;
+			        var aPriceArr = new Array();
+
+			        for (var j=0;j<price.length;j++){
+			        	var aPrice = price[j];
+			        	
+			        	 if(aPrice){
+				          var aPriceText =  classInstance.getPriceText(""+aPrice)
+
+				          aPriceArr.push(aPriceText);
+				        }else{
+				         aPriceArr.push(aPrice);
+				        }
+			        }
+
+			       arr[i].priceText =  aPriceArr;
+		 		}
+			console.log(arr)
+	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 		ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
 		$('.doubling.two.column.row').hide();
 		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
@@ -680,9 +702,10 @@
 				         aPriceArr.push(aPrice);
 				        }
 			        }
+
 			       arr[i].priceText =  aPriceArr;
 		 		}
-			
+			console.log(arr)
 	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;

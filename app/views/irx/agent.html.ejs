@@ -46,9 +46,9 @@
 	  	<!-- ends here -->
 
 	  	<div class="ui grid two column rib-head computer only">
-	    	<h2 class="ui header column">Showing results for 
+	    	<h2 class="ui header column">Showing results for <a href="/project/<%= requestObj.name?requestObj.projectId:'' %>"><%= requestObj.name?requestObj.name:'' %></a>
 
-	    		<a data-bind="text:filters.displayName"></a>
+	    		<!--<a data-bind="text:filters.displayName"></a>-->
 	    	
 	    	<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a></h2>
 	    	<div class="header column right menu">

@@ -15,7 +15,7 @@
       name : ko.observable(""),
       bhk : ko.observable(""),
       order : ko.observable("asc"),
-      searchType : ko.observable(""),
+      searchType : ko.observable("project"),
       sProAgents : ko.observable(false),
       projectId : ko.observable(""),
       city : ko.observable(""),
@@ -155,6 +155,8 @@
                   _classInstance.projectAutocomplete(request.term,request,response)
                 } else if(_classInstance.viewModel.searchType()=='agent'){
                   _classInstance.agentAutocomplete(request.term,request,response)
+                } else if(_classInstance.viewModel.searchType()=='location'){
+                  _classInstance.projectAutocomplete(request.term,request,response,location)
                 }
               },
               minLength: 2,
@@ -173,6 +175,68 @@
                     } else{
                        _classInstance.viewModel.sProAgents(false);
                       _classInstance.viewModel.projectId("");
+                    }
+                    
+                  }
+                   return false;
+              }
+              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+                $(".ui-widget-content .ui-state-focus");
+                var type="";
+                var icon ="";
+                if(item.type){
+                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+                }
+
+                if(item.type=='irx-euser') {
+                  icon = "<i class='icon user right floated'></i>"
+                }else {
+                  icon ="<i class='icon building outline right floated'></i>"
+                }
+                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
+                if(item.id == -1){
+                    data = "<div class='itLabel header _enter_'>Press enter to search...</div>"
+                }
+                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+                
+              };  
+              $("#__searchAutoM").autocomplete({
+           
+            source: function(request, response){
+                var _self = this;
+
+                if(_classInstance.viewModel.searchType()=='project'){
+                  _classInstance.projectAutocomplete(request.term,request,response)
+                } else if(_classInstance.viewModel.searchType()=='agent'){
+                  _classInstance.agentAutocomplete(request.term,request,response)
+                } else if(_classInstance.viewModel.searchType()=='locality'){
+                  alert(_classInstance.viewModel.searchType())
+                  _classInstance.projectAutocomplete(request.term,request,response,"location")
+                }
+              },
+              minLength: 2,
+              dataType: "json",
+              cache: false,
+              appendTo:'#autoDiv',
+              select: function( event, ui ) {
+
+                  $("#__searchAutoM").val(ui.item.name)
+                   _classInstance.viewModel.name(ui.item.name);
+                   if(_classInstance.viewModel.searchType()=='agent'){
+                    if(_classInstance.type[ui.item.type]=='project'){
+                      
+                      _classInstance.viewModel.sProAgents(true);
+                      _classInstance.viewModel.projectId(ui.item.id);
+                    } else{
+                       _classInstance.viewModel.sProAgents(false);
+                      _classInstance.viewModel.projectId("");
+                    }
+                    
+                  } else if(_classInstance.viewModel.searchType()=='project'){
+                    
+                    if(ui.item.productType == 'project'){
+                    
+                      location.href="/project/"+ui.item.id;
                     }
                     
                   }
@@ -219,7 +283,7 @@
   };
     SearchBar.prototype.fetchProjectResult=function(data){
       var classInstance = this;
-      
+          
           httpUtils.post("/list-projects-elastic",
                         {filters:data,page:classInstance.page},
                         {},"JSON",function(result){
@@ -271,9 +335,9 @@
      
     }
     
-    SearchBar.prototype.projectAutocomplete=function(text,request,response){
+    SearchBar.prototype.projectAutocomplete=function(text,request,response,type){
       var classInstance = this;
-      httpUtils.get("/project-autocomplete",{"text":text},"JSON",function(data){
+      httpUtils.get("/project-autocomplete",{"text":text,"type":type},"JSON",function(data){
        if(data.status==0){
         
           var arr = data.result;
@@ -281,10 +345,23 @@
           arr = new Array();
          }
          console.log(arr)
-         arr.push({_source:{id:-1}})
+          arr.push({fields:{id:[-1]}})
           response($.map(arr, function(item) {
-                        
-            return {id:item._source.id,name:item._source.name,location:item._source.location};
+            var name ="";
+            if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
+               name = item.highlight.name[0]
+            }else{
+              name = item.fields.name
+            }
+            var location ={}
+            if(item.fields.location && item.fields.location.city &&  item.fields.location.city.length >0){
+              location = item.fields.location.city[0];
+            }
+            var productType =""
+            if(item.fields.productType &&  item.fields.productType.length >0){
+              productType = item.fields.productType[0];
+            }
+            return {id:item.fields.id[0],name:name,location:location,productType:productType};
           }));
         }
     })
@@ -298,14 +375,21 @@
           arr = new Array();
          }
          console.log(arr)
-         arr.push({_source:{id:-1}})
+          arr.push({fields:{id:[-1]}})
           response($.map(data.result, function(item) {
-                        
-            return {id:item._source.id,name:item._source.name,type:item._type};
+            var name ="";
+            if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
+               name = item.highlight.name[0]
+            }else{
+              name = item.fields.name
+            }    
+
+            return {id:item.fields.id[0],name:name,type:item._type};
           }));
         }
     })
     }
+
     var sBar = null;
 $(document).ready(function(){
 

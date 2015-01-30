@@ -79,7 +79,7 @@ ProjectService.prototype.listPreferedAgents = function(projectId) {
 	
 	this.once("listPrefStage1",function(agentIds){
  	
-	 	IRXUserProfileModel.find({"id":{$in:agentIds}},function(err,agents){
+	 	IRXUserProfileModel.find({"irxId":{$in:agentIds}},function(err,agents){
 	 		
 	 		if(err){
 	 			console.error(err);
@@ -103,7 +103,7 @@ ProjectService.prototype.listPreferedAgents = function(projectId) {
 							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 						
 						} else{
-							
+							console.log("yo",id)
 							if(mapping && mapping != null && mapping.length>0){
 								console.log(mapping.length)
 								var agentIds = new Array();
