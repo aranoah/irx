@@ -223,7 +223,7 @@
 }
 
 #agentContent>div,#projectContent>div {
-	padding: 0;
+	padding: 6rem 0 0;
 }
 
 #agentContent .rib-head, #projectContent .rib-head {

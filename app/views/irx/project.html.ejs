@@ -67,24 +67,21 @@
 	}
 </style>
 <body>
-	<% locals.uiContext.menu=false %>
+	<% locals.uiContext.menu=true %>
   	<% include ../partials/header.html.ejs %>
-
-  	<% include ../partials/subhome.html.ejs %>
-  	<% include ../partials/searchbar.html.ejs %>
 
   
   <!-- agents Listing goes here -->
 <div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
 	  <div class="twelve wide column">
-
+	  	
 	  	<!-- For mobile screens -->
 
 	  		<div class="ui menu rib-head tablet mobile only grid">
 			    <h2 class="ui header item">Showing results for 
 					<!--ko text: filters.displayName--><!--/ko-->   		
-				</h2>
+				</h2>	   
 			    <a class="right menu">
 			    	<div id="mobFilter" class="ui teal label">Add Filter</div>
 			    	<div id="HideFilter" class="ui teal label">Hide Filter</div>
@@ -337,8 +334,8 @@
 
 	    			<!-- ends here -->
 
-				    <div class="ui two column grid computer only">
-				    	<div class="column">
+				    <div class="ui two column grid computer only" style="margin-top:0">
+				    	<div class="fourteen wide column" style="padding:0;">
 				    		<table class="ui small table pj-items extra column">
 						      <tbody>
 						        <tr>
@@ -371,7 +368,7 @@
 					      <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
 					      <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					  	</div>
-					    <div class="column">
+					    <div class="two wide column">
 					      <div class="ui right floated item _actButtons">
 					        <div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
 					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquiry now</div>

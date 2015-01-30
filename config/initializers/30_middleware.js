@@ -73,7 +73,6 @@ module.exports = function() {
   this.use(express.cookieParser());
   this.use(express.session({secret: 'aniyus'}));
   this.use(express.bodyParser());
-
   this.use(express.methodOverride());
   this.use(cansec);
   this.use(function(req, res, next) {
@@ -89,6 +88,7 @@ module.exports = function() {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     next();
   });
+  
   this.use(this.router);
   this.use(express.errorHandler());
   
