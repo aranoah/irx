@@ -27,7 +27,7 @@ Common.prototype.getViewModel = function(type) {
         showCity:ko.observable("")
       },
       captureLeads:function(){
-        alert(2)
+      
       	classInstance.captureLeads(type);
       },
       removeAgent:function(data){
@@ -93,7 +93,8 @@ Common.prototype.init = function(first_argument) {
                  var textName = ui.item.name;
                      textName = textName.replace(/<(?:.|\n)*?>/gm, '');
                 classInstance.viewModelSell.data.proName(textName)
-                classInstance.viewModelSell.data.locality(ui.item.location.locality)
+                
+                classInstance.viewModelSell.data.locality(ui.item.locationName)
                 classInstance.viewModelSell.data.projectId(ui.item.id)
                 return false;
               }
@@ -162,7 +163,7 @@ Common.prototype.login = function() {
 		{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
 		 { 'authorization': 'POST' },"JSON",function(data){
 		if(data.status==0){
-	      alert(1)
+	     $('.close.icon').click();
 		}else {
 			
 		}
@@ -179,7 +180,7 @@ Common.prototype.register = function() {
     },
      {  },"JSON",function(data){
     if(data.status==0){
-        alert(1)
+       $('.close.icon').click();
     }else {
       
     }
@@ -191,21 +192,19 @@ Common.prototype.register = function() {
 Common.prototype.captureLeads = function(type) {
 	var classInstance = this;
 	var viewModel = null;
-  alert(3)
 	if(type == classInstance.postReqLeads){
 		viewModel = classInstance.viewModelPost;
 	} else if(type == classInstance.sellPostLeads){
 		viewModel = classInstance.viewModelSell;
 	}else{
-    alert(1)
-    console.log(viewModel)
+    
     viewModel = classInstance.aPostReqViewModel;
   }
 	httpUtils.post("/capture-lead",
 		viewModel.data,
 		 { },"JSON",function(data){
 		if(data.status==0){
-	       alert(1)
+	      $('.close.icon').click();
 		}else {
 			
 		}

@@ -424,7 +424,8 @@
   		$(document).on('click','._hasDistress_',function(){
   			_classInstance.resetPage();
   			var self = $(this);
-  			if(self.hasClass="checked"){
+  			
+  			if(self.hasClass('checked')){
   				_classInstance.viewModel.filters.distress(true);
   			}else{
   				_classInstance.viewModel.filters.distress(false);

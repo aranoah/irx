@@ -438,14 +438,24 @@
               name = item.fields.name
             }
             var location ={}
-            if(item.fields.location && item.fields.location.city &&  item.fields.location.city.length >0){
-              location = item.fields.location.city[0];
+            if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
+              var lCity = item.fields['location.name'];
+              location = lCity[0];
+            }
+           
+           var locationName ={}
+           
+            if(item.fields['location.name'] &&  item.fields['location.name'].length >0){
+              var lName = item.fields['location.name'];
+
+              locationName = lName[0];
             }
             var productType =""
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-            return {id:item.fields.id[0],name:name,location:location,productType:productType};
+           // alert(locationName)
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName};
           }));
         }
     })
