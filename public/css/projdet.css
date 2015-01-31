@@ -70,7 +70,7 @@ Projdetailing
 /* ends here */
 
 .ui.divided.padded.grid {
-	padding: 12rem 5% 0;
+	padding: 9rem 5% 0;
 }
 
 .ui.divided.padded.grid>div {
@@ -147,6 +147,7 @@ Projdetailing
 .right.floated.column .ui.button {
 	display: block;
 	margin-bottom: .5rem;
+	background: #CD5C5C;
 }
 
 
