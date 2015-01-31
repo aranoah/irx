@@ -525,11 +525,11 @@ p >.mail.icon{
 
 /** autocomplete **/
 
-#autoDiv {
+#autoDiv, #autoDivSell, #autoDivPost {
   position: relative;
 }
 
-#autoDiv>ul {
+#autoDiv>ul, #autoDivSell>ul, #autoDivPost>ul {
   position: absolute;
   background-color: #fff;
   box-shadow: 0 0 5px 1px rgba(0,0,0,0.2);
@@ -537,30 +537,30 @@ p >.mail.icon{
   z-index: 100;
 }
 
-#autoDiv>ul>li {
+#autoDiv>ul>li, #autoDivSell>ul>li, #autoDivPost>ul>li {
   list-style-type: none;
   padding: 1rem;
   border-bottom: 1px solid #eaeaea;
   margin: 0;
 }
 
-#autoDiv>ul>li:hover {
+#autoDiv>ul>li:hover, #autoDivSell>ul>li:hover, #autoDivPost>ul>li:hover {
   background-color: rgba(0, 188, 212, 0.05);
   cursor: pointer;
 }
 
-#autoDiv>ul>li .itLabel.header {
+#autoDiv>ul>li .itLabel.header, #autoDivSell>ul>li .itLabel.header, #autoDivPost>ul>li .itLabel.header {
   font-size: 1rem;
   text-transform: capitalize;
   color: #607d8b;
   font-weight: normal;
 }
 
-#autoDiv>ul>li .itLabel.description {
+#autoDiv>ul>li .itLabel.description, #autoDivSell>ul>li .itLabel.description, #autoDivPost>ul>li .itLabel.description {
   color: rgba(0,0,0,0.5);
 }
 
-#autoDiv>ul>li:last-child {
+#autoDiv>ul>li:last-child, #autoDivSell>ul>li:last-child, #autoDivPost>ul>li:last-child {
   background: #f8f8f8;
 }
 

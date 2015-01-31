@@ -1,5 +1,7 @@
 <!-- Sell-ur-property popup -->
 <script type="text/javascript" src="/js/common/http.js"></script>
+<script type="text/javascript" src="/js/common/common.js"></script>
+
 <div id="sell" class="ui modal pop-up sell-post">  
   <div class="content">
     <div class="ui grid">
@@ -31,14 +33,20 @@
 
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="city" data-bind="value:data.city">
-                <div class="default text">City</div>
+                <input type="hidden" name="city" data-bind="textInput:data.city">
+                <div class="default text"><!--ko text: data.showCity--><!--/ko--></div>
                 <i class="angle down icon"></i>
-                <div class="menu">
-                  <div class="item" data-value="New Delhi">New Delhi</div>
-                  <div class="item" data-value="Bangalore">Bangalore</div>
-                  <div class="item" data-value="Mumbai">Mumbai</div>
-                  <div class="item" data-value="Chennai">Chennai</div>
+                <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
+                  <div class="ui icon search input">
+                    <i class="search icon"></i>
+                    <input type="text" name="search" placeholder="Search city...">
+                  </div>
+                  <div class="divider"></div>
+                  <div class="header">
+                    <i class="tags icon"></i>
+                   Select City
+                  </div>
+                  <% include ../partials/city.html.ejs %>
                 </div>
               </div>
             </div>

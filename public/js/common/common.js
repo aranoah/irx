@@ -23,7 +23,8 @@ Common.prototype.getViewModel = function(type) {
       	locality:ko.observable(""),
         propertyType:ko.observable(""),
         action:ko.observable(""),
-        origin:ko.observable(type)
+        origin:ko.observable(type),
+        showCity:ko.observable("")
       },
       captureLeads:function(){
         alert(2)
@@ -68,6 +69,13 @@ Common.prototype.init = function(first_argument) {
    $('#login').on('change','._type_', function(){
       classInstance.viewModel.type($(this).val())
    })
+   $('.sell-post').on('change','input[name="city"]',function(){
+      var city = $(this).val();
+      city = city.replace(/&nbsp;/gi,'')
+      city = city.trim();
+      classInstance.viewModelSell.data.city(city)
+      localStorage.setItem("city", city);
+    });
      $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
             source: function(request, response){
@@ -89,7 +97,7 @@ Common.prototype.init = function(first_argument) {
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
         $(".ui-widget-content .ui-state-focus");
-         return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
+         return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>').appendTo(ul);
       }; 
        $("#"+classInstance.postReqLeadsA).find("#__postReqSearch").autocomplete({
 
@@ -137,7 +145,7 @@ Common.prototype.init = function(first_argument) {
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
         $(".ui-widget-content .ui-state-focus");
-         return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
+         return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
       };  
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
  	  ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
@@ -175,6 +183,9 @@ Common.prototype.register = function() {
     }
   })
 };  
+
+
+
 Common.prototype.captureLeads = function(type) {
 	var classInstance = this;
 	var viewModel = null;
@@ -203,6 +214,13 @@ $(document).ready(function(){
   if(common == null){
    common = new Common();
    common.init();
+  //  var city = localStorage.getItem("city");
+  // if(city){
+  //   common.sellPostLeads.data.showCity(city)
+  //   common.sellPostLeads.data.viewModel.city(city)
+  // } else{
+  //   common.sellPostLeads.data.showCity("city")
+  // }
   }
 })
  
