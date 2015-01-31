@@ -61,7 +61,7 @@
 							</tr>
 							<tr>
 								<td>Locality</td>
-								<th><%= result.location.locality %></th>
+								<th><%= result.location.name %></th>
 							</tr>
 						</tbody>
 					</table>
@@ -70,7 +70,7 @@
 			<div class="ui inverted xtra">
 				<div class="item">				
 					<h3 class="ui header">Region</h3>
-					<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
+					<h4 class="ui header"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
 				</div>
 				<div class="item _button">
 					<div class="ui blue small button req-details"><i class="icon edit"></i>Request Details</div>
@@ -87,7 +87,7 @@
 				<!-- tab goes here -->
 
 					<div class="ui top attached tabular menu">
-					  <a class="active item" data-tab="first">Amenities</a>
+					  <a class="active item" data-tab="first">Locality</a>
 					  <a class="item" data-tab="second">Floor Plan</a>
 					  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
 					</div>
@@ -185,20 +185,20 @@
 	<div id="desktop-projDet" class="ui divided padded grid computer only">
 
 		<div class="nine wide column">
-			<div class="ui inverted segment head four column row">
+<!-- 			<div class="ui inverted segment head four column row">
 				<h3 class="left floated column"><%= result.name %></h3>			
 				<div class="right floated column">
 					<i class="mail icon"></i> i'm interested
 				</div>
-			</div>
+			</div> -->
 			<input id="_projectId" value="<%= projectId %>" type="hidden">
 			<div class="ui inverted title four column row">
 				<div class="left floated column">				
-					<h2 class="ui header">Golden Panorama</h2>
-					<h4 class="ui header" style="margin-bottom:1rem;"><%= result.builderName %></h4>
+					<h2 class="ui header" style="text-transform:uppercase;"><%= result.name %></h2>
+					<h4 class="ui header" style="margin: .1rem 0;font-size: 90%;"><%= result.builderName %></h4>
 				</div>
 				<div class="right floated column">
-					<h2><i class="rupee icon"></i> <%= result.price %></h2>
+					<h2><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>L <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"L": '' %> </h2>
 				</div>
 			</div>
 			<table class="ui table">
@@ -217,14 +217,14 @@
 			      <td><%= result.bhk %></td>
 			      <td><%= result.possession %></td>
 			      <td><%= result.type %></td>
-			      <td><%= result.location.locality %></td>
+			      <td><%= result.location.name %></td>
 			    </tr>
 			  </tbody>
 			</table>		
 			<div class="ui inverted xtra four column row">
 				<div class="left floated column">				
 					<h3 class="ui header">Region</h3>
-					<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
+					<h4 class="ui header"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
 				</div>
 				<div class="right floated column">
 					<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
@@ -232,7 +232,7 @@
 				</div>
 			</div>
 			<div class="ui top attached tabular menu">
-			  <a class="active item" data-tab="first">Amenities</a>
+			  <a class="active item" data-tab="first">Locality</a>
 			  <a class="item" data-tab="second">Floor Plan</a>
 			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
 			</div>
@@ -240,25 +240,31 @@
 				<div class="ui accordion">
 				    <div class="active title">
 				      <i class="dropdown icon"></i>
-				      What is a dog?
+				     Airports
 				    </div>
 				    <div class="active content">
-				      <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
+				      <p>Indira Gandhi International Airport T-318 min 12.9 km </p>
+				      <p>Indira Gandhi International Airport T-318 min 12.9 km </p>
 				    </div>
 				    <div class="title">
 				      <i class="dropdown icon"></i>
-				      What kinds of dogs are there?
+				      Train Stations
 				    </div>
 				    <div class="content">
-				      <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
+				      <p>Vodafone Belvedere Towers Rapid Metro Station 10 min 4.5 km </p>
+				      <p>M G ROAD 10 min 4.5 km </p>
+				      <p>DLF Phase III Rapid Metro Station 10 min 4.5 km </p>
+				      <p>IndusInd Bank Cyber City Rapid Metro Station 10 min 4.5 km </p>
 				    </div>
 				    <div class="title">
 				      <i class="dropdown icon"></i>
-				      How do you acquire a dog?
+				      Bus Stations
 				    </div>
 				    <div class="content">
-				      <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
-				      <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
+				      <p>Haryana City Bus Stop - Ammunition  25 min 2.1 km </p>
+				      <p>Udyog Vihar33 min 2.7 km</p>
+				      <p>Shankar Chowk min 2.7 km</p>
+				      <p>Kapashera Village Bus Stop min 2.7 km</p>
 				    </div>
 				  </div>
 			</div>
@@ -331,7 +337,7 @@
 			  <img class="ui image" src="/images/square-image.png">
 			  <img class="ui image" src="/images/square-image.png">
 			</div>
-			<img class="ui medium rounded image" src="/images/map.jpg">
+			<img class="ui medium rounded image" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= result.location.name %>+<%= result.location.city %>+<%= result.location.state%>+India&zoom=15&size=500x400&maptype=roadmap">
 		</div>
 	</div>
   <!-- Proj detailing ends here -->
@@ -393,7 +399,23 @@
 		    }).modal('show');
       	 $("#_projectIdP_").val(projectId);
       };
-
+      Project.prototype.getPriceText = function(amount) {
+		
+	    var text = "";
+	    if(amount.length==4 || amount.length==5){
+	        amount = Number(amount)/1000;
+	        text = amount+"K";
+	      } else if(amount.length==6 || amount.length==7){
+	        amount = Number(amount)/100000;
+	        text = amount+"Lac";
+	      } else if(amount.length>8){
+	        amount = Number(amount)/10000000;
+	        text = amount+"Cr";
+	      } else {
+	        text = amount
+	      }
+	      return text;
+	  };
 	$(document).ready(function(){
 		var proj = new Project();
 		proj.init();

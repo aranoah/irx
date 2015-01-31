@@ -36,7 +36,7 @@ projectController.listProjectsElastic = function() {
     	page:_nself.req.body.page
     }
     
-    if(_nself.req.body.filters.distress == true){
+    if(_nself.req.body.filters.distress == true || _nself.req.body.filters.distress == "true"){
      
       projectListService.listProjects(userFilters);
     } else{
@@ -73,7 +73,7 @@ projectController.projectAutocomplete = function() {
     index: 'irx_schema',
     type:"irx-eproduct",
     body: {
-      fields : ["id", "name", "productType","location.city"],
+      fields : ["id", "name", "productType","location.city","location.name"],
       query: {
          prefix: {
               name: text
@@ -143,7 +143,7 @@ projectController.autocomplete = function() {
     index: 'irx_schema',
     type:"irx-euser,irx-eproduct",
     body: {
-      fields : ["id", "name", "type","productType"],
+      fields : ["id", "name", "type","productType","irxId"],
       query: {
         prefix: {
           name: text

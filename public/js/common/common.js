@@ -23,10 +23,11 @@ Common.prototype.getViewModel = function(type) {
       	locality:ko.observable(""),
         propertyType:ko.observable(""),
         action:ko.observable(""),
-        origin:ko.observable(type)
+        origin:ko.observable(type),
+        showCity:ko.observable("")
       },
       captureLeads:function(){
-        alert(2)
+      
       	classInstance.captureLeads(type);
       },
       removeAgent:function(data){
@@ -68,6 +69,13 @@ Common.prototype.init = function(first_argument) {
    $('#login').on('change','._type_', function(){
       classInstance.viewModel.type($(this).val())
    })
+   $('.sell-post').on('change','input[name="city"]',function(){
+      var city = $(this).val();
+      city = city.replace(/&nbsp;/gi,'')
+      city = city.trim();
+      classInstance.viewModelSell.data.city(city)
+      localStorage.setItem("city", city);
+    });
      $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
             source: function(request, response){
@@ -81,15 +89,18 @@ Common.prototype.init = function(first_argument) {
               cache: false,
               appendTo:'#autoDivSell',
               select: function( event, ui ) {
-
-                classInstance.viewModelSell.data.proName(ui.item.name)
-                classInstance.viewModelSell.data.locality(ui.item.location.locality)
+               
+                 var textName = ui.item.name;
+                     textName = textName.replace(/<(?:.|\n)*?>/gm, '');
+                classInstance.viewModelSell.data.proName(textName)
+                
+                classInstance.viewModelSell.data.locality(ui.item.locationName)
                 classInstance.viewModelSell.data.projectId(ui.item.id)
                 return false;
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
         $(".ui-widget-content .ui-state-focus");
-         return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
+         return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>').appendTo(ul);
       }; 
        $("#"+classInstance.postReqLeadsA).find("#__postReqSearch").autocomplete({
 
@@ -137,7 +148,7 @@ Common.prototype.init = function(first_argument) {
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
         $(".ui-widget-content .ui-state-focus");
-         return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
+         return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
       };  
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
  	  ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
@@ -152,7 +163,7 @@ Common.prototype.login = function() {
 		{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
 		 { 'authorization': 'POST' },"JSON",function(data){
 		if(data.status==0){
-	      alert(1)
+	     $('.close.icon').click();
 		}else {
 			
 		}
@@ -169,30 +180,31 @@ Common.prototype.register = function() {
     },
      {  },"JSON",function(data){
     if(data.status==0){
-        alert(1)
+       $('.close.icon').click();
     }else {
       
     }
   })
 };  
+
+
+
 Common.prototype.captureLeads = function(type) {
 	var classInstance = this;
 	var viewModel = null;
-  alert(3)
 	if(type == classInstance.postReqLeads){
 		viewModel = classInstance.viewModelPost;
 	} else if(type == classInstance.sellPostLeads){
 		viewModel = classInstance.viewModelSell;
 	}else{
-    alert(1)
-    console.log(viewModel)
+    
     viewModel = classInstance.aPostReqViewModel;
   }
 	httpUtils.post("/capture-lead",
 		viewModel.data,
 		 { },"JSON",function(data){
 		if(data.status==0){
-	       alert(1)
+	      $('.close.icon').click();
 		}else {
 			
 		}
@@ -203,6 +215,13 @@ $(document).ready(function(){
   if(common == null){
    common = new Common();
    common.init();
+  //  var city = localStorage.getItem("city");
+  // if(city){
+  //   common.sellPostLeads.data.showCity(city)
+  //   common.sellPostLeads.data.viewModel.city(city)
+  // } else{
+  //   common.sellPostLeads.data.showCity("city")
+  // }
   }
 })
  

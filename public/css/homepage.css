@@ -24,9 +24,7 @@
 }
 #homescreen h1.ui.inverted.header {
 	padding-top: 1.5rem;
-	font-weight: normal;
-	font-size: 1rem;
-	color: #ADADAD;
+	font-size: 1.5rem;
 	letter-spacing: .5px;
 }
 
@@ -226,14 +224,16 @@
 }
 
 #agentContent>div,#projectContent>div {
-	padding: 6rem 0 0;
+	padding: 3rem 0 0;
 }
 
 #agentContent .rib-head, #projectContent .rib-head {
 	padding: 0 !important;
 	border-bottom: 1px solid #eaeaea !important;
 }
-
+._filters_ {
+    padding: 5px 0 10px;
+}
 #projectContent .ui.menu.rib-head {
 	background: inherit !important;
 	box-shadow: none !important;
@@ -278,8 +278,8 @@
 	margin: 2rem -.5rem;
 }
 
-#agentContent .ui.cards>.card {
-	width: 23.4rem;
+#agentContent .ui.cards>.card ,#projectContent .ui.cards>.card{
+	width: 32.8rem;
 }
 
 .ui.image.tiny {
@@ -287,7 +287,11 @@
 	padding: .6rem !important;
 	background-color: inherit !important;
 }
-
+.card .content .description {
+    font-size: .8em;
+    text-transform: uppercase;
+    line-height: 18pt;
+}
 .content.addr-ess {
 	font-size: .9em;
 }

@@ -43,19 +43,27 @@
 	  	<!-- ends here -->
 
 	  	<div class="ui grid two column rib-head computer only">
-	    	<h2 class="ui header column">Showing results for <a href="/project/<%= requestObj.name?requestObj.projectId:'' %>"><%= requestObj.name?requestObj.name:'' %></a>
+			<h2 class="ui header column" style="margin-top:1em">AGENTS</h2>	  		
+    		<!--<h2 class="ui header "> Showing results -->  <!-- for
 
-	    		<!--<a data-bind="text:filters.displayName"></a>-->
+    		<a data-bind="text:filters.displayName"></a>
+    	
+    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a> </h2>-->
 	    	
-	    	<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a></h2>
 	    	<div class="header column right menu">
-	    		<div class="ui checkbox">
+	    		<!-- <div class="ui checkbox">
 			      <input type="checkbox">
 			      <label>Distress</label>
-			    </div>
-				<div class="ui basic button" id="_subReq_">submit request</div>
+			    </div> -->
+				<div class="ui basic button" id="_subReq_">Ask to top 5 agents</div>
 	    	</div>
 	    </div>
+	    <% if (requestObj.name!=null && requestObj.name!='') {%>
+		    <div class="_filters_">
+
+		    	<span class="ui teal label"><%= requestObj.name?requestObj.name:'' %> <i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
+		  	</div>
+		  	<% }%>
 	    <div class="ui cards sc" data-bind="foreach : agents">
 
 		  <div class="card">
@@ -73,31 +81,31 @@
 		      <div class="description">
 		        Projects : 
 		        <span data-bind="foreach : projects" style="margin-right:0;">
-			        <!-- ko if:$index()<=1 -->
-			        	<span class="header" data-bind="text : $data"></span>
-			        	 <!-- ko if:$index()==0 -->
+			        <!-- ko if:$index()<=2 -->
+			        	<!-- ko if:$index()!=0 -->
 			        	 	<span class="header">,</span>
 			        	 <!-- /ko -->
+			        	<span class="header" data-bind="text : $data"></span>
 			        <!-- /ko -->
 			    </span>
-		        <span data-bind="if:projects.length>2">
+		        <span data-bind="if:projects.length>3">
 		        (+
-		        	<span class="header" data-bind="text : projects.length-2"></span>)
+		        	<span class="header" data-bind="text : projects.length-3"></span>)
 		        </span>
 		       </div>
 		       <div class="description">
 		        Operating Localities : 
 		        <span data-bind="foreach : locationProjects" style="margin-right:0;">
-			        <!-- ko if:$index()<=1 -->
-			        	<span class="header" data-bind="text : $data"></span>
-			        	 <!-- ko if:$index()==0 -->
+			        <!-- ko if:$index()<=2 -->
+			        	<!-- ko if:$index()!=0 -->
 			        	 	<span class="header">,</span>
-			        	 <!-- /ko -->
+			        	<!-- /ko -->
+			        	<span class="header" data-bind="text : $data"></span>
 			        <!-- /ko -->
 			    </span>
-		        <span data-bind="if:locationProjects.length>2">
+		        <span data-bind="if:locationProjects.length>3">
 		        (+
-		        	<span class="header" data-bind="text : locationProjects.length-2"></span>)
+		        	<span class="header" data-bind="text : locationProjects.length-3"></span>)
 		        </span>
 		       </div>
 		    </div>
@@ -125,7 +133,8 @@
 		  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
 		  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
 		  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
-					  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
+		  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
+		  <input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
 					  
 		</div>	   
 		<div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
@@ -136,7 +145,7 @@
 	function Agent(options){
 		this.page = {
 			start : 0,
-			pageSize : 3
+			pageSize : 10
 		}
 		this.agentIds = [];
 	}
@@ -224,15 +233,19 @@
 		 if(typeof(projectIdFilter) == "undefined" || projectIdFilter == null ){
 		 	projectIdFilter = "";
 		 }
-		 
+		 var locationFlag = $('#__locationFlag').val();
+		 if(typeof(locationFlag) == "undefined" || locationFlag == null ){
+		 	locationFlag = "";
+		 }
 		_classInstance.viewModel = {
 			agents: ko.observableArray(),
 			filters:{
 				name: ko.observable(filterName),
 				type: ko.observable(""),
 				bhk: ko.observable(filterBhk),
-				displayName:ko.observable("All"),
-				projectId:ko.observable(projectIdFilter)
+				displayName: ko.observable("All"),
+				projectId: ko.observable(projectIdFilter),
+				location: ko.observable(locationFlag) 
 			},
 			start: ko.observable(),
 			total: ko.observable(),
@@ -268,7 +281,7 @@
     	if(classInstance.viewModel.filters.projectId() != ""){
     		 
            httpUtils.get("/prefered-agents/"+classInstance.viewModel.filters.projectId(),
-            {}
+            {"location":classInstance.viewModel.filters.location()}
             ,"JSON"
             ,function(result){
          		 classInstance.processResult(result,replace,setUpdate)
@@ -319,7 +332,17 @@
 		}
 		
 
-	}
+	};
+	Agent.prototype.resetAgent=function(_self){
+		var classInstance =this;
+		classInstance.viewModel.filters.name('');
+		classInstance.viewModel.filters.projectId('');
+		classInstance.page.start=0;
+		if(_self){
+			$(_self).parent().remove();
+		}
+		classInstance.listAgents(true);
+	};
 	var agent = null;
 	$(document).ready(function(){
 	  
