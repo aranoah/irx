@@ -99,7 +99,7 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 	}) 
 	var query ={"project":id};
 	console.log("qq",data.location)
-	if(data.location){
+	if(data.location && data.location == 'true'){
 		console.log("ka be")
 		query={"location":id}
 	}

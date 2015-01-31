@@ -21,7 +21,7 @@
       projectId : ko.observable(""),
       city : ko.observable(""),
       showCity : ko.observable("city"),
-
+      isLocality : ko.observable("false"),
       minPrice : ko.observable(),
       maxPrice : ko.observable(),
 
@@ -60,27 +60,32 @@
             }; 
             
             if(self.searchType()=='project'){
+
               if(typeof(project)!="undefined"){
+                if(self.isLocality()){
+                  _classInstance.listProjectsOfLocation(_classInstance.viewModel.projectId())
+                }else{
+                  _classInstance.fetchProjectResult(data)
+                }
                 
-                _classInstance.fetchProjectResult(data)
               }else{
-               alert($('#_city_').val())
+               alert(123)
                $(formElement).attr('action','/project-listing')
                 return true;
               }
             } else if(self.searchType()=='agent'){
-              alert(self.sLocAgents())
+             
               if(typeof(agent)!="undefined"){
                 if(self.sProAgents()){
                   _classInstance.fetchAgentOfProResult(data,false)
                 }else if(self.sLocAgents()){
-                  
                    _classInstance.fetchAgentOfProResult(data,true)
                 }else{
                   _classInstance.fetchAgentResult(data)  
                 }
                 
               }else{
+                alert("form")
                $(formElement).attr('action','/agent-listing')
                 return true;
               }
@@ -152,78 +157,78 @@
     //   $(".min").toggleClass("active");
     //   $(".__visible").toggleClass("hidden")
     // });
-     $("#__searchAuto").autocomplete({
+     // $("#__searchAuto").autocomplete({
            
-            source: function(request, response){
-                var _self = this;
+     //        source: function(request, response){
+     //            var _self = this;
 
-                if(_classInstance.viewModel.searchType()=='project'){
-                  _classInstance.projectAutocomplete(request.term,request,response)
-                } else if(_classInstance.viewModel.searchType()=='agent'){
-                  _classInstance.agentAutocomplete(request.term,request,response)
-                } else if(_classInstance.viewModel.searchType()=='locality'){
-                  alert(_classInstance.viewModel.searchType())
-                  _classInstance.projectAutocomplete(request.term,request,response,"location")
-                }
-              },
-              minLength: 2,
-              dataType: "json",
-              cache: false,
-              appendTo:'#autoDiv',
-              select: function( event, ui ) {
+     //            if(_classInstance.viewModel.searchType()=='project'){
+     //              _classInstance.projectAutocomplete(request.term,request,response)
+     //            } else if(_classInstance.viewModel.searchType()=='agent'){
+     //              _classInstance.agentAutocomplete(request.term,request,response)
+     //            } else if(_classInstance.viewModel.searchType()=='locality'){
+     //              alert(_classInstance.viewModel.searchType())
+     //              _classInstance.projectAutocomplete(request.term,request,response,"location")
+     //            }
+     //          },
+     //          minLength: 2,
+     //          dataType: "json",
+     //          cache: false,
+     //          appendTo:'#autoDiv',
+     //          select: function( event, ui ) {
 
-                  $("#__searchAuto").val(ui.item.name)
-                    _classInstance.resetReqParams();
-                   _classInstance.viewModel.name(ui.item.name);
-                   if(_classInstance.viewModel.searchType()=='agent'){
-                    if(_classInstance.type[ui.item.type]=='project'){
-                      if(ui.item.productType == 'project'){
-                        _classInstance.viewModel.sProAgents(true);
-                      _classInstance.viewModel.projectId(ui.item.id);
-                      }else{
-                        alert(1)
-                        _classInstance.viewModel.sLocAgents(true);
-                      _classInstance.viewModel.projectId(ui.item.id);
-                      }
+     //              $("#__searchAuto").val(ui.item.name)
+     //                _classInstance.resetReqParams();
+     //               _classInstance.viewModel.name(ui.item.name);
+     //               if(_classInstance.viewModel.searchType()=='agent'){
+     //                if(_classInstance.type[ui.item.type]=='project'){
+     //                  if(ui.item.productType == 'project'){
+     //                    _classInstance.viewModel.sProAgents(true);
+     //                  _classInstance.viewModel.projectId(ui.item.id);
+     //                  }else{
+     //                    alert(1)
+     //                    _classInstance.viewModel.sLocAgents(true);
+     //                  _classInstance.viewModel.projectId(ui.item.id);
+     //                  }
                       
-                    } else{
-                       _classInstance.viewModel.sProAgents(false);
-                      _classInstance.viewModel.projectId("");
-                    }
+     //                } else{
+     //                   _classInstance.viewModel.sProAgents(false);
+     //                  _classInstance.viewModel.projectId("");
+     //                }
                     
-                  } else if(_classInstance.viewModel.searchType()=='project'){
+     //              } else if(_classInstance.viewModel.searchType()=='project'){
                     
-                    if(ui.item.productType == 'project'){
+     //                if(ui.item.productType == 'project'){
                     
-                      location.href="/project/"+ui.item.id;
-                    } else {
-                      _classInstance.listProjectsOfLocation(ui.item.id)
-                    }
+     //                  location.href="/project/"+ui.item.id;
+     //                } else {
+     //                  _classInstance.listProjectsOfLocation(ui.item.id)
+     //                }
                     
-                  }
-                   return false;
-              }
-              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-                $(".ui-widget-content .ui-state-focus");
-                var type="";
-                var icon ="";
-                if(item.type){
-                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
-                }
+     //              }
+     //               return false;
+     //          }
+     //          }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+     //            $(".ui-widget-content .ui-state-focus");
+     //            var type="";
+     //            var icon ="";
+     //            if(item.type){
+     //              type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+     //            }
 
-                if(item.type=='irx-euser') {
-                  icon = "<i class='icon user right floated'></i>"
-                }else {
-                  icon ="<i class='icon building outline right floated'></i>"
-                }
-                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
-                if(item.id == -1){
-                    data = "<div class='itLabel header _enter_'>Press enter to search...</div>"
-                }
-                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+     //            if(item.type=='irx-euser') {
+     //              icon = "<i class='icon user right floated'></i>"
+     //            }else {
+     //              icon ="<i class='icon building outline right floated'></i>"
+     //            }
+     //            var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
+     //            if(item.id == -1){
+     //                data = "<div class='itLabel header _enter_'>Press enter to search...</div>"
+     //            }
+     //             return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
                 
-              };  
-              $("#__searchAutoM").autocomplete({
+     //          };  
+              $("#__searchAuto").autocomplete({
            
             source: function(request, response){
                 var _self = this;
@@ -233,7 +238,6 @@
                 } else if(_classInstance.viewModel.searchType()=='agent'){
                   _classInstance.agentAutocomplete(request.term,request,response)
                 } else if(_classInstance.viewModel.searchType()=='locality'){
-                  alert(_classInstance.viewModel.searchType())
                   _classInstance.projectAutocomplete(request.term,request,response,"location")
                 }
               },
@@ -255,8 +259,9 @@
                         _classInstance.viewModel.sProAgents(true);
                       _classInstance.viewModel.projectId(ui.item.id);
                       }else{
-                         
+                         alert(1)
                         _classInstance.viewModel.sLocAgents(true);
+                        _classInstance.viewModel.isLocality(true)
                       _classInstance.viewModel.projectId(ui.item.id);
                       }
                       
@@ -271,8 +276,9 @@
                     
                       location.href="/project/"+ui.item.id;
                     } else {
+                     _classInstance.viewModel.projectId(ui.item.id);
+                      _classInstance.viewModel.isLocality(true)
                       
-                      _classInstance.listProjectsOfLocation(ui.item.id)
                     }
                     
                   }
@@ -370,7 +376,7 @@
       
       
            httpUtils.post("/list-agents",
-            {filters:classInstance.viewModel.filters,page:classInstance.page}
+            {filters:data,page:classInstance.page}
             ,{}
             ,"JSON"
             ,function(result){

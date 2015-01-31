@@ -45,7 +45,7 @@ AgentListingService.prototype.listAgents = function(data){
 		page=defPage;	
 	}
 	if(filters && filters.city != null &&  filters.city != "") {
-		query["location.city"]=filters.city;
+		//query["location.city"]=filters.city;
 	}
 	if(filters && filters.type != null &&  filters.type != "") {
 		query["type"]=filters.type;
@@ -57,8 +57,10 @@ AgentListingService.prototype.listAgents = function(data){
 		query["price"]=filters.budget;
 	}
 	if(filters && filters.name != null &&  filters.name != "") {
-		query["name"]=filters.name;
+
+		query["name"]={ $regex: filters.name, $options: 'i' };
 	}
+	
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
 	

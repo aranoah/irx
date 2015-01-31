@@ -98,11 +98,13 @@
 <div id="searchF">
 <form data-bind="submit: searchF" id="searchForm">
   <div id="searchbar" class="ui inverted menu row computer only">
-  
+  <% if(locals.req.device.type != 'desktop'){ %>
     <div class="ui grid smenu-hide mobile tablet only">
       <div class="ui mobile row" tabindex="0">
         <div class="item _searchInput_ fourteen wide column">
           <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
+          <input type="hidden" name="isLocality" placeholder="Search..." data-bind="value: sLocAgents">
+          
           <div class="ui labeled input" style="border-radius:0;">
             <div class="ui dropdown teal label">
               <input type="hidden" data-bind="value: searchType" name="searchType">
@@ -121,6 +123,8 @@
         </div>
       </div>
     </div>
+    <% } %>
+    <% if(locals.req.device.type == 'desktop'){ %>
     <div class="cont-ainer search-menu computer only row">
       <div class="item">
          <div class="ui selection dropdown">
@@ -145,7 +149,7 @@
 
       <div class="item _searchInput_">
         <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
-
+        <input type="hidden" name="isLocality" placeholder="Search..." data-bind="value: sLocAgents">
         <div class="ui labeled input" style="width:420px;border-radius:0;">
           <div class="ui dropdown basic label">
 
@@ -158,7 +162,7 @@
               <div class="item" data-value="locality">Locality</div>
             </div>
           </div>
-          <input type="text" id="__searchAutoM" name="name" placeholder="Search..." data-bind="value: name">          
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">          
         </div>
       </div>
       <!-- ends here -->
@@ -231,7 +235,9 @@
       </div>
 
       </div>
+      
     </div>
+    <% } %>
       <div id="autoDiv" style="width:100px;"></div>
     </div>
   </form>
