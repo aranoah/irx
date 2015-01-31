@@ -137,7 +137,7 @@
 				</div>
 			</div>
 	  	<!-- ends here -->
-
+	  	<h1 class="ui header computer only" style="margin:.45em 0">Project Listing</h1>
 	  	<div class="ui menu rib-head computer only grid">
 	        <h2 class="ui header item">Showing results for
 	    		<!--ko text: filters.displayName--><!--/ko-->    		
@@ -205,55 +205,76 @@
 	    <!-- Project Listing goes here -->
 	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
-	    	No Search Results for this search. Showing agents in your city
+	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
 	    </div>
 	    <div class="ui cards sc" data-bind="foreach : agents">
 
-		  <div class="card">
-		    <div class="ui image tiny">
-		      <img src="/images/elliot.jpg">
-		    </div>
-		    <div class="content">
+			<div class="card">
+			    <div class="ui image tiny">
+			      <img src="/images/elliot.jpg">
+			    </div>
+			    <div class="content">
 
-		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-		      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
+			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
+			      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
 
-		      <div class="content addr-ess">
-    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
-    		  </div>
-		      <div class="description">
-		        Specialities : 
-		        <span data-bind="foreach : specialities" style="margin-right:0;">
-			        <!-- ko if:$index()<=1 -->
-			        	<span class="header" data-bind="text : $data"></span>
-			        	 <!-- ko if:$index()==0 -->
-			        	 	<span class="header">,</span>
-			        	 <!-- /ko -->
-			        <!-- /ko -->
-			    </span>
-		        <span data-bind="if:specialities.length>2">
-		        (+
-		        	<span class="header" data-bind="text : specialities.length-2"></span>)
-		        </span>
-		       </div>
-		    </div>
-		    <div class="inline field"><div class="ui checkbox"><input type="checkbox"><label>&nbsp;</label></div></div>
-		    <div class="extra content">
-		      <div class="right floated created">
-		        <a href=""><i class="facebook square icon"></i></a>
-		        <a href=""><i class="share square icon"></i></a>
-		      </div>
-		      <a class="friends">
-		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
-		         &nbsp;&nbsp;Projects
-		      </a><a class="friends">
-		        <i class="location arrow icon"></i>
-		        22 Locations
-		      </a>
-		    </div>
-		  </div>					  
+			      <div class="content addr-ess">
+	    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+	    		  </div>
+			      <div class="description">
+			        Projects : 
+			        <span data-bind="foreach : projects" style="margin-right:0;">
+				        <!-- ko if:$index()<=2 -->
+				        	<!-- ko if:$index()!=0 -->
+				        	 	<span class="header">,</span>
+				        	 <!-- /ko -->
+				        	<span class="header" data-bind="text : $data"></span>
+				        <!-- /ko -->
+				    </span>
+			        <span data-bind="if:projects.length>3">
+			        (+
+			        	<span class="header" data-bind="text : projects.length-3"></span>)
+			        </span>
+			       </div>
+			       <div class="description">
+			        Operating Localities : 
+			        <span data-bind="foreach : locationProjects" style="margin-right:0;">
+				        <!-- ko if:$index()<=2 -->
+				        	<!-- ko if:$index()!=0 -->
+				        	 	<span class="header">,</span>
+				        	<!-- /ko -->
+				        	<span class="header" data-bind="text : $data"></span>
+				        <!-- /ko -->
+				    </span>
+			        <span data-bind="if:locationProjects.length>3">
+			        (+
+			        	<span class="header" data-bind="text : locationProjects.length-3"></span>)
+			        </span>
+			       </div>
+			    </div>
+			    <!-- <div class="inline field" data-bind="click:function(){$parent.addAgent(name,irxId)}">
+				    <div class="ui checkbox">
+				    	<input type="checkbox">
+				    	<label></label>
+				    </div>
+			    </div> -->
+			    <div class="extra content">
+			    	<a href=""><i class="facebook square icon"></i></a>
+					<a href=""><i class="share square icon"></i></a>
+					<div class="right floated created">
+						<div class="ui label" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId)}">Enquiry</div>
+					</div>
+			      <!--<a class="friends">
+			        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
+			         &nbsp;&nbsp;Projects
+			      </a><a class="friends">
+			        <i class="location arrow icon"></i>
+			        22 Locations
+			      </a>-->
+			    </div>
+			</div>    
 		</div>
-	    <div class="ui relaxed divided items" data-bind="foreach : projects" style="margin:2rem 0;">
+	    <div class="ui relaxed divided items" data-bind="foreach : projects" style="margin:1rem 0;">
 
 	    	
 	    	<div class="ui items proj-listing column"><!-- 
@@ -415,7 +436,7 @@
 		function Project(options){
 			this.page = {
 				start : 0,
-				pageSize : 3
+				pageSize : 10
 			}
 		}
 	Project.prototype.init = function() {

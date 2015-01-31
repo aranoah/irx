@@ -278,7 +278,7 @@
 	margin: 2rem -.5rem;
 }
 
-#agentContent .ui.cards>.card {
+#agentContent .ui.cards>.card ,#projectContent .ui.cards>.card{
 	width: 35rem;
 }
 

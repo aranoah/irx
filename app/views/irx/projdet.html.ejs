@@ -61,7 +61,7 @@
 							</tr>
 							<tr>
 								<td>Locality</td>
-								<th><%= result.location.locality %></th>
+								<th><%= result.location.name %></th>
 							</tr>
 						</tbody>
 					</table>
@@ -70,7 +70,7 @@
 			<div class="ui inverted xtra">
 				<div class="item">				
 					<h3 class="ui header">Region</h3>
-					<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
+					<h4 class="ui header"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
 				</div>
 				<div class="item _button">
 					<div class="ui blue small button req-details"><i class="icon edit"></i>Request Details</div>
@@ -217,14 +217,14 @@
 			      <td><%= result.bhk %></td>
 			      <td><%= result.possession %></td>
 			      <td><%= result.type %></td>
-			      <td><%= result.location.locality %></td>
+			      <td><%= result.location.name %></td>
 			    </tr>
 			  </tbody>
 			</table>		
 			<div class="ui inverted xtra four column row">
 				<div class="left floated column">				
 					<h3 class="ui header">Region</h3>
-					<h4 class="ui header"><%= result.location.locality %>,<%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
+					<h4 class="ui header"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
 				</div>
 				<div class="right floated column">
 					<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
@@ -270,51 +270,69 @@
 			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
 
 				<div class="ui divided items" data-bind="foreach : agents">
-				  <div class="item">
-				    <div class="image">
-				      <img src="/images/elliot.jpg">
-				    </div>
-				    <div class="content">
-				      <a data-bind="attr: { href:irxId}" class="header" data-bind="text : name">Elliot Fu</a>
-				      <div class="meta">
-				        <div class="price" data-bind="text : companyName" style="padding:.5rem 0;">IRX,India</div>
-				        <div class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--></div>
-				      </div>
-				      <div class="description">
-				        Projects : 
-				        <span data-bind="foreach : projects" style="margin-right:0;">
-				          <!-- ko if:$index()<=1 -->
-				            <span class="header" data-bind="text : $data"></span>
-				             <!-- ko if:$index()==0 -->
-				              <span class="header">,</span>
-				             <!-- /ko -->
-				          <!-- /ko -->
-				        </span>
-				        <span data-bind="if:projects.length>2">
-				        (+
-				          <span class="header" data-bind="text : projects.length-2"></span>)
-				        </span>
-				       </div>
-				       <div class="description">
-				          Operating Localities : 
-				          <span data-bind="foreach : locationProjects" style="margin-right:0;">
-				            <!-- ko if:$index()<=1 -->
-				              <span class="header" data-bind="text : $data"></span>
-				               <!-- ko if:$index()==0 -->
-				                <span class="header">,</span>
-				               <!-- /ko -->
-				            <!-- /ko -->
-				        </span>
-				        <span data-bind="if:locationProjects.length>2">
-				        (+
-				          <span class="header" data-bind="text : locationProjects.length-2"></span>)
-				        </span>
-				      </div>
-				      <div class="extra">
-				        <div class="ui right floated label">Enquiry now</div>
-				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="facebook square icon"></i></a>
-				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="share square icon"></i></a>
-				      </div>
+				  <div class="card">
+		    <div class="ui image tiny">
+		      <img src="/images/elliot.jpg">
+		    </div>
+		    <div class="content">
+
+		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
+		      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
+
+		      <div class="content addr-ess">
+    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+    		  </div>
+		      <div class="description">
+		        Projects : 
+		        <span data-bind="foreach : projects" style="margin-right:0;">
+			        <!-- ko if:$index()<=2 -->
+			        	<!-- ko if:$index()!=0 -->
+			        	 	<span class="header">,</span>
+			        	 <!-- /ko -->
+			        	<span class="header" data-bind="text : $data"></span>
+			        <!-- /ko -->
+			    </span>
+		        <span data-bind="if:projects.length>3">
+		        (+
+		        	<span class="header" data-bind="text : projects.length-3"></span>)
+		        </span>
+		       </div>
+		       <div class="description">
+		        Operating Localities : 
+		        <span data-bind="foreach : locationProjects" style="margin-right:0;">
+			        <!-- ko if:$index()<=2 -->
+			        	<!-- ko if:$index()!=0 -->
+			        	 	<span class="header">,</span>
+			        	<!-- /ko -->
+			        	<span class="header" data-bind="text : $data"></span>
+			        <!-- /ko -->
+			    </span>
+		        <span data-bind="if:locationProjects.length>3">
+		        (+
+		        	<span class="header" data-bind="text : locationProjects.length-3"></span>)
+		        </span>
+		       </div>
+		    </div>
+		    <!-- <div class="inline field" data-bind="click:function(){$parent.addAgent(name,irxId)}">
+			    <div class="ui checkbox">
+			    	<input type="checkbox">
+			    	<label></label>
+			    </div>
+		    </div> -->
+		    <div class="extra content">
+		    	<a href=""><i class="facebook square icon"></i></a>
+				<a href=""><i class="share square icon"></i></a>
+				<div class="right floated created">
+					<div class="ui label" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId)}">Enquiry</div>
+				</div>
+		      <!--<a class="friends">
+		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
+		         &nbsp;&nbsp;Projects
+		      </a><a class="friends">
+		        <i class="location arrow icon"></i>
+		        22 Locations
+		      </a>-->
+		    </div>
 				    </div>
 				  </div>
 				</div>

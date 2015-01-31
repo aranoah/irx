@@ -42,28 +42,29 @@
 
 	  	<!-- ends here -->
 
-		<h1 class="ui header computer only" style="margin-bottom:0">
-			Agent Listing
-		</h1>	  		
 	  	<div class="ui grid two column rib-head computer only">
-    		<h2 class="ui header column">Showing results  <!-- for
+			<h2 class="ui  column"><strong>Agents</strong>
+			</h2>	  		
+    		<!--<h2 class="ui header "> Showing results -->  <!-- for
 
     		<a data-bind="text:filters.displayName"></a>
     	
-    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a> --></h2>
+    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a> </h2>-->
 	    	
 	    	<div class="header column right menu">
-	    		<div class="ui checkbox">
+	    		<!-- <div class="ui checkbox">
 			      <input type="checkbox">
 			      <label>Distress</label>
-			    </div>
-				<div class="ui basic button" id="_subReq_">submit request</div>
+			    </div> -->
+				<div class="ui basic button" id="_subReq_">Ask to top 5 agents</div>
 	    	</div>
 	    </div>
-	    <div class="_filters_">
+	    <% if (requestObj.name!=null && requestObj.name!='') {%>
+		    <div class="_filters_">
 
-	    	<span class="ui teal label"><%= requestObj.name?requestObj.name:'' %> <i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
-	  	</div>
+		    	<span class="ui teal label"><%= requestObj.name?requestObj.name:'' %> <i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
+		  	</div>
+		  	<% }%>
 	    <div class="ui cards sc" data-bind="foreach : agents">
 
 		  <div class="card">
