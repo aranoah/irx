@@ -133,7 +133,8 @@
 		  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
 		  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
 		  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
-					  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
+		  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
+		  <input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
 					  
 		</div>	   
 		<div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
@@ -232,15 +233,19 @@
 		 if(typeof(projectIdFilter) == "undefined" || projectIdFilter == null ){
 		 	projectIdFilter = "";
 		 }
-		 
+		 var locationFlag = $('#__locationFlag').val();
+		 if(typeof(locationFlag) == "undefined" || locationFlag == null ){
+		 	locationFlag = "";
+		 }
 		_classInstance.viewModel = {
 			agents: ko.observableArray(),
 			filters:{
 				name: ko.observable(filterName),
 				type: ko.observable(""),
 				bhk: ko.observable(filterBhk),
-				displayName:ko.observable("All"),
-				projectId:ko.observable(projectIdFilter)
+				displayName: ko.observable("All"),
+				projectId: ko.observable(projectIdFilter),
+				location: ko.observable(locationFlag) 
 			},
 			start: ko.observable(),
 			total: ko.observable(),
@@ -276,7 +281,7 @@
     	if(classInstance.viewModel.filters.projectId() != ""){
     		 
            httpUtils.get("/prefered-agents/"+classInstance.viewModel.filters.projectId(),
-            {}
+            {"location":classInstance.viewModel.filters.location()}
             ,"JSON"
             ,function(result){
          		 classInstance.processResult(result,replace,setUpdate)

@@ -369,7 +369,7 @@ margin-right: 1rem;
 }
 
 .sell-post .ui.dividing.header {
-  margin: 0 0 1rem;
+  margin: 1rem 0;
   color: #38b7ea;
   border: 0;
   font-weight: 400;
@@ -483,7 +483,7 @@ margin-right: 1rem;
 }
 .six.wide.column .ui.inverted.header{
   color: #1A4547;
-  font-weight: 400;
+  font-weight: 500;
 }
 .ui.three.column.center.aligned.stackable.grid .ui.inverted.header{
   color: #1A4547;
@@ -493,16 +493,16 @@ margin-right: 1rem;
   text-align: right;
 }
 .ui.inverted.footer.vertical.segment .ui.three.column.center.aligned.stackable.grid>* {
-  text-align: left;
+  text-align: center;
   font-size: .86rem;
-  border-right:1px solid rgba(224, 224, 224, 0.76);
+  border-right: 1px solid rgba(224, 224, 224, 0.76);
 }
 .footer .six.wide.column p {
   margin: .5rem 0;
   color: #717171;
 }
 .footer .six.wide.column i {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 .footer .six.wide.column .icon.facebook.square {
   cursor: pointer;
@@ -517,13 +517,19 @@ margin-right: 1rem;
   color: #d34836;
 }
 
+p >.mail.icon{
+  color: #000;
+  margin-left: -1.4rem;
+  opacity: 0.7;
+}
+
 /** autocomplete **/
 
-#autoDiv {
+#autoDiv, #autoDivSell, #autoDivPost {
   position: relative;
 }
 
-#autoDiv>ul {
+#autoDiv>ul, #autoDivSell>ul, #autoDivPost>ul {
   position: absolute;
   background-color: #fff;
   box-shadow: 0 0 5px 1px rgba(0,0,0,0.2);
@@ -531,30 +537,30 @@ margin-right: 1rem;
   z-index: 100;
 }
 
-#autoDiv>ul>li {
+#autoDiv>ul>li, #autoDivSell>ul>li, #autoDivPost>ul>li {
   list-style-type: none;
   padding: 1rem;
   border-bottom: 1px solid #eaeaea;
   margin: 0;
 }
 
-#autoDiv>ul>li:hover {
+#autoDiv>ul>li:hover, #autoDivSell>ul>li:hover, #autoDivPost>ul>li:hover {
   background-color: rgba(0, 188, 212, 0.05);
   cursor: pointer;
 }
 
-#autoDiv>ul>li .itLabel.header {
+#autoDiv>ul>li .itLabel.header, #autoDivSell>ul>li .itLabel.header, #autoDivPost>ul>li .itLabel.header {
   font-size: 1rem;
   text-transform: capitalize;
   color: #607d8b;
   font-weight: normal;
 }
 
-#autoDiv>ul>li .itLabel.description {
+#autoDiv>ul>li .itLabel.description, #autoDivSell>ul>li .itLabel.description, #autoDivPost>ul>li .itLabel.description {
   color: rgba(0,0,0,0.5);
 }
 
-#autoDiv>ul>li:last-child {
+#autoDiv>ul>li:last-child, #autoDivSell>ul>li:last-child, #autoDivPost>ul>li:last-child {
   background: #f8f8f8;
 }
 
