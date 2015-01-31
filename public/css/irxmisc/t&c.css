@@ -6,26 +6,31 @@ body {
 .ui.left.aligned.inverted.header{
 	width: 47% !important;
 	color: #38B7EA;
-	margin-left: 6rem;
 	border-bottom: 2px solid #ECECEC;
 	font-size: .9rem;
 	font-weight: 400;
 	padding: .5rem;
 	letter-spacing: .5px;
-	margin-top: 4rem;
+	padding-top: 5.4rem;
+	margin: 0 auto;
+	background: #fff;
 }
 
 .ui.header.update{
-	margin-left: 6rem;
 	font-size: .8rem;
 	color: #737373;
 	font-weight: 500;
+	width: 47%;
+	padding: .8rem;
+	background: #fff;
 }
 
 .ui.basic.segment.descrip{
 	width: 47% !important;
-	margin-left: 5rem;
-	font-size: 11px;
+	font-size: .9rem;
+	margin: 0 auto;
+	font-weight: 300;
+	background: #fff;
 }
 
 .ui.basic.segment.descrip >p{
