@@ -89,8 +89,10 @@ Common.prototype.init = function(first_argument) {
               cache: false,
               appendTo:'#autoDivSell',
               select: function( event, ui ) {
-
-                classInstance.viewModelSell.data.proName(ui.item.name)
+               
+                 var textName = ui.item.name;
+                     textName = textName.replace(/<(?:.|\n)*?>/gm, '');
+                classInstance.viewModelSell.data.proName(textName)
                 classInstance.viewModelSell.data.locality(ui.item.location.locality)
                 classInstance.viewModelSell.data.projectId(ui.item.id)
                 return false;

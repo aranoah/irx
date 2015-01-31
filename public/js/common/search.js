@@ -69,7 +69,7 @@
                 }
                 
               }else{
-               alert(123)
+              
                $(formElement).attr('action','/project-listing')
                 return true;
               }
@@ -85,7 +85,7 @@
                 }
                 
               }else{
-                alert("form")
+               
                $(formElement).attr('action','/agent-listing')
                 return true;
               }
@@ -259,7 +259,7 @@
                         _classInstance.viewModel.sProAgents(true);
                       _classInstance.viewModel.projectId(ui.item.id);
                       }else{
-                         alert(1)
+                         
                         _classInstance.viewModel.sLocAgents(true);
                         _classInstance.viewModel.isLocality(true)
                       _classInstance.viewModel.projectId(ui.item.id);
@@ -268,6 +268,7 @@
                     } else{
                        _classInstance.viewModel.sProAgents(false);
                       _classInstance.viewModel.projectId("");
+                      location.href="/puneet.sharma";
                     }
                     
                   } else if(_classInstance.viewModel.searchType()=='project'){

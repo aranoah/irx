@@ -87,6 +87,9 @@
 			    	<div id="HideFilter" class="ui teal label"><i style="margin-right: 0;" class="icon hide"></i></div>
 			    </a>
 			</div>
+			<!--  <% if(requestObj.projectId && requestObj.projectId !=""){ %>
+			<a href="/agent-listing?projectId=<%= requestObj.projectId %>&name=<%= requestObj.name %>&isLocality=true">show agents</a>
+			 <% } %> -->
 			<div class="mobileFilter ui menu tablet mobile only grid" style="display:none;">
 				<div class="item">
 				  <div class="ui right labeled icon dropdown button">
@@ -326,9 +329,13 @@
 						        </tr>
 						      </tbody>
 						    </table> 
+						    <% if(locals.req.device.type != 'desktop'){ %>
 						    <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
 						    <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
 						    <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
+						    <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
+		  					<input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
+		  					<% }  %>
 						  </div>
 						</div>
 
@@ -364,11 +371,13 @@
 						        </tr>
 						      </tbody>
 						    </table> 
+						    <% if(locals.req.device.type == 'desktop'){ %>
 					      <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
 					      <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
 					      <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					      <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
 		  					<input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
+		  					<% } %>
 					  	</div>
 					    <div class="two wide column">
 					      <div class="ui right floated item _actButtons">
@@ -529,6 +538,14 @@
 		 if(typeof(filterType) == "undefined" || filterType == null ){
 		 	filterType = "";
 		 }
+		 var locationFlag1 = $('#__locationFlag').val()
+		 if(typeof(locationFlag1) == "undefined" || locationFlag1 == null ){
+		 	locationFlag1 = false;
+		 }
+		  var projectIdFilter = $('#__projectIdFilter').val()
+		 if(typeof(projectIdFilter) == "undefined" || projectIdFilter == null ){
+		 	projectIdFilter = false;
+		 }
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
@@ -539,7 +556,9 @@
 				type:ko.observable(filterType),
 				order:ko.observable("asc"),
 				distress:ko.observable(false),
-				status:ko.observable("")
+				status:ko.observable(""),
+			    locationFlag :ko.observable(locationFlag1),
+			    projectId:ko.observable(projectIdFilter)
 			},
 			addSome : function(){
 				
@@ -572,7 +591,13 @@
 				
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
 		 
-		_classInstance.listProjects(true);
+		 if(_classInstance.viewModel.filters.locationFlag()=='true'){
+		 	
+		 	_classInstance.listProjectsOfLocation(true);
+		 }else{
+		 	_classInstance.listProjects(true);
+		 }
+		
 	};
 
 	Project.prototype.resetFilters = function(filters) {
@@ -582,7 +607,61 @@
 		_classInstance.scroller.updating=true;
 		_classInstance.resetPage();
 	}
-	
+	 Project.prototype.listProjectsOfLocation=function(localityId,replace,setUpdate){
+      var classInstance = this;
+     
+          var data = {
+            "localityId":classInstance.viewModel.filters.projectId()
+          }
+          var filters = {
+            "name" : classInstance.viewModel.filters.name()
+          }
+          console.log()
+          httpUtils.post("/list-projects",
+                        {filters:data,page:classInstance.page},
+                        {},"JSON",function(data){
+           if(typeof(replace) != undefined && replace){
+	       		classInstance.viewModel.projects([]);
+	       	}
+	       
+	       	if(data.result == null || data.result.length == 0){
+	       		classInstance.listLocationAgent();
+	       		return;
+	       	} else{
+	       		classInstance.viewModel.agents([]);
+	       	}
+	       	var arr = data.result;
+		 		for (var i=0;i<arr.length;i++){
+		 			
+		 			var price =  arr[i].price;
+			        var aPriceArr = new Array();
+
+			        for (var j=0;j<price.length;j++){
+			        	var aPrice = price[j];
+			        	
+			        	 if(aPrice){
+				          var aPriceText =  classInstance.getPriceText(""+aPrice)
+
+				          aPriceArr.push(aPriceText);
+				        }else{
+				         aPriceArr.push(aPrice);
+				        }
+			        }
+
+			       arr[i].priceText =  aPriceArr;
+		 		}
+			console.log(arr)
+	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
+	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        classInstance.viewModel.start(classInstance.page.start) ;
+	        classInstance.viewModel.pageSize=data.page.pageSize;
+	        if(setUpdate){
+	        	
+	       		setUpdate(data.page.hasMore)
+	       	}
+        })
+     
+    }
 	Project.prototype.resetPage = function(filters) {
 		var _classInstance=this;
 		_classInstance.page.start=0;
@@ -686,6 +765,9 @@
 	       		classInstance.viewModel.agents([]);
 	       	}
 	       	var arr = data.result;
+	       	if(!arr || arr == null || arr.length==0){
+	       		return
+	       	}
 		 		for (var i=0;i<arr.length;i++){
 		 			
 		 			var price =  arr[i].price;
@@ -720,7 +802,7 @@
 
 		var project = null;
 		$(document).ready(function(){
-	  
+	  	
 		    project = new Project();
 		    project.init();
 	    
