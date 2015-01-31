@@ -97,8 +97,8 @@ LeadService.prototype.captureLeads = function(data) {
 		})
 	}) 
 	_selfInstance.once("checkUserEvent",function(){
- 	
-	 	IRXUserProfileModel.findOne({"id":data.agentId},{"irxId":1},function(err,agents){
+ 		console.log(JSON.stringify(data.agentId))
+	 	IRXUserProfileModel.findOne({"irxId":data.agentId},{"irxId":1},function(err,agents){
 	 		
 	 		if(err){
 	 			console.error(err);

@@ -119,7 +119,7 @@
 		    	<a href=""><i class="facebook square icon"></i></a>
 				<a href=""><i class="share square icon"></i></a>
 				<div class="right floated created">
-					<div class="ui label" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId)}">Enquiry</div>
+					<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId)}">Enquiry</div>
 				</div>
 		      <!--<a class="friends">
 		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
@@ -254,6 +254,9 @@
 			},
 			addAgent:function(name,id){
 				var agent={"name":name,"id":id}
+
+				_classInstance.agentIds=[];
+				
 		        _classInstance.agentIds.push(agent)
 		        
 		     }
@@ -263,14 +266,25 @@
 
 			var arr = _classInstance.agentIds;
 			
-			ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
-			console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
+			//ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
+			//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
 			 _classInstance.agentIds=[];
 			$('#_postA_').modal({
 			      closable:false
 			    }).modal('show');
 			})
+		$(document).off('click','._subReqI_')
+		$(document).on('click','._subReqI_',function(){
 
+			var arr = _classInstance.agentIds;
+			_classInstance.aPostReqViewModel.data.agentId([])
+			ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
+			//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
+			 
+			$('#_postA_').modal({
+			      closable:false
+			    }).modal('show');
+			})
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));
 		
 		_classInstance.listAgents(true);
@@ -322,6 +336,7 @@
 			classInstance.viewModel.filters.displayName(filters.name);
 		}
 		if(data && data.result){
+			classInstance.viewModel.agents([])
 			ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
 		}	
 		$('.doubling.two.column.row').hide();

@@ -200,11 +200,14 @@ Common.prototype.captureLeads = function(type) {
     
     viewModel = classInstance.aPostReqViewModel;
   }
+ var agentId = viewModel.agentId;
+ alert(agentId.length)
 	httpUtils.post("/capture-lead",
 		viewModel.data,
 		 { },"JSON",function(data){
 		if(data.status==0){
-	      $('.close.icon').click();
+      alert(1)
+	      //$('.close.icon').click();
 		}else {
 			
 		}
