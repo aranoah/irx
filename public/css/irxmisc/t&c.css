@@ -4,7 +4,6 @@ body {
 }
 
 .ui.left.aligned.inverted.header{
-	width: 47% !important;
 	color: #38B7EA;
 	border-bottom: 2px solid #ECECEC;
 	font-size: .9rem;
@@ -20,13 +19,11 @@ body {
 	font-size: .8rem;
 	color: #737373;
 	font-weight: 500;
-	width: 47%;
 	padding: .8rem;
 	background: #fff;
 }
 
 .ui.basic.segment.descrip{
-	width: 47% !important;
 	font-size: .9rem;
 	margin: 0 auto;
 	font-weight: 300;
