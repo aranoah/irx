@@ -15,26 +15,10 @@
         <input type="hidden" value="sell-property" data-bind="value:data.origin" >
         <input type="hidden" data-bind="value:data.type" value="user">
         <div class="ui inverted menu">
-          <h4 class="ui dividing header">Property Information :</h4>
-
-            <div class="item">
-              <div class="ui selection dropdown">
-                <input type="hidden" name="type" data-bind="value:data.propertyType">
-                <div class="default text">Type</div>
-                <i class="angle down icon"></i>
-                <div class="menu">
-                  <div class="item" data-value="Rent">Apartemnt</div>
-                  <div class="item" data-value="sale">Villa</div>
-                  <div class="item" data-value="land">Land</div>
-                  <div class="item" data-value="proj">Flat</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="item">
+          <div class="item">
               <div class="ui selection dropdown">
                 <input type="hidden" name="city" data-bind="textInput:data.city">
-                <div class="default text"><!--ko text: data.showCity--><!--/ko--></div>
+                <div class="default text" style="min-width:9rem;margin-right:0 !important;">Select City</div>
                 <i class="angle down icon"></i>
                 <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
                   <div class="ui icon search input">
@@ -50,6 +34,36 @@
                 </div>
               </div>
             </div>
+          <h4 class="ui dividing header">Property Information :</h4>
+
+            <div class="item field" style="width:368px;padding-bottom:.7rem;">
+              <div class="ui icon input">
+                <input type="text" id="__sellPostSearch" placeholder=" Search project.." data-bind="value:data.proName">
+                <i class="search icon"></i>
+              </div>
+              <div id="autoDivSell"></div>
+            </div>
+
+            <div class="item field" style="width:368px;padding-bottom:.7rem;padding-top:.7rem;">
+              <div class="ui icon input">
+              <input type="text" placeholder="Location" data-bind="value:data.locality">
+                <i class="marker icon"></i>
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="ui selection dropdown">
+                <input type="hidden" name="type" data-bind="value:data.propertyType">
+                <div class="default text">Type</div>
+                <i class="angle down icon"></i>
+                <div class="menu">
+                  <div class="item" data-value="Rent">Apartemnt</div>
+                  <div class="item" data-value="sale">Villa</div>
+                  <div class="item" data-value="land">Land</div>
+                  <div class="item" data-value="proj">Flat</div>
+                </div>
+              </div>
+            </div> 
             
             <div class="item">
               <div class="ui selection dropdown">
@@ -77,15 +91,6 @@
               </div>
             </div>
             
-            <div class="item field">
-              <input type="text" id="__sellPostSearch" placeholder=" Search project.." data-bind="value:data.proName" >
-              <div id="autoDivSell">
-            </div>
-            </div>
-            
-            <div class="item field">
-              <input type="text" placeholder="Location" data-bind="value:data.locality">
-            </div>
             <!--<div class="field item">
               <textarea placeholder="Write few words about your property..."></textarea>
             </div>-->
