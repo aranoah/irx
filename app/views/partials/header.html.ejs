@@ -22,7 +22,14 @@
       <a class="item _post post-in">Post your requirement
        </a>
       <% if(locals.session.user) {%>
-        <a class="item log-in"><i class="user icon"></i><%= locals.session.user.name %></a>
+        <div class="ui dropdown">
+          <div class="item"><%= locals.session.user.name %></div>
+          <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
+          <div class="menu">
+            <div class="item">Settings</div>
+            <div class="item">Logout</div>
+          </div>
+        </div>
         <% }%>
         <% if(!locals.session.user){%>
              <a class="item log-in"><i class="user icon"></i>Login</a>
