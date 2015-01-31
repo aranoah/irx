@@ -223,14 +223,16 @@
 }
 
 #agentContent>div,#projectContent>div {
-	padding: 6rem 0 0;
+	padding: 3rem 0 0;
 }
 
 #agentContent .rib-head, #projectContent .rib-head {
 	padding: 0 !important;
 	border-bottom: 1px solid #eaeaea !important;
 }
-
+._filters_ {
+    padding: 5px 0 10px;
+}
 #projectContent .ui.menu.rib-head {
 	background: inherit !important;
 	box-shadow: none !important;
@@ -276,7 +278,7 @@
 }
 
 #agentContent .ui.cards>.card {
-	width: 23.4rem;
+	width: 35rem;
 }
 
 .ui.image.tiny {
@@ -284,7 +286,11 @@
 	padding: .6rem !important;
 	background-color: inherit !important;
 }
-
+.card .content .description {
+    font-size: .8em;
+    text-transform: uppercase;
+    line-height: 18pt;
+}
 .content.addr-ess {
 	font-size: .9em;
 }

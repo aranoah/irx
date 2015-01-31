@@ -42,12 +42,16 @@
 
 	  	<!-- ends here -->
 
+		<h1 class="ui header computer only" style="margin-bottom:0">
+			Agent Listing
+		</h1>	  		
 	  	<div class="ui grid two column rib-head computer only">
-	    	<h2 class="ui header column">Showing results for <a href="/project/<%= requestObj.name?requestObj.projectId:'' %>"><%= requestObj.name?requestObj.name:'' %></a>
+    		<h2 class="ui header column">Showing results  <!-- for
 
-	    		<!--<a data-bind="text:filters.displayName"></a>-->
+    		<a data-bind="text:filters.displayName"></a>
+    	
+    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a> --></h2>
 	    	
-	    	<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a></h2>
 	    	<div class="header column right menu">
 	    		<div class="ui checkbox">
 			      <input type="checkbox">
@@ -56,6 +60,10 @@
 				<div class="ui basic button" id="_subReq_">submit request</div>
 	    	</div>
 	    </div>
+	    <div class="_filters_">
+
+	    	<span class="ui teal label"><%= requestObj.name?requestObj.name:'' %> <i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
+	  	</div>
 	    <div class="ui cards sc" data-bind="foreach : agents">
 
 		  <div class="card">
@@ -73,31 +81,31 @@
 		      <div class="description">
 		        Projects : 
 		        <span data-bind="foreach : projects" style="margin-right:0;">
-			        <!-- ko if:$index()<=1 -->
-			        	<span class="header" data-bind="text : $data"></span>
-			        	 <!-- ko if:$index()==0 -->
+			        <!-- ko if:$index()<=2 -->
+			        	<!-- ko if:$index()!=0 -->
 			        	 	<span class="header">,</span>
 			        	 <!-- /ko -->
+			        	<span class="header" data-bind="text : $data"></span>
 			        <!-- /ko -->
 			    </span>
-		        <span data-bind="if:projects.length>2">
+		        <span data-bind="if:projects.length>3">
 		        (+
-		        	<span class="header" data-bind="text : projects.length-2"></span>)
+		        	<span class="header" data-bind="text : projects.length-3"></span>)
 		        </span>
 		       </div>
 		       <div class="description">
 		        Operating Localities : 
 		        <span data-bind="foreach : locationProjects" style="margin-right:0;">
-			        <!-- ko if:$index()<=1 -->
-			        	<span class="header" data-bind="text : $data"></span>
-			        	 <!-- ko if:$index()==0 -->
+			        <!-- ko if:$index()<=2 -->
+			        	<!-- ko if:$index()!=0 -->
 			        	 	<span class="header">,</span>
-			        	 <!-- /ko -->
+			        	<!-- /ko -->
+			        	<span class="header" data-bind="text : $data"></span>
 			        <!-- /ko -->
 			    </span>
-		        <span data-bind="if:locationProjects.length>2">
+		        <span data-bind="if:locationProjects.length>3">
 		        (+
-		        	<span class="header" data-bind="text : locationProjects.length-2"></span>)
+		        	<span class="header" data-bind="text : locationProjects.length-3"></span>)
 		        </span>
 		       </div>
 		    </div>
@@ -136,7 +144,7 @@
 	function Agent(options){
 		this.page = {
 			start : 0,
-			pageSize : 3
+			pageSize : 10
 		}
 		this.agentIds = [];
 	}
@@ -319,7 +327,17 @@
 		}
 		
 
-	}
+	};
+	Agent.prototype.resetAgent=function(_self){
+		var classInstance =this;
+		classInstance.viewModel.filters.name('');
+		classInstance.viewModel.filters.projectId('');
+		classInstance.page.start=0;
+		if(_self){
+			$(_self).parent().remove();
+		}
+		classInstance.listAgents(true);
+	};
 	var agent = null;
 	$(document).ready(function(){
 	  
