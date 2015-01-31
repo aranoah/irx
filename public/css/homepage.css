@@ -172,7 +172,7 @@
 	font-family: 'roboto condensed';
 	font-size: 1.5rem;
 }
-.lower-portion h2.ui.inverted.header:after {
+/*.lower-portion h2.ui.inverted.header:after {
 	position: absolute;
 	content: "";
 	width: 12rem;
@@ -180,7 +180,7 @@
 	background-color: #607d8b;
 	top: 38px;
 	left: 42%;
-}
+}*/
 .ui.dropdown .menu>.item{
 	font-weight: 300;
 	color: #737373;
