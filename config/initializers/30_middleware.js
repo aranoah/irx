@@ -85,7 +85,7 @@ module.exports = function() {
       } else{
           res.locals.session = {};
       }
-     console.log("shshshhshshshs---->",req.device);
+     //console.log("shshshhshshshs---->",req.device);
 
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');

@@ -115,7 +115,17 @@ userController.getUserDetails = function() {
     userSvc.getUserDetails(userId);
 }
 
-
+userController.forgetPassword = function() {
+  var userSvc = new userService();
+ 
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    
+    userId= _nself.req.params.userId;
+    userSvc.forgetPassword(userId);
+}
 /*
 * 	Verify User 
 *	@TODO : Controller level validation

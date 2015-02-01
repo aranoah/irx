@@ -114,36 +114,50 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
               if (err){
                console.log(err)
               } else{
-                var locals = {
-                "name": lead.name,
-                "proName":lead.projectId,
-                "subject":properties.leads_success_subject,
-                "mobileNo":lead.mobileNo,
-                "userId":lead.emailId,
-                "password":messageData.password
-              }
-              new emailUtils().sendEmail("post-req",locals,function(error,success){
-                if(error != null){
-                  console.error(error);
-                }else if(success != null){
-                  console.log(success)
-                }
-              });
+                    var locals = {
+                    "name": lead.name,
+                    "proName":lead.projectName,
+                    "proId":lead.projectId,
+                    "subject":properties.leads_success_subject,
+                    "mobileNo":lead.mobileNo,
+                    "userId":lead.emailId,
+                    "password":messageData.password,
+                    "action":lead.action
+                  }
+                  new emailUtils().sendEmail("post-req",locals,function(error,success){
+                    if(error != null){
+                      console.error(error);
+                    }else if(success != null){
+                      console.log(success)
+                    }
+                  });
 
               new smsUtils().sendSms({"msg":properties.leads_message});
                 // send email to brokers
-                IRXUserProfileModel.find({},{},{limit:5 },function(err,users){
+                if(lead.agentId && lead.agentId != ""){
+                  IRXUserProfileModel.findOne({"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED,"irxId":lead.agentId},{},{limit:5 },function(err,user){
+                  if(err){
+                    console.log(err)
+                  }else{
+                     locals.userId = user.userId;
+                     locals.subject = properties.leads_subject;
+                    new emailUtils().sendEmail("leads",locals,function(error,success){
+                        if(error != null){
+                          console.error(error);
+                        }else if(success != null){
+                          console.log(success)
+                        }
+                      });
+                  }
+                })
+                }else {
+                  IRXUserProfileModel.find({"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED},{},{limit:5 },function(err,users){
                   if(err){
                     console.log(err)
                   }else{
                     for (var i=0; i<users.length;i++){
-                        var locals = {
-                          "name": lead.name,
-                          "proName":lead.projectId,
-                          "subject":properties.leads_subject,
-                          "mobileNo":lead.mobileNo,
-                          "userId":users[i].userId
-                        }
+                        locals.userId=users[i].userId;
+                        locals.subject = properties.leads_subject;
                       new emailUtils().sendEmail("leads",locals,function(error,success){
                         if(error != null){
                           console.error(error);
@@ -154,6 +168,8 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                     }
                   }
                 })
+                }
+                
               }
             })
           
