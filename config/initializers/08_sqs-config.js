@@ -156,7 +156,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                     console.log(err)
                   }else{
                     for (var i=0; i<users.length;i++){
-                        locals.userId=users[i].userId;
+                        locals.userId="puneetsharma41@gmail.com";
                         locals.subject = properties.leads_subject;
                       new emailUtils().sendEmail("leads",locals,function(error,success){
                         if(error != null){

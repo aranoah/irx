@@ -89,8 +89,10 @@ Common.prototype.init = function(first_argument) {
 
             source: function(request, response){
                 var _self = this;
-               
-                  sBar.projectAutocomplete(request.term,request,response)
+                if(classInstance.viewModelSell.data.city() == null || classInstance.viewModelSell.data.city() == ""){
+                  
+                }  
+                sBar.projectAutocomplete(request.term,request,response)
                 
               },
               minLength: 2,
@@ -249,11 +251,7 @@ Common.prototype.validateForm = function(_button) {
           }
         ]
       }
-    },
-    {
-    inline : true,
-    on     : 'blur'
-  });
+    });
     $(_button).parents('form').submit();
 };
 Common.prototype.register = function() {

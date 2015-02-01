@@ -37,9 +37,6 @@ leadsController.validate_captureLeads=function(){
 
     var validateName = ["required"];
     myvalidator.validate("name",validateName,this.req.body.name);
-    
-    var validateAgentId = ["required"];
-    myvalidator.validate("AgentId",validateAgentId,this.req.body.agentId);
 
     var validateProjectId = ["required"];
     myvalidator.validate("ProjectId",validateProjectId,this.req.body.prjectId);
