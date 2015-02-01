@@ -23,6 +23,13 @@ body {
  left: 0 !important;
 
 }
+._csn{
+  display: inline-block !important;
+  vertical-align: middle;
+}
+._txt_cntr{
+  text-align: center !important;
+}
 /* Rupee ends here */
 /* Header starts here *#06865F*#13436C */
 

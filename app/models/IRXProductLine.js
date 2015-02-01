@@ -39,7 +39,8 @@ var IRXProductLineSchema =new mongoose.Schema({
    rank:{type:Number},//indexing
    prefferedAgents:{type:Array},
    distress : {type:Number},
-   status : {type:String}
+   status : {type:String},
+   floorPlan :{type:Array}
 
 });
 
