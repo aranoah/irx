@@ -1,6 +1,24 @@
 
 $(document).ready(function () {
 
+  //radio button js 
+
+    $(".radio._main_").on('click',function() {
+        var _self = $(this);
+        var _parent = _self.parent();
+
+        
+        var radio  = _self.find("input");
+        if(!radio.is(':checked')) {
+           $('.radiobutton').removeClass('active');
+           radio.attr("checked","checked");
+           radio.siblings(".radiobutton").addClass("active");
+        }
+
+      });
+
+  // ends here
+
 	$('.middleBox>div').mouseenter(function() {
 		var _self = $(this);
 

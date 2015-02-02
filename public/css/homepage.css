@@ -148,20 +148,20 @@
 
 /* search-box for mobile and tablet */
 
-.column.tablet.mobile.only #search-box .ui.icon.input>input {
+#irx-mobile #search-box .ui.icon.input._main_>input {
 	font-size: 1.2rem !important;
 	padding: 1em !important;
 }
 
-.column.tablet.mobile.only .ui.page.grid {
+#irx-mobile .ui.page.grid {
 	padding-top: 1rem;
 }
 
-.column.tablet.mobile.only .ui.page.grid>div {
+#irx-mobile .ui.page.grid>div {
 	text-align: center;
 }
 
-.column.tablet.mobile.only .ui.page.grid>.six.column.row>.column>div {
+#irx-mobile .ui.page.grid>.six.column.row>.column>div {
 	display: table-cell;
 }
 
