@@ -9,15 +9,20 @@
 
   <!-- For mobile screens only -->
 
-  <% if(locals.req.device.type != 'desktop'){ %>
+  <% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
 
       <div id="header" class="ui inverted menu">
         <a class="header item _logo_" href="/irx/home">IRX</a>
-        <a class="item _link" href="/project-listing">PROJECTS</a>
-        <a class="item _link" href="/agent-listing">AGENTS</a>
+        <div class="ui dropdown">         
+          <div class="item">Select</div>
+          <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
+          <div class="menu">
+            <a class="item _link" href="/project-listing">PROJECTS</a>
+            <a class="item _link" href="/agent-listing">AGENTS</a>
+          </div>
+        </div>       
         <div class="right menu">
          
-          <a class="item"><%= locals.session.user.name %></a>
           <% if(locals.session.user) {%>
             <div class="ui dropdown">
               <a class="item"><%= locals.session.user.name %></a>
@@ -32,7 +37,7 @@
             </div>
             <% }%>
             <% if(!locals.session.user){%>
-                 <a class="item log-in"><i class="user icon"></i>Login</a>
+                 <a class="item log-in"><i class="user icon"></i></a>
                <% }%>
           <a class="item"><i class="content icon toggle button"></i></a>
         </div>
@@ -42,7 +47,7 @@
 
   <!-- For desktop only -->
 
-<% if(locals.req.device.type == 'desktop'){ %>
+<% if(locals.req.device && locals.req.device.type == 'desktop'){ %>
   <div id="header" class="ui inverted menu">
     <a class="header item _logo_" href="/irx/home">IRX</a>
     <a class="item _link" href="/project-listing">PROJECTS</a>

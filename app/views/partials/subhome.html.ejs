@@ -12,7 +12,7 @@
 
 		<!-- For mobile screens -->
 		<% if(locals.req.device.type != 'desktop'){ %>
-			<div class="column tablet mobile only row">
+			<div class="column">
 		        <div class="ui transition information visible">
 			        <form data-bind="submit: searchFun" >
 				        <div class="ui form">
@@ -66,7 +66,8 @@
 		<!-- ends here -->
 
 	<% if(locals.req.device.type == 'desktop'){ %>
-      <div class="column computer only row">
+
+      <div class="column">
 	    <div class="ui transition information visible">
 	        <form data-bind="submit: searchFun" >
 	          <div class="ui form">
