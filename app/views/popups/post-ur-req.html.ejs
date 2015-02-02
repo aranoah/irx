@@ -1,8 +1,9 @@
 <!-- Sell-ur-property popup -->
 <script type="text/javascript" src="/js/common/http.js"></script>
 
-<form class="ui form" >
+
 <div id="post" class="ui modal pop-up sell-post">  
+<form class="ui form" action="javascript: common.captureLeads('post')">
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Post your requirement</h2>
@@ -15,26 +16,32 @@
     <!-- sell your property starts here -->
         <input type="hidden" data-bind="value:data.origin" value="post-req">
         <div class="ui inverted menu">
-
+            <h4 class="ui dividing header">Step 1 : Please select property location</h4>
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="city" data-bind="value:data.city">
-                <div class="default text">City</div>
+                <input type="hidden" name="city" data-bind="textInput:data.city">
+                <div class="default text" style="min-width:9rem;margin-right:0 !important;">Select City</div>
                 <i class="angle down icon"></i>
-                <div class="menu">
-                  <div class="item" data-value="New Delhi">New Delhi</div>
-                  <div class="item" data-value="Bangalore">Bangalore</div>
-                  <div class="item" data-value="Mumbai">Mumbai</div>
-                  <div class="item" data-value="Chennai">Chennai</div>
+                <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
+                  <div class="ui icon search input">
+                    <i class="search icon"></i>
+                    <input type="text" name="city" placeholder="Search city...">
+                  </div>
+                  <div class="divider"></div>
+                  <div class="header">
+                    <i class="tags icon"></i>
+                   Select City
+                  </div>
+                  <% include ../partials/city.html.ejs %>
                 </div>
               </div>
             </div>
-          
+          <!-- ko if:data.city() != "" -->
             <h4 class="ui dividing header">Property Information :</h4>
             
             <div class="item field" style="width:368px;padding-bottom:.7rem;">
               <div class="ui icon input">
-                <input type="text" id="__postReqSearch" placeholder=" Search project.." data-bind="value:data.proName" >
+                <input type="text" name="projectId" id="__postReqSearch" placeholder=" Search project.." data-bind="value:data.proName" >
                 <i class="search icon"></i>
               </div>
               <div id="autoDivPost">
@@ -50,7 +57,7 @@
 
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="type" data-bind="value:data.propertyType">
+                <input type="hidden" name="propertyType" data-bind="value:data.propertyType">
                 <div class="default text">Type</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
@@ -62,9 +69,9 @@
               </div>
             </div>
             
-            <div class="item">
+            <div class="item field">
               <div class="ui selection dropdown">
-                <input type="hidden" name="buy" data-bind="value:data.action">
+                <input type="hidden" name="action" data-bind="value:data.action">
                 <div class="default text">Action</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
@@ -87,11 +94,12 @@
                 </div>
               </div>
             </div>
+            <!-- /ko -->
             <!--<div class="field item">
               <textarea placeholder="Write few words about your property..."></textarea>
             </div>-->
         </div>
-
+        <!-- ko if:data.city() != "" -->
         <div class="ui inverted menu contact">
           <h4 class="ui dividing header">Contact Information :</h4>
           <div class="ui form">
@@ -113,16 +121,16 @@
             <input type="text" name="name" placeholder="Name" data-bind="value:data.name,css:{'required-field':'must'}">
           </div>
           <div class="item field">
-            <input type="text" placeholder="Email" data-bind="value:data.emailId">
+            <input type="text" name="emailId" placeholder="Email" data-bind="value:data.emailId">
           </div>            
           <div class="item field">
-            <input type="text" placeholder="Mobile" data-bind="value:data.mobileNo">
+            <input type="text" placeholder="Mobile" name="mobileNo" data-bind="value:data.mobileNo">
           </div>
         </div>
 
         <div class="three column row">
           <div class="right floated column">
-            <div class="ui submit" data-bind="click: captureLeads">Submit</div>
+            <div class="ui submitAction"  onClick="common.validateForm(this)">Submit</div>
           </div>
           <div class="left floated column">
             <div class="ui checkbox">
@@ -131,8 +139,9 @@
             </div>
           </div>
         </div>
-
+        <!-- /ko -->
     <!-- Ends here -->  
   </div>
+  </form>
 </div>
-</form>
+

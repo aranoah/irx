@@ -9,12 +9,21 @@ function Common() {
 }
 Common.prototype.getViewModel = function(type) {
 	var classInstance = this;
+  var sessName = "";
+  var sessEmailId = "";
+  if($('#__sess_name').html() != undefined){
+      sessName=$('#__sess_name').val();
+  }
+  if($('#__sess_emailId').html() != undefined){
+      sessEmailId=$('#__sess_emailId').val();
+  }
+
 	  var viewModel = {
       data:{
-      	emailId:ko.observable(""),
+      	emailId:ko.observable(sessEmailId),
       	projectId:ko.observable(""),
       	agentId:ko.observableArray(),
-      	name:ko.observable("").extend({ required: true}),
+      	name:ko.observable(sessName).extend({ required: true}),
       	mobileNo:ko.observable(""),
       	city:ko.observable(""),
       	bhk:ko.observable(""),
@@ -24,17 +33,17 @@ Common.prototype.getViewModel = function(type) {
         propertyType:ko.observable(""),
         action:ko.observable(""),
         origin:ko.observable(type),
-        showCity:ko.observable("")
+        showCity:ko.observable(""),
+        //projectName:ko.observable("")
       },
       captureLeads:function(){
-        alert(2)
+       
       	classInstance.captureLeads(type);
       },
       removeAgent:function(data){
-        //alert(2)
         viewModel.data.agentId.remove(data)
       }
-      
+
     };
     return viewModel;
 }
@@ -80,8 +89,10 @@ Common.prototype.init = function(first_argument) {
 
             source: function(request, response){
                 var _self = this;
-               
-                  sBar.projectAutocomplete(request.term,request,response)
+                if(classInstance.viewModelSell.data.city() == null || classInstance.viewModelSell.data.city() == ""){
+                  
+                }  
+                sBar.projectAutocomplete(request.term,request,response)
                 
               },
               minLength: 2,
@@ -89,9 +100,12 @@ Common.prototype.init = function(first_argument) {
               cache: false,
               appendTo:'#autoDivSell',
               select: function( event, ui ) {
-
-                classInstance.viewModelSell.data.proName(ui.item.name)
-                classInstance.viewModelSell.data.locality(ui.item.location.locality)
+               
+                 
+                var textName = classInstance.removeHtml(ui.item.name)
+                classInstance.viewModelSell.data.proName(textName)
+                
+                classInstance.viewModelSell.data.locality(ui.item.locationName)
                 classInstance.viewModelSell.data.projectId(ui.item.id)
                 return false;
               }
@@ -112,16 +126,15 @@ Common.prototype.init = function(first_argument) {
               cache: false,
               appendTo:'#autoDivPostA',
               select: function( event, ui ) {
-
-                classInstance.aPostReqViewModel.data.proName(ui.item.name)
-                classInstance.aPostReqViewModel.data.locality(ui.item.location.locality)
+                var textName = classInstance.removeHtml(ui.item.name)
+                classInstance.aPostReqViewModel.data.proName(textName)
+                classInstance.aPostReqViewModel.data.locality(ui.item.locationName)
                 classInstance.aPostReqViewModel.data.projectId(ui.item.id)
                 return false;
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-        $(".ui-widget-content .ui-state-focus");
-        
-         return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div></a>" ).appendTo(ul);
+         $(".ui-widget-content .ui-state-focus");
+         return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
       };  
    
     $("#"+classInstance.postReqLeads).find("#__postReqSearch").autocomplete({
@@ -137,9 +150,9 @@ Common.prototype.init = function(first_argument) {
               cache: false,
               appendTo:'#autoDivPost',
               select: function( event, ui ) {
-
-                classInstance.viewModelPost.data.proName(ui.item.name)
-                classInstance.viewModelPost.data.locality(ui.item.location.locality)
+                var textName = classInstance.removeHtml(ui.item.name) 
+                classInstance.viewModelPost.data.proName(textName)
+                classInstance.viewModelPost.data.locality(ui.item.locationName)
                 classInstance.viewModelPost.data.projectId(ui.item.id)
                 return false;
               }
@@ -154,18 +167,93 @@ Common.prototype.init = function(first_argument) {
 
 
 };
+Common.prototype.removeHtml = function(name) {
+    if(name){
+       return name.replace(/<(?:.|\n)*?>/gm, '');
+    } else{
+      return "";
+    }
+                     
+};
 Common.prototype.login = function() {
 	var classInstance = this;
 	httpUtils.post("/login",
 		{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
 		 { 'authorization': 'POST' },"JSON",function(data){
 		if(data.status==0){
-	      alert(1)
+	     $('.close.icon').click();
 		}else {
 			
 		}
 	})
 };		 
+Common.prototype.validateForm = function(_button) {
+     
+     $(_button).parents('form').form({
+      emailId: {
+        identifier : 'emailId',
+        rules: [
+          {
+            type   : 'email',
+            prompt : 'Please enter a valid e-mail'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Please enter e-mail'
+          }
+        ]
+      }, 
+      action: {
+        identifier : 'action',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please select action'
+          },
+          {
+            type   : 'length[2]',
+            prompt : 'Please select action'
+          }
+        ]
+      },
+      name: {
+        identifier : 'name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your name'
+          }
+        ]
+      },
+      projectId: {
+        identifier : 'projectId',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please select a project'
+          }
+        ]
+      },
+      mobileNo: {
+        identifier : 'mobileNo',
+        rules: [
+          {
+            type   : 'maxLength[10]',
+            prompt : 'Please enter a valid mobile number'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Please enter a mobile number'
+          },
+          {
+            type   : 'integer',
+            prompt : 'Please enter a valid mobile number'
+          }
+        ]
+      }
+    });
+    $(_button).parents('form').submit();
+};
 Common.prototype.register = function() {
   var classInstance = this;
   httpUtils.post("/create-user",
@@ -177,7 +265,7 @@ Common.prototype.register = function() {
     },
      {  },"JSON",function(data){
     if(data.status==0){
-        alert(1)
+       $('.close.icon').click();
     }else {
       
     }
@@ -187,23 +275,34 @@ Common.prototype.register = function() {
 
 
 Common.prototype.captureLeads = function(type) {
+
+   alert(1)
 	var classInstance = this;
 	var viewModel = null;
-  alert(3)
-	if(type == classInstance.postReqLeads){
+	
+  if(type == classInstance.postReqLeads){
 		viewModel = classInstance.viewModelPost;
 	} else if(type == classInstance.sellPostLeads){
 		viewModel = classInstance.viewModelSell;
-	}else{
-    alert(1)
-    console.log(viewModel)
+	} else {
+  //  console.log("123456",classInstance.aPostReqViewModel)
     viewModel = classInstance.aPostReqViewModel;
+    var agentId = viewModel.data.agentId();
+    if(agentId && agentId.length >0){
+      alert(agentId[0].irxId)
+      viewModel.data["dealerId"] = agentId[0].irxId  
+    }
+    
   }
+
+ 
+
 	httpUtils.post("/capture-lead",
 		viewModel.data,
 		 { },"JSON",function(data){
 		if(data.status==0){
-	       alert(1)
+      alert(1)
+	      //$('.close.icon').click();
 		}else {
 			
 		}

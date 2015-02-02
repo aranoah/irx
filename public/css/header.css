@@ -23,6 +23,13 @@ body {
  left: 0 !important;
 
 }
+._csn{
+  display: inline-block !important;
+  vertical-align: middle;
+}
+._txt_cntr{
+  text-align: center !important;
+}
 /* Rupee ends here */
 /* Header starts here *#06865F*#13436C */
 
@@ -82,12 +89,24 @@ body {
   text-align: right;
 }*/
 
+/* submit button */
+.submitAction {
+  background: #38b7ea;
+  padding: .8rem;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 3px;
+}
+/* submit ends here */
+
 /* Search menu */
 
 #searchbar {
   background-color: #fbfbfb;
   border-top: 1px solid #f2f2f2;
-  box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.3);
   z-index: 10;
 }
 
@@ -117,7 +136,7 @@ body {
 }
 
 #searchbar input {
-  padding: .7em 1.1em .7em 8.4rem;
+  padding: .7em 1.1em .7em 0rem;
   background-color: inherit !important;
 }
 
@@ -381,7 +400,7 @@ margin-right: 1rem;
 }
 
 .sell-post .ui.selection.dropdown {
-  min-width: 135px;
+  min-width: 255px !important;
 }
 
 .sell-post .ui.selection.dropdown>.default.text {
@@ -525,11 +544,11 @@ p >.mail.icon{
 
 /** autocomplete **/
 
-#autoDiv, #autoDivSell, #autoDivPost {
+#autoDiv, #autoDivSell, #autoDivPost, .autoContainer{
   position: relative;
 }
 
-#autoDiv>ul, #autoDivSell>ul, #autoDivPost>ul {
+#autoDiv>ul, #autoDivSell>ul, #autoDivPost>ul, .autoContainer>ul {
   position: absolute;
   background-color: #fff;
   box-shadow: 0 0 5px 1px rgba(0,0,0,0.2);
@@ -537,34 +556,34 @@ p >.mail.icon{
   z-index: 100;
 }
 
-#autoDiv>ul>li, #autoDivSell>ul>li, #autoDivPost>ul>li {
+#autoDiv>ul>li, #autoDivSell>ul>li, #autoDivPost>ul>li, .autoContainer>ul>li {
   list-style-type: none;
   padding: 1rem;
   border-bottom: 1px solid #eaeaea;
   margin: 0;
 }
 
-#autoDiv>ul>li:hover, #autoDivSell>ul>li:hover, #autoDivPost>ul>li:hover {
+#autoDiv>ul>li:hover, #autoDivSell>ul>li:hover, #autoDivPost>ul>li:hover, .autoContainer>ul>li:hover {
   background-color: rgba(0, 188, 212, 0.05);
   cursor: pointer;
 }
 
-#autoDiv>ul>li .itLabel.header, #autoDivSell>ul>li .itLabel.header, #autoDivPost>ul>li .itLabel.header {
+#autoDiv>ul>li .itLabel.header, #autoDivSell>ul>li .itLabel.header, #autoDivPost>ul>li .itLabel.header, .autoContainer>ul>li .itLabel.header {
   font-size: 1rem;
   text-transform: capitalize;
   color: #607d8b;
   font-weight: normal;
 }
 
-#autoDiv>ul>li .itLabel.description, #autoDivSell>ul>li .itLabel.description, #autoDivPost>ul>li .itLabel.description {
+#autoDiv>ul>li .itLabel.description, #autoDivSell>ul>li .itLabel.description, #autoDivPost>ul>li .itLabel.description, .autoContainer>ul>li .itLabel.description {
   color: rgba(0,0,0,0.5);
 }
 
-#autoDiv>ul>li:last-child, #autoDivSell>ul>li:last-child, #autoDivPost>ul>li:last-child {
+#autoDiv>ul>li:last-child, #autoDivSell>ul>li:last-child, #autoDivPost>ul>li:last-child, .autoContainer>ul>li:last-child {
   background: #f8f8f8;
 }
 
-#autoDiv>ul>li .itLabel.header._enter_ {
+#autoDiv>ul>li .itLabel.header._enter_, .autoContainer>ul>li .itLabel.header._enter_ {
   text-transform: inherit;
   text-align: center;
   font-size: .9em;
@@ -577,7 +596,8 @@ p >.mail.icon{
   background-color: #6bf983;
   padding: 1.3rem;
   top: -.74rem;
-  left: -.87rem;
+  left: -.82rem;
+  width: 38px;
 }
 
 

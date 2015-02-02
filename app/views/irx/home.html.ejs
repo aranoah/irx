@@ -60,8 +60,28 @@
 	}
 	.ui.card>.content>.header:not(.ui){
 		color: #607d8b;
-        font-weight: 400;
+		font-weight: 400;
+		letter-spacing: .3px;
 	}
+	.extra.content{
+		padding: .6rem;
+		letter-spacing: .4px;
+		font-size: .9rem;
+	}
+	.header >.marker.icon{
+		color: #607d8b;
+	}
+	.ui.four.column.center.aligned.stackable.divided.grid > .column{
+        box-shadow: 0 0 0 0 rgba(39,41,43,.15);
+	}
+	.ui.four.column.center.aligned.stackable.divided.grid > .column >.ui.card{
+		border: 1px solid #E8E8E8;
+		box-shadow: 0 0 0 0 #d4d4d5,0 0 0 0 #d4d4d5;
+	}
+	.ui.card>.content a, .ui.cards>.card>.content a{
+		color: #808080;
+	}
+	
 </style>
 <body id="home">
   <% include ../partials/header.html.ejs %>
@@ -79,37 +99,47 @@
 
   			<div class="ui centered page grid">
   				<div class="fourteen wide column">
-  					<div class="ui three column center aligned stackable divided grid">
+  					<div class="ui four column center aligned stackable divided grid">
 			          <div class="column">
 			            <div class="ui medium images transition information">
-						  <img src="/images/rec-image.png">
+						  <img src="/images/1.jpg">
 						</div>
 			          </div>
 			          <div class="column">
 			            <div class="ui medium images">
-						  <img src="/images/rec-image.png">
+						  <img src="/images/7.jpg">
 						</div>
 			          </div>
 			          <div class="column">
 			            <div class="ui medium images">
-						  <img src="/images/rec-image.png">
+						  <img src="/images/2.jpeg">
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui medium images">
+						  <img src="/images/3.jpeg">
 						</div>
 			          </div>
 			        </div>
-			        <div class="ui three column center aligned stackable divided grid">
+			        <div class="ui four column center aligned stackable divided grid">
 			          <div class="column">
 			            <div class="ui medium images">
-						  <img src="/images/rec-image.png">
+						  <img src="/images/4.png">
 						</div>
 			          </div>
 			          <div class="column">
 			            <div class="ui medium images">
-						  <img src="/images/rec-image.png">
+						  <img src="/images/5.jpeg">
 						</div>
 			          </div>
 			          <div class="column">
 			            <div class="ui medium images">
-						  <img src="/images/rec-image.png">
+						  <img src="/images/6.gif">
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui medium images">
+						  <img src="/images/9.png">
 						</div>
 			          </div>
 			        </div>
@@ -123,26 +153,24 @@
   			<div class="row">
   				<div class="column">
 		          <h2 class="center aligned ui inverted header">
-		            Explore localities.
+		            Explore Projects.
 		          </h2>
 		        </div>
   			</div>
 
   			<div class="ui centered page grid">
   				<div class="fourteen wide column">
-  					<div class="ui three column center aligned stackable divided grid">
+  					<div class="ui four column center aligned stackable divided grid">
 			          <div class="column">
 			            <div class="ui card">
 						  <div class="content">
-						    <div class="header">Nirala Bazar</div>
+						    <div class="header"><i class="marker icon"></i>Chandni Chowk</div>
 						    <div class="extra content">
 						      <span class="item">
-						        <p>Agents</p>
-						        15
+						        <p><a class="_link" href="/agent-listing">Agents</a></p>
 						      </span>
-						      <span class="item">
-						       	<p>Projects</p>
-						        30
+						      <span class="item"style="margin-left:2rem;">
+						       	<p><a class="_link" href="/project-listing">Projects</a></p>
 						      </span>
 						    </div>
 						  </div>
@@ -151,15 +179,13 @@
 			          <div class="column">
 			            <div class="ui card">
 						  <div class="content">
-						    <div class="header">Vedant Nagar</div>
+						    <div class="header"><i class="marker icon"></i>Vedant Nagar</div>
 						    <div class="extra content">
 						      <span class="item">
-						        <p>Agents</p>
-						        15
+						        <p><a class="_link" href="/agent-listing">Agents</a></p>
 						      </span>
-						      <span class="item">
-						       	<p>Projects</p>
-						        30
+						      <span class="item"style="margin-left:2rem;">
+						       	<p><a class="_link" href="/project-listing">Projects</a></p>
 						      </span>
 						    </div>
 						  </div>
@@ -168,34 +194,45 @@
 			          <div class="column">
 			            <div class="ui card">
 						  <div class="content">
-						    <div class="header">Gadia Vihar</div>
+						    <div class="header"><i class="marker icon"></i>Vedant Nagar</div>
 						    <div class="extra content">
 						      <span class="item">
-						        <p>Agents</p>
-						        15
+						        <p><a class="_link" href="/agent-listing">Agents</a></p>
 						      </span>
+						      <span class="item"style="margin-left:2rem;">
+						       	<p><a class="_link" href="/project-listing">Projects</a></p>
+						      </span>
+						    </div>
+						  </div>
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui card">
+						  <div class="content">
+						    <div class="header"><i class="marker icon"></i>Gadia Vihar</div>
+						    <div class="extra content">
 						      <span class="item">
-						       	<p>Projects</p>
-						        30
+						        <p><a class="_link" href="/agent-listing">Agents</a></p>
+						      </span>
+						      <span class="item"style="margin-left:2rem;">
+						       	<p><a class="_link" href="/project-listing">Projects</a></p>
 						      </span>
 						    </div>
 						  </div>
 						</div>
 			          </div>
 			        </div>
-			        <div class="ui three column center aligned stackable divided grid">
+			        <div class="ui four column center aligned stackable divided grid">
 			          <div class="column">
 			            <div class="ui card">
 						  <div class="content">
-						    <div class="header">Nirala Bazar</div>
+						    <div class="header"><i class="marker icon"></i>Nirala Bazar</div>
 						    <div class="extra content">
 						      <span class="item">
-						        <p>Agents</p>
-						        15
+						        <p><a class="_link" href="/agent-listing">Agents</a></p>
 						      </span>
-						      <span class="item">
-						       	<p>Projects</p>
-						        30
+						      <span class="item" style="margin-left:2rem;">
+						       	<p><a class="_link" href="/project-listing">Projects</a></p>
 						      </span>
 						    </div>
 						  </div>
@@ -204,15 +241,13 @@
 			          <div class="column">
 			            <div class="ui card">
 						  <div class="content">
-						    <div class="header">Vedant Nagar</div>
+						    <div class="header"><i class="marker icon"></i>Vedant Nagar</div>
 						    <div class="extra content">
 						      <span class="item">
-						        <p>Agents</p>
-						        15
+						        <p><a class="_link" href="/agent-listing">Agents</a></p>
 						      </span>
-						      <span class="item">
-						       	<p>Projects</p>
-						        30
+						      <span class="item"style="margin-left:2rem;">
+						       	<p><a class="_link" href="/project-listing">Projects</a></p>
 						      </span>
 						    </div>
 						  </div>
@@ -221,15 +256,28 @@
 			          <div class="column">
 			            <div class="ui card">
 						  <div class="content">
-						    <div class="header">Gadia Vihar</div>
+						    <div class="header"><i class="marker icon"></i>Vedant Nagar</div>
 						    <div class="extra content">
 						      <span class="item">
-						        <p>Agents</p>
-						        15
+						        <p><a class="_link" href="/agent-listing">Agents</a></p>
 						      </span>
+						      <span class="item"style="margin-left:2rem;">
+						       	<p><a class="_link" href="/project-listing">Projects</a></p>
+						      </span>
+						    </div>
+						  </div>
+						</div>
+			          </div>
+			          <div class="column">
+			            <div class="ui card">
+						  <div class="content">
+						    <div class="header"><i class="marker icon"></i>Gadia Vihar</div>
+						    <div class="extra content">
 						      <span class="item">
-						       	<p>Projects</p>
-						        30
+						        <p><a class="_link" href="/agent-listing">Agents</a></p>
+						      </span>
+						      <span class="item"style="margin-left:2rem;">
+						       	<p><a class="_link" href="/project-listing">Projects</a></p>
 						      </span>
 						    </div>
 						  </div>

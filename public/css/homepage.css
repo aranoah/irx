@@ -24,8 +24,10 @@
 }
 #homescreen h1.ui.inverted.header {
 	padding-top: 1.5rem;
-	font-size: 1.5rem;
+	font-size: 1rem;
 	letter-spacing: .5px;
+	font-weight: 300;
+	color: #D0D0D0;
 }
 
 #homescreen .ui.form .field {
@@ -170,7 +172,7 @@
 	font-family: 'roboto condensed';
 	font-size: 1.5rem;
 }
-.lower-portion h2.ui.inverted.header:after {
+/*.lower-portion h2.ui.inverted.header:after {
 	position: absolute;
 	content: "";
 	width: 12rem;
@@ -178,7 +180,7 @@
 	background-color: #607d8b;
 	top: 38px;
 	left: 42%;
-}
+}*/
 .ui.dropdown .menu>.item{
 	font-weight: 300;
 	color: #737373;
@@ -207,7 +209,6 @@
 
 .ui.card .extra.content>span {
 	display: inline-block;
-	margin-right: 2rem;
 }
 
 /******************
@@ -224,14 +225,16 @@
 }
 
 #agentContent>div,#projectContent>div {
-	padding: 6rem 0 0;
+	padding: 3rem 0 0;
 }
 
 #agentContent .rib-head, #projectContent .rib-head {
 	padding: 0 !important;
 	border-bottom: 1px solid #eaeaea !important;
 }
-
+._filters_ {
+    padding: 5px 0 10px;
+}
 #projectContent .ui.menu.rib-head {
 	background: inherit !important;
 	box-shadow: none !important;
@@ -276,8 +279,8 @@
 	margin: 2rem -.5rem;
 }
 
-#agentContent .ui.cards>.card {
-	width: 23.4rem;
+#agentContent .ui.cards>.card ,#projectContent .ui.cards>.card{
+	width: 32.8rem;
 }
 
 .ui.image.tiny {
@@ -285,7 +288,11 @@
 	padding: .6rem !important;
 	background-color: inherit !important;
 }
-
+.card .content .description {
+    font-size: .8em;
+    text-transform: uppercase;
+    line-height: 18pt;
+}
 .content.addr-ess {
 	font-size: .9em;
 }

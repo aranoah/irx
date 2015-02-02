@@ -51,7 +51,7 @@ LeadService.prototype.captureLeads = function(data) {
 		var leadData = new IRXLeadModel({
 				"id":id,
 	  			"projectId": data.projectId,
-	   			"agentId": data.agentId,
+	   			"agentId": data.dealerId,
 	   			"name": data.name,
 	   			"propertyType":data.propertyType,
 	   			"bhk":data.bhk,
@@ -62,6 +62,7 @@ LeadService.prototype.captureLeads = function(data) {
 	   			"irxId" : data.irxId,
 	   			"type": data.type,
 	   			"createdOn": new Date(),
+	   			"projectName":data.proName,
 	   			"status":CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION
 		});
 		leadData.save(function(err, savedData) {
@@ -97,8 +98,8 @@ LeadService.prototype.captureLeads = function(data) {
 		})
 	}) 
 	_selfInstance.once("checkUserEvent",function(){
- 	
-	 	IRXUserProfileModel.findOne({"id":data.agentId},{"irxId":1},function(err,agents){
+ 		
+	 	IRXUserProfileModel.findOne({"irxId":data.dealerId},{"irxId":1},function(err,agents){
 	 		
 	 		if(err){
 	 			console.error(err);
@@ -125,7 +126,7 @@ LeadService.prototype.captureLeads = function(data) {
 			if(project== null){
 				console.error("No project found")
 		 		_selfInstance.emit("done",404,"No project found",null,null);
-			}else if(data.agentId){
+			}else if(data.dealerId && data.dealerId != ""){
 				_selfInstance.emit("checkUserEvent")	
 			}else{
 				_selfInstance.emit("saveLeadEvent")

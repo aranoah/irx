@@ -25,14 +25,9 @@ module.exports = function(done) {
     break;
    
     case 'production':
-    this.mongoose.connect('mongodb://192.168.1.60:27017/IRX');
-     break;
-   
-    case 'production':
-    this.mongoose.connect('mongodb://ec2-54-86-93-198.compute-1.amazonaws.com:8000/IRX');
-    break;
       this.mongoose.connect('mongodb://192.168.1.60:27017/IRX');
-      break;
+   break;
+    
   }
    
 var _self = this;

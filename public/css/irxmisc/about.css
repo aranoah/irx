@@ -6,24 +6,32 @@
 .irx-misc .column>h4.ui.header {
 	color: #00bcd4;
 	background: #fff;
-	padding: 1rem;
+	padding: .8rem;
 	font-weight: 500;
 }
 
-.two.column.row>.column>h5.ui.header{
-	background: #fff;
+.two.column.row> h5.ui.header{
 	padding: 1rem;
+	font-weight: 300;
+	background: #fff;
 	margin-top: -.8rem;
-	font-weight: 400;
-	font-size: .8rem;
-	color: #B0B0B0;
-	line-height: 22px;
+	line-height: 1.6rem;
+	color: #B8B8B8;
+	font-size: .9rem;
 }
 
 .column>.six.wide.column{
 	background: #fff;
 	padding: 8rem;
 }
+
 .irx-misc.ui.very.relaxed.stackable.page.grid{
-	padding-top: 6rem;
+	padding-top: 4.4rem;
+}
+
+.ui.big.image{
+	margin: 0 auto;
+	border: 1px solid green;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
 }

@@ -1,8 +1,6 @@
-<!-- Sell-ur-property popup -->
 <script type="text/javascript" src="/js/common/http.js"></script>
-<script type="text/javascript" src="/js/common/common.js"></script>
-
 <div id="sell" class="ui modal pop-up sell-post">  
+
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Sell your property</h2>
@@ -10,12 +8,14 @@
     </div>
   </div>
   <div id="lower-content" class="actions ui grid">
-    
+    <form class="ui form" action="javascript: common.captureLeads('sell')">
     <!-- sell your property starts here -->
         <input type="hidden" value="sell-property" data-bind="value:data.origin" >
         <input type="hidden" data-bind="value:data.type" value="user">
-        <div class="ui inverted menu">
-          <div class="item">
+      
+        <div class="ui inverted menu" >
+            <h4 class="ui dividing header">Step 1 : Please select property location</h4>
+            <div class="item">
               <div class="ui selection dropdown">
                 <input type="hidden" name="city" data-bind="textInput:data.city">
                 <div class="default text" style="min-width:9rem;margin-right:0 !important;">Select City</div>
@@ -34,11 +34,12 @@
                 </div>
               </div>
             </div>
+          <!-- ko if:data.city() != "" -->
           <h4 class="ui dividing header">Property Information :</h4>
 
             <div class="item field" style="width:368px;padding-bottom:.7rem;">
               <div class="ui icon input">
-                <input type="text" id="__sellPostSearch" placeholder=" Search project.." data-bind="value:data.proName">
+                <input type="text" name="projectId" id="__sellPostSearch" placeholder=" Search project.." data-bind="value:data.proName">
                 <i class="search icon"></i>
               </div>
               <div id="autoDivSell"></div>
@@ -53,7 +54,7 @@
 
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="type" data-bind="value:data.propertyType">
+                <input type="hidden" name="propertyType" data-bind="value:data.propertyType">
                 <div class="default text">Type</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
@@ -67,7 +68,7 @@
             
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="buy" data-bind="value:data.action">
+                <input type="hidden" name="action" data-bind="value:data.action">
                 <div class="default text">Action</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
@@ -90,29 +91,36 @@
                 </div>
               </div>
             </div>
-            
-            <!--<div class="field item">
-              <textarea placeholder="Write few words about your property..."></textarea>
-            </div>-->
-        </div>
 
+            <div class="item">
+              <div class="right floated column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label style="color:#38b7ea">Distress</label>
+                </div>
+              </div>
+            </div>
+            <!-- /ko -->
+        </div>
+        
+        <!-- ko if:data.city() != "" -->
         <div class="ui inverted menu contact">
           <h4 class="ui dividing header">Contact Information :</h4>
              
           <div class="item field">
-            <input type="text" placeholder="Name" data-bind="value:data.name">
+            <input type="text" placeholder="Name" name="name" data-bind="value:data.name">
           </div>
           <div class="item field">
-            <input type="text" placeholder="Email" data-bind="value:data.emailId">
+            <input type="text" placeholder="Email" name="emailId" data-bind="value:data.emailId">
           </div>            
           <div class="item field">
-            <input type="text" placeholder="Mobile" data-bind="value:data.mobileNo">
+            <input type="text" placeholder="Mobile" name="mobileNo" data-bind="value:data.mobileNo">
           </div>
         </div>
 
         <div class="three column row">
           <div class="right floated column">
-            <div class="ui submit" data-bind="click: captureLeads">Submit</div>
+            <div class="ui submitAction"  onClick="common.validateForm(this)">Submit</div>
           </div>
           <div class="left floated column">
             <div class="ui checkbox">
@@ -121,6 +129,9 @@
             </div>
           </div>
         </div>
+       
+      <!-- /ko -->
     <!-- Ends here -->  
+    </form>
   </div>
 </div>
