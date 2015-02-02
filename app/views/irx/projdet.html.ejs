@@ -118,9 +118,12 @@
 						  </div>
 					</div>
 					<div class="ui bottom attached tab segment" data-tab="second">
-						<img class="ui medium image" src="/images/square-image.png"><br>
-						<img class="ui medium image" src="/images/square-image.png"><br>
-						<img class="ui medium image" src="/images/square-image.png">
+						<%=result.floorPlan%>
+						<% if(result.floorPlan!=null){
+						 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
+							<img class="ui medium image" src="<%=result.floorPlan[fp]%>">
+						<%}
+						}%>
 					</div>
 					<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
 
@@ -236,31 +239,30 @@
 			  <a class="item" data-tab="second">Floor Plan</a>
 			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
 			</div>
-			<div class="ui bottom attached active tab segment" data-tab="first">
-				<div class="ui accordion">
-				    <div class="active title">
-				      <i class="dropdown icon"></i>
-				     Airports
+			<div class="ui bottom attached active tab segment locality" data-tab="first">
+				<div class="ui">
+					<div class="">
+					    <div class="active title _csn _txt_cntr" data-tab-item="air">
+					     	Airports
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="train">
+							Train
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="bus">
+					      Bus
+					    </div>
+					</div>
+				    <div class="active content _lclt_tb_cnt" data-tab-item="air">
+						<p>Indira Gandhi International Airport T-318 min 12.9 km </p>
+						<p>Indira Gandhi International Airport T-318 min 12.9 km </p>
 				    </div>
-				    <div class="active content">
-				      <p>Indira Gandhi International Airport T-318 min 12.9 km </p>
-				      <p>Indira Gandhi International Airport T-318 min 12.9 km </p>
-				    </div>
-				    <div class="title">
-				      <i class="dropdown icon"></i>
-				      Train Stations
-				    </div>
-				    <div class="content">
+				    <div class="content _lclt_tb_cnt" data-tab-item="train">
 				      <p>Vodafone Belvedere Towers Rapid Metro Station 10 min 4.5 km </p>
 				      <p>M G ROAD 10 min 4.5 km </p>
 				      <p>DLF Phase III Rapid Metro Station 10 min 4.5 km </p>
 				      <p>IndusInd Bank Cyber City Rapid Metro Station 10 min 4.5 km </p>
 				    </div>
-				    <div class="title">
-				      <i class="dropdown icon"></i>
-				      Bus Stations
-				    </div>
-				    <div class="content">
+				    <div class="content _lclt_tb_cnt" data-tab-item="bus">
 				      <p>Haryana City Bus Stop - Ammunition  25 min 2.1 km </p>
 				      <p>Udyog Vihar33 min 2.7 km</p>
 				      <p>Shankar Chowk min 2.7 km</p>
@@ -268,10 +270,19 @@
 				    </div>
 				  </div>
 			</div>
-			<div class="ui bottom attached tab segment" data-tab="second">
-				<img class="ui medium image" src="/images/map.jpg"><br>
-				<img class="ui medium image" src="/images/square-image.png"><br>
-				<img class="ui medium image" src="/images/square-image.png">
+			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="second">
+				<% if(result.floorPlan!=null){
+					 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
+						<img class="ui medium image _csn" src="<%=result.floorPlan[fp]%>">
+					<%}
+				}
+				if(result.floorPlan==null || result.floorPlan.length==0) {
+				%>
+					<div style="padding: 1.5rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);">
+				    	No floor plan found. 
+				    </div>
+				<%}
+				%>
 			</div>
 			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
 
@@ -330,13 +341,29 @@
 			</div>
 		</div>
 		<div class="seven wide column">
-			<img class="ui medium rounded image" src="/images/project.jpg">
+			<% if(result.profileImage!=null){%>
+				<img class="ui medium rounded image" src="<%=result.profileImage%>"/>
+			<%} else if (result.gallery!=null && result.gallery.length>0){%>
+				<img class="ui medium rounded image" src="<%=result.gallery[0]%>"/>
+			<%}else {%>
+				<img class="ui medium rounded image" src="/images/square-image.png"/>
+			<%}%>
 			<div class="ui images">
+			  <!-- <img class="ui image" src="/images/square-image.png">
 			  <img class="ui image" src="/images/square-image.png">
 			  <img class="ui image" src="/images/square-image.png">
-			  <img class="ui image" src="/images/square-image.png">
-			  <img class="ui image" src="/images/square-image.png">
+			  <img class="ui image" src="/images/square-image.png"> -->
+			  <% if(result.gallery!=null){
+					 for(var glry=0 ;glry<result.gallery.length;glry++){		  %>
+						<img class="ui image" src="<%=result.gallery[glry]%>">
+					<%}
+				}%>
 			</div>
+			<%	if(result.gallery==null || result.gallery.length==0) {	%>
+				<div style="padding: 1rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);margin-bottom:1rem;">
+			    	No Gallery Found. 
+			    </div>
+			<%}	%>
 			<img class="ui medium rounded image" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= result.location.name %>+<%= result.location.city %>+<%= result.location.state%>+India&zoom=15&size=500x400&maptype=roadmap">
 		</div>
 	</div>
@@ -372,7 +399,15 @@
 	  			_classInstance.listPreferredAgents(projectId);
 	  		}
 	  		
-	  	})
+	  	});
+
+	  	$(".locality .title").click(function(){
+	  		var _self=$(this);
+	  		$(".locality .title").removeClass('active');
+	  		_self.addClass("active");
+	  		$(".locality").find("._lclt_tb_cnt.active").removeClass('active');
+	  		$(".locality").find("._lclt_tb_cnt[data-tab-item='"+_self.attr('data-tab-item')+"']").addClass('active');
+	  	});
 	}
 	
 	Project.prototype.listPreferredAgents = function(projectId) {
@@ -380,18 +415,19 @@
     	httpUtils.get("/prefered-agents/"+projectId,{page:classInstance.page},"JSON",function(data){
 	       	if(data.status==0){
 	        	ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
-	        	classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+	        	if(data.page!=null)
+	        		classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	       	} 
     	})
 	}
 	Project.prototype.requestDetails = function(projectId) {
 		httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
-       if(data.status==0){
-	       	$('#req-details').modal({
-	      		closable:false
-	    	}).modal('show');
-         }
-        })
+       		if(data.status==0){
+	       		$('#req-details').modal({
+	      			closable:false
+	    		}).modal('show');
+         	}
+        });
       };
       Project.prototype.enquireNow = function(projectId) {
       	 $('#leads').modal({
