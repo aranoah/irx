@@ -19,9 +19,9 @@
       sProAgents : ko.observable(false),
       sLocAgents : ko.observable(false),
       projectId : ko.observable(""),
-      city : ko.observable(""),
-      showCity : ko.observable("city"),
-      isLocality : ko.observable("false"),
+      city : ko.observable("gurgaon"),
+      showCity : ko.observable("Gurgaon"),
+      isLocality : ko.observable(false),
       minPrice : ko.observable(),
       maxPrice : ko.observable(),
 
@@ -58,23 +58,24 @@
               minPrice : self.minPrice(),
               maxPrice : self.maxPrice()     
             }; 
-            
+              
             if(self.searchType()=='project'){
 
               if(typeof(project)!="undefined"){
-                if(self.isLocality()){
+                if(self.isLocality() ){
+                  alert(self.searchType())
                   _classInstance.listProjectsOfLocation(_classInstance.viewModel.projectId())
                 }else{
                   _classInstance.fetchProjectResult(data)
                 }
                 
               }else{
-              
+                
                $(formElement).attr('action','/project-listing')
                 return true;
               }
             } else if(self.searchType()=='agent'){
-             
+            
               if(typeof(agent)!="undefined"){
                 if(self.sProAgents()){
                   _classInstance.fetchAgentOfProResult(data,false)
@@ -84,6 +85,15 @@
                   _classInstance.fetchAgentResult(data)  
                 }
                 
+              }else{
+               
+               $(formElement).attr('action','/agent-listing')
+                return true;
+              }
+            } else if(self.searchType()=='locality'){
+              
+              if(typeof(agent)!="undefined"){
+                _classInstance.fetchAgentOfProResult(data,true)
               }else{
                
                $(formElement).attr('action','/agent-listing')
@@ -133,6 +143,24 @@
 
     }, _classInstance.viewModel);
 
+    // disable dropdown
+     $('#searchF').on('change','#__searchType__',function(){
+        if($(this).val()=="agent" || $(this).val()=="locality"){
+          $('#searchF').find('.__bhk__').dropdown('destroy')
+          $('#searchF').find('.__bhk__').addClass('_disabled_')
+          
+           $('#searchF').find('.__budget__').dropdown('destroy')
+          $('#searchF').find('.__budget__').addClass('_disabled_')
+        } else{
+          $('#searchF').find('.__bhk__').dropdown('enable')
+          $('#searchF').find('.__bhk__').removeClass('_disabled_')
+
+          $('#searchF').find('.__budget__').dropdown('enable')
+          $('#searchF').find('.__budget__').removeClass('_disabled_')
+        }
+    });
+
+    // disable dropdown ends here
     $('#searchF').on('change','#_city_',function(){
       var city = $(this).val();
       city = city.replace(/&nbsp;/gi,'')
@@ -232,13 +260,17 @@
            
             source: function(request, response){
                 var _self = this;
-
+                var data={
+                  "text":request.term,
+                  "city":_classInstance.viewModel.city()
+                }
                 if(_classInstance.viewModel.searchType()=='project'){
-                  _classInstance.projectAutocomplete(request.term,request,response)
+                  _classInstance.projectAutocomplete(data,request,response)
                 } else if(_classInstance.viewModel.searchType()=='agent'){
-                  _classInstance.agentAutocomplete(request.term,request,response)
+                  _classInstance.agentAutocomplete(data,request,response)
                 } else if(_classInstance.viewModel.searchType()=='locality'){
-                  _classInstance.projectAutocomplete(request.term,request,response,"location")
+                  data["type"]="location";
+                  _classInstance.projectAutocomplete(data,request,response)
                 }
               },
               minLength: 2,
@@ -282,8 +314,14 @@
                       
                     }
                     
+                  } else if(_classInstance.viewModel.searchType()=='locality'){
+                    alert("We will soon coming with locality page til then enjoy !!")
+                     _classInstance.viewModel.sLocAgents(true);
+                      _classInstance.viewModel.isLocality(true)
+                      _classInstance.viewModel.projectId(ui.item.id);
                   }
                    return false;
+                  
               }
               }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
                 $(".ui-widget-content .ui-state-focus");
@@ -300,7 +338,8 @@
                 }
                 var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
                 if(item.id == -1){
-                    data = "<div class='itLabel header _enter_'>Press enter to search...</div>"
+                 
+                    data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
                 }
                  return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
                 
@@ -419,17 +458,18 @@
      
     }
     
-    SearchBar.prototype.projectAutocomplete=function(text,request,response,type){
+    SearchBar.prototype.projectAutocomplete=function(reqData,request,response){
       var classInstance = this;
-      httpUtils.get("/project-autocomplete",{"text":text,"type":type},"JSON",function(data){
+
+      httpUtils.get("/project-autocomplete",reqData,"JSON",function(data){
        if(data.status==0){
         
           var arr = data.result;
          if(data.result == null){
           arr = new Array();
          }
-         console.log(arr)
-          arr.push({fields:{id:[-1]}})
+       
+          arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(arr, function(item) {
             var name ="";
             if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
@@ -439,7 +479,7 @@
             }
             var location ={}
             if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
-              var lCity = item.fields['location.name'];
+              var lCity = item.fields['location.city'];
               location = lCity[0];
             }
            
@@ -460,16 +500,16 @@
         }
     })
     }
-    SearchBar.prototype.agentAutocomplete=function(text,request,response){
+    SearchBar.prototype.agentAutocomplete=function(reqData,request,response){
       var classInstance = this;
-      httpUtils.get("/autocomplete",{"text":text},"JSON",function(data){
+      httpUtils.get("/autocomplete",reqData,"JSON",function(data){
         if(data.status==0){
            var arr = data.result;
          if(data.result == null){
           arr = new Array();
          }
          console.log(arr)
-          arr.push({fields:{id:[-1]}})
+          arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(data.result, function(item) {
             var name ="";
             if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
@@ -492,12 +532,14 @@ $(document).ready(function(){
 
    sBar = new SearchBar();
   sBar.init();
+   
   var city = localStorage.getItem("city");
   if(city){
     sBar.viewModel.showCity(city)
     sBar.viewModel.city(city)
   } else{
-    sBar.viewModel.showCity("city")
+    sBar.viewModel.showCity("gurgaon")
+    sBar.viewModel.showCity("Gurgaon")
   }
 
 })

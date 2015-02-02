@@ -5,6 +5,9 @@
       padding-left:7.7rem !important;
       width:100% !important;
     }
+    ._disabled_ {
+      opacity:0.3
+    }
     .ui.default.dropdown>.text, .ui.dropdown>.default.text {
       text-transform :capitalize;
     }
@@ -153,7 +156,7 @@
         <div class="ui labeled input" style="width:420px;border-radius:0;">
           <div class="ui dropdown basic label">
 
-            <input type="hidden" data-bind="value: searchType" name="searchType">
+            <input type="hidden" data-bind="value: searchType" name="searchType" id="__searchType__">
             <div class="text" ><p style="text-transform: capitalize;"><!--ko text: searchType --><!-- /ko --></p></div>
             <i class="dropdown icon"></i>
             <div class="menu">
@@ -168,7 +171,7 @@
       <!-- ends here -->
 
       <div class="item">
-        <div class="ui selection dropdown">
+        <div class="ui selection dropdown __bhk__">
           <input type="hidden" data-bind="value: bhk" name="bhk">
           <div class="default text">BHK</div>
           <i class="angle down icon"></i>
@@ -183,7 +186,7 @@
 
       <div class="item">
 
-        <div class="ui selection dropdown">
+        <div class="ui selection dropdown __budget__">
           <div class="default text" id="_budget_">Budget</div>
           <i class="angle down icon"></i>
           <div class="menu">

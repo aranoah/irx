@@ -519,7 +519,7 @@
 .proj-listing ._actButtons>.ui.basic.button {
 	border: 0 !important;
 	border-radius: 0 !important;
-	box-shadow: 0 0 0 #000 !important;
+	
 	background-color: #f4f4f4 !important;
 	color: #607d8b !important;
 	transition: all ease .2s;

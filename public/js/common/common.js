@@ -88,11 +88,13 @@ Common.prototype.init = function(first_argument) {
      $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
             source: function(request, response){
+              alert(1)
                 var _self = this;
-                if(classInstance.viewModelSell.data.city() == null || classInstance.viewModelSell.data.city() == ""){
-                  
-                }  
-                sBar.projectAutocomplete(request.term,request,response)
+               var data={
+                  "text":request.term,
+                  "city":classInstance.viewModelSell.data.city()
+                }
+                sBar.projectAutocomplete(data,request,response)
                 
               },
               minLength: 2,
@@ -117,8 +119,11 @@ Common.prototype.init = function(first_argument) {
 
             source: function(request, response){
                 var _self = this;
-               
-                  sBar.projectAutocomplete(request.term,request,response)
+               var data={
+                  "text":request.term,
+                  "city":classInstance.aPostReqViewModel.data.city()
+                }
+                  sBar.projectAutocomplete(data,request,response)
                 
               },
               minLength: 2,
@@ -141,8 +146,11 @@ Common.prototype.init = function(first_argument) {
 
             source: function(request, response){
                 var _self = this;
-               
-                  sBar.projectAutocomplete(request.term,request,response)
+                  var data={
+                  "text":request.term,
+                  "city":classInstance.postReqLeads.data.city()
+                }
+                  sBar.projectAutocomplete(data,request,response)
                 
               },
               minLength: 2,
