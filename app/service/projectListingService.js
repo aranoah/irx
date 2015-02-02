@@ -104,7 +104,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		//query.push(location={city:filters.city};
 			var match = {
 			"match":{
-				"location":{"city":filters.city}
+				"location.city":filters.city
 			}
 		}
 		query.push(match);

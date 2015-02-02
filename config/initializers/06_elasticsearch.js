@@ -23,7 +23,6 @@ module.exports = function(done) {
 			host: 'localhost:9200',
 			log: 'trace'
 		});
-
 	}
 	catch(e){
 		console.log(e);
