@@ -28,6 +28,7 @@ var IRXProductLineSchema =new mongoose.Schema({
    profileImage:{type:String},
    bhk:{type:Array},
    gallery:[{url:String}],
+   floorPlan:[{url:String}],
    builtUpArea:{type:String},
    price: {type:Array},
    possession :{type:String},
@@ -39,7 +40,8 @@ var IRXProductLineSchema =new mongoose.Schema({
    rank:{type:Number},//indexing
    prefferedAgents:{type:Array},
    distress : {type:Number},
-   status : {type:String}
+   status : {type:String},
+   floorPlan :{type:Array}
 
 });
 

@@ -84,6 +84,8 @@ module.exports = function routes() {
   this.match('list-user-projects/:userId',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
   this.match('list-user-locations/:userId',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
   this.match('check-userName/:text',{ controller: 'user/rest/user', action: 'checkUserName' , via: 'GET' });
+  this.match('forget-password',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
+  //this.match('rese-password/:text',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
   /*
   * Utility urls
   */

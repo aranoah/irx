@@ -31,6 +31,7 @@ var properties = {
 	"leads_success_subject" : "Your requirement has been successfully published",
 	"phone_sms" : "Your requirement has been successfully published",
 	"pro_det_url" : "http://localhost:3000/project/",
-	"detail_subject" : "Project details"
+	"detail_subject" : "Project details",
+	"irx_agent" : "jndlkaran@gmail.com"
 }
 module.exports=properties
