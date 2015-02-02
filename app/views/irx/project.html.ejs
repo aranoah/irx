@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../partials/head.html.ejs %>
-  <style type="text/css">
-  	.ui.header .icon:only-child {
+  <% include ../partials/head.html.ejs %>  
+</head>
+<style type="text/css">
+	.mobileFilter.ui.menu {
+		background: inherit !important;
+		box-shadow: none !important;
+	}
+
+	.mobileFilter.ui.menu>.item {
+		display: block !important;
+	}
+	#HideFilter {
+		display: none;
+	}
+
+	.ui.header .icon:only-child {
 	  display: inline-block;
 	  padding: 0;
 	  margin-right: .5rem;
@@ -65,21 +78,6 @@
 	  font-weight: 400;
 	  width: 11rem;
 	  margin: 0 .75rem .5rem 0;
-	}
-  </style>
-  
-</head>
-<style type="text/css">
-	.mobileFilter.ui.menu {
-		background: inherit !important;
-		box-shadow: none !important;
-	}
-
-	.mobileFilter.ui.menu>.item {
-		display: block !important;
-	}
-	#HideFilter {
-		display: none;
 	}
 </style>
 <body class="<%="irx-"+(locals.req.device.type)%>">
