@@ -92,14 +92,15 @@ module.exports = function() {
   this.use(cansec);
   this.use(device.capture());
   this.use(function(req, res, next) {
+   if(!req.device){
+      req.device={type:"desktop"};
+    }
     res.locals.req = req;
     if(req.session['X-CS-Auth']){
         res.locals.session = req.session['X-CS-Auth'];
       } else{
           res.locals.session = {};
       }
-     global._app_context.logger.log("shshshhshshshs---->",req.device);
-      console.log("shshshhshshshs---->",req.device);
 
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');

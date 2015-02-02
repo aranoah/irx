@@ -33,7 +33,8 @@ var IRXLeadsSchema =new mongoose.Schema({
    updatedOn: {type:Date},
    status: {type:String},
    reviewedBy: {type:String},
-   note:{type:String}
+   note:{type:String},
+   projectName :{type:String}
 });
 
 IRXLeadsModel = mongoose.model('irxlead', IRXLeadsSchema);

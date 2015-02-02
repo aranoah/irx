@@ -661,6 +661,7 @@ UserService.prototype.review = function(data) {
 							}		
 					})
 	}
+<<<<<<< HEAD
     
     
 /*
@@ -708,4 +709,25 @@ UserService.prototype.fbRegisterUser = function(user) {
    });
 	
 };
+	UserService.prototype.forgetPassword = function(data){
+		var _selfInstance = this;
+			var id = _selfInstance.getCustomMongoId("IVER-");
+			var type =  VERIFICATION_TYPE.ACCOUNT;
+			var vData = {
+				"data":userData.irxId,
+				"irxId" : userData.irxId,
+				"emailId" : userData.userId,
+				"phoneNum" : userData.phoneNum
+			}
+			// // _selfInstance.saveVerificationCode(vData,type,function(code,msg){
+			 	
+			//  // 	if(code == STATUS.OK.code){
+			// 	// 	_selfInstance.emit("done",code,msg,userData,null);
+			// 	// } else{
+			// 	// 	_selfInstance.emit("done",code,msg,null,null);
+			// 	// }
+			//  }
+			// )
+	}
+	
 module.exports = UserService;

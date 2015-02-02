@@ -159,3 +159,27 @@ Projdetailing
 	width: 100%;
 	height: 400px;
 }
+#desktop-projDet .floorPlan img{
+	margin-bottom: 15px;
+}
+#desktop-projDet .floorPlan img:nth-child(2n){
+	margin-left: 15px;
+}
+
+#desktop-projDet ._lclt_tb_cnt{
+	display: none;
+}
+#desktop-projDet ._lclt_tb_cnt.active{
+	display: inherit;
+}
+#desktop-projDet .locality .title{
+	min-width: 80px;
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+#desktop-projDet .locality .title.active {
+    border-bottom: 2px solid;
+    font-weight: bold;
+}

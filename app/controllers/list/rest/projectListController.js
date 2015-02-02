@@ -65,8 +65,9 @@ projectController.projectAutocomplete = function() {
   var _selfInstance = this;
  var text = this.req.query.text;
  var type = this.req.query.type;
+ var city = this.req.query.city;
  if(type && type=='location'){
-  _selfInstance.locationAutocomplete();
+  _selfInstance.locationAutocomplete(city);
   return;
  }
     _app_context.esClient.search({
@@ -75,9 +76,22 @@ projectController.projectAutocomplete = function() {
     body: {
       fields : ["id", "name", "productType","location.city","location.name"],
       query: {
-         prefix: {
-              name: text
-            } 
+        bool:{
+          must:[
+            {
+              prefix: {
+                name: text
+              } 
+            },
+            {
+              match: {
+                "location.city": city
+                
+              } 
+            }
+          ]
+        }
+         
        },
       highlight : {
         pre_tags : ["<b>"],
@@ -94,7 +108,7 @@ projectController.projectAutocomplete = function() {
    _selfInstance.processJson(STATUS.SERVER_ERROR.code,STATUS.SERVER_ERROR.msg,err,null);
 });
 }
-projectController.locationAutocomplete = function() {  
+projectController.locationAutocomplete = function(city) {  
   var _selfInstance = this;
  var text = this.req.query.text;
     _app_context.esClient.search({
@@ -115,6 +129,12 @@ projectController.locationAutocomplete = function() {
               match :{
                 productType: "location"
               }
+            },
+            {
+              match: {
+                "location.city": city
+                
+              } 
             }
          ]
        }

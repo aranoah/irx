@@ -101,7 +101,6 @@ $(document).ready(function () {
 
   $(document).off('click','.sell-in');
   $(document).on('click','.sell-in',function() {
-   
     $('#sell').modal({
       closable:false
     }).modal('show');

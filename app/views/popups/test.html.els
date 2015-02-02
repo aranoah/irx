@@ -1,32 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head.html.ejs %>
+  <script type="text/javascript" src="/js/library/knockout-3.2.0.js"></script>
+  <script type="text/javascript" src="/js/library/knockout.mapping-latest.js"></script>
+  <script type="text/javascript" src="/js/common/http.js"></script>
+  <style type="text/css">
+  .ui.basic.button:hover, .ui.basic.buttons .button:hover{
+    color: #000;
+  }
+   
+  </style>
+</head>
+<body>
 <!-- Sell-ur-property popup -->
 <script type="text/javascript" src="/js/common/http.js"></script>
+<script type="text/javascript" src="/js/common/common.js"></script>
 
+<div id="sell" class="ui modal pop-up sell-post">  
 
-<div id="_postA_" class="ui modal pop-up sell-post">  
-<form class="ui form" action="javascript: common.captureLeads('_postA_')">
   <div class="content">
     <div class="ui grid">
-      <h2 class="ui header eight wide column">Post your requirement</h2>
-      
+      <h2 class="ui header eight wide column">Sell your property</h2>
       <i class="column right floated remove circle close icon"></i>
     </div>
   </div>
   <div id="lower-content" class="actions ui grid">
-    
+    <form class="ui form" action="javascript: common.captureLeads('sell')">
     <!-- sell your property starts here -->
-        <input type="hidden" data-bind="value:data.origin" value="post-req">
-
-        <div class="ui inverted menu">
-
-          <div class="">
-
-            <span data-bind="foreach:data.agentId">
-              <h4 class="text">Agents :</h4><h4 style="display:inline-block"><!-- ko text:name --><!-- /ko -->,<!-- ko text:companyName --><!-- /ko -->
-              </h4>
-            </span>
-          </div>
-           <h4 class="ui dividing header">Step 1 : Please select property location</h4>
-          <div class="item">
+        <input type="hidden" value="sell-property" data-bind="value:data.origin" >
+        <input type="hidden" data-bind="value:data.type" value="user">
+        <div class="item">
               <div class="ui selection dropdown">
                 <input type="hidden" name="city" data-bind="textInput:data.city">
                 <div class="default text" style="min-width:9rem;margin-right:0 !important;">Select City</div>
@@ -34,7 +38,7 @@
                 <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
                   <div class="ui icon search input">
                     <i class="search icon"></i>
-                    <input type="text" name="city" placeholder="Search city...">
+                    <input type="text" name="search" placeholder="Search city...">
                   </div>
                   <div class="divider"></div>
                   <div class="header">
@@ -45,30 +49,30 @@
                 </div>
               </div>
             </div>
-          
-          <div data-bind="visible:data.city() != ''">
-          <h4 class="ui dividing header">Property Information :</h4>
+        <div class="ui inverted menu" data-bind="visible:data.city != ''">
             
+          
+          <h4 class="ui dividing header">Property Information :</h4>
+
             <div class="item field" style="width:368px;padding-bottom:.7rem;">
               <div class="ui icon input">
-                <input type="text" name="projectId" id="__postReqSearch" placeholder=" Search project.." data-bind="value:data.proName" >
+                <input type="text" name="projectId" id="__sellPostSearch" placeholder=" Search project.." data-bind="value:data.proName">
                 <i class="search icon"></i>
               </div>
-              <div id="autoDivPostA" class="autoContainer">
-            </div>
+              <div id="autoDivSell"></div>
             </div>
 
             <div class="item field" style="width:368px;padding-bottom:.7rem;padding-top:.7rem;">
               <div class="ui icon input">
-                <input type="text" placeholder="Location" data-bind="value:data.locality">
+              <input type="text" placeholder="Location" data-bind="value:data.locality">
                 <i class="marker icon"></i>
               </div>
             </div>
-            
-            <div class="item field">
+
+            <div class="item">
               <div class="ui selection dropdown">
                 <input type="hidden" name="propertyType" data-bind="value:data.propertyType">
-                <div class="default text">Property Type</div>
+                <div class="default text">Type</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
                   <div class="item" data-value="Rent">Apartemnt</div>
@@ -77,16 +81,16 @@
                   <div class="item" data-value="proj">Flat</div>
                 </div>
               </div>
-            </div>
-
-            <div class="item field">
+            </div> 
+            
+            <div class="item">
               <div class="ui selection dropdown">
                 <input type="hidden" name="action" data-bind="value:data.action">
                 <div class="default text">Action</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
                   <div class="item" data-value="rent">Rent</div>
-                  <div class="item" data-value="buy">Buy</div>
+                  <div class="item" data-value="sell">Sell</div>
                 </div>
               </div>
             </div>
@@ -104,36 +108,28 @@
                 </div>
               </div>
             </div>
+
+            <div class="item">
+              <div class="right floated column">
+                <div class="ui checkbox">
+                  <input type="checkbox">
+                  <label style="color:#38b7ea">Distress</label>
+                </div>
+              </div>
             </div>
-          
             <!--<div class="field item">
               <textarea placeholder="Write few words about your property..."></textarea>
             </div>-->
         </div>
-       
-        <div data-bind="visible:data.city() != ''">
+
         <div class="ui inverted menu contact">
           <h4 class="ui dividing header">Contact Information :</h4>
-         <div class="ui form">
-              <h5 for="user">you are a:</h5>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="user" value="user" data-bind="checked:data.type" checked="checked">
-                  <label>Individual</label>
-                </div>
-              </div>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="user" value="dealer" data-bind="checked:data.type" >
-                  <label>Dealer</label>
-                </div>
-              </div>
-          </div>      
+             
           <div class="item field">
-            <input type="text" name="name" placeholder="Name" data-bind="value:data.name,css:{'required-field':'must'}">
+            <input type="text" placeholder="Name" name="name" data-bind="value:data.name">
           </div>
           <div class="item field">
-            <input type="text"  name="emailId" placeholder="Email" data-bind="value:data.emailId">
+            <input type="text" placeholder="Email" name="emailId" data-bind="value:data.emailId">
           </div>            
           <div class="item field">
             <input type="text" placeholder="Mobile" name="mobileNo" data-bind="value:data.mobileNo">
@@ -151,9 +147,10 @@
             </div>
           </div>
         </div>
-        </div>
     <!-- Ends here -->  
+    </form>
   </div>
-  </form>
 </div>
 
+</body>
+</html>
