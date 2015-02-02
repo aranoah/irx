@@ -36,7 +36,8 @@
                 </div>
               </div>
             </div>
-          <!-- ko if:data.city() != "" -->
+         
+            <div data-bind="visible:data.city() != ''">
             <h4 class="ui dividing header">Property Information :</h4>
             
             <div class="item field" style="width:368px;padding-bottom:.7rem;">
@@ -94,12 +95,13 @@
                 </div>
               </div>
             </div>
-            <!-- /ko -->
+            </div>
+            
             <!--<div class="field item">
               <textarea placeholder="Write few words about your property..."></textarea>
             </div>-->
         </div>
-        <!-- ko if:data.city() != "" -->
+        <div data-bind="visible:data.city() != ''">
         <div class="ui inverted menu contact">
           <h4 class="ui dividing header">Contact Information :</h4>
           <div class="ui form">
@@ -139,7 +141,8 @@
             </div>
           </div>
         </div>
-        <!-- /ko -->
+        </div>
+        
     <!-- Ends here -->  
   </div>
   </form>

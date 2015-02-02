@@ -16,6 +16,18 @@
 	  font-weight: 400;
 	  color: #747474;
 	}
+	/*.proj-listing ._actButtons>.ui.basic.button {
+	  border: 0 !important;
+	  border-radius: 0 !important;
+	   box-shadow: 0 0 0 !important; 
+	  background-color: #f4f4f4 !important;
+	  color: #607d8b !important;
+	  transition: all ease .2s;
+	  padding: .75rem;
+	  font-weight: 400;
+	  width: 11rem;
+	  margin: 0 .75rem .5rem 0;
+	}*/
 	.ui.items>.item>.content a {
 	  color: #345D71 !important;
 	  -webkit-transition: color .2s ease;
@@ -746,6 +758,12 @@
 		classInstance.viewModel.projects([]);
 		classInstance.viewModel.filters.name(filters.name);
 		classInstance.viewModel.filters.displayName(filters.name);
+		if(data.result == null || data.result.length == 0){
+	       		classInstance.listLocationAgent();
+	       		return;
+	       	} else{
+	       		classInstance.viewModel.agents([]);
+	       	}
 			var arr = data.result;
 		 		for (var i=0;i<arr.length;i++){
 		 			
@@ -849,10 +867,12 @@
   <% include ../partials/footer.html.ejs %>
 </body>
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+ <script>
+ //(function(d, s, id) {
+//   var js, fjs = d.getElementsByTagName(s)[0];
+//   if (d.getElementById(id)) return;
+//   js = d.createElement(s); js.id = id;
+//   js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+//   fjs.parentNode.insertBefore(js, fjs);
+// }(document, 'script', 'facebook-jssdk'));
+</script>
