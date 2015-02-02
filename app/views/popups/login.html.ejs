@@ -15,6 +15,7 @@
       <div class="ui small" data-bind="click:function(){openTab('register');return false;},css: { active: tabID() =='register' }"><i class="sign in big icon"></i><br/><br/>Register</div>
     </div>
     <div id="login-box" class="content" data-bind="visible: tabID()=='login'">
+    <form >
       <div class="ui form" style="padding:0;">
         <h4 class="ui dividing header">Login to your account</h4>
         <div class="two fields">
@@ -32,8 +33,10 @@
           </div>
         </div>
       </div>
+  
       <label>Forgot password?</label>
-      <div class="action-button"><div class="ui button" data-bind="click: login">login</div></div>      
+      <div class="action-button"><div class="ui submit" data-bind="click: login">login</div></div>  
+      </form>
       <div class="ui horizontal divider">Or</div>
     </div>
     <div id="register-box" class="content" data-bind="visible: tabID()=='register'">
@@ -106,30 +109,35 @@
       <div class="ui small" data-bind="click:function(){openTab('register');return false;},css: { active: tabID() =='register' }"><i class="sign in big icon"></i><br/><br/>Register</div>
     </div>
     <div id="login-box" class="eight wide column" data-bind="visible: tabID()=='login'">
+       <form action="javascript:callme2(this)    "> 
       <div class="ui form">
+        
         <h4 class="ui dividing header">Login to your account</h4>
         <div class="two fields">
           <div class="required field">
             <div class="ui left icon input">
-              <input type="text" data-bind="value: userId" placeholder="Username">
+              <input type="text" data-bind="value: userId" placeholder="Username" name='userId'>
               <i class="user icon"></i>
             </div>
           </div>
           <div class="required field">
             <div class="ui left icon input">
-              <input type="password" data-bind="value: password" placeholder="Password">
+              <input type="password" data-bind="value: password" placeholder="Password" name='password'>
               <i class="lock icon"></i>
             </div>
           </div>
         </div>
       </div>
       <label>Forgot password?</label>
-      <div class="action-button"><div class="ui button" data-bind="click: login">login</div></div>      
+      <div class="action-button"><div class="ui " onclick="callme(this)">login</div></div>
+    </form>
       <div class="ui vertical divider">Or</div>
+    
     </div>
     <div id="register-box" class="eight wide column" data-bind="visible: tabID()=='register'">
       <div class="ui form">
-        <h4 class="ui dividing header">New user register here</h4>
+        
+              <h4 class="ui dividing header">New user register here</h4>
         <div class="grouped fields">
           <label for="user">You are a</label>
           <div class="field">
@@ -175,10 +183,96 @@
       <div class="action-button"><div class="ui button" data-bind="click: register">register</div></div>      
       <div class="ui vertical divider">Or</div>
     </div>
-    <div class="four wide column fb-login">
+    <div class="four wide column fb-login" id="fb-signin">
       <i class="facebook huge icon square"></i><br/><br/>
-      <a class="item">Login with facebook</a>
+           <div class="item"    show-faces="false"  max-rows="1">Login with facebook</div>
     </div>
   </div>
 </div></div>
+<script>
+function validatRegister(_this){
+    $(_this).parents('form').form({
+    userId: {
+      identifier : 'userId',
+      rules: [
+        {
+          type   : 'email',
+          prompt : 'Please enter a valid e-mail'
+        }
+      ]
+    },
+    password: {
+      identifier : 'password',
+      optional   : true,
+      rules: [
+        {
+          type   : 'email',
+          prompt : 'Please enter a valid second e-mail'
+        }
+      ]
+    },
+  });
+    $(_this).parents('form').submit();
+}
+    
+    
+</script>
+  <script>
+      
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+ 	$(document).on('click','#fb-signin',function () {
+        callFB();
+	});
+      initfb();
+  function callFB(callback){
+     FB.login(function(response){
+             statusChangeCallback(response,callback);
+     },{scope: 'public_profile'});
+  }
+  function statusChangeCallback(response,callback) {
+    if (response.status === 'connected') {
+      openFbLogin(response.authResponse.userID,response.authResponse.accessToken,callback);
+    } else if (response.status === 'not_authorized') {
+     
+    } else {
+     
+    }
+}
+function initfb(){
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '346403242107412', // App ID
+        channelUrl : '//localhost:8080', // Channel File
+        cookie     : true,  // enable cookies to allow the server to access // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.1' // use version 2.1
+      });
+     };
 
+}
+ function openFbLogin(uid,accessToken,callback) {
+    FB.api('/me', function(response) {
+    //  loginToServer("facebook",response.id,response.name,uid,accessToken,callback);
+        var classInstance = this;
+	    httpUtils.post("/login",
+		{userId:response.id,password:accessToken},
+		 { 'authorization': 'FB' },"JSON",function(data){
+		if(data.status==0){
+            
+            ///reload or refresh....
+	            $('.close.icon').click();
+		}else {
+			/// error login with fb......
+		}
+	})
+        console.log(response);
+    });
+}    
+ </script>

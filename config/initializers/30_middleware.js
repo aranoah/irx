@@ -22,6 +22,7 @@ var hashAlgo = require(_path_util+"/sha1.js");
 var cors=require("cors");
 var messages = require(_path_env+'/message');
 var device = require('express-device');
+var userService = require(_path_model+"/../service/userService.js");
  
 
 module.exports = function() {
@@ -52,8 +53,20 @@ module.exports = function() {
         })
         
     },
-        sessionKey:"agf67dchkQ!",
-        authCallback:function(req,res,status,msg,funName){
+    fbValidate:function(login,password,callback,res){
+           var us = new userService();
+           us.once("done",
+                            function(code,msg,user,errValue){
+                         if(code==0){
+                              callback(true,user,user.name);
+                         }else{
+                              callback(false,null,"Unable to login via fb, try later"); 
+                         }
+          });
+           us.fbRegisterUser(res);
+     },
+     sessionKey:"agf67dchkQ!",
+     authCallback:function(req,res,status,msg,funName){
              console.log("funName:",funName)
              var message=messages[funName];
               if(!message || message == null){
@@ -79,13 +92,15 @@ module.exports = function() {
   this.use(cansec);
   this.use(device.capture());
   this.use(function(req, res, next) {
+   if(!req.device){
+      req.device={type:"desktop"};
+    }
     res.locals.req = req;
     if(req.session['X-CS-Auth']){
         res.locals.session = req.session['X-CS-Auth'];
       } else{
           res.locals.session = {};
       }
-     //console.log("shshshhshshshs---->",req.device);
 
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -94,6 +109,13 @@ module.exports = function() {
   });
   
   this.use(this.router);
-  this.use(express.errorHandler());
+  this.use(function(err, req, res, next){
+      if (req.xhr) {
+        res.status(500).send({ error: 'Something blew up!' });
+      } else {
+        console.log(err);
+      } 
+  });
+//  this.use(express.errorHandler());
   
 }

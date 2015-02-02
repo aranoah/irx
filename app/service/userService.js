@@ -94,6 +94,7 @@ UserService.prototype.registerUser = function(user) {
 	});
 };
 
+
 /*
 	Verify user verification code
 
@@ -660,6 +661,54 @@ UserService.prototype.review = function(data) {
 							}		
 					})
 	}
+<<<<<<< HEAD
+    
+    
+/*
+	Register a user and send verification mail
+
+**/
+UserService.prototype.fbRegisterUser = function(user) {
+	console.log("In registerFBUser")
+	// Make a database entry
+    var _selfInstance = this;
+	var id = ("IUSER-F-"+user.id);
+    _selfInstance.once("registerNewUser",function(){
+        var hashPassword = hashAlgo.SHA1((id+"12345678").substring(0,10));
+	    var userData = new IRXUserProfileModel({
+			"id":id
+  			,"name": user.name
+			,"password": hashPassword.toString()
+			,"userId": user.id+"@facebook.com"
+			,"irxId" : id
+			,"location":null
+			,"type" : "user"
+			,"companyName" :null
+			,"specialities":null
+			,"status": CONSTANTS.him_constants.USER_STATUS.VERIFIED
+            ,"contactEmailId": null
+	    });
+        userData.save(function(err,res){
+         if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+         }else if(res==null){
+           _selfInstance.emit("done",0,"unable to create user, try later.",null,null,null);
+         }else{
+            _selfInstance.emit("done",0,"OK",userData,null); 
+          }
+        });
+    });
+   IRXUserProfileModel.findOne({id:id},{userId:1,name:1,imageUrl:1},function(err,res){
+       if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+       }else if(res==null){
+           _selfInstance.emit("registerNewUser");
+       }else{
+            _selfInstance.emit("done",0,"OK",res,null); 
+       }
+   });
+	
+};
 	UserService.prototype.forgetPassword = function(data){
 		var _selfInstance = this;
 			var id = _selfInstance.getCustomMongoId("IVER-");
