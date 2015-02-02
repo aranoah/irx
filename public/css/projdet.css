@@ -65,7 +65,17 @@ Projdetailing
 #mobile-projDet .ui.medium.rounded.image {
 	width: 100%;
 }
-
+div#mobile-projDet> .ui.inverted.segment>.ui.header {
+    color: #000;
+}
+#mobile-projDet .ui.blue.small.button {
+    background: #fff;
+    color: #737373;
+    border: 1px solid #3b83c0;
+}
+/*#mobile-projDet>.content>.ui.tabular.menu>.item {
+    padding: .85em;
+}*/
 
 /* ends here */
 
@@ -78,7 +88,7 @@ Projdetailing
 }
 
 .ui.inverted.segment.head {
-	background-color: #607d8b !important;
+	background-color: #fff !important;
 }
 
 .ui.inverted.four.column.row {
@@ -103,7 +113,7 @@ Projdetailing
 }
 
 .ui.inverted.title h2, .ui.inverted.xtra h3 {
-	color: #607d8b !important;
+	color: #000 !important;
 }
 
 .ui.inverted.title h2, .ui.inverted.title h4 {
@@ -111,7 +121,7 @@ Projdetailing
 }
 
 .ui.inverted.title h4, .ui.inverted.xtra h4{
-	color: #909090 !important;
+	color: rgba(0, 0, 0, 0.8) !important;
 	font-weight: normal;
 }
 
@@ -147,7 +157,10 @@ Projdetailing
 .right.floated.column .ui.button {
 	display: block;
 	margin-bottom: .5rem;
-	background: #CD5C5C;
+	color: #337EC8;
+	background: #FFF;
+	border: 1px solid #337EC8;
+	font-weight: normal;
 }
 
 
