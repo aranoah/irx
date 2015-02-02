@@ -39,7 +39,8 @@
 	<div class="ui page grid">
 
 		<!-- For mobile screens -->
-			<div class="column tablet mobile only row">
+		<% if(locals.req.device.type != 'desktop'){ %>
+			<div class="column">
 		        <div class="ui transition information visible">
 			        <form data-bind="submit: searchFun" >
 				        <div class="ui form">
@@ -89,10 +90,12 @@
 			        </form>
 		        </div>
 		      </div>
-
+		    <% } %>
 		<!-- ends here -->
 
-			      <div class="column computer only row">
+	<% if(locals.req.device.type == 'desktop'){ %>
+
+      <div class="column">
 	    <div class="ui transition information visible">
 	        <form data-bind="submit: searchFun" >
 	          <div class="ui form">
@@ -121,7 +124,7 @@
 	          <h1 class="ui inverted header">Explore Projects</h1>
 	          <div id="search-box" class="large basic inverted animated fade ui">
 	            <div class="ui fluid category search">
-				  <div class="ui icon input">
+				  <div class="ui icon input _main_">
 
 				    <input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
 
@@ -134,15 +137,25 @@
 				</div>
 				<div class="inline fields">						
 					<div class="ui fluid search selection dropdown field">
-					  <input type="hidden" name="city">
-					  <i class="angle down icon"></i>
-					  <div class="default text">Select City</div>
-					  <div class="menu select">
-					    <div class="item" data-value="ad"><i class="ad flag"></i>New Delhi</div>
-					    <div class="item" data-value="ae"><i class="ae flag"></i>Bangalore</div>
-					    <div class="item" data-value="af"><i class="af flag"></i>Mumbai</div>
-					    <div class="item" data-value="ag"><i class="ag flag"></i>Chennai</div>
-					  </div>
+
+						<div class="ui selection dropdown">
+						    <input type="hidden" name="city">
+						    <div class="default text _city_">New Delhi</div>
+						    <i class="angle down icon"></i>
+						    <div class="menu">
+						      <div class="ui icon search input">
+						        <i class="search icon"></i>
+						        <input type="text" name="search" placeholder="Search city...">
+						      </div>
+						      <div class="divider"></div>
+						      <div class="header">
+						        <i class="tags icon"></i>
+						       Select City
+						      </div>
+						      <% include ../partials/city.html.ejs %>
+						  </div>
+						</div>
+
 					</div>
 					<div class="ui dropdown field">
 						<input type="hidden" name="action">
@@ -172,15 +185,16 @@
 					  <div class="menu range">
 					    <div class="item">10lac</div>
 					    <div class="item">10lac - 50lac</div>
-					    <div class="item">>50lac</div>
+					    <div class="item">50lac</div>
 					  </div>
 					</div>
 					
 				</div>
 	          </div>
-	          </form>
+	        </form>
 	    </div>
 	  </div>
+	  <% } %>
 	</div>
 </div>
 

@@ -628,16 +628,18 @@ p >.mail.icon{
 
 /* Mobile Only */
 @media only screen and (max-width : 768px) {
+
   ._cmpnyName,._locProj{
     float: left;width: 100%;
   }
   #home .menu .right.menu > .item, #searchbar > .search-menu {
+
     display: none;
   }
 
   #home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
     display: block;
-  }
+  }*/
   #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
     left: auto;
     right: 0em; 
@@ -710,13 +712,13 @@ p >.mail.icon{
 
 @media only screen and (max-width : 992px) {
 
-  #home .menu .right.menu > .item, #searchbar > .search-menu {
+ /* #home .menu .right.menu > .item, #searchbar > .search-menu {
     display: none;
   }
 
   #home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
     display: block;
-  }
+  }*/
   #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
     left: auto;
     right: 0em; 

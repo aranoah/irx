@@ -126,9 +126,9 @@
   
 </div>
 <form data-bind="submit: searchF" id="searchForm">
-  <div id="searchbar" class="ui inverted menu row computer only">
+  <div id="searchbar" class="ui inverted menu">
   <% if(locals.req.device.type != 'desktop'){ %>
-    <div class="ui grid smenu-hide mobile tablet only">
+    <div class="ui grid smenu-hide">
       <div class="ui mobile row" tabindex="0">
         <div class="item _searchInput_ fourteen wide column">
           <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
@@ -154,7 +154,7 @@
     </div>
     <% } %>
     <% if(locals.req.device.type == 'desktop'){ %>
-    <div class="cont-ainer search-menu computer only row">
+    <div class="cont-ainer search-menu">
       <div class="item">
          <div class="ui selection dropdown">
           <input id="_city_" type="hidden" name="city" data-bind="textInput:city">
