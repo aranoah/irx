@@ -99,6 +99,32 @@
   </style>
   <script type="text/javascript" src="/js/common/search.js"></script>
 <div id="searchF">
+<!-- Request-Details popup -->
+
+<div id="loc-pop-up" class="ui modal pop-up sell-post" style="background-color:#f8f8f8;">  
+  <div class="content" style="border-bottom:1px solid #eaeaea;background-color:#fff;">
+    <div class="ui grid">
+      <h2 class="ui header eight wide column">Coming soon !!</h2>
+      <i class="column right floated remove circle close icon"></i>
+    </div>
+  </div>
+  
+    
+    <!-- Request details starts here -->
+        
+          <div class="ui info message" style="margin:2rem;text-align:center;">
+            <div class="header">
+             We are coming with locality page very soon.
+             Showing agents of this locality
+            </div>  
+             <div class="ui button" data-bind="click: searchF">OK</div>          
+          </div>
+      
+       
+      
+    <!-- Ends here -->  
+  
+</div>
 <form data-bind="submit: searchF" id="searchForm">
   <div id="searchbar" class="ui inverted menu">
   <% if(locals.req.device.type != 'desktop'){ %>

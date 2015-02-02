@@ -17,14 +17,18 @@
 **/
 module.exports = function(done) {
 	this.elasticsearch = require('elasticsearch');
-	
+	var winston = require('winston');
+   var logger= new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)({ level: 'info' }),
+      new (winston.transports.File)({ filename: '/Users/aniyus/workspace/IRX/irx/irx.log'})
+    ]
+    });
 	try{
-		_app_context.esClient = new this.elasticsearch.Client({
+          logger.transports.console.level = 'debug';
+          logger.transports.file.level = 'verbose';
+		_app_context.logger = logger;
 
-			host: 'localhost:9200',
-
-			log: 'trace'
-		});
 	}
 	catch(e){
 		console.log(e);

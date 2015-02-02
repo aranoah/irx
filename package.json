@@ -21,7 +21,9 @@
     "aws-sdk": "2.0.28",
     "cors": "2.5.2",
     "validator": "3.22.2",
-    "knockout.validation": "^2.0.0-pre.3"
+    "knockout.validation": "^2.0.0-pre.3",
+    "winston":"0.8.3"
+   
   },
   "scripts": {
     "start": "node server.js"

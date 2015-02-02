@@ -92,10 +92,11 @@
   <% include ../popups/request-details.html.ejs %>
   <% include ../popups/confirmation.html.ejs %>
   <% include ../popups/adv-search-filter.html.ejs %>
+ 
   <!-- Header ends here -->
 <% if(locals.uiContext && locals.uiContext.menu) {%>
 
     <% include ../partials/searchbar.html.ejs %>
-
+    <% include ../popups/locality-pop-up.html.ejs %>
 <% } %>
 </div>

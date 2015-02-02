@@ -6,6 +6,34 @@
 	.column.tablet.mobile.only .ui.form>.field>.ui.radio.checkbox>label {
 		width:150px !important;
 	}
+	.menu.abx{
+		width: 8.1rem;
+		margin-left: -2.9rem !important;
+		background:rgba(121, 121, 121, 0.51) !important;
+		text-align: center !important;
+	}
+	.drop{
+	    width: 7.5rem;
+		margin-left: -2.5rem !important;
+		background:rgba(121, 121, 121, 0.51) !important;
+		text-align: center !important;
+	}
+	.range{
+        width: 9.5rem;
+		margin-left: -2.9rem !important;
+		background:rgba(121, 121, 121, 0.51) !important;
+		text-align: center;
+	}
+	.select{
+	    background:rgba(121, 121, 121, 0.51) !important;
+
+	}
+	.ui.dropdown .menu>.item:hover{
+		background: rgba(0,0,0,.05);
+		color: rgba(255, 255, 255, 1);
+		z-index: 12;
+	}
+
 </style>
 <div id="homescreen" class="ui inverted masthead segment">
 	<div class="ui page grid">
@@ -115,6 +143,7 @@
 				</div>
 				<div class="inline fields">						
 					<div class="ui fluid search selection dropdown field">
+
 						<div class="ui selection dropdown">
 						    <input type="hidden" name="city">
 						    <div class="default text _city_">New Delhi</div>
@@ -132,12 +161,13 @@
 						      <% include ../partials/city.html.ejs %>
 						  </div>
 						</div>
+
 					</div>
 					<div class="ui dropdown field">
 						<input type="hidden" name="action">
 					  <div class="text">Type</div>
 					  <i class="angle down icon"></i>
-					  <div class="menu">
+					  <div class="menu abx">
 					    <div class="item">Rent</div>
 					    <div class="item">Resale</div>
 					    <div class="item">Land</div>
@@ -147,7 +177,7 @@
 					<input type="hidden" name="bhk">
 					  <div class="text">BHK</div>
 					  <i class="angle down icon"></i>
-					  <div class="menu">
+					  <div class="menu drop">
 					    <div class="item" data-value="1">1bhk</div>
 					    <div class="item" data-value="2">2bhk</div>
 					    <div class="item" data-value="3">3bhk</div>
@@ -158,10 +188,10 @@
 					<input type="hidden" name="price">
 					  <div class="text">Budget</div>
 					  <i class="angle down icon"></i>
-					  <div class="menu">
+					  <div class="menu range">
 					    <div class="item">10lac</div>
 					    <div class="item">10lac - 50lac</div>
-					    <div class="item">>50lac</div>
+					    <div class="item">50lac</div>
 					  </div>
 					</div>
 					

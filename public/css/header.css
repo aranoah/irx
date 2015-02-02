@@ -15,7 +15,14 @@ body {
  position: relative;
  padding-left: 15px;
 }
+#_postA_ .ui.inverted.menu {
+    padding-top: 0;
+    margin-top: 0;
+}
 
+#_postA_ div#lower-content {
+    padding-top: 0;
+}
 ._rupee_:before {
  position: absolute !important;
  font-family: rupee !important;
@@ -98,6 +105,7 @@ body {
   cursor: pointer;
   text-transform: uppercase;
   border-radius: 3px;
+  font-size: 0.9rem;
 }
 /* submit ends here */
 
@@ -649,7 +657,11 @@ p >.mail.icon{
 /* Mobile Only */
 @media only screen and (max-width : 768px) {
 
-  /*#home .menu .right.menu > .item, #searchbar > .search-menu {
+  ._cmpnyName,._locProj{
+    float: left;width: 100%;
+  }
+  #home .menu .right.menu > .item, #searchbar > .search-menu {
+
     display: none;
   }
 

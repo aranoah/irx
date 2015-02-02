@@ -56,15 +56,16 @@
               projectId : self.projectId(),
               city : self.city(),
               minPrice : self.minPrice(),
-              maxPrice : self.maxPrice()     
+              maxPrice : self.maxPrice(),
+              locationFlag : self.isLocality()    
             }; 
               
             if(self.searchType()=='project'){
 
               if(typeof(project)!="undefined"){
                 if(self.isLocality() ){
-                  alert(self.searchType())
-                  _classInstance.listProjectsOfLocation(_classInstance.viewModel.projectId())
+                  
+                  _classInstance.listProjectsOfLocation(_classInstance.viewModel.projectId(),data)
                 }else{
                   _classInstance.fetchProjectResult(data)
                 }
@@ -315,7 +316,11 @@
                     }
                     
                   } else if(_classInstance.viewModel.searchType()=='locality'){
-                    alert("We will soon coming with locality page til then enjoy !!")
+                   
+                     $('#loc-pop-up').modal({
+                        closable:false
+                    }).modal('show');
+
                      _classInstance.viewModel.sLocAgents(true);
                       _classInstance.viewModel.isLocality(true)
                       _classInstance.viewModel.projectId(ui.item.id);
@@ -386,20 +391,18 @@
       _classInstance.viewModel.name("");
       _classInstance.viewModel.projectId("");
     }
-    SearchBar.prototype.listProjectsOfLocation=function(localityId){
+    SearchBar.prototype.listProjectsOfLocation=function(localityId,filters){
       var classInstance = this;
           var data = {
             "localityId":localityId
           }
-          var filters = {
-            "name" : classInstance.viewModel.name()
-          }
-          console.log()
+         
+          
           httpUtils.post("/list-projects",
                         {filters:data,page:classInstance.page},
                         {},"JSON",function(result){
             if(result.status==0){
-
+              
               project.renderResult(result,filters)
             }else{
             var arr = new Array();

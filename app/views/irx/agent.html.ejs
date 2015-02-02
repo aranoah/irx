@@ -80,7 +80,7 @@
     		  </div>
 		      <div class="description">
 		        Projects : 
-		        <span data-bind="foreach : projects" style="margin-right:0;">
+		        <span class="_cmpnyName" data-bind="foreach : projects" style="margin-right:0;">
 			        <!-- ko if:$index()<=2 -->
 			        	<!-- ko if:$index()!=0 -->
 			        	 	<span class="header">,</span>
@@ -95,7 +95,7 @@
 		       </div>
 		       <div class="description">
 		        Operating Localities : 
-		        <span data-bind="foreach : locationProjects" style="margin-right:0;">
+		        <span class="_locProj" data-bind="foreach : locationProjects" style="margin-right:0;">
 			        <!-- ko if:$index()<=2 -->
 			        	<!-- ko if:$index()!=0 -->
 			        	 	<span class="header">,</span>
@@ -265,11 +265,12 @@
 		$(document).on('click','#_subReq_',function(){
 
 			var arr = _classInstance.agentIds;
-			
+			//alert(1)
 			//ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
 			//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
 			 _classInstance.agentIds=[];
-
+			 _classInstance.aPostReqViewModel.data.agentId([])
+			 // $('#_postA_').find('form').form('reset')
 			$('#_postA_').modal({
 			      closable:false
 			    }).modal('show');

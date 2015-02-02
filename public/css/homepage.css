@@ -190,7 +190,7 @@
 }*/
 .ui.dropdown .menu>.item{
 	font-weight: 300;
-	color: #737373;
+	color: rgba(232, 232, 232, 0.68);
 }
 #locations.lower-portion h2.ui.inverted.header:after {
 	width: 5rem;
