@@ -105,6 +105,7 @@ body {
   cursor: pointer;
   text-transform: uppercase;
   border-radius: 3px;
+  font-size: 0.9rem;
 }
 /* submit ends here */
 
