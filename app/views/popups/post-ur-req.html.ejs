@@ -16,7 +16,7 @@
     <!-- sell your property starts here -->
         <input type="hidden" data-bind="value:data.origin" value="post-req">
         <div class="ui inverted menu">
-
+            <h4 class="ui dividing header">Step 1 : Please select property location</h4>
             <div class="item">
               <div class="ui selection dropdown">
                 <input type="hidden" name="city" data-bind="textInput:data.city">
@@ -36,7 +36,7 @@
                 </div>
               </div>
             </div>
-          
+          <!-- ko if:data.city() != "" -->
             <h4 class="ui dividing header">Property Information :</h4>
             
             <div class="item field" style="width:368px;padding-bottom:.7rem;">
@@ -94,11 +94,12 @@
                 </div>
               </div>
             </div>
+            <!-- /ko -->
             <!--<div class="field item">
               <textarea placeholder="Write few words about your property..."></textarea>
             </div>-->
         </div>
-
+        <!-- ko if:data.city() != "" -->
         <div class="ui inverted menu contact">
           <h4 class="ui dividing header">Contact Information :</h4>
           <div class="ui form">
@@ -138,7 +139,7 @@
             </div>
           </div>
         </div>
-
+        <!-- /ko -->
     <!-- Ends here -->  
   </div>
   </form>
