@@ -16,6 +16,15 @@
 	  font-weight: 400;
 	  color: #747474;
 	}
+	.tempBtn {
+	  float: right;
+  	  border: 1px solid #ddd;
+  	  padding: 7px 10px;
+      background: #fff;
+	}
+	._hide_ {
+		display:none;
+	}
 	/*.proj-listing ._actButtons>.ui.basic.button {
 	  border: 0 !important;
 	  border-radius: 0 !important;
@@ -99,7 +108,7 @@
   	<% include ../partials/header.html.ejs %>
 
   
-  <!-- agents Listing goes here -->
+
 <div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
 	  <div class="twelve wide column">
@@ -115,9 +124,7 @@
 			    	<div id="HideFilter" class="ui teal label"><i style="margin-right: 0;" class="icon hide"></i></div>
 			    </a>
 			</div>
-			<!--  <% if(requestObj.projectId && requestObj.projectId !=""){ %>
-			<a href="/agent-listing?projectId=<%= requestObj.projectId %>&name=<%= requestObj.name %>&isLocality=true">show agents</a>
-			 <% } %> -->
+			 
 			<div class="mobileFilter ui menu tablet mobile only grid" style="display:none;">
 				<div class="item">
 				  <div class="ui right labeled icon dropdown button">
@@ -163,7 +170,17 @@
 				    <label>Show Distress</label>
 				  </div>
 				</div>
+				
+
 			</div>
+			
+			<div class="item tempBtn" style="float:right" data-bind="visible:filters.locationFlag()=='true'" >
+			
+				<a data-bind="attr:{href:'/agent-listing?projectId='+filters.projectId()+'&name='+filters.name()+'&isLocality=true'}">
+					<div style="position:relative;right:0;color:#337ec8">Show agents</div>
+				</a>
+			</div>
+			 
 	  	<!-- ends here -->
 	  	
 	  	<div class="ui menu rib-head computer only grid">
@@ -217,7 +234,7 @@
 		    </a>
 	  	</div>
 
-	  	<div class="_filters_">
+	  	<div class="_filters_ _hide_">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''"><!--ko text: filters.bhk--><!--/ko-->
     			<!--ko if: filters.bhk() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i><!--/ko-->
 			</span>	    		
@@ -226,15 +243,19 @@
 			</span>				
 			<span class="ui teal label" data-bind="visible:filters.status() != ''"><!--ko text: filters.status--><!--/ko-->
     			<!--ko if: filters.status() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i><!--/ko-->
-			</span>   		
+			</span>   	
+
+			<span class="ui teal label" data-bind="visible:filters.name() != ''"><!--ko text: filters.name--><!--/ko-->
+    			<!--ko if: filters.name() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('name')} }" class="remove icon"></i><!--/ko-->
+			</span>   	
 	  	</div>
 
 	    <!-- Project Listing goes here -->
-	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
-             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
+	    <div class="_hide_" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);width:92%">
 	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
 	    </div>
-	    <div class="ui cards sc" data-bind="foreach : agents">
+	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
 			<div class="card">
 			    <div class="ui image tiny">
@@ -699,7 +720,7 @@
 
 			       arr[i].priceText =  aPriceArr;
 		 		}
-			console.log(arr)
+			
 	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
@@ -757,6 +778,8 @@
 		classInstance.viewModel.projects([]);
 		classInstance.viewModel.filters.name(filters.name);
 		classInstance.viewModel.filters.displayName(filters.name);
+		classInstance.viewModel.filters.projectId(""+filters.projectId);
+		classInstance.viewModel.filters.locationFlag(""+filters.locationFlag);
 		if(data.result == null || data.result.length == 0){
 	       		classInstance.listLocationAgent();
 	       		return;
@@ -860,7 +883,8 @@
 	  	
 		    project = new Project();
 		    project.init();
-	    
+
+	    	$('._hide_').show()
 	  	})
 	</script>
   <% include ../partials/footer.html.ejs %>

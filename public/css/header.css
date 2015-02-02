@@ -15,7 +15,14 @@ body {
  position: relative;
  padding-left: 15px;
 }
+#_postA_ .ui.inverted.menu {
+    padding-top: 0;
+    margin-top: 0;
+}
 
+#_postA_ div#lower-content {
+    padding-top: 0;
+}
 ._rupee_:before {
  position: absolute !important;
  font-family: rupee !important;
@@ -620,7 +627,9 @@ p >.mail.icon{
 
 /* Mobile Only */
 @media only screen and (max-width : 768px) {
-
+  ._cmpnyName,._locProj{
+    float: left;width: 100%;
+  }
   #home .menu .right.menu > .item, #searchbar > .search-menu {
     display: none;
   }
