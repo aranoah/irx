@@ -11,7 +11,8 @@
   </style>
 </head>
 <% locals.uiContext.menu=true %>
-<body>
+<body class="<%="irx-"+(locals.req.device.type)%>">
+
   <% include ../partials/header.html.ejs %>
 
   <!-- agents Listing goes here -->
