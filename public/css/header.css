@@ -3,9 +3,11 @@
  font-family:roboto; 
  src: url(/css/fonts/Roboto-Light.ttf) format('ttf');
 }
-body {
-  font-family: roboto,sans-serif !important;
+.irx-desktop #header,.irx-desktop #searchbar{
+  min-width: 1024px !important;
 }
+
+
 /* Rupee */
  @font-face {
  font-family:rupee; 
@@ -139,7 +141,7 @@ body {
 }
 
 #searchbar .cont-ainer .ui.selection.dropdown {
-  min-width: 180px !important;
+  min-width: 145px !important;
   background-color: inherit !important;
 }
 
@@ -626,142 +628,5 @@ p >.mail.icon{
           Responsive
 *******************************/
 
-/* Mobile Only */
-@media only screen and (max-width : 768px) {
 
-  ._cmpnyName,._locProj{
-    float: left;width: 100%;
-  }
-  #home .menu .right.menu > .item, #searchbar > .search-menu {
-
-    display: none;
-  }
-
-  #home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
-    display: block;
-  }*/
-  #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
-    left: auto;
-    right: 0em; 
-  }
-
-  .proj-listing .ui.left.floated {
-    width: auto;
-  }
-
-  .proj-listing .content .social-share {
-    right: 0;
-  }
-
-  .proj-listing h3.ui.header{
-    border-right: 0;
-    padding-right: 0;
-  }
-
-  .proj-listing h5.ui.header {
-    padding-left: 0;
-  }
-
-  .mobileFilter.ui.menu.tablet.mobile.only.grid>.item:before {
-    background: inherit !important;
-  }
-
-  ._searchInput_>.ui.right.labeled.input>input {
-    width: inherit !important;
-  }
-
-  #search-box {
-    width: 330px !important;
-  }
-  #homescreen .ui.form .field {
-    margin-right: 0 !important;
-  }
-
-  .pop-up.ui.modal {
-    width: auto !important;
-  }
-
-  #sidebar>.ui.mobile.item {
-    display: block;
-  }
-
-  .lower-portion h2.ui.inverted.header:after{
-    background-color: inherit !important;
-  }
-
-  #_steps_ {
-    display: none !important;
-  }
-
-  .ui.stackable.grid>.column:first-child {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-  }
-
-  .proj-listing .ui.medium.image>.slider {
-    position: absolute;
-    width: 23.8rem;
-    bottom: 0;
-  }
-
-  .proj-listing .proj-content {
-    display: initial !important;
-  }
-
-}
-
-@media only screen and (max-width : 992px) {
-
- /* #home .menu .right.menu > .item, #searchbar > .search-menu {
-    display: none;
-  }
-
-  #home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
-    display: block;
-  }*/
-  #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
-    left: auto;
-    right: 0em; 
-  }
-
-  .proj-listing .ui.left.floated {
-    width: auto;
-  }
-
-  .proj-listing .content .social-share {
-    right: 0;
-  }
-
-  #search-box {
-    width: 330px !important;
-  }
-  #homescreen .ui.form .field {
-    margin-right: 0 !important;
-  }
-
-  .pop-up.ui.modal {
-    width: auto !important;
-  }
-
-  #sidebar>.ui.mobile.item {
-    display: block;
-  }
-
-  .lower-portion h2.ui.inverted.header:after{
-    background-color: inherit !important;
-  }
-
-  #_steps_ {
-    display: none !important;
-  }
-
-  .ui.stackable.grid>.column:first-child {
-    padding-top: 1rem !important;
-    padding-bottom: 1rem !important;
-  }
-
-  .proj-listing .proj-content {
-    display: initial !important;
-  }
-}
 
