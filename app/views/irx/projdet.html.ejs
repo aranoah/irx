@@ -266,11 +266,11 @@
 					<h2 class="ui header" style="text-transform: capitalize;font-weight: normal;font-size:1.2rem;" style="#5F7BB8 !important"><%= result.name %></h2>
 					<h4 class="ui header" style="margin: .1rem 0;font-size: 90%;"><%= result.builderName %></h4>
 				</div>
-				<div class="floated column _csn" style="vertical-align:top">
+				<div class="floated column _csn" style="vertical-align:top;text-align: right;min-width: 25%;">
 					<h2 style="color: #337EC8 !important;font-weight: normal;font-size: 1.4em;"><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>L <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"L": '' %> </h2>
 				</div>
 			</div>
-			<table class="ui table" style="margin:0 0 1em;color:#FFF !important">
+			<table class="ui table" style="margin:0 0 1em;background:#FFF !important">
 			  <thead>
 			    <tr>
 			      <th>Built-up Area</th>
