@@ -661,7 +661,7 @@ UserService.prototype.review = function(data) {
 							}		
 					})
 	}
-<<<<<<< HEAD
+
     
     
 /*
