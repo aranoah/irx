@@ -187,11 +187,11 @@
 	background-color: #607d8b;
 	top: 38px;
 	left: 42%;
-}*/
+}
 .ui.dropdown .menu>.item{
 	font-weight: 300;
 	color: rgba(232, 232, 232, 0.68);
-}
+}*/
 #locations.lower-portion h2.ui.inverted.header:after {
 	width: 5rem;
 	left: 46%;

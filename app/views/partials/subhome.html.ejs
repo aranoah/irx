@@ -141,28 +141,26 @@
 				  </div>
 				  <div class="results"></div>
 				</div>
-				<div class="inline fields">						
-					<div class="ui fluid search selection dropdown field">
+				<div class="inline fields">
 
-						<div class="ui selection dropdown">
-						    <input type="hidden" name="city">
-						    <div class="default text _city_">New Delhi</div>
-						    <i class="angle down icon"></i>
-						    <div class="menu">
-						      <div class="ui icon search input">
-						        <i class="search icon"></i>
-						        <input type="text" name="search" placeholder="Search city...">
-						      </div>
-						      <div class="divider"></div>
-						      <div class="header">
-						        <i class="tags icon"></i>
-						       Select City
-						      </div>
-						      <% include ../partials/city.html.ejs %>
-						  </div>
-						</div>
-
+					<div class="ui dropdown field">
+					    <input type="hidden" name="city">
+					    <div class="default text _city_">New Delhi</div>
+					    <i class="angle down icon"></i>
+					    <div class="menu">
+					      <div class="ui icon search input">
+					        <i class="search icon"></i>
+					        <input type="text" name="search" placeholder="Search city...">
+					      </div>
+					      <div class="divider"></div>
+					      <div class="header">
+					        <i class="tags icon"></i>
+					       Select City
+					      </div>
+					      <% include ../partials/city.html.ejs %>
+					  </div>
 					</div>
+
 					<div class="ui dropdown field">
 						<input type="hidden" name="action">
 					  <div class="text">Type</div>
