@@ -130,7 +130,7 @@
 	  	<!-- For mobile screens -->
 
 	  		<div class="ui menu rib-head tablet mobile only grid" style="border:0 !important;">
-			    <h2 class="ui header item _hide_">Showing results for
+			    <h2 class="ui header item">Showing results for
 					<!--ko text: filters.displayName--><!--/ko-->   		
 				</h2>	   
 			    <a class="right menu" style="padding:.5rem 0;">
@@ -249,13 +249,13 @@
 
 	  	<div class="_filters_ _hide_">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''"><!--ko text: filters.bhk--><!--/ko-->
-    			<!--ko if: filters.bhk() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i><!--/ko-->
+    			BHK:<!--ko if: filters.bhk() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i><!--/ko-->
 			</span>	    		
     		<span class="ui teal label" data-bind="visible:filters.type() != ''"><!--ko text: filters.type--><!--/ko-->
     			<!--ko if: filters.type() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('type')} }" class="remove icon"></i><!--/ko-->
 			</span>				
 			<span class="ui teal label" data-bind="visible:filters.status() != ''"><!--ko text: filters.status--><!--/ko-->
-    			<!--ko if: filters.status() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i><!--/ko-->
+    			Status:<!--ko if: filters.status() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i><!--/ko-->
 			</span>   	
 
 			<span class="ui teal label" data-bind="visible:filters.name() != ''"><!--ko text: filters.name--><!--/ko-->
@@ -264,7 +264,7 @@
 	  	</div>
 
 	    <!-- Project Listing goes here -->
-	    <div class="_hide_" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
+	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);width:92%">
 	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
 	    </div>
