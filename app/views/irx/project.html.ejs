@@ -130,7 +130,7 @@
 	  	<!-- For mobile screens -->
 
 	  		<div class="ui menu rib-head tablet mobile only grid" style="border:0 !important;">
-			    <h2 class="ui header item">Showing results for
+			    <h2 class="ui header item _hide_">Showing results for
 					<!--ko text: filters.displayName--><!--/ko-->   		
 				</h2>	   
 			    <a class="right menu" style="padding:.5rem 0;">
@@ -276,11 +276,11 @@
 			    </div>
 			    <div class="content">
 
-			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-			      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
+			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name"></div></a>
+			      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);"></a>
 
 			      <div class="content addr-ess">
-	    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+	    			<i class="map marker icon"></i><span data-bind="text : location.city"> </span>
 	    		  </div>
 			      <div class="description">
 			        Projects : 
@@ -335,14 +335,14 @@
 			    </div>
 			</div>    
 		</div>
-	    <div class="ui relaxed divided items" data-bind="foreach : projects" style="margin:1rem 0;">
+	    <div class="ui relaxed divided items _hide_" data-bind="foreach : projects" style="margin:1rem 0;">
 
 	    	
 	    	<div class="ui items proj-listing column"><!-- 
   				<a class="ui green ribbon label">Distress</a> -->
 				<div class="four column row">
 					<div class="left floated column">
-						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name">12 Years a Slave</h3></a>
+						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name"></h3></a>
 						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
 					</div>					
 					<div class="right floated column menu">						
