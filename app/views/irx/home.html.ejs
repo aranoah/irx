@@ -348,7 +348,7 @@
   		</div>
 
   		<!-- How it works ends here -->
-
+<div id="autoDiv"></div>
  <script type="text/javascript">
 	function Home(){
 		this.type={
@@ -385,11 +385,12 @@
 	                var _self = this;
 	                
 	                if(_classInstance.viewModel.searchType()=='project'){
-	                	var data={"text":request.term,"city":_classInstance.viewModel.city()}
+	                	//var data={"text":request.term,"city":_classInstance.viewModel.city()}
+	                	var data={"text":request.term,"city":"bangalore"}
 	                  _classInstance.projectAutocomplete(data,request,response)
 	                
 	                } else if(_classInstance.viewModel.searchType()=='agent'){
-	                	var data={"text":request.term,"city":_classInstance.viewModel.city()}
+	                	var data={"text":request.term,"city":"bangalore"}
 	                  _classInstance.agentAutocomplete(data,request,response)
 	                
 	                }
@@ -397,7 +398,7 @@
 	              minLength: 2,
 	              dataType: "json",
 	              cache: false,
-	             // appendTo:'#autoDivHome',
+	              appendTo:'#autoDiv',
 	              select: function( event, ui ) {
 	                  $('#__searchHome').val(ui.item.name)
 	                   //_classInstance.viewModel.name(ui.item.name);

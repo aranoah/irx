@@ -17,8 +17,9 @@
           <div class="item">Select</div>
           <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
           <div class="menu">
-            <a class="item _link" href="/project-listing">PROJECTS</a>
-            <a class="item _link" href="/agent-listing">AGENTS</a>
+            <a class="item _link" href="/project-listing">Projects</a>
+            <a class="item _link" href="/agent-listing">Agents</a>
+            <a class="item _link" href="">Locations</a>
           </div>
         </div>       
         <div class="right menu">
@@ -36,10 +37,10 @@
               <input id="__sess_irxId" value="<%= locals.session.user.name %>" type="hidden">
             </div>
             <% }%>
-            <% if(!locals.session.user){%>
+            <% if(!locals.session.user){ %>
                  <a class="item log-in"><i class="user icon"></i></a>
-               <% }%>
-          <a class="item"><i class="content icon toggle button"></i></a>
+            <% }%>
+            <a class="item"><i class="content icon toggle button"></i></a>
         </div>
       </div>
 
