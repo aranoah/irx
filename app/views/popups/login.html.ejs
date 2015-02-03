@@ -15,7 +15,7 @@
       <div class="ui small" data-bind="click:function(){openTab('register');return false;},css: { active: tabID() =='register' }"><i class="sign in big icon"></i><br/><br/>Register</div>
     </div>
     <div id="login-box" class="content" data-bind="visible: tabID()=='login'">
-    <form >
+    <form action="javascript: common.login()">
       <div class="ui form" style="padding:0;">
         <h4 class="ui dividing header">Login to your account</h4>
         <div class="two fields">
@@ -35,7 +35,7 @@
       </div>
   
       <label>Forgot password?</label>
-      <div class="action-button"><div class="ui submit" data-bind="click: login">login</div></div>  
+      <div class="action-button"><div class="ui submit button" data-bind="click: login">login</div></div>  
       </form>
       <div class="ui horizontal divider">Or</div>
     </div>
@@ -109,7 +109,7 @@
       <div class="ui small" data-bind="click:function(){openTab('register');return false;},css: { active: tabID() =='register' }"><i class="sign in big icon"></i><br/><br/>Register</div>
     </div>
     <div id="login-box" class="eight wide column" data-bind="visible: tabID()=='login'">
-       <form action="javascript:callme2(this)    "> 
+       <form action="javascript:common.login()   "> 
       <div class="ui form">
         
         <h4 class="ui dividing header">Login to your account</h4>
@@ -129,7 +129,7 @@
         </div>
       </div>
       <label>Forgot password?</label>
-      <div class="action-button"><div class="ui " onclick="callme(this)">login</div></div>
+      <div class="submitAction"><div class="ui " onclick="validatRegister(this)">login</div></div>
     </form>
       <div class="ui vertical divider">Or</div>
     
@@ -203,11 +203,10 @@ function validatRegister(_this){
     },
     password: {
       identifier : 'password',
-      optional   : true,
       rules: [
         {
-          type   : 'email',
-          prompt : 'Please enter a valid second e-mail'
+          type   : 'empty',
+          prompt : 'Please enter a valid password'
         }
       ]
     },
@@ -217,62 +216,4 @@ function validatRegister(_this){
     
     
 </script>
-  <script>
-      
-  // Load the SDK asynchronously
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
- 	$(document).on('click','#fb-signin',function () {
-        callFB();
-	});
-      initfb();
-  function callFB(callback){
-     FB.login(function(response){
-             statusChangeCallback(response,callback);
-     },{scope: 'public_profile'});
-  }
-  function statusChangeCallback(response,callback) {
-    if (response.status === 'connected') {
-      openFbLogin(response.authResponse.userID,response.authResponse.accessToken,callback);
-    } else if (response.status === 'not_authorized') {
-     
-    } else {
-     
-    }
-}
-function initfb(){
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '346403242107412', // App ID
-        channelUrl : '//localhost:8080', // Channel File
-        cookie     : true,  // enable cookies to allow the server to access // the session
-        xfbml      : true,  // parse social plugins on this page
-        version    : 'v2.1' // use version 2.1
-      });
-     };
-
-}
- function openFbLogin(uid,accessToken,callback) {
-    FB.api('/me', function(response) {
-    //  loginToServer("facebook",response.id,response.name,uid,accessToken,callback);
-        var classInstance = this;
-	    httpUtils.post("/login",
-		{userId:response.id,password:accessToken},
-		 { 'authorization': 'FB' },"JSON",function(data){
-		if(data.status==0){
-            
-            ///reload or refresh....
-	            $('.close.icon').click();
-		}else {
-			/// error login with fb......
-		}
-	})
-        console.log(response);
-    });
-}    
- </script>
+ 

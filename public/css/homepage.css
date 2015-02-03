@@ -29,9 +29,11 @@
 }
 
 #homescreen .ui.form .field {
-	margin-right: 4rem;
+	text-align: justify;
+	margin: 1.5rem 4rem;
 }
-#homescreen .field label {
+}
+label {
 	color: #fff !important;
 	font-size: 1.2rem;
 	text-transform: uppercase;

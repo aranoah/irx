@@ -660,7 +660,7 @@ p >.mail.icon{
   ._cmpnyName,._locProj{
     float: left;width: 100%;
   }
-  #home .menu .right.menu > .item, #searchbar > .search-menu {
+  /*#home .menu .right.menu > .item, #searchbar > .search-menu {
 
     display: none;
   }
