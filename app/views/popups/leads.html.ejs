@@ -2,6 +2,7 @@
 <script type="text/javascript" src="/js/common/http.js"></script>
 
 <div id="leads" class="ui modal pop-up sell-post">  
+<form id="_leadForm_" class="ui form" action="javascript: common.captureLeadsProject('_leadForm_')">
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Leads Capturing</h2>
@@ -14,6 +15,7 @@
 
         <div class="ui inverted menu contact">
           <h4 class="ui dividing header">Contact Information :</h4>
+          
           <div class="ui form">
               <h5 for="user">you are a:</h5>
               <div class="field">
@@ -29,21 +31,27 @@
                 </div>
               </div>
           </div>      
+          
           <div class="item field">
-            <input type="text" name="name" placeholder="Name">
+            <input type="text" name="name"  placeholder="Name">
           </div>
+          
           <div class="item field">
             <input type="text" name="emailId" placeholder="Email">
           </div>            
+          
           <div class="item field">
             <input type="text" name="mobileNo" placeholder="Mobile">
           </div>
+        
         </div>
+        
          <input name="projectId" id="_projectIdP_" type="hidden" value="" placeholder="Mobile">
+        
         <div class="three column row">
           <div class="right floated column">
           <input type="submit" style="height:0;width:0;display:none;outline:0" id="_clickable_">
-            <div class="ui submit button " id="_leadP_">Submit</div>
+            <div class="ui submitAction"  onClick="common.validateLead(this)">Submit</div>
           </div>
           <div class="left floated column">
             <div class="ui checkbox _createLoginP_">
@@ -55,5 +63,6 @@
 
     <!-- Ends here -->  
   </div>
+  </form>
 </div>
 

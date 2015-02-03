@@ -88,7 +88,7 @@ Common.prototype.init = function(first_argument) {
      $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
             source: function(request, response){
-              alert(1)
+              
                 var _self = this;
                var data={
                   "text":request.term,
@@ -148,7 +148,7 @@ Common.prototype.init = function(first_argument) {
                 var _self = this;
                   var data={
                   "text":request.term,
-                  "city":classInstance.postReqLeads.data.city()
+                  "city":classInstance.viewModelPost.data.city()
                 }
                   sBar.projectAutocomplete(data,request,response)
                 
@@ -195,6 +195,59 @@ Common.prototype.login = function() {
 		}
 	})
 };		 
+Common.prototype.validateLead = function(_button) {
+     $(_button).parents('form').form({
+      emailId: {
+        identifier : 'emailId',
+        rules: [
+          {
+            type   : 'email',
+            prompt : 'Please enter a valid e-mail'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Please enter e-mail'
+          }
+        ]
+      }, 
+      name: {
+        identifier : 'name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your name'
+          }
+        ]
+      },
+      projectId: {
+        identifier : 'projectId',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please select a project'
+          }
+        ]
+      },
+      mobileNo: {
+        identifier : 'mobileNo',
+        rules: [
+          {
+            type   : 'maxLength[10]',
+            prompt : 'Please enter a valid mobile number'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Please enter a mobile number'
+          },
+          {
+            type   : 'integer',
+            prompt : 'Please enter a valid mobile number'
+          }
+        ]
+      }
+    });
+ $(_button).parents('form').submit();
+}
 Common.prototype.validateForm = function(_button) {
      
      $(_button).parents('form').form({
@@ -280,7 +333,32 @@ Common.prototype.register = function() {
   })
 };  
 
+Common.prototype.captureLeadsProject = function(form) {
 
+var name = $("#"+form).find('input[name="name"]').val()
+var emailId = $("#"+form).find('input[name="emailId"]').val()
+var mobileNo = $("#"+form).find('input[name="mobileNo"]').val()
+var projectId = $("#"+form).find('#_projectIdP_').val()
+var type = "user"
+var data = {
+  "name":name,
+  "emailId":emailId,
+  "mobileNo":mobileNo,
+  "projectId":projectId,
+  "type":type
+}
+console.log(data)
+  httpUtils.post("/capture-lead",
+    data,
+     { },"JSON",function(data){
+    if(data.status==0){
+      alert(1)
+        //$('.close.icon').click();
+    }else {
+      
+    }
+  })
+}
 
 Common.prototype.captureLeads = function(type) {
 
@@ -293,7 +371,6 @@ Common.prototype.captureLeads = function(type) {
 	} else if(type == classInstance.sellPostLeads){
 		viewModel = classInstance.viewModelSell;
 	} else {
-  //  console.log("123456",classInstance.aPostReqViewModel)
     viewModel = classInstance.aPostReqViewModel;
     var agentId = viewModel.data.agentId();
     if(agentId && agentId.length >0){

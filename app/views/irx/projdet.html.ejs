@@ -13,6 +13,8 @@
 	#desktop-projDet .ui.images .image, #desktop-projDet .ui.images img {
 		width: 120px !important;
 	}
+
+	
 </style>
 <body>
   <% include ../partials/header.html.ejs %>
@@ -558,6 +560,7 @@
 	       	} 
     	})
 	}
+
 	Project.prototype.requestDetails = function(projectId) {
 		httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
        		if(data.status==0){
@@ -567,12 +570,14 @@
          	}
         });
       };
+
       Project.prototype.enquireNow = function(projectId) {
       	 $('#leads').modal({
 		      closable:false
 		    }).modal('show');
       	 $("#_projectIdP_").val(projectId);
       };
+
       Project.prototype.getPriceText = function(amount) {
 		
 	    var text = "";
