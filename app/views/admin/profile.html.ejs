@@ -678,7 +678,10 @@
 
     httpUtils.get("/last-visited",{},"JSON",function(data){
        if(data.status==0){
-        ko.utils.arrayPushAll(classInstance.viewModel.lastVisited,data.result)
+        if(data.result != null){
+          ko.utils.arrayPushAll(classInstance.viewModel.lastVisited,data.result)
+        }
+        
        // classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
       
        } 
