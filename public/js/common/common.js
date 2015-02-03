@@ -347,7 +347,6 @@ var data = {
   "projectId":projectId,
   "type":type
 }
-console.log(data)
   httpUtils.post("/capture-lead",
     data,
      { },"JSON",function(data){
@@ -362,7 +361,6 @@ console.log(data)
 
 Common.prototype.captureLeads = function(type) {
 
-   alert(1)
 	var classInstance = this;
 	var viewModel = null;
 	

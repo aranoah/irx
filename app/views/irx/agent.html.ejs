@@ -8,6 +8,9 @@
   	width: 500px; 
   	overflow: scroll;
   }*/
+  ._hide_ {
+		display:none;
+	}
   </style>
 </head>
 <% locals.uiContext.menu=true %>
@@ -50,8 +53,9 @@
 		   <% } %>
 	  	<!-- ends here -->
 
+
 	  	<% if(locals.req.device.type == 'desktop'){ %>
-	  	<div class="ui grid two column rib-head computer only">
+	  	<div class="ui grid two column rib-head">
 			<h2 class="ui header column" style="margin-top:1em">AGENTS</h2>	  		
     		<!--<h2 class="ui header "> Showing results -->  <!-- for
 
@@ -74,7 +78,7 @@
 		    	<span class="ui teal label"><%= requestObj.name?requestObj.name:'' %> <i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
 		  	</div>
 		  	<% }%>
-	    <div class="ui cards" data-bind="foreach : agents">
+	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
 		  <div class="card">
 		    <div class="ui image tiny">
@@ -82,11 +86,11 @@
 		    </div>
 		    <div class="content">
 
-		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-		      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
+		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name"></div></a>
+		      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);"></a>
 
 		      <div class="content addr-ess">
-    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+    			<i class="map marker icon"></i><span data-bind="text : location.city"></span>
     		  </div>
 		      <div class="description">
 		        Projects : 
@@ -377,7 +381,7 @@
 	  
 	    agent = new Agent();
 	    agent.init();
-	    
+	    $('._hide_').show();
 	  })
 	</script>
   <% include ../partials/footer.html.ejs %>

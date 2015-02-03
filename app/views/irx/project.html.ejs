@@ -261,13 +261,13 @@
 	  	<% } %>
 	  	<div class="_filters_ _hide_">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''"><!--ko text: filters.bhk--><!--/ko-->
-    			<!--ko if: filters.bhk() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i><!--/ko-->
+    			BHK:<!--ko if: filters.bhk() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i><!--/ko-->
 			</span>	    		
     		<span class="ui teal label" data-bind="visible:filters.type() != ''"><!--ko text: filters.type--><!--/ko-->
     			<!--ko if: filters.type() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('type')} }" class="remove icon"></i><!--/ko-->
 			</span>				
 			<span class="ui teal label" data-bind="visible:filters.status() != ''"><!--ko text: filters.status--><!--/ko-->
-    			<!--ko if: filters.status() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i><!--/ko-->
+    			Status:<!--ko if: filters.status() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('status')} }" class="remove icon"></i><!--/ko-->
 			</span>   	
 
 			<span class="ui teal label" data-bind="visible:filters.name() != ''"><!--ko text: filters.name--><!--/ko-->
@@ -276,7 +276,7 @@
 	  	</div>
 
 	    <!-- Project Listing goes here -->
-	    <div class="_hide_" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
+	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);width:92%">
 	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
 	    </div>
@@ -288,11 +288,11 @@
 			    </div>
 			    <div class="content">
 
-			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name">Elliot Fu</div></a>
-			      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);">IRX India</a>
+			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name"></div></a>
+			      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);"></a>
 
 			      <div class="content addr-ess">
-	    			<i class="map marker icon"></i><span data-bind="text : location.city"> Sector 22B,Gurgaon</span>
+	    			<i class="map marker icon"></i><span data-bind="text : location.city"> </span>
 	    		  </div>
 			      <div class="description">
 			        Projects : 
@@ -347,14 +347,14 @@
 			    </div>
 			</div>    
 		</div>
-	    <div class="ui relaxed divided items" data-bind="foreach : projects" style="margin:1rem 0;">
+	    <div class="ui relaxed divided items _hide_" data-bind="foreach : projects" style="margin:1rem 0;">
 
 	    	
 	    	<div class="ui items proj-listing column"><!-- 
   				<a class="ui green ribbon label">Distress</a> -->
 				<div class="four column row">
 					<div class="left floated column">
-						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name">12 Years a Slave</h3></a>
+						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name"></h3></a>
 						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
 					</div>					
 					<div class="right floated column menu">						

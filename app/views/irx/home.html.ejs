@@ -378,6 +378,10 @@
 	        
 	  		}
 	  	}
+	     $('#'+_classInstance.parent).on('click','._sType_',function(){
+	     	var _self = $(this)
+	     	_classInstance.viewModel.searchType(_self.attr('data-attr'))
+	     })
 	     $('#'+_classInstance.parent).find("#__searchHome").autocomplete({
 	           
 	            source: function(request, response){
@@ -400,7 +404,8 @@
 	              cache: false,
 	              appendTo:'#autoDiv',
 	              select: function( event, ui ) {
-	                  $('#__searchHome').val(ui.item.name)
+	              	var textName = _classInstance.removeHtml(ui.item.name)
+	                  $('#__searchHome').val(textName)
 	                   //_classInstance.viewModel.name(ui.item.name);
 	                   if(_classInstance.viewModel.searchType()=='agent'){
 	                    if(_classInstance.type[ui.item.type]=='project'){
@@ -528,6 +533,14 @@
 		home.init();
 	
 	})
+	Home.prototype.removeHtml = function(name) {
+    if(name){
+       return name.replace(/<(?:.|\n)*?>/gm, '');
+    } else{
+      return "";
+    }
+                     
+};
  </script>
   <% include ../partials/footer.html.ejs %>
 </body>

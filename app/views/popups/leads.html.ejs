@@ -31,18 +31,39 @@
                 </div>
               </div>
           </div>      
-          
+          <% if(locals.session.user) {%>
           <div class="item field">
-            <input type="text" name="name"  placeholder="Name">
+          
+            <input name="name" value="<%= locals.session.user.name %>" type="text">
           </div>
           
           <div class="item field">
-            <input type="text" name="emailId" placeholder="Email">
+          
+            <input name="emailId" value="<%= locals.session.user.userId %>" type="text">
           </div>            
           
           <div class="item field">
-            <input type="text" name="mobileNo" placeholder="Mobile">
+          
+            <input name="mobileNo" value="" type="text">
           </div>
+          <% }%>
+          
+          <% if(!locals.session.user){%>
+             <div class="item field">
+          
+            <input name="name" value="" type="text">
+          </div>
+          
+          <div class="item field">
+          
+            <input name="emailId" value="" type="text">
+          </div>            
+          
+          <div class="item field">
+          
+            <input name="mobileNo" value="" type="text">
+          </div>
+           <% }%>
         
         </div>
         
