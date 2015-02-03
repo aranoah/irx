@@ -12,6 +12,7 @@
   SearchBar.prototype.getViewModel = function(){
     var _classInstance = this;
     var viewModel = {
+    
       name : ko.observable(""),
       bhk : ko.observable(""),
       order : ko.observable("asc"),

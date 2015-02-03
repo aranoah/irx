@@ -22,13 +22,14 @@
   <!-- Proj Detailing starts here -->
 <div id="__proDet__">
   	<!-- For mobile screens -->
+  		<% if(locals.req.device.type != 'desktop'){ %>
 
-  		<div id="mobile-projDet" class="ui relaxed stackable grid mobile tablet only">
+  		<div id="mobile-projDet" class="ui relaxed stackable grid">
 
 			
 			<div class="ui inverted segment head">
-				<h3 class="ui header _csn"><%= result.name %></h3>			
-				<h4 class="ui header _csn" style="color: #337EC8 !important;font-weight: normal;font-size: 1rem;margin:0;width:100%;">
+				<h3 class="ui header _csn"><%= result.name %></h3><br/>	
+				<h4 class="ui header _csn">
 					<i class="rupee icon"></i><%= result.price[0]/100000.0 %>L <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"L": '' %>
 				</h4>
 			</div>
@@ -92,11 +93,7 @@
 						<img class="ui tiny image" src="<%=result.gallery[glry]%>">
 					<%}
 				}%>
-			  <!-- <img class="ui tiny image" src="/images/square-image.png">
-			  <img class="ui tiny image" src="/images/square-image.png">
-			  <img class="ui tiny image" src="/images/square-image.png">
-			  <img class="ui tiny image" src="/images/square-image.png"> -->
-			</div><div class="content">
+			</div><div class="content" style="padding:2rem 1rem;">
 				<!-- tab goes here -->
 
 					<div class="ui top attached tabular menu">
@@ -104,37 +101,11 @@
 					  <a class="active item" data-tab="first">Floor Plan</a>
 					  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
 					</div>
-<!-- 					<div class="ui bottom attached tab segment" data-tab="first">
-						<div class="ui accordion">
-						    <div class="active title">
-						      <i class="dropdown icon"></i>
-						      What is a dog?
-						    </div>
-						    <div class="active content">
-						      <p>A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.</p>
-						    </div>
-						    <div class="title">
-						      <i class="dropdown icon"></i>
-						      What kinds of dogs are there?
-						    </div>
-						    <div class="content">
-						      <p>There are many breeds of dogs. Each breed varies in size and temperament. Owners often select a breed of dog that they find to be compatible with their own lifestyle and desires from a companion.</p>
-						    </div>
-						    <div class="title">
-						      <i class="dropdown icon"></i>
-						      How do you acquire a dog?
-						    </div>
-						    <div class="content">
-						      <p>Three common ways for a prospective owner to acquire a dog is from pet shops, private owners, or shelters.</p>
-						      <p>A pet shop may be the most convenient way to buy a dog. Buying a dog from a private owner allows you to assess the pedigree and upbringing of your dog before choosing to take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog who may not find one so readily.</p>
-						    </div>
-						  </div>
-					</div> -->
 					<div class="ui bottom active attached tab segment" data-tab="first">
 						<%=result.floorPlan%>
 						<% if(result.floorPlan!=null){
 						 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
-							<img class="ui medium image" src="<%=result.floorPlan[fp]%>">
+							<img class="ui small image" src="<%=result.floorPlan[fp]%>" style="padding:1rem;">
 						<%}
 						}%>
 					</div>
@@ -194,7 +165,7 @@
 
 				<div class="ui divided items" data-bind="foreach : agents">
 				  <div class="item">
-				    <div class="image">
+				    <div class="ui tiny image">
 				      <img src="/images/elliot.jpg">
 				    </div>
 				    <div class="content">
@@ -249,11 +220,13 @@
 				<!-- ends here -->
 			</div>
 		</div>
-
+	<% } %>
 
   	<!-- ends here -->
 
-	<div id="desktop-projDet" class="ui divided padded grid computer only">
+  	<% if(locals.req.device.type == 'desktop'){ %>
+
+	<div id="desktop-projDet" class="ui divided padded grid">
 
 		<div class="nine wide column">
 <!-- 			<div class="ui inverted segment head four column row">
@@ -263,16 +236,17 @@
 				</div>
 			</div> -->
 			<input id="_projectId" value="<%= projectId %>" type="hidden">
-			<div class="ui inverted title four column row" style="background:#fff;">
-				<div class="floated column _csn" style="width: 69%;">				
-					<h2 class="ui header" style="text-transform: capitalize;font-weight: normal;font-size:1.2rem;" style="#5F7BB8 !important"><%= result.name %></h2>
-					<h4 class="ui header" style="margin: .1rem 0;font-size: 90%;"><%= result.builderName %></h4>
+			<div class="ui inverted title grid" style="margin:0;padding:0 !important;">
+				<div class="eight wide column _csn">				
+					<h2 class="ui header"><%= result.name %></h2>
+					<h4 class="ui header"><%= result.builderName %></h4>
 				</div>
+
 				<div class="floated column _csn" style="vertical-align:top;text-align: right;min-width: 25%;">
 					<h2 style="color: #337EC8 !important;font-weight: normal;font-size: 1.4em;"><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
 				</div>
 			</div>
-			<table class="ui table" style="margin:0 0 1em;background:#FFF !important">
+			<table class="ui table" style="margin:0 0 1em;">
 			  <thead>
 			    <tr>
 			      <th>Built-up Area</th>
@@ -432,7 +406,7 @@
 			<%}	%>
 			<!-- <img class="ui medium rounded image" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= result.location.name %>+<%= result.location.city %>+<%= result.location.state%>+India&zoom=15&size=500x400&maptype=roadmap"> -->
 		</div>
-	</div>
+	</div> <% } %>
   <!-- Proj detailing ends here -->
 </div>
 <script type="text/javascript">

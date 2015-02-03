@@ -4,75 +4,10 @@
     #__searchAuto {
       padding-left:7.7rem !important;
       width:100% !important;
-    }
-    ._disabled_ {
-      opacity:0.3
-    }
-    .ui.default.dropdown>.text, .ui.dropdown>.default.text {
-      text-transform :capitalize;
-    }
-    .header>.min {
-      border:1px solid #eaeaea;
-    }
-    button.buttonClass {
-      border:0;
-      background:inherit;
-    }
-    
-    .ui.button {
-      cursor: pointer;
-      display: inline-block;
-      min-height: 1em;
-      outline: 0;
-      border: 1px solid #ddd;
-      vertical-align: baseline;
-      background-color: #FFFFFF;
-      color: rgba(0,0,0,.6);
-      font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
-      margin: 0 .25em 0 0;
-      padding: .8em 1.5em;
-      text-transform: none;
-      text-shadow: none;
-      font-weight: 700;
-      line-height: 1;
-      font-style: normal;
-      text-align: center;
-      text-decoration: none;
-      background-image: none;
-      border-radius: .2857rem;
-      box-shadow: 0 0 0 1px transparent inset,0 0 0 0 rgba(39,41,43,.15) inset;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
-      transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .ui.labeled.icon.dropdown.button.item {
-      padding:0 !important;
-    }
-
-    .ui.labeled.icon.dropdown.button.item>span.text {
-      cursor: pointer;
-      word-wrap: break-word;
-      white-space: normal;
-      outline: 0;
-      -webkit-transform: rotateZ(0deg);
-      transform: rotateZ(0deg);
-      min-width: 158px !important;
-      background: inherit !important;
-      display: inline-block;
-      padding: .8em 1.1em;
-      color: rgba(0,0,0,.7);
-      box-shadow: none;
-      border: 1px solid rgba(39,41,43,.15);
-      border-radius: .2857rem;
-      font-weight:normal;
-    }
-    .ui.labeled.icon.dropdown.button.item>span.text:hover {
-      background-color:#fbfbfb !important;
+    }    
+    .buttonClass.ui.button {
+      padding:.8em 1.1em !important;
+      font-size:1rem !important;
     }
     .ui.labeled.icon.dropdown.button.item>i{
       color: #444;
@@ -93,8 +28,7 @@
     ._searchInput_ .ui.dropdown.label {
       position:absolute;
       top:0;left:0;
-      padding-top: 0.7em;
-      padding-bottom: .8em;
+      padding:.71em .8em;
     }
   </style>
   <script type="text/javascript" src="/js/common/search.js"></script>
@@ -217,9 +151,9 @@
           <i class="angle down icon"></i>
           <div class="menu">
             <div class="header">
-              <input type="text" class="min" style="width:100px;text-align:center;" name="minPrice" placeholder="Min" data-bind="value:minPrice">
+              <input type="text" class="min" style="width:100px;text-align:center;border: 1px solid #ddd;" name="minPrice" placeholder="Min" data-bind="value:minPrice">
               <span >-</span>
-              <input type="text" class="min" style="width:100px;text-align:center;" name="maxPrice" placeholder="Max" data-bind="value:maxPrice"><br>      
+              <input type="text" class="min" style="width:100px;text-align:center;border: 1px solid #ddd;" name="maxPrice" placeholder="Max" data-bind="value:maxPrice"><br>      
             </div>
             <div class="divider"></div>
             <div class="minCostLeft __visible" style="text-align:left;max-width:150px;overflow:hidden;">
@@ -258,8 +192,8 @@
       </div>
 
       <div class="item">
-        <button class="buttonClass" type="submit">
-          <div class="ui button"><i class="search icon"></i>search</div>
+        <button class="buttonClass ui button" type="submit">
+          <i class="search icon"></i>search
         </button>
       </div>
 
