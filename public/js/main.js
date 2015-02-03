@@ -19,6 +19,11 @@ $(document).ready(function () {
 
   // ends here
 
+  $('#search-toggle').on('click',function() {
+    
+    $('#searchbar>.smenu-hide').slideToggle();
+  });
+
 	$('.middleBox>div').mouseenter(function() {
 		var _self = $(this);
 

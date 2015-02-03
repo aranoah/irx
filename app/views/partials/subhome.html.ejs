@@ -6,12 +6,12 @@
 	.column.tablet.mobile.only .ui.form>.field>.ui.radio.checkbox>label {
 		width:150px !important;
 	}
-	.menu.abx{
+	/*.menu.abx{
 		width: 8.1rem;
 		margin-left: -2.9rem !important;
 		background:rgba(121, 121, 121, 0.51) !important;
 		text-align: center !important;
-	}
+	}*?
 	.drop{
 	    width: 7.5rem;
 		margin-left: -2.5rem !important;
@@ -40,7 +40,7 @@
 
 		<!-- For mobile screens -->
 		<% if(locals.req.device.type != 'desktop'){ %>
-			<div id="irx-mobile" class="column">
+			<div id="irx-mobile" class="ui column stackable">
 		        <div class="ui transition information visible">
 			        <form data-bind="submit: searchFun" >
 				        <div class="ui form _radiogroup_">

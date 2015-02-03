@@ -32,12 +32,12 @@
 	text-align: justify;
 	margin: 1.5rem 4rem;
 }
-}
-label {
+
+.ui.radio.checkbox._main_>label {
 	color: #fff !important;
 	font-size: 1.2rem;
 	text-transform: uppercase;
-	font-weight: 300;
+	font-weight: 400;
 }
 
 #search-box {
@@ -225,7 +225,7 @@ label {
 *******************/
 
 #agentContent,#projectContent {
-	padding: 6rem 0 !important;
+	padding: 8rem 0 !important;
 }
 
 .ui.grid.two.column.rib-head{
@@ -284,11 +284,15 @@ label {
 	font-size: .9em;
 } 
 
-#agentContent .ui.cards {
-	margin: 2rem -.5rem;
+#agentContent>#irx-desktop .ui.cards {
+	margin: 2rem;
 }
 
-#agentContent .ui.cards>.card ,#projectContent .ui.cards>.card{
+#agentContent>#irx-mobile .ui.cards {
+	margin: 2rem 0 0;
+}
+
+#agentContent>#irx-desktop .ui.cards>.card ,#projectContent .ui.cards>.card{
 	width: 32.8rem;
 }
 
@@ -429,7 +433,7 @@ label {
 .proj-listing h3.ui.header {
 	padding-right: 1.5rem;
 	border-right: 2px solid #eaeaea;
-	color: #A92C16;
+	color: #607d8b;
 	font-size: 1.3em;
 	font-weight: 400;
 	text-transform: capitalize;
@@ -521,7 +525,7 @@ label {
 .proj-listing ._actButtons>.ui.basic.button {
 	border: 0 !important;
 	border-radius: 0 !important;
-	
+	box-shadow: none !important;
 	background-color: #f4f4f4 !important;
 	color: #607d8b !important;
 	transition: all ease .2s;

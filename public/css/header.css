@@ -692,4 +692,8 @@ p >.mail.icon{
     padding-left: 0;
   }
 
+  .pop-up.ui.modal {
+    width: auto !important;
+  }
+
 

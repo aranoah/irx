@@ -114,6 +114,10 @@
 		display: none;
 	}
 
+	.ui.menu .item:before {
+		background: linear-gradient(rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0) 50%,rgba(0, 0, 0, 0) 100%);
+	}
+
   </style>
   
 </head>
@@ -125,11 +129,18 @@
 
 <div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
-	  <div class="twelve wide column">
+  		<% if(locals.req.device.type == 'desktop'){ %>
+  			<div class="twelve wide column">
+	  	<% } %>
+	  
 	  	
+	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+	  		<div class="fourteen wide column">
+	  	<% } %> 
 	  	<!-- For mobile screens -->
 
-	  		<div class="ui menu rib-head tablet mobile only grid" style="border:0 !important;">
+	  		<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+	  		<div class="ui menu rib-head" style="border:0 !important;">
 			    <h2 class="ui header item">Showing results for
 					<!--ko text: filters.displayName--><!--/ko-->   		
 				</h2>	   
@@ -139,7 +150,7 @@
 			    </a>
 			</div>
 			 
-			<div class="mobileFilter ui menu tablet mobile only grid" style="display:none;">
+			<div class="mobileFilter ui menu" style="display:none;">
 				<div class="item">
 				  <div class="ui right labeled icon dropdown button">
 				    <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
@@ -194,10 +205,11 @@
 					<div style="position:relative;right:0;color:#337ec8">Show agents</div>
 				</a>
 			</div>
-			 
+		<% } %>
 	  	<!-- ends here -->
 	  	
-	  	<div class="ui menu rib-head computer only grid">
+	  	<% if(locals.req.device.type == 'desktop'){ %>
+	  	<div class="ui menu rib-head">
 	        <h2 class="ui header item">PROJECTS</h2>
 	        <a class="right menu">
 		        <div class="item">
@@ -246,7 +258,7 @@
 		        </div>
 		    </a>
 	  	</div>
-
+	  	<% } %>
 	  	<div class="_filters_ _hide_">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''"><!--ko text: filters.bhk--><!--/ko-->
     			<!--ko if: filters.bhk() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i><!--/ko-->
@@ -380,8 +392,8 @@
 				    </a>
 
 				    <!-- For mobile screens -->
-
-						<div class="ui one column grid mobile tablet only">
+				    <% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+						<div class="ui one column grid">
 						  <div class="column">
 						    <table class="ui small table pj-items extra column">
 						      <tbody>
@@ -420,10 +432,11 @@
 		  					<% }  %>
 						  </div>
 						</div>
-
+						<% } %>
 	    			<!-- ends here -->
 
-				    <div class="ui two column grid computer only" style="margin-top:0">
+	    			<% if(!locals.req.device || locals.req.device.type == 'desktop'){ %>
+				    <div class="ui two column grid" style="margin-top:0">
 				    	<div class="fourteen wide column" style="padding:0;">
 				    		<table class="ui small table pj-items extra column">
 						      <tbody>
@@ -470,6 +483,7 @@
 					      </div>
 					    </div>
 				    </div>
+				    <% } %>
 				  </div>
 				</div>
 
