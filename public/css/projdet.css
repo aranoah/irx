@@ -113,8 +113,9 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 }
 
 .ui.inverted.title h2, .ui.inverted.xtra h3 {
-	color: #607d8b !important;
+	color: #A92C16!important;
 	font-size: 1.25rem;
+	font-weight: 500;
 }
 
 .ui.inverted.title h2, .ui.inverted.title h4 {
