@@ -22,8 +22,9 @@
   box-shadow: 0 0 0 #000;
 }
 .ui.grid.two.column.rib-head>.ui.header.column{
-  color: #737373;
+  color: #A92C16;
   font-weight: 400;
+  font-size: 1.1rem !important;
 }
 .column.item .meta >.header.projectName{
   color: #868686;
