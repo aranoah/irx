@@ -670,6 +670,11 @@ p >.mail.icon{
   #home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
     display: block;
   }*/
+
+  #search-box {
+    width: auto !important;
+  }
+
   #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
     left: auto;
     right: 0em; 
@@ -704,10 +709,7 @@ p >.mail.icon{
  ._searchInput_>.ui.right.labeled.input>input {
    width: inherit !important;
  }
-
- #search-box {
-   width: 330px !important;
- }
+ 
  #homescreen .ui.form .field {
    margin-right: 0 !important;
  }
@@ -768,7 +770,7 @@ p >.mail.icon{
  }
 
  #search-box {
-   width: 330px !important;
+   width: auto !important;
  }
  #homescreen .ui.form .field {
    margin-right: 0 !important;
