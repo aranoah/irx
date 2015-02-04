@@ -14,10 +14,12 @@
 		width: 120px !important;
 	}
     .ui.blue.button.req-details{
-        border: 1px solid rgba(179, 86, 86, 0.65);
+        border: 1px solid#337EC8 !important;
+        color: #337EC8 !important;
     }
     .ui.blue.button.leads-in{
-    	border: 1px solid rgba(179, 86, 86, 0.65);
+    	border: 1px solid#337EC8 !important;
+        color: #337EC8 !important;
     }
 	
 </style>
@@ -248,7 +250,7 @@
 				</div>
 
 				<div class="floated column _csn" style="vertical-align:top;text-align: right;min-width: 25%;">
-					<h2 style="color: #337EC8 !important;font-weight: normal;font-size: 1.4em;"><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
+					<h2 style="color: #337EC8 !important;font-weight: normal;font-size: 1.4em;width:22rem;"><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
 				</div>
 			</div>
 			<table class="ui table" style="margin:0 0 1em;background:#fff !important;">
