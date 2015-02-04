@@ -92,6 +92,7 @@ ProjectListingService.prototype.listProjects = function(data){
 ProjectListingService.prototype.listProjectsElastic = function(data) {  
   var _selfInstance = this;
   //var text = this.req.params.text;
+
   var query = new Array();
 	var filters = data.filters;
 	var page = data.page;
@@ -118,6 +119,17 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		}
 		query.push(match);
 	}
+	// console.log("In Service...",filters.productType)
+	if(filters && filters.productType != null &&  filters.productType != "") {
+		console.log("qwertyuiop",filters.productType)
+		// var match = {
+		// 	"match":{
+		// 		"productType":filters.productType
+		// 	}
+		// }
+		query.push(match);
+	}
+	
 	if(filters && filters.status != null &&  filters.status != "") {
 		var match = {
 			"match":{
