@@ -13,7 +13,12 @@
 	#desktop-projDet .ui.images .image, #desktop-projDet .ui.images img {
 		width: 120px !important;
 	}
-
+    .ui.blue.button.req-details{
+        border: 1px solid rgba(179, 86, 86, 0.65);
+    }
+    .ui.blue.button.leads-in{
+    	border: 1px solid rgba(179, 86, 86, 0.65);
+    }
 	
 </style>
 <body>
@@ -236,7 +241,7 @@
 				</div>
 			</div> -->
 			<input id="_projectId" value="<%= projectId %>" type="hidden">
-			<div class="ui inverted title grid" style="margin:0;padding:0 !important;">
+			<div class="ui inverted title grid" style="margin:0;padding:0 !important;background: #fff !important;">
 				<div class="eight wide column _csn">				
 					<h2 class="ui header"><%= result.name %></h2>
 					<h4 class="ui header"><%= result.builderName %></h4>
@@ -246,7 +251,7 @@
 					<h2 style="color: #337EC8 !important;font-weight: normal;font-size: 1.4em;"><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
 				</div>
 			</div>
-			<table class="ui table" style="margin:0 0 1em;">
+			<table class="ui table" style="margin:0 0 1em;background:#fff !important;">
 			  <thead>
 			    <tr>
 			      <th>Built-up Area</th>
