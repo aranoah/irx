@@ -16,6 +16,9 @@
       overflow: hidden !important;
       text-overflow: ellipsis !important;
    }
+   .ui.grid.two.column.rib-head{
+    background: rgba(224, 224, 224, 0.49);
+   }
   </style>
 </head>
 <body>  
@@ -115,10 +118,10 @@
           <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: locations">
             <div class="ui divided items column">
               <div class="meta loc-item">
-                <h4 class="header projectName" data-bind="text: name">mgf city center</h4>
+                <h4 class="header projectName" ><i class="marker icon"></i><!--ko text:name--><!--/ko --></h4>
                 <p class="cinema projectDetail" data-bind="text: location.city">Gurgaon,Haryana</p>
-                <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;">Agent</span></span>
-                <span class="header">Project</span>
+                <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;"><a class="item" href="/agent-listing">Agent</a></span></span>
+                <span class="header"style="color:#83AAB8;"><a class="item" href="/project-listing">Project</a></span>
               </div>
             </div>
           </div>
@@ -138,8 +141,7 @@
                   <div class="field">
                     <textarea placeholder="Write a Review here..." style="min-height: 2em; max-height: 6em; margin-top:-0.7rem;font-weight:300;"></textarea>
                   </div>
-                  <div class="ui button reply">Add Reply</div>
-                </form>
+                  <div class="ui button reply">Add Reply</div>                </form>
                 <div class="item">
                 <img class="ui avatar image" src="images/property.jpg">
                 <div class="content">
