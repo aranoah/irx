@@ -172,7 +172,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	if(filters && filters.order && filters.order != null && filters.order!=""){
 		sortOrder=filters.order;
 	}
-	
+	console.log("jai ho !!",query)
     _app_context.esClient.search({
 	    index: 'irx_schema',
 	    type:"irx-eproduct",
