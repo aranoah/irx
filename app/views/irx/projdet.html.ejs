@@ -241,8 +241,9 @@
 					<h2 class="ui header"><%= result.name %></h2>
 					<h4 class="ui header"><%= result.builderName %></h4>
 				</div>
-				<div class="eight wide column _csn" style="text-align:right;">
-					<h2><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>L <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"L": '' %> </h2>
+
+				<div class="floated column _csn" style="vertical-align:top;text-align: right;min-width: 25%;">
+					<h2 style="color: #337EC8 !important;font-weight: normal;font-size: 1.4em;"><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
 				</div>
 			</div>
 			<table class="ui table" style="margin:0 0 1em;">

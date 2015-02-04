@@ -16,6 +16,7 @@
 	min-height: 380px;
 	margin-top: 4rem;
 	margin-bottom: 0 !important;
+	z-index: 10;
 }
 
 #homescreen.ui.inverted.masthead.segment>.ui.page.grid>.column {
@@ -44,7 +45,7 @@
 	padding: 0 !important;
 	background-color: rgba(0,0,0,0.3) !important;
 	box-shadow: 0 0 1px #fff !important;
-	width: 620px;
+	width: 680px;
 	margin: 0 auto;
 	border-radius: .3rem;
 	color: #868484;
@@ -88,35 +89,46 @@
 }
 
 
-#search-box input::-webkit-input-placeholder { /* WebKit browsers */
+#__searchHome::-webkit-input-placeholder { /* WebKit browsers */
 	color: rgba(255,255,255,0.5) !important;
 }
-#search-box input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+#__searchHome:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
 	color: rgba(255,255,255,0.5) !important;
 }
-#search-box input::-moz-placeholder { /* Mozilla Firefox 19+ */
+#__searchHome::-moz-placeholder{ /* Mozilla Firefox 19+ */
 	color: rgba(255,255,255,0.5) !important;
 }
-#search-box input:-ms-input-placeholder { /* Internet Explorer 10+ */
+#__searchHome:-ms-input-placeholder { /* Internet Explorer 10+ */
 	color: rgba(255,255,255,0.5) !important;
 }
 
 #search-box .inline.fields {
-	padding: 1.5em !important;
+	padding: 1.2em !important;
 	text-align: left;
 	font-weight: 300;
 	font-size: 1.3rem;
 	color: rgba(182, 182, 182, 0.82) !important;
 }
 
+#search-box .inline.fields>.field {
+	margin:0  .5rem;
+	color: #bbb !important;
+	font-weight: 400;
+	padding: .4em .6em;
+}
 #search-box .inline.fields>.field:not(:last-child) {
-	padding:0  2.5rem;
-	color: rgba(182, 182, 182, 0.82) !important;
-	font-weight: 300;
+	border-right: 1px solid rgba(255,255,255,.2);
 }
 /*#search-box .inline.fields>.ui.dropdown.field{
 	border-right: 1px solid #808080;
 }*/
+
+#search-box .text._city_ {
+	width: 80%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 
 #search-box .inline.fields>.field>a.link {
 	color: #fff;
@@ -386,7 +398,7 @@
 }
 
 .default.text {
-	color: #666 !important;
+	color: #bbb !important;
 }
 
 .header.ui.two.column.grid.right.menu .ui.selection.dropdown.item {
