@@ -16,6 +16,7 @@
 	min-height: 380px;
 	margin-top: 4rem;
 	margin-bottom: 0 !important;
+	z-index: 10;
 }
 
 #homescreen.ui.inverted.masthead.segment>.ui.page.grid>.column {
@@ -38,13 +39,15 @@
 	font-size: 1.2rem;
 	text-transform: uppercase;
 	font-weight: 400;
+	padding-left: 1.2em !important;
+	vertical-align: top;
 }
 
 #search-box {
 	padding: 0 !important;
 	background-color: rgba(0,0,0,0.3) !important;
 	box-shadow: 0 0 1px #fff !important;
-	width: 620px;
+	width: 685px;
 	margin: 0 auto;
 	border-radius: .3rem;
 	color: #868484;
@@ -88,16 +91,16 @@
 }
 
 
-#search-box input::-webkit-input-placeholder { /* WebKit browsers */
+.ui.icon.input._main_>input[name="name"]::-webkit-input-placeholder { /* WebKit browsers */
 	color: rgba(255,255,255,0.5) !important;
 }
-#search-box input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+.ui.icon.input._main_>input[name="name"]::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
 	color: rgba(255,255,255,0.5) !important;
 }
-#search-box input::-moz-placeholder { /* Mozilla Firefox 19+ */
+.ui.icon.input._main_>input[name="name"]::-moz-placeholder { /* Mozilla Firefox 19+ */
 	color: rgba(255,255,255,0.5) !important;
 }
-#search-box input:-ms-input-placeholder { /* Internet Explorer 10+ */
+.ui.icon.input._main_>input[name="name"]:-ms-input-placeholder { /* Internet Explorer 10+ */
 	color: rgba(255,255,255,0.5) !important;
 }
 
@@ -109,10 +112,20 @@
 	color: rgba(182, 182, 182, 0.82) !important;
 }
 
-#search-box .inline.fields>.field:not(:last-child) {
-	padding:0  2.5rem;
+#search-box .inline.fields>.field {
+	padding:0  2rem;
 	color: rgba(182, 182, 182, 0.82) !important;
 	font-weight: 300;
+	vertical-align: middle;
+}
+#search-box .inline.fields>.field:not(:last-child) {
+	border-right: 1px solid rgba(255,255,255,.2);
+}
+#search-box .inline.fields>.field:last-child {
+	padding-right: 0;
+}
+#search-box .inline.fields>.field i{
+	vertical-align: top;
 }
 /*#search-box .inline.fields>.ui.dropdown.field{
 	border-right: 1px solid #808080;
@@ -139,10 +152,11 @@
 
 #search-box .ui.dropdown .text {
 	font-size: 1.2rem;
+	font-weight: 400;
 }
 
-#search-box .ui.selection.dropdown ._city_ {
-	width: 65%;
+#search-box .ui.dropdown ._city_ {
+	width: 80%;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -386,7 +400,7 @@
 }
 
 .default.text {
-	color: #666 !important;
+	color: #aaa !important;
 }
 
 .header.ui.two.column.grid.right.menu .ui.selection.dropdown.item {

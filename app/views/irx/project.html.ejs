@@ -139,73 +139,7 @@
 	  	<% } %> 
 	  	<!-- For mobile screens -->
 
-	  		<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-	  		<div class="ui menu rib-head" style="border:0 !important;">
-			    <h2 class="ui header item">Showing results for
-					<!--ko text: filters.displayName--><!--/ko-->   		
-				</h2>	   
-			    <a class="right menu" style="padding:.5rem 0;">
-			    	<div id="mobFilter" class="ui teal label"><i style="margin-right: 0;" class="icon filter"></i></div>
-			    	<div id="HideFilter" class="ui teal label"><i style="margin-right: 0;" class="icon hide"></i></div>
-			    </a>
-			</div>
-			 
-			<div class="mobileFilter ui menu" style="display:none;">
-				<div class="item">
-				  <div class="ui right labeled icon dropdown button">
-				    <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
-				    <div class="default text">Property Type</div>
-				    <i class="angle down icon"></i>
-				    <div class="menu">
-				    <div class="item" data-value="apartments">Apartment</div>
-				    <div class="item" data-value="independent house">Independent House</div>
-				    <div class="item" data-value="villas">Villas</div>
-				    <div class="item" data-value="plot">Plot</div>
-				    <div class="item" data-value="row house">Row House</div>
-				    </div>
-				  </div>
-				</div>
-				<div class="item">
-				  <div class="ui right labeled icon dropdown button">
-				    <input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
-				    <div class="default text">Status</div>
-				    <i class="angle down icon"></i>
-				    <div class="menu">
-				      <div class="item" data-value="ongoing">ongoing</div>
-				      <div class="item" data-value="completed">completed</div>
-				      <div class="item" data-value="upcoming">upcoming</div>            
-				    </div>
-				  </div>
-				</div>
-				<div class="item">
-				  	<div class="ui right labeled icon dropdown button">
-					  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
-					  <div class="default text">Sort by relevance</div>
-					  <i class="sort right icon"></i>
-					  <div class="menu">
-					    <div class="item" data-value="asc">Newest</div>
-					    <div class="item" data-value="desc">Price : High to Low</div>
-					    <div class="item" data-value="asc">Price : Low to High</div>            
-					  </div>
-					</div>
-				</div>
-				<div class="item">
-				  <div class="ui checkbox _hasDistress_">
-				    <input type="checkbox" name="distress">
-				    <label>Show Distress</label>
-				  </div>
-				</div>
-				
-
-			</div>
-			
-			<div class="item tempBtn" style="float:right" data-bind="visible:filters.locationFlag()=='true'" >
-			
-				<a data-bind="attr:{href:'/agent-listing?projectId='+filters.projectId()+'&name='+filters.name()+'&isLocality=true'}">
-					<div style="position:relative;right:0;color:#337ec8">Show agents</div>
-				</a>
-			</div>
-		<% } %>
+	  		
 	  	<!-- ends here -->
 	  	
 	  	<% if(locals.req.device.type == 'desktop'){ %>
@@ -285,7 +219,7 @@
 
 	    <!-- Project Listing goes here -->
 	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
-             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);width:92%">
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
 	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
 	    </div>
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
@@ -398,50 +332,6 @@
 				          <!-- ko text:priceText --><!-- /ko -->
 				        <!-- /ko -->
 				    </a>
-
-				    <!-- For mobile screens -->
-				    <% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-						<div class="ui one column grid">
-						  <div class="column">
-						    <table class="ui small table pj-items extra column">
-						      <tbody>
-						        <tr>
-						          <td>Builder Name</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builderName--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Property Type</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Unit</td>
-						          <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
-						        </tr>
-						        <tr>
-						          <td>Possesion</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
-						        </tr> 
-						        <tr>
-						          <td>Area</td>
-						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: builtUpArea--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Status</td>
-						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: status--><!--/ko--></a></td>
-						        </tr>
-						      </tbody>
-						    </table> 
-						    <% if(locals.req.device.type != 'desktop'){ %>
-						    <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
-						    <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
-						    <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
-						    <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
-		  					<input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
-		  					<% }  %>
-						  </div>
-						</div>
-						<% } %>
-	    			<!-- ends here -->
 
 	    			<% if(!locals.req.device || locals.req.device.type == 'desktop'){ %>
 				    <div class="ui two column grid" style="margin-top:0">

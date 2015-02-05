@@ -23,7 +23,6 @@ module.exports = function(done) {
     case 'development':
    
       this.mongoose.connect('mongodb://localhost:27017/IRX');
-
     break;
    
     case 'production':

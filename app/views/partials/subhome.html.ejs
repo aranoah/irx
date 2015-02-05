@@ -143,11 +143,11 @@
 				</div>
 
 				<div class="inline fields">
-					<div class="ui dropdown field">
+					<div class="ui dropdown field" style="width:185px;padding-left:0 !important;">
 					    <input type="hidden" name="city">
 					    <div class="default text _city_">New Delhi</div>
 					    <i class="angle down icon"></i>
-					    <div class="menu">
+					    <div class="menu" style="max-height: 20em;overflow-y: scroll;">
 					      <div class="ui icon search input">
 					        <i class="search icon"></i>
 					        <input type="text" name="search" placeholder="Search city...">
@@ -161,7 +161,7 @@
 					  </div>
 					</div>
 
-					<div class="ui dropdown field">
+					<div class="ui dropdown field" style="min-width:141px;">
 						<input type="hidden" name="action">
 					  <div class="text">Type</div>
 					  <i class="angle down icon"></i>
@@ -182,16 +182,49 @@
 					    <div class="item" data-value="4">4bhk</div>
 					  </div>
 					</div>
-					<div class="ui dropdown field">
-					<input type="hidden" name="price">
-					  <div class="text">Budget</div>
-					  <i class="angle down icon"></i>
-					  <div class="menu range">
-					    <div class="item">10lac</div>
-					    <div class="item">10lac - 50lac</div>
-					    <div class="item">50lac</div>
-					  </div>
-					</div>
+
+					<div class="ui dropdown field __budget__">
+			          <div class="default text" id="_budget_">Budget Range</div>
+			          <i class="angle down icon"></i>
+			          <div class="menu">
+			            <div class="header">
+			              <input type="text" class="min" name="minPrice" placeholder="Min" data-bind="value:minPrice">
+			              <span >-</span>
+			              <input type="text" class="min" name="maxPrice" placeholder="Max" data-bind="value:maxPrice"><br>      
+			            </div>
+			            <div class="divider"></div>
+			            <div class="minCostLeft __visible">
+			              <div class="item">
+			                <span class="text"><!-- ko text:minPriceText --><!-- /ko --></span>-
+			                <span class="text"><!-- ko text:maxPriceText --><!-- /ko --></span>
+			              </div>
+			              <div class="item _budgetItem_">
+			                <input class="minP" type="hidden" value="0">
+			                <input class="maxP" type="hidden" value="500000">
+			                Less than 5Lac
+			              </div>
+			              <div class="item _budgetItem_">
+			                <input class="minP" type="hidden" value="500000">
+			                <input class="maxP" type="hidden" value="2500000">
+			                5Lac - 25Lac
+			              </div>
+			              <div class="item _budgetItem_">
+			                <input class="minP" type="hidden" value="2500000">
+			                <input class="maxP" type="hidden" value="5000000">
+			                25Lac - 50Lac
+			              </div>
+			              <div class="item _budgetItem_">
+			                <input class="minP" type="hidden" value="5000000">
+			                <input class="maxP" type="hidden" value="10000000">
+			                50Lac - 1cr
+			              </div>
+			              <div class="item _budgetItem_">
+			                <input class="minP" type="hidden" value="10000000">
+			                More than 1cr
+			              </div>
+			            </div>
+			          </div>
+			        </div>
 					
 				</div>
 	          </div>
