@@ -259,9 +259,10 @@
 	        <h2 class="ui header item">PROJECTS</h2>
 	        <a class="right menu">
 		        <div class="item">
-		          <div class="ui right labeled icon dropdown button">
+		          <div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
 		            <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
-		            <div class="default text">Property Type</div>
+		            <div class="default text" style="color: rgb(29, 29, 29) !important;
+  font-weight: 300;">Property Type</div>
 		            <i class="angle down icon"></i>
 		            <div class="menu">
 		            <div class="item" data-value="apartments">Apartment</div>
@@ -273,9 +274,10 @@
 		          </div>
 		        </div>
 		        <div class="item">
-		          <div class="ui right labeled icon dropdown button">
+		          <div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
 		            <input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
-		            <div class="default text">Status</div>
+		            <div class="default text" style="color: rgb(29, 29, 29) !important;
+  font-weight: 300;">Status</div>
 		            <i class="angle down icon"></i>
 		            <div class="menu">
 		              <div class="item" data-value="ongoing">ongoing</div>
@@ -285,9 +287,10 @@
 		          </div>
 		        </div>
 		        <div class="item">
-		          	<div class="ui right labeled icon dropdown button">
+		          	<div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
 					  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
-					  <div class="default text">Sort by relevance</div>
+					  <div class="default text" style="color: rgb(29, 29, 29) !important;
+  font-weight: 300;">Sort by relevance</div>
 					  <i class="sort right icon"></i>
 					  <div class="menu">
 					    <div class="item" data-value="asc">Newest</div>
@@ -483,6 +486,8 @@
 					      <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 					      <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
 		  					<input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
+		  					<input type="hidden" id="__minPrice" value="<%= requestObj.minPrice?requestObj.minPrice:'' %>">
+		  					<input type="hidden" id="__maxPrice" value="<%= requestObj.maxPrice?requestObj.maxPrice:'' %>">
 		  					<% } %>
 					  	</div>
 					    <div class="two wide column">
@@ -654,6 +659,14 @@
 		 if(typeof(projectIdFilter) == "undefined" || projectIdFilter == null ){
 		 	projectIdFilter = false;
 		 }
+		  var minP = $('#__minPrice').val()
+		 if(typeof(minP) == "undefined" || minP == null ){
+		 	minP = "";
+		 }
+		  var maxP = $('#__maxPrice').val()
+		 if(typeof(maxP) == "undefined" || maxP == null ){
+		 	maxP = "";
+		 }
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
@@ -666,7 +679,9 @@
 				distress:ko.observable(false),
 				status:ko.observable(""),
 			    locationFlag :ko.observable(locationFlag1),
-			    projectId:ko.observable(projectIdFilter)
+			    projectId:ko.observable(projectIdFilter),
+			    minPrice:ko.observable(minP),
+			    maxPrice:ko.observable(maxP)
 			},
 			addSome : function(){
 				

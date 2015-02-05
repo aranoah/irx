@@ -92,6 +92,7 @@ ProjectListingService.prototype.listProjects = function(data){
 ProjectListingService.prototype.listProjectsElastic = function(data) {  
   var _selfInstance = this;
   //var text = this.req.params.text;
+
   var query = new Array();
 	var filters = data.filters;
 	var page = data.page;
@@ -99,8 +100,10 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		page = defPage;
 		
 	}
+	console.log("qwertyuiop",filters)
 
 	if(filters && filters.city != null &&  filters.city != "") {
+		console.log("city",filters.city)
 		//query.push(location={city:filters.city};
 			var match = {
 			"match":{
@@ -111,6 +114,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		
 	}
 	if(filters && filters.type != null &&  filters.type != "") {
+		console.log("type",filters.type)
 		var match = {
 			"match":{
 				"type":filters.type
@@ -118,7 +122,19 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		}
 		query.push(match);
 	}
+	// console.log("In Service...",filters.productType)
+	if(filters && filters.productType != null &&  filters.productType != "") {
+		console.log("proType",filters.productType)
+		var match = {
+			"match":{
+				"productType":filters.productType
+			}
+		}
+		query.push(match);
+	}
+	
 	if(filters && filters.status != null &&  filters.status != "") {
+		console.log("status",filters.status)
 		var match = {
 			"match":{
 				"status":filters.status

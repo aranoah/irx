@@ -8,6 +8,11 @@
   <script type="text/javascript" src="/js/common/http.js"></script>
 
   <link rel="stylesheet" type="text/css" href="/css/admin-profile.css">
+  <style type="text/css">
+  ._hidden_ {
+    display: none
+  }
+  </style>
 </head>
 <body>  
   <% include ../partials/header.html.ejs %>
@@ -136,8 +141,9 @@
           <div class="admin-profile">
             <div class="ui top attached tabular menu">
               <a class="active item" data-tab="first"><i class="building outline icon"></i>products</a>
-              <a class="item" data-tab="second"><i class="user icon"></i>leads</a>
-              <a class="item" data-tab="third"><i class="history icon"></i>last visited</a>
+              <a class="item" data-tab="second"><i class="marker icon"></i>locations</a>
+              <a class="item" data-tab="third"><i class="user icon"></i>leads</a>
+              <a class="item" data-tab="fourth"><i class="history icon"></i>last visited</a>
               <a class="ui dropdown item right floated column">
                 <i class="settings icon"></i>settings
                 <div class="menu">
@@ -150,10 +156,56 @@
             <div class="ui bottom attached active tab segment" data-tab="first">
               <h3 class="ui heading">manage products</h3>
               <div class="ui stackable two column grid">
-                <div class="column left-portion">
+              <div class="column left-portion">
                   <div class="item">
                     <div class="right floated compact ui button">Add new</div>                    
-                    <div class="ui fluid popup">
+                    
+                    <div class="content">
+                      <h4 class="header">My Projects</h4>
+                    </div>
+                  </div>
+                  <!-- ko if: associatedProjects().length==0 -->
+                    <div class="ui info message">
+                      <ul class="list">
+                        <li>No projects associated to your profile currently.</li>
+                        <li>Click add new</li>
+                      </ul>
+                    </div>
+                   <!-- /ko -->
+                 <!-- ko foreach: associatedProjects -->
+                    <div class="ui items">
+                      <div class="item">
+                         <div class="content left floated">
+                          <a class="header" data-bind="text:name"></a>
+                          
+                          <div class="meta">
+                            <div class="time" data-bind="text:builderName"></div>
+                            <div class="category" data-bind="text:location.locality"></div>
+                          </div>
+                         </div>
+                         <div class="right floated content" data-bind="click:function () { $parent.removeProject($index,id)}">
+                           <i class="remove circle outline icon"></i>
+                         </div>
+                          <div class="right floated content" >
+                           <i class="plus icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i>
+                           <ul class="_dis_" data-bind="visible:$root.currContext()==id">
+                           <!-- ko foreach: $root.distress -->
+                             <li> <!--ko text:$data --><!-- /ko -->BHK :
+                              <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$root.distress.bhk">
+                              Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">
+                             
+                           <!-- /ko --></li>
+                           <div class="ui button _sDistress_" data-bind="click:$parent.markDistress">save</div>
+                           </ul>
+                         </div>
+                      </div>
+                    </div>
+                  <!-- /ko -->
+                 
+                </div>
+                <div class="column right-portion">
+                  <div class="item">
+                     <div class="right floated content">
                       <div class="column left-portion">
                         <div class="item">
                             <div class="ui transparent left icon input">
@@ -164,8 +216,8 @@
                         <!-- ko if: projects().length==0 -->
                           <div class="ui info  message">
                             <ul class="list">
-                              <li>No projects associated to your profile currently.</li>
-                              <li><a href="link">Click here to add one</a></li>
+                              <li>No project found.</li>
+                              
                             </ul>
                           </div>
                          <!-- /ko -->
@@ -182,41 +234,21 @@
                               <div class="right floated content" data-bind="click:function () { $parent.addProject(id)}"><i class="add circle icon"></i></div>
                             </div>
                           </div>
-                           <!-- /ko -->
+                        <!-- /ko -->
                       
                         
                       </div>
                     </div>
-                    <div class="content">
-                      <h4 class="header">My Projects</h4>
-                    </div>
                   </div>
-                  <!-- ko if: associatedProjects().length==0 -->
-                    <div class="ui info message">
-                      <ul class="list">
-                        <li>No projects associated to your profile currently.</li>
-                        <li>Click add new</li>
-                      </ul>
-                    </div>
-                   <!-- /ko -->
-                 <!-- ko foreach: associatedProjects -->
-                    <div class="ui items">
-                      <div class="item">
-                        <div class="content left floated">
-                          <a class="header" data-bind="text:name"></a>
-                          
-                          <div class="meta">
-                            <div class="time" data-bind="text:builderName"></div>
-                            <div class="category" data-bind="text:location.locality"></div>
-                          </div>
-                        </div>
-                         <div class="right floated content" data-bind="click:function () { $parent.removeProject($index,id)}"><i class="remove circle outline icon"></i></div>
-                      </div>
-                    </div>
-                  <!-- /ko -->
-                 
                 </div>
-                <div class="column right-portion">
+               
+              </div>
+            </div>
+            <div class="ui bottom attached tab segment" data-tab="second">
+              <h3 class="ui heading">manage locations</h3>
+              <div class="ui stackable two column grid">
+                
+                <div class="column left-portion">
 
                   <div class="item">
                     <div class="right floated compact ui button" id="addLoc">Add new</div>                    
@@ -231,8 +263,8 @@
                         <!-- ko if: locations().length==0 -->
                           <div class="ui info  message">
                             <ul class="list">
-                              <li>No projects associated to your profile currently.</li>
-                              <li><a href="link">Click here to add one</a></li>
+                              <li>No location associated to your profile currently.</li>
+                              <li>Click here to add new</li>
                             </ul>
                           </div>
                          <!-- /ko -->
@@ -285,8 +317,7 @@
                 </div>
               </div>
             </div>
-
-            <div class="ui bottom attached tab segment" data-tab="second">
+            <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">manage leads</h3>
               <div class="ui cards">
                  <!--ko foreach : leads -->
@@ -321,16 +352,16 @@
                   <!-- /ko -->
                </div>
             </div>
-            <div class="ui bottom attached tab segment" data-tab="third">
+            <div class="ui bottom attached tab segment" data-tab="fourth">
               <h3 class="ui heading">Recently viewed</h3>
               <div class="ui horizontal list">
               <!-- ko foreach:lastVisited -->
                 <div class="item">
                   <!-- ko if:type=='user' -->
-                  <i class="icon user"></i>
+                    <i class="icon user"></i>
                   <!-- /ko-->
                   <!-- ko if:type=='project' -->
-                  <i class="icon building outline"></i>
+                    <i class="icon building outline"></i>
                   <!-- /ko-->
                   <div class="content">
                     <div class="header"><!-- ko text:name --><!-- /ko --></div>
@@ -457,6 +488,13 @@
                 },
       phoneNum : ko.observable('<%= result.phoneNum %>'),
       leads : ko.observableArray(),
+      currContext : ko.observable(),
+      distress : ko.observableArray([
+        {
+          "bhk" : ko.observable(),
+          "price": ko.observable()
+        }
+      ]),
       updateUser : function(self){
         var _self = $('.'+self);
         var item =""
@@ -483,20 +521,17 @@
       
       addProject : function(id){
         classInstance.associateProject(id);
-         
       },
       removeProject : function(index,id){
-        
-        classInstance.removeAssociatedProject(index,id)
+         classInstance.removeAssociatedProject(index,id)
       },
       addLocation : function(id){
-
         classInstance.associateLocation(id);
-         
-      },
+       },
       removeLocation : function(index,id){
         classInstance.removeAssociatedLocation(index,id)
-      },
+     },
+
       leadsPageObj :{
         start:ko.observable("0"),
         pageSize:ko.observable("9"),
@@ -512,7 +547,21 @@
           this.leadsPageObj.start(this.leadsPageObj.start()-this.leadsPageObj.pageSize()) 
         }
          classInstance.listLeads(true,true);
+      },
+      markDistress : function(){
+
+        console.log("w",classInstance.viewModel.distress()[0].price)
+      },
+      editBhk : function(pro){
+        console.log(pro.id)
+        classInstance.viewModel.currContext(pro.id)
+        classInstance.viewModel.distress([])
+        var bhk = pro.bhk;
+       for (var i=0 ; i<bhk.length;i++){
+        classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"1224"})
+       }
       }
+     
     }
     ko.applyBindings(classInstance.viewModel,document.getElementById('adminProfile')) 
     classInstance.listAssociatedProjects();
@@ -522,10 +571,10 @@
     classInstance.listLeads(false);
     classInstance.listLastVisited();
     
-    $('#addLoc').click(function(){
-      
-              $('.column.left-portion').toggle()
-    })
+    // $(document).on('click','._bhk_',function(){
+
+    //   $(this).parent().find('._dis_').toggleClass('_hidden_')
+    // })
 
     $("#__searchPro").autocomplete({
 
@@ -720,9 +769,9 @@
   }
   
    AdminProfile.prototype.listAllProjects = function() {
-    
+    var filters ={"filters":{"productType":"project"}}
    var classInstance = this;
-      httpUtils.post("/list-projects-elastic",{},{},"JSON",function(data){
+      httpUtils.post("/list-projects-elastic",filters,{},"JSON",function(data){
          if(data.status==0){
          ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)  
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
@@ -731,9 +780,9 @@
     })
   }
   AdminProfile.prototype.listAllLocations = function() {
-    
+  var filters ={"filters":{"productType":"location"}}
    var classInstance = this;
-      httpUtils.post("/list-projects-elastic",{"productType":"location"},{},"JSON",function(data){
+      httpUtils.post("/list-projects-elastic",filters,{},"JSON",function(data){
          if(data.status==0){
          ko.utils.arrayPushAll(classInstance.viewModel.locations,data.result)  
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);

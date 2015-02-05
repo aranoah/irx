@@ -55,7 +55,7 @@ var MONGO_STATUS={
 };
 var PAGE = {
   start:0,
-  pageSize:3  
+  pageSize:9
 }
 
 HIM_CONSTANTS.prototype.defaultPage = function (start,pageSize){
