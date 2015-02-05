@@ -39,19 +39,6 @@
 	._hide_ {
 		display:none;
 	}
-	/*.proj-listing ._actButtons>.ui.basic.button {
-	  border: 0 !important;
-	  border-radius: 0 !important;
-	   box-shadow: 0 0 0 !important; 
-	  background-color: #f4f4f4 !important;
-	  color: #607d8b !important;
-	  transition: all ease .2s;
-	  padding: .75rem;
-	  font-weight: 400;
-	  width: 11rem;
-	  margin: 0 .75rem .5rem 0;
-	}*/
-
 	.ui.items>.item>.content a {
 	  color: #345D71 !important;
 	  -webkit-transition: color .2s ease;
@@ -80,7 +67,7 @@
 		font-weight: 400;
 		border-radius: 2px;
 		color: #737373;
-    }
+	}
 	.proContent {
 		color: #607d8b !important;
 		cursor: default !important;
@@ -102,19 +89,17 @@
 	  width: 11rem;
 	  margin: 0 .75rem .5rem 0;
 	}
-	.mobileFilter.ui.menu {
-		background: inherit !important;
-		box-shadow: none !important;
+	
+	.proFilters{
+		background: #fff !important;
+        border: 1px solid #ddd !important;
 	}
+	.default.text{
+		color: rgb(29, 29, 29) !important;
+        font-weight: 300;
 
-	.mobileFilter.ui.menu>.item {
-		display: block !important;
 	}
-	#HideFilter {
-		display: none;
-	}
-
-	.ui.menu .item:before {
+.ui.menu .item:before {
 		background: linear-gradient(rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0) 50%,rgba(0, 0, 0, 0) 100%);
 	}
 	.default.text{
@@ -125,7 +110,6 @@
 		background: #fff !important;
 		border: 1px solid #ddd !important;
 	}
-
   </style>
   
 </head>
@@ -155,7 +139,8 @@
 	        <h2 class="ui header item">PROJECTS</h2>
 	        <a class="right menu">
 		        <div class="item">
-		          <div class="ui right labeled icon dropdown button dropfilter">
+
+		          <div class="ui right labeled icon dropdown button proFilters">
 		            <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
 		            <div class="default text">Property Type</div>
 		            <i class="angle down icon"></i>
@@ -169,7 +154,7 @@
 		          </div>
 		        </div>
 		        <div class="item">
-		          <div class="ui right labeled icon dropdown button dropfilter">
+		          <div class="ui right labeled icon dropdown button proFilters">
 		            <input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
 		            <div class="default text">Status</div>
 		            <i class="angle down icon"></i>
@@ -181,7 +166,7 @@
 		          </div>
 		        </div>
 		        <div class="item">
-		          	<div class="ui right labeled icon dropdown button dropfilter">
+		          	<div class="ui right labeled icon dropdown button proFilters">
 					  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
 					  <div class="default text">Sort by relevance</div>
 					  <i class="sort right icon"></i>
