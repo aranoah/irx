@@ -139,7 +139,8 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                   if(err){
                     console.log(err)
                   }else{
-                     locals.userId = user.userId;
+                    if(user != null){
+                      locals.userId = user.userId;
                      locals.subject = properties.leads_subject;
                     new emailUtils().sendEmail("leads",locals,function(error,success){
                         if(error != null){
@@ -148,6 +149,8 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                           console.log(success)
                         }
                       });
+                    }
+                     
                   }
                 })
                 }else {

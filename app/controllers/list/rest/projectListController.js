@@ -26,7 +26,7 @@ var projectListingService = require(_path_service+"/projectListingService.js" )
 
 projectController.listProjectsElastic = function() {
 	var projectListService = new projectListingService();
-	
+
     var _nself = this;
     projectListService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
@@ -35,11 +35,12 @@ projectController.listProjectsElastic = function() {
     	filters:_nself.req.body.filters,
     	page:_nself.req.body.page
     }
-    if(_nself.req.body.filters && (_nself.req.body.filters.distress || _nself.req.body.filters.distress == "true")){
-    
+    //check this one
+    if(_nself.req.body.filters && (_nself.req.body.filters.distress==true || _nself.req.body.filters.distress == "true")){
+   
       projectListService.listProjects(userFilters);
     } else{
-      
+     
        projectListService.listProjectsElastic(userFilters);
     }
    
