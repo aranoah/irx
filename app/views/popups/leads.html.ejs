@@ -34,34 +34,34 @@
           <% if(locals.session.user) {%>
           <div class="item field">
           
-            <input name="name" value="<%= locals.session.user.name %>" type="text">
+            <input name="name" placeholder="Name" value="<%= locals.session.user.name %>" type="text">
           </div>
           
           <div class="item field">
           
-            <input name="emailId" value="<%= locals.session.user.userId %>" type="text">
+            <input name="emailId" placeholder="Email.." value="<%= locals.session.user.userId %>" type="text">
           </div>            
           
           <div class="item field">
           
-            <input name="mobileNo" value="" type="text">
+            <input name="mobileNo" placeholder="Mobile Number.." value="" type="text">
           </div>
           <% }%>
           
           <% if(!locals.session.user){%>
              <div class="item field">
           
-            <input name="name" value="" type="text">
+            <input name="name" value="" placeholder="Name" type="text">
           </div>
           
           <div class="item field">
           
-            <input name="emailId" value="" type="text">
+            <input name="emailId" value="" placeholder="Email.." type="text">
           </div>            
           
           <div class="item field">
           
-            <input name="mobileNo" value="" type="text">
+            <input name="mobileNo" value="" placeholder="Mobile Number.." type="text">
           </div>
            <% }%>
         

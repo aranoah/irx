@@ -157,6 +157,7 @@
 			<div class="default text">Property Type</div>
 			<i class="angle down icon"></i>
 			<div class="menu">
+			<div class="item" data-value="all">All</div>
 			<div class="item" data-value="apartments">Apartment</div>
 			<div class="item" data-value="independent house">Independent House</div>
 			<div class="item" data-value="villas">Villas</div>
@@ -167,10 +168,11 @@
 			</div>
 			<div class="item">
 			<div class="ui right labeled icon dropdown button">
-			<input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
+			<input type="hidden" name="status" data-bind="textInput:filters.status, event: {  change:applyFilters }">
 			<div class="default text">Status</div>
 			<i class="angle down icon"></i>
 			<div class="menu">
+			  <div class="item" data-value="all">All</div>
 			  <div class="item" data-value="ongoing">ongoing</div>
 			  <div class="item" data-value="completed">completed</div>
 			  <div class="item" data-value="upcoming">upcoming</div>            
@@ -265,6 +267,7 @@
   font-weight: 300;">Property Type</div>
 		            <i class="angle down icon"></i>
 		            <div class="menu">
+		            <div class="item" data-value="all">All</div>
 		            <div class="item" data-value="apartments">Apartment</div>
 		            <div class="item" data-value="independent house">Independent House</div>
 		            <div class="item" data-value="villas">Villas</div>
@@ -275,11 +278,12 @@
 		        </div>
 		        <div class="item">
 		          <div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
-		            <input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
+		            <input type="hidden" name="status" data-bind="textInput:filters.status, event: {  change:applyFilters }">
 		            <div class="default text" style="color: rgb(29, 29, 29) !important;
   font-weight: 300;">Status</div>
 		            <i class="angle down icon"></i>
 		            <div class="menu">
+		              <div class="item" data-value="all">All</div>
 		              <div class="item" data-value="ongoing">ongoing</div>
 		              <div class="item" data-value="completed">completed</div>
 		              <div class="item" data-value="upcoming">upcoming</div>            
@@ -412,24 +416,24 @@
   				<a class="ui green ribbon label">Distress</a> -->
 				<div class="four column row">
 					<div class="left floated column">
-						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name"></h3></a>
+						<a data-bind="attr: { href: 'project/'+ id }" target="_blank"><h3 class="ui header" data-bind="text: name"></h3></a>
 						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
 					</div>					
 					<div class="right floated column menu">						
 					  	<div class="social-share">
-						  	<!--<div class="fb-like " data-bind="attr: { 'data-href': 'http://122.176.220.113:3000/project/'+ id }" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
-						  		<div class="ui teal button"><i class="share icon"></i>share</div>-->
+						  	<div class="fb-like " data-bind="attr: { 'data-href': 'http://122.176.220.113:3000/project/'+ id }" data-layout="standard" data-action="like" data-show-faces="false" data-share="true"></div>
+						  		
 					  	</div>				    	
 					</div>
 				</div>
 				<div class="item">
 				  <div class="ui medium image">
 				      <img src="/images/project.jpg">
-				      <!-- <div class="slider">
+				       <div class="slider">
 				        <i class="chevron right icon"></i>
 				        <span>3 PHOTOS</span>
 				        <i class="chevron left icon"></i>
-				      </div> -->
+				      </div> 
 				  </div>
 				  <div class="content">
 				    <a class="header" style="padding-top:1rem;"><i class="rupee icon"></i>
@@ -440,7 +444,7 @@
 				                <!-- ko text:$data --><!-- /ko -->
 				              <!-- /ko -->
 				              <!-- ko if:$data == 0 -->
-				                Not Available
+				                On Request
 				              <!-- /ko -->
 				          <!-- /ko -->
 				        <!-- /ko -->
@@ -463,21 +467,23 @@
 						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
 						        </tr>
 						        <tr>
-						          <td>Unit</td>
+						          <td>Unit Type</td>
 						          <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
 						        </tr>
 						        <tr>
-						          <td>Possesion</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
-						        </tr> 
-						        <tr>
-						          <td>Area</td>
+						          <td>Size Range</td>
 						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: builtUpArea--><!--/ko--></a></td>
 						        </tr>
 						        <tr>
 						          <td>Status</td>
 						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: status--><!--/ko--></a></td>
 						        </tr>
+						        <tr>
+						          <td>Possesion Date</td>
+						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
+						        </tr> 
+						       
+						        
 						      </tbody>
 						    </table> 
 						    <% if(locals.req.device.type == 'desktop'){ %>
@@ -493,9 +499,8 @@
 					    <div class="two wide column">
 					      <div class="ui right floated item _actButtons">
 					        <div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
-					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquiry now</div>
+					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquire</div>
 					        <div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id+'&name='+name}">View agents</a></div>
-					        <div class="ui basic button req-details" data-bind="click:function(){$parent.requestDetails($data) }">Request details</div>
 					      </div>
 					    </div>
 				    </div>
@@ -728,6 +733,7 @@
 		_classInstance.viewModel.filters.name(filters.name)
 		_classInstance.viewModel.filters.bhk(filters.bhk)
 		_classInstance.scroller.updating=true;
+		
 		_classInstance.resetPage();
 	}
 	 Project.prototype.listProjectsOfLocation=function(localityId,replace,setUpdate){
@@ -920,7 +926,7 @@
 
 			       arr[i].priceText =  aPriceArr;
 		 		}
-			console.log(arr)
+		
 	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
