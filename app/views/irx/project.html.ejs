@@ -261,8 +261,7 @@
 		        <div class="item">
 		          <div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
 		            <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
-		            <div class="default text" style="color: rgb(29, 29, 29) !important;
-  font-weight: 300;">Property Type</div>
+		            <div class="default text">Property Type</div>
 		            <i class="angle down icon"></i>
 		            <div class="menu">
 		            <div class="item" data-value="apartments">Apartment</div>
@@ -276,8 +275,7 @@
 		        <div class="item">
 		          <div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
 		            <input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
-		            <div class="default text" style="color: rgb(29, 29, 29) !important;
-  font-weight: 300;">Status</div>
+		            <div class="default text">Status</div>
 		            <i class="angle down icon"></i>
 		            <div class="menu">
 		              <div class="item" data-value="ongoing">ongoing</div>
@@ -289,8 +287,7 @@
 		        <div class="item">
 		          	<div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
 					  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
-					  <div class="default text" style="color: rgb(29, 29, 29) !important;
-  font-weight: 300;">Sort by relevance</div>
+					  <div class="default text">Sort by relevance</div>
 					  <i class="sort right icon"></i>
 					  <div class="menu">
 					    <div class="item" data-value="asc">Newest</div>
@@ -423,7 +420,7 @@
 					</div>
 				</div>
 				<div class="item">
-				  <div class="ui medium image">
+				  <div class="ui small image">
 				      <img src="/images/project.jpg">
 				      <!-- <div class="slider">
 				        <i class="chevron right icon"></i>
@@ -447,38 +444,28 @@
 				        <!-- ko if:!Array.isArray(priceText) -->
 				          <!-- ko text:priceText --><!-- /ko -->
 				        <!-- /ko -->
-				    </a>
-
+				    </a><br/>
+				    <a href="javascript:void(0)" class="proContent"><i class="user icon"></i><!--ko text: builderName--><!--/ko--></a>
 	    			<% if(!locals.req.device || locals.req.device.type == 'desktop'){ %>
 				    <div class="ui two column grid" style="margin-top:0">
 				    	<div class="fourteen wide column" style="padding:0;">
 				    		<table class="ui small table pj-items extra column">
 						      <tbody>
-						        <tr>
-						          <td>Builder Name</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builderName--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Property Type</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Unit</td>
-						          <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
-						        </tr>
-						        <tr>
-						          <td>Possesion</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
-						        </tr> 
-						        <tr>
-						          <td>Area</td>
-						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: builtUpArea--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Status</td>
-						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: status--><!--/ko--></a></td>
-						        </tr>
-						      </tbody>
+									<tr>
+									  <td>Property Type</td>
+									  <td>Unit</td>
+									  <td>Possesion</td>
+									  <td>Area</td>
+									  <td>Status</td>		
+									</tr>
+									<tr>
+									  <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
+									  <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
+									  <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
+									  <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builtUpArea--><!--/ko--></a></td>
+									  <td><a href="javascript:void(0)" class="header proContent"><!--ko text: status--><!--/ko--></a></td>
+									</tr>
+								</tbody>
 						    </table> 
 						    <% if(locals.req.device.type == 'desktop'){ %>
 					      <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">

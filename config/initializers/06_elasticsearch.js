@@ -20,7 +20,7 @@ module.exports = function(done) {
 	
 	try{
 		_app_context.esClient = new this.elasticsearch.Client({
-			host: '122.176.220.226:9200',
+			host: '122.176.221.144:9200',
 			log: 'trace'
 		});
 	}
