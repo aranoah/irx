@@ -191,7 +191,7 @@
                            <ul class="_dis_" data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
                              <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
-                              <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$root.distress.bhk">
+                              <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$data.checked">
                               Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">
                              
                            <!-- /ko --></li>
@@ -492,9 +492,11 @@
       distress : ko.observableArray([
         {
           "bhk" : ko.observable(),
-          "price": ko.observable()
+          "price": ko.observable(),
+          "checked":ko.observable()
         }
       ]),
+      checkedDistress : ko.observableArray(),
       updateUser : function(self){
         var _self = $('.'+self);
         var item =""
@@ -554,13 +556,28 @@
         console.log("w",classInstance.viewModel.distress()[0].price)
       },
       editBhk : function(pro){
-        console.log(pro.id)
+        
         classInstance.viewModel.currContext(pro.id)
         classInstance.viewModel.distress([])
         var bhk = pro.bhk;
+        var checkedDistressArr = classInstance.viewModel.checkedDistress();
+        var checkedDistressObj = null;
+       
+        for (var j=0; j<checkedDistressArr.length;j++){
+           var checkedDistress= checkedDistressArr[0];
+           checkedDistressObj = checkedDistress[pro.id];
+        }
+     
        for (var i=0 ; i<bhk.length;i++){
-        classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"1224"})
-       }
+        var bhkAndPriceArr = checkedDistress[pro.id];
+            for(var k=0;k<bhkAndPriceArr.length;k++){
+              if(bhkAndPriceArr[i].bhk == bhk[i]){
+                classInstance.viewModel.distress.push({"bhk":bhkAndPriceArr[i].bhk,"price":bhkAndPriceArr[i].price,"checked":true})      
+              }else{
+                classInstance.viewModel.distress.push({"bhk":bhk[i].bhk,"price":"","checked":false})
+              }
+            }
+        }
       }
      
     }
@@ -715,10 +732,12 @@
 
     httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
        if(data.status==0){
-        ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result)
-        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-      
-       } 
+        if(data.result != null){
+           ko.utils.arrayPushAll(classInstance.viewModel.checkedDistress,data.result.distress)
+          ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result.projects)
+         classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+        }
+        } 
     })
   }
   

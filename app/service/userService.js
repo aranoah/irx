@@ -303,6 +303,7 @@ UserService.prototype.listUserProjects = function(user) {
 					//     projectIds.push(projectId)
 					// }
 					var start = page.start;
+					var distress= data.distress;
 					var pageSize = Number(page.pageSize)+1;
 		Projects.find({"id":{$in:projectList}},{},{skip:start,limit:pageSize },
 					function(err,projectDetails){
@@ -310,8 +311,13 @@ UserService.prototype.listUserProjects = function(user) {
 							console.log(err)
 							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 						} else {
+							
 								_selfInstance.processPagenation(projectDetails,page)
-							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,projectDetails,page);			
+								var result ={
+								"projects":projectDetails,
+								"distress":distress
+							}
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,result,page);			
 						}	
 					})
 	 			} else {
