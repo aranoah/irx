@@ -190,7 +190,7 @@
                            <i class="plus icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i>
                            <ul class="_dis_" data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
-                             <li> <!--ko text:$data --><!-- /ko -->BHK :
+                             <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
                               <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$root.distress.bhk">
                               Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">
                              
@@ -520,6 +520,7 @@
       },
       
       addProject : function(id){
+        alert(id)
         classInstance.associateProject(id);
       },
       removeProject : function(index,id){

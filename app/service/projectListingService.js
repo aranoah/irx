@@ -113,7 +113,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		query.push(match);
 		
 	}
-	if(filters && filters.type != null &&  filters.type != "") {
+	if(filters && filters.type != null &&  filters.type != "" && filters.type != "all") {
 		console.log("type",filters.type)
 		var match = {
 			"match":{
@@ -123,7 +123,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		query.push(match);
 	}
 	// console.log("In Service...",filters.productType)
-	if(filters && filters.productType != null &&  filters.productType != "") {
+	if(filters && filters.productType != null &&  filters.productType != "" && filters.productType != "all") {
 		console.log("proType",filters.productType)
 		var match = {
 			"match":{
@@ -133,7 +133,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		query.push(match);
 	}
 	
-	if(filters && filters.status != null &&  filters.status != "") {
+	if(filters && filters.status != null &&  filters.status != "" && filters.status !="all") {
 		console.log("status",filters.status)
 		var match = {
 			"match":{
