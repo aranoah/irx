@@ -447,7 +447,7 @@
 .proj-listing h3.ui.header {
 	padding-right: 1.5rem;
 	border-right: 2px solid #eaeaea;
-	color: #A92C16;
+	color: #607d8b;
 	font-size: 1.3em;
 	font-weight: 400;
 	text-transform: capitalize;
@@ -616,4 +616,47 @@
 .proj-listing .ui.medium.image>.slider>i.icon.chevron.left {
 	left: 25%;
 	cursor: pointer;
+}
+
+#mobile-listing>.item {
+	margin: 0 !important
+}
+
+#mobile-listing>.item>.content {
+	background-color: #fff !important;
+	margin-bottom: .8rem;
+	padding: .65rem;
+	box-shadow: 0 0 3px rgba(0,0,0,0.2);
+}
+
+#mobile-listing>.item .summary>.user {
+	color: #607d8b !important;
+}
+
+#mobile-listing>.item i.rupee.icon {
+	padding-left: 0;
+	margin-right: 0;
+}
+
+#mobile-listing>.item ._name_ {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	width: 60%;
+	padding: .2rem 0;
+	font-weight: bold;
+	color: #666;
+}
+
+#mobile-listing>.item .date>span>a {
+	color: #666 !important;
+}
+
+#mobile-listing>.item .date {
+	padding-top: .3rem 0 !important;
+	color: #808080 !important;
+}
+
+#mobile-listing>.item .meta {
+	padding-top: 1.2em;
 }

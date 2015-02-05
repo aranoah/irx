@@ -13,18 +13,6 @@
 	#desktop-projDet .ui.images .image, #desktop-projDet .ui.images img {
 		width: 120px !important;
 	}
-    .ui.blue.button.req-details{
-        border: 1px solid rgba(179, 86, 86, 0.65);
-    }
-    .ui.blue.button.leads-in{/*
-    	border: 1px solid rgba(179, 86, 86, 0.65);*/
-        border: 1px solid#337EC8 !important;
-        color: #337EC8 !important;
-    }
-    .ui.blue.button.leads-in{
-    	border: 1px solid#337EC8 !important;
-        color: #337EC8 !important;
-    }
 	
 </style>
 <body>
@@ -104,79 +92,63 @@
 						<img class="ui tiny image" src="<%=result.gallery[glry]%>">
 					<%}
 				}%>
-			</div><div class="content" style="padding:2rem 1rem;">
+			</div>
+			<div class="content" style="padding:2rem 1rem;">
 				<!-- tab goes here -->
 
-					<div class="ui top attached tabular menu">
-					  <!-- <a class="active item" data-tab="first">Locality</a> -->
-					  <a class="active item" data-tab="first">Floor Plan</a>
-					  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
+				<div class="ui top attached tabular menu">
+			  <a class="active item" data-tab="first">Locality</a>
+			  <a class="item" data-tab="second">Floor Plan</a>
+			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
+			</div>
+			<div class="ui bottom attached active tab segment locality" data-tab="first">
+				<div class="ui">
+					<div class="">
+					    <div class="title _csn _txt_cntr" data-tab-item="air">
+					     	Airports
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="train">
+							Train
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="bus">
+					    	Bus
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="bank">
+					    	Banks
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="store">
+							Store
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="food">
+					    	Resturants
+					    </div>
 					</div>
-					<div class="ui bottom active attached tab segment" data-tab="first">
-						<%=result.floorPlan%>
-						<% if(result.floorPlan!=null){
-						 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
-							<img class="ui small image" src="<%=result.floorPlan[fp]%>" style="padding:1rem;">
-						<%}
-						}%>
-					</div>
-					<!-- <div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
-
-						<div class="ui divided items" data-bind="foreach : agents">
-						  <div class="item">
-						    <div class="image">
-						      <img src="http://semantic-ui.com/images/avatar/large/stevie.jpg">
-						    </div>
-						    <div class="content">
-						      <a data-bind="attr: { href:irxId}" class="header" data-bind="text : name">Elliot Fu</a>
-						      <div class="meta">
-						        <span class="price" data-bind="text : companyName">IRX,India</span><br>
-						        <span class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--><!--</span>
-						      </div>
-						      <div class="description">
-						        Projects : 
-						        <span data-bind="foreach : projects" style="margin-right:0;">
-						          <!-- ko if:$index()<=1 
-						            <span class="header" data-bind="text : $data"></span>
-						             <!-- ko if:$index()==0 
-						              <span class="header">,</span>
-						             <!-- /ko 
-						          <!-- /ko 
-						        </span>
-						        <span data-bind="if:projects.length>2">
-						        (+
-						          <span class="header" data-bind="text : projects.length-2"></span>)
-						        </span>
-						       </div>
-						       <div class="description">
-						          Operating Localities : 
-						          <span data-bind="foreach : locationProjects" style="margin-right:0;">
-						            <!-- ko if:$index()<=1 
-						              <span class="header" data-bind="text : $data"></span>
-						               <!-- ko if:$index()==0 
-						                <span class="header">,</span>
-						               <!-- /ko 
-						            <!-- /ko 
-						        </span>
-						        <span data-bind="if:locationProjects.length>2">
-						        (+
-						          <span class="header" data-bind="text : locationProjects.length-2"></span>)
-						        </span>
-						      </div>
-						      <div class="extra">
-						        <div class="ui right floated label">Enquiry now</div>
-						        <a href=""><i class="facebook big square icon"></i></a>
-						        <a href=""><i class="share big square icon"></i></a>
-						      </div>
-						    </div>
-						  </div>
-						</div>		
-					</div> -->
-					<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
+				    <div class="active content _lclt_tb_cnt" data-tab-item="air">
+				    	<div id="map-canvas" name="mapdiv" style="width: 100%;height: 500px;"> </div>
+						<!-- <p>Indira Gandhi International Airport T-318 min 12.9 km </p>
+						<p>Indira Gandhi International Airport T-318 min 12.9 km </p> -->
+				    </div>
+				  </div>
+			</div>
+			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="second">
+				<% if(result.floorPlan!=null){
+					 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
+						<img class="ui medium image _csn" src="<%=result.floorPlan[fp]%>">
+					<%}
+				}
+				if(result.floorPlan==null || result.floorPlan.length==0) {
+				%>
+					<div style="padding: 1.5rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);">
+				    	No floor plan found. 
+				    </div>
+				<%}
+				%>
+			</div>
+			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
 
 				<div class="ui divided items" data-bind="foreach : agents">
 				  <div class="item">
-				    <div class="ui tiny image">
+				    <div class="image">
 				      <img src="/images/elliot.jpg">
 				    </div>
 				    <div class="content">
@@ -227,10 +199,11 @@
 					<div class="ui button">View all agents</div>
 				</div>
 			</div>
-		</div>
-				<!-- ends here -->
+				
 			</div>
+			<!-- ends here -->
 		</div>
+	</div>
 	<% } %>
 
   	<!-- ends here -->
@@ -247,17 +220,17 @@
 				</div>
 			</div> -->
 			<input id="_projectId" value="<%= projectId %>" type="hidden">
-			<div class="ui inverted title grid" style="margin:0;padding:0 !important;background: #fff !important;">
+			<div class="ui inverted title grid" style="margin:0;padding:0 !important;">
 				<div class="eight wide column _csn">				
 					<h2 class="ui header"><%= result.name %></h2>
 					<h4 class="ui header"><%= result.builderName %></h4>
 				</div>
 
-				<div class="floated column _csn" style="vertical-align:top;text-align: right;min-width: 25%;">
-					<h2 style="color: #337EC8 !important;font-weight: normal;font-size: 1.4em;width:22rem;"><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
+				<div class="eight wide column _csn" style="text-align: right;">
+					<h2><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
 				</div>
 			</div>
-			<table class="ui table" style="margin:0 0 1em;background:#fff !important;">
+			<table class="ui table" style="margin:0 0 1em;">
 			  <thead>
 			    <tr>
 			      <th>Built-up Area</th>
@@ -282,7 +255,7 @@
 					<h3 class="ui header">Region</h3>
 					<h4 class="ui header" id="location"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
 				</div>
-				<div class="right floated column">
+				<div class="right floated column _actions">
 					<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
 					<div class="ui blue button leads-in" data-bind="click:function(){enquireNow('<%= result.id %>') }"><i class="icon help circle"></i>Enquiry Now</div>
 				</div>

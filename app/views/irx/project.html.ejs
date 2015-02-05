@@ -135,10 +135,122 @@
 	  
 	  	
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-	  		<div class="fourteen wide column">
+	  		<div class="fourteen wide column" style="padding-top:0 !important;">
 	  	<% } %> 
 	  	<!-- For mobile screens -->
 
+	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+			<div class="ui menu rib-head" style="border:0 !important;">
+			<h2 class="ui header item">Showing results for
+			<!--ko text: filters.displayName--><!--/ko-->       
+			</h2>    
+			<a class="right menu" style="padding:.5rem 0;">
+			<div id="mobFilter" class="ui teal label"><i style="margin-right: 0;" class="icon filter"></i></div>
+			<div id="HideFilter" class="ui teal label"><i style="margin-right: 0;" class="icon hide"></i></div>
+			</a>
+			</div>
+
+			<div class="mobileFilter ui menu" style="display:none;">
+			<div class="item">
+			<div class="ui right labeled icon dropdown button">
+			<input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
+			<div class="default text">Property Type</div>
+			<i class="angle down icon"></i>
+			<div class="menu">
+			<div class="item" data-value="apartments">Apartment</div>
+			<div class="item" data-value="independent house">Independent House</div>
+			<div class="item" data-value="villas">Villas</div>
+			<div class="item" data-value="plot">Plot</div>
+			<div class="item" data-value="row house">Row House</div>
+			</div>
+			</div>
+			</div>
+			<div class="item">
+			<div class="ui right labeled icon dropdown button">
+			<input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
+			<div class="default text">Status</div>
+			<i class="angle down icon"></i>
+			<div class="menu">
+			  <div class="item" data-value="ongoing">ongoing</div>
+			  <div class="item" data-value="completed">completed</div>
+			  <div class="item" data-value="upcoming">upcoming</div>            
+			</div>
+			</div>
+			</div>
+			<div class="item">
+			  <div class="ui right labeled icon dropdown button">
+			  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
+			  <div class="default text">Sort by relevance</div>
+			  <i class="sort right icon"></i>
+			  <div class="menu">
+			    <div class="item" data-value="asc">Newest</div>
+			    <div class="item" data-value="desc">Price : High to Low</div>
+			    <div class="item" data-value="asc">Price : Low to High</div>            
+			  </div>
+			</div>
+			</div>
+			<div class="item">
+			<div class="ui checkbox _hasDistress_">
+			<input type="checkbox" name="distress">
+			<label>Show Distress</label>
+			</div>
+			</div>
+
+
+			</div>
+
+			<div class="item tempBtn" style="float:right" data-bind="visible:filters.locationFlag()=='true'" >
+
+			<a data-bind="attr:{href:'/agent-listing?projectId='+filters.projectId()+'&name='+filters.name()+'&isLocality=true'}">
+			<div style="position:relative;right:0;color:#337ec8">Show agents</div>
+			</a>
+			</div>
+			<% } %>
+			<!-- ends here -->
+	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+	  			
+	  		<div id="mobile-listing" class="ui items" data-bind="foreach : projects">
+	  			<div class="item">
+					<div class="content">
+						<div class="ui tiny image" style="padding: 0 .5rem 0 0 !important;width:auto !important;">
+							  <img src="/images/project.jpg" style="width:80px;height:80px;">
+							</div>
+							<div class="content">
+							  <div class="summary">
+							    <a class="user"><b>
+							      <i class="rupee icon"></i>
+							      <!-- ko if:Array.isArray(priceText) -->
+						          <!-- ko foreach:priceText -->
+						            <!-- ko if:$index -->-<!-- /ko -->
+						              <!-- ko if:$data != 0 -->
+						                <!-- ko text:$data --><!-- /ko -->
+						              <!-- /ko -->
+						              <!-- ko if:$data == 0 -->
+						                Not Available
+						              <!-- /ko -->
+						          <!-- /ko -->
+						        <!-- /ko -->
+						        <!-- ko if:!Array.isArray(priceText) -->
+						          <!-- ko text:priceText --><!-- /ko -->
+						        <!-- /ko --></b>
+							    </a>
+							</div>
+						    <div class="date">
+					           <span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></span><span data-bind="text : type"></span>
+					        </div>
+							<div class="like _name_" data-bind="text : name"></div>
+					        <div class="date" data-bind="text : builtUpArea">120 sq.ft</div>
+						</div>
+						<div class="meta">
+				            <span data-bind="text : possession">Nov 17,2014</span>
+				            <span data-bind="text : status">Nov 17,2014</span>
+				        </div>
+				        <a href="" class="item right floated" style="margin-top:-1.4rem"><i style="font-size:1.5em;" class="blue call square icon"></i></a>
+					</div>
+				</div>
+	  		</div>
+
+	  	<% } %> 
 	  		
 	  	<!-- ends here -->
 	  	
@@ -289,10 +401,11 @@
 			    </div>
 			</div>    
 		</div>
+		<% if(locals.req.device.type == 'desktop'){ %>
 	    <div class="ui relaxed divided items _hide_" data-bind="foreach : projects" style="margin:1rem 0;">
 
 	    	
-	    	<div class="ui items proj-listing column"><!-- 
+	    	<div class="ui items proj-listing column "><!-- 
   				<a class="ui green ribbon label">Distress</a> -->
 				<div class="four column row">
 					<div class="left floated column">
@@ -399,7 +512,7 @@
 			</div>
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
-		
+		<% } %>
 	    <!-- Project ends here -->
 	</div>
 	</div>
