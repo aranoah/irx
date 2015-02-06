@@ -47,7 +47,7 @@
 						<tbody>
 							<tr>
 								<td>Built-up Area</td>
-								<th>580-1350 sq.ft.</th>
+								<th><%= result.builtUpArea %></th>
 							</tr>
 							<tr>
 								<td>BHK</td>
@@ -70,10 +70,6 @@
 				</div>
 			</div>		
 			<div class="ui inverted xtra">
-				<div class="item">				
-					<h3 class="ui header">Region</h3>
-					<h4 class="ui header"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
-				</div>
 				<div class="item _button">
 					<div class="ui blue small button req-details"><i class="icon edit"></i>Request Details</div>
 					<div class="ui blue small button leads-in"><i class="icon help circle"></i>Enquiry Now</div>
@@ -96,12 +92,37 @@
 			<div class="content" style="padding:2rem 1rem;">
 				<!-- tab goes here -->
 
-				<div class="ui top attached tabular menu">
-			  <a class="active item" data-tab="first">Locality</a>
-			  <a class="item" data-tab="second">Floor Plan</a>
-			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
+			<div class="ui top attached tabular menu">
+			  <a class="item active" data-tab="first">Overview</a>
+			  <a class="item" data-tab="second">Locality</a>
+			  <a class="item" data-tab="third">Floor Plan</a>
 			</div>
-			<div class="ui bottom attached active tab segment locality" data-tab="first">
+			<div class="ui bottom attached active tab segment">
+				<% if(result.profileImage!=null){%>
+				<img class="ui medium rounded image" src="<%=result.profileImage%>"/>
+				<%} else if (result.gallery!=null && result.gallery.length>0){%>
+					<img class="ui medium rounded image" src="<%=result.gallery[0]%>"/>
+				<%}else {%>
+					<img class="ui medium rounded image" src="/images/square-image.png"/>
+				<%}%>
+				<div class="ui images">
+				  <!-- <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png"> -->
+				  <% if(result.gallery!=null){
+						 for(var glry=0 ;glry<result.gallery.length;glry++){		  %>
+							<img class="ui image" src="<%=result.gallery[glry]%>">
+						<%}
+					}%>
+				</div>
+				<%	if(result.gallery==null || result.gallery.length==0) {	%>
+					<div style="padding: 1rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);margin-bottom:1rem;">
+				    	No Gallery Found. 
+				    </div>
+				<%}	%>
+			</div>
+			<div class="ui bottom attached tab segment locality" data-tab="second">
 				<div class="ui">
 					<div class="">
 					    <div class="title _csn _txt_cntr" data-tab-item="air">
@@ -130,7 +151,7 @@
 				    </div>
 				  </div>
 			</div>
-			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="second">
+			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="third">
 				<% if(result.floorPlan!=null){
 					 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
 						<img class="ui medium image _csn" src="<%=result.floorPlan[fp]%>">
@@ -143,61 +164,6 @@
 				    </div>
 				<%}
 				%>
-			</div>
-			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
-
-				<div class="ui divided items" data-bind="foreach : agents">
-				  <div class="item">
-				    <div class="image">
-				      <img src="/images/elliot.jpg">
-				    </div>
-				    <div class="content">
-				      <a data-bind="attr: { href:irxId}" class="header" data-bind="text : name">Elliot Fu</a>
-				      <div class="meta">
-				        <div class="price" data-bind="text : companyName" style="padding:.5rem 0;">IRX,India</div>
-				        <div class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--></div>
-				      </div>
-				      <div class="description">
-				        Projects : 
-				        <span data-bind="foreach : projects" style="margin-right:0;">
-				          <!-- ko if:$index()<=1 -->
-				            <span class="header" data-bind="text : $data"></span>
-				             <!-- ko if:$index()==0 -->
-				              <span class="header">,</span>
-				             <!-- /ko -->
-				          <!-- /ko -->
-				        </span>
-				        <span data-bind="if:projects.length>2">
-				        (+
-				          <span class="header" data-bind="text : projects.length-2"></span>)
-				        </span>
-				       </div>
-				       <div class="description">
-				          Operating Localities : 
-				          <span data-bind="foreach : locationProjects" style="margin-right:0;">
-				            <!-- ko if:$index()<=1 -->
-				              <span class="header" data-bind="text : $data"></span>
-				               <!-- ko if:$index()==0 -->
-				                <span class="header">,</span>
-				               <!-- /ko -->
-				            <!-- /ko -->
-				        </span>
-				        <span data-bind="if:locationProjects.length>2">
-				        (+
-				          <span class="header" data-bind="text : locationProjects.length-2"></span>)
-				        </span>
-				      </div>
-				      <div class="extra">
-				        <div class="ui right floated label">Enquiry now</div>
-				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="facebook square icon"></i></a>
-				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="share square icon"></i></a>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class="ui centered aligned grid" style="padding: 2rem 0;">
-					<div class="ui button">View all agents</div>
-				</div>
 			</div>
 				
 			</div>
@@ -220,52 +186,77 @@
 				</div>
 			</div> -->
 			<input id="_projectId" value="<%= projectId %>" type="hidden">
-			<div class="ui inverted title grid" style="margin:0;padding:0 !important;">
-				<div class="eight wide column _csn">				
-					<h2 class="ui header"><%= result.name %></h2>
-					<h4 class="ui header"><%= result.builderName %></h4>
+			<div class="content" style="padding:.6rem;background:#fff;box-shadow:0 0 2px rgba(0,0,0,0.2);margin-bottom:2rem;">
+				<div class="ui inverted title grid" style="margin:0;padding:0 !important;">
+					<div class="eight wide column _csn">				
+						<h2 class="ui header"><%= result.name %></h2>
+						<h4 class="ui header"><%= result.builderName %></h4>
+					</div>
+					<div class="eight wide column _csn" style="text-align: right;">
+						<h2><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
+					</div>
 				</div>
-
-				<div class="eight wide column _csn" style="text-align: right;">
-					<h2><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
-				</div>
-			</div>
-			<table class="ui table" style="margin:0 0 1em;">
-			  <thead>
-			    <tr>
-			      <th>Built-up Area</th>
-			      <th>BHK</th>
-			      <th>Possession</th>
-			      <th>Type</th>
-			      <th>Locality</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <td>580-1350 sq.ft.</td>
-			      <td><%= result.bhk %></td>
-			      <td><%= result.possession %></td>
-			      <td><%= result.type %></td>
-			      <td><%= result.location.name %></td>
-			    </tr>
-			  </tbody>
-			</table>		
-			<div class="ui inverted xtra four column row">
-				<div class="left floated column">				
-					<h3 class="ui header">Region</h3>
-					<h4 class="ui header" id="location"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
-				</div>
-				<div class="right floated column _actions">
-					<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
-					<div class="ui blue button leads-in" data-bind="click:function(){enquireNow('<%= result.id %>') }"><i class="icon help circle"></i>Enquiry Now</div>
-				</div>
+				<div class="description" style="padding:1rem;border-top: 2px solid #eaeaea !important;">
+			        <p>Two sisters move to the country with their father in order to be closer to their hospitalized mother, and discover the surrounding trees are inhabited by Totoros, magical spirits of the forest. When the youngest runs away from home, the older sister seeks help from the spirits to find her.</p><p>Cute dogs come in a variety of shapes and sizes. Some cute dogs are cute for their adorable faces, others for their tiny stature, and even others for their massive size.</p>
+			    </div>
+				<table class="ui table" style="margin:0 !important;padding-bottom:0 !important;">
+				  	<tr>
+				      <td style="border:0 !important;">Built-up Area</td>
+				      <td style="border:0 !important;">580-1350 sq.ft.</td>
+				    </tr>
+				    <tr>
+				      <td>BHK</td>
+				      <td><%= result.bhk %></td>
+				    </tr>
+				    <tr>
+				    	<td>Possession</td>
+				      <td><%= result.possession %></td>
+				    </tr>
+				    <tr>
+				    	<td>Type</td>
+				      	<td><%= result.type %></td>
+				    </tr>
+				    <tr>
+				    	<td>Locality</td>
+				      	<td><%= result.location.name %></td>
+				    </tr>
+				</table>
+			</div>		
+			<div class="ui inverted xtra _actions" style="padding-bottom:1rem;">
+				<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
+				<div class="ui blue button leads-in" data-bind="click:function(){enquireNow('<%= result.id %>') }"><i class="icon help circle"></i>Enquiry Now</div>
 			</div>
 			<div class="ui top attached tabular menu">
-			  <a class="active item" data-tab="first">Locality</a>
-			  <a class="item" data-tab="second">Floor Plan</a>
-			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
+			  <a class="item active" data-tab="first">Overview</a>
+			  <a class="item" data-tab="second">Locality</a>
+			  <a class="item" data-tab="third">Floor Plan</a>
 			</div>
-			<div class="ui bottom attached active tab segment locality" data-tab="first">
+			<div class="ui bottom attached active tab segment">
+				<% if(result.profileImage!=null){%>
+				<img class="ui medium rounded image" src="<%=result.profileImage%>"/>
+				<%} else if (result.gallery!=null && result.gallery.length>0){%>
+					<img class="ui medium rounded image" src="<%=result.gallery[0]%>"/>
+				<%}else {%>
+					<img class="ui medium rounded image" src="/images/square-image.png"/>
+				<%}%>
+				<div class="ui images">
+				  <!-- <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png"> -->
+				  <% if(result.gallery!=null){
+						 for(var glry=0 ;glry<result.gallery.length;glry++){		  %>
+							<img class="ui image" src="<%=result.gallery[glry]%>">
+						<%}
+					}%>
+				</div>
+				<%	if(result.gallery==null || result.gallery.length==0) {	%>
+					<div style="padding: 1rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);margin-bottom:1rem;">
+				    	No Gallery Found. 
+				    </div>
+				<%}	%>
+			</div>
+			<div class="ui bottom attached tab segment locality" data-tab="second">
 				<div class="ui">
 					<div class="">
 					    <div class="title _csn _txt_cntr" data-tab-item="air">
@@ -294,7 +285,7 @@
 				    </div>
 				  </div>
 			</div>
-			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="second">
+			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="third">
 				<% if(result.floorPlan!=null){
 					 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
 						<img class="ui medium image _csn" src="<%=result.floorPlan[fp]%>">
@@ -308,8 +299,12 @@
 				<%}
 				%>
 			</div>
-			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
-
+		</div>
+		<div class="seven wide column">
+			<div class="ui top attached tabular menu" style="margin: 0 -.05rem;border-bottom:0;">
+			  <div class="active item pref_agents_btn" id="pref_agents_btn">AGENTS</div>
+			</div>
+			<div id="pref_agents" class="ui bottomm active attached tab segment">
 				<div class="ui divided items" data-bind="foreach : agents">
 				  <div class="item">
 				    <div class="image">
@@ -363,31 +358,6 @@
 					<div class="ui button">View all agents</div>
 				</div>
 			</div>
-		</div>
-		<div class="seven wide column">
-			<% if(result.profileImage!=null){%>
-				<img class="ui medium rounded image" src="<%=result.profileImage%>"/>
-			<%} else if (result.gallery!=null && result.gallery.length>0){%>
-				<img class="ui medium rounded image" src="<%=result.gallery[0]%>"/>
-			<%}else {%>
-				<img class="ui medium rounded image" src="/images/square-image.png"/>
-			<%}%>
-			<div class="ui images">
-			  <!-- <img class="ui image" src="/images/square-image.png">
-			  <img class="ui image" src="/images/square-image.png">
-			  <img class="ui image" src="/images/square-image.png">
-			  <img class="ui image" src="/images/square-image.png"> -->
-			  <% if(result.gallery!=null){
-					 for(var glry=0 ;glry<result.gallery.length;glry++){		  %>
-						<img class="ui image" src="<%=result.gallery[glry]%>">
-					<%}
-				}%>
-			</div>
-			<%	if(result.gallery==null || result.gallery.length==0) {	%>
-				<div style="padding: 1rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);margin-bottom:1rem;">
-			    	No Gallery Found. 
-			    </div>
-			<%}	%>
 			<!-- <img class="ui medium rounded image" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= result.location.name %>+<%= result.location.city %>+<%= result.location.state%>+India&zoom=15&size=500x400&maptype=roadmap"> -->
 		</div>
 	</div> <% } %>

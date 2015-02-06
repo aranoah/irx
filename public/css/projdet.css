@@ -146,7 +146,6 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 
 .ui.table {
 	border-top: 2px solid #eaeaea !important;
-	border-bottom: 2px solid #eaeaea !important;
 }
 
 .ui.table thead th {
@@ -166,7 +165,7 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 }
 
 ._actions>.ui.button {
-	display: block;
+	display: inline-block;
 	margin-bottom: .5rem;
 	color: #607d8b !important;
 	background: #FFF !important;
@@ -175,7 +174,7 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 }
 
 ._actions>.ui.button:hover {
-	background-color: #DA713A !important;
+	background-color: #09963b !important;
 	color: #fff !important;
 }
 
@@ -211,4 +210,7 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 #desktop-projDet .locality .title.active {
     border-bottom: 2px solid;
     font-weight: bold;
+}
+#desktop-projDet .ui.table tr td {
+	border-top: 1px solid #eee !important;
 }
