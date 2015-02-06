@@ -496,7 +496,7 @@
           "checked":ko.observable()
         }
       ]),
-      checkedDistress : ko.observableArray(),
+      checkedDistress : ko.observable(),
       updateUser : function(self){
         var _self = $('.'+self);
         var item =""
@@ -560,24 +560,27 @@
         classInstance.viewModel.currContext(pro.id)
         classInstance.viewModel.distress([])
         var bhk = pro.bhk;
-        var checkedDistressArr = classInstance.viewModel.checkedDistress();
-        var checkedDistressObj = null;
-       
-        for (var j=0; j<checkedDistressArr.length;j++){
-           var checkedDistress= checkedDistressArr[0];
-           checkedDistressObj = checkedDistress[pro.id];
-        }
+        var checkedDistressData = classInstance.viewModel.checkedDistress();
+        var checkedDistressObj =  checkedDistressData[pro.id];
+      
+        console.log(pro.id,checkedDistressData)
      
        for (var i=0 ; i<bhk.length;i++){
-        var bhkAndPriceArr = checkedDistress[pro.id];
-            for(var k=0;k<bhkAndPriceArr.length;k++){
-              if(bhkAndPriceArr[i].bhk == bhk[i]){
-                classInstance.viewModel.distress.push({"bhk":bhkAndPriceArr[i].bhk,"price":bhkAndPriceArr[i].price,"checked":true})      
+        
+          if(checkedDistressObj){
+            
+            for(var k=0;k<checkedDistressObj.length;k++){
+              if(checkedDistressObj[i].bhk == bhk[i]){
+                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[i].bhk,"price":checkedDistressObj[i].price,"checked":true})      
               }else{
                 classInstance.viewModel.distress.push({"bhk":bhk[i].bhk,"price":"","checked":false})
               }
             }
+          } else{
+
+            classInstance.viewModel.distress.push({"bhk":bhk[i].bhk,"price":"","checked":false})
         }
+      }
       }
      
     }
@@ -733,7 +736,7 @@
     httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
        if(data.status==0){
         if(data.result != null){
-           ko.utils.arrayPushAll(classInstance.viewModel.checkedDistress,data.result.distress)
+         classInstance.viewModel.checkedDistress(data.result.distress);
           ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result.projects)
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
         }
