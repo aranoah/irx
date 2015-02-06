@@ -79,12 +79,21 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 
 /* ends here */
 
-.ui.divided.padded.grid {
-	padding: 9rem 5% 0;
+#desktop-projDet.ui.divided.padded.grid {
+	padding: 10rem 0 0 !important;
+	width: 75% !important;
+	margin: 0 auto !important;
 }
 
 .ui.divided.padded.grid>div {
 	box-shadow: none !important;
+	padding: 0 !important;
+}
+
+#desktop-projDet .nine.wide.column {
+	padding-right: 1% !important;
+}#desktop-projDet .seven.wide.column {
+	padding-left: 1% !important;
 }
 
 .ui.inverted.segment.head {
