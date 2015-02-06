@@ -107,9 +107,7 @@ module.exports = function routes() {
   this.match('associate-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateLocation' , via: 'GET' });
   this.match('delete-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteLocation' , via: 'GET' });
   
-   // remove-distress
-  // array of object having bhks which have been marked distress
-  //this.match('remove-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
+  
   /*
   * Lead Capture related urls
   */

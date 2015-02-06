@@ -13,6 +13,7 @@
     display: none
   }
   </style>
+  <script type="text/javascript" src="/js/library/jquery.form.js"></script>
 </head>
 <body>  
   <% include ../partials/header.html.ejs %>
@@ -31,8 +32,10 @@
         <div class="column li-box">
           <div class="lib-pic">
             <img id="pic" class="ui circular image" src="/img/pic.png">
-            <div class="Editpic">
-              <input id="_profilePic" type="file"><i class="icon photo"></i>
+            <div class="Editpic" style="cursor:pointer !important">
+              <form id="_profilePicForm" enctype="multipart/form-data">
+                <input id="_profilePic" name="image" type="file" ><i class="icon photo"></i>
+              </form>
             </div>
           </div>
           <div class="content">
@@ -406,7 +409,17 @@
   }
 
   $("#_profilePic").change(function(){
-    getImage(this);
+    
+    $("#_profilePicForm").ajaxSubmit({
+      url: '/update-user',
+       type: 'post',
+       success: function(data){
+        alert(1)
+       }
+     })
+     getImage(this);
+    return false;
+   
   });
 
   $('div[contenteditable="false"]:not(.active)').on('mouseenter',function(){

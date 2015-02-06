@@ -449,16 +449,16 @@
 						      <tbody>
 									<tr>
 									  <td>Property Type</td>
-									  <td>Unit</td>
+									  <td>Unit Type</td>
+									  <td>Size Range</td>
 									  <td>Possesion</td>
-									  <td>Area</td>
 									  <td>Status</td>		
 									</tr>
 									<tr>
 									  <td><!--ko text: type--><!--/ko--></td>
 									  <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
-									  <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
 									  <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builtUpArea--><!--/ko--></a></td>
+									  <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
 									  <td><a href="javascript:void(0)" class="header proContent"><!--ko text: status--><!--/ko--></a></td>
 									</tr>
 								</tbody>
@@ -474,7 +474,7 @@
 					  	</div>
 					    <div class="two wide column" style="padding:0;margin-top:-3rem;">
 					      <div class="ui right floated item _actButtons">
-					        <div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
+					        <div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }" target="_blank">View details</a></div>
 					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquire</div>
 					        <div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id+'&name='+name}">View agents</a></div>
 					      </div>

@@ -94,6 +94,7 @@ userController.updateUser = function() {
      _nself.processJson(status,msg,result,page);
     });
     var user = _nself.req.body;
+    console.log("hello..",_nself.req.files.image)
     user.irxId = _nself.getCurrentUser(_nself);;
     userSvc.updateUser(user);
 }

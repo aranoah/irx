@@ -100,7 +100,6 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		page = defPage;
 		
 	}
-	console.log("qwertyuiop",filters)
 
 	if(filters && filters.city != null &&  filters.city != "") {
 		console.log("city",filters.city)
@@ -113,6 +112,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		query.push(match);
 		
 	}
+
 	if(filters && filters.type != null &&  filters.type != "" && filters.type != "all") {
 		console.log("type",filters.type)
 		var match = {
@@ -142,6 +142,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		}
 		query.push(match);
 	}
+
 	if(filters && filters.bhk != null &&  filters.bhk != "") {
 		var match = {
 			"match":{
@@ -188,7 +189,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	if(filters && filters.order && filters.order != null && filters.order!=""){
 		sortOrder=filters.order;
 	}
-	console.log("jai ho !!",query)
+	
     _app_context.esClient.search({
 	    index: 'irx_schema',
 	    type:"irx-eproduct",
