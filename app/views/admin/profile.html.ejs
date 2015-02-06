@@ -195,7 +195,7 @@
                               Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">
                              
                            <!-- /ko --></li>
-                           <div class="ui button _sDistress_" data-bind="click:$parent.markDistress">save</div>
+                           <div class="ui button _sDistress_" data-bind="click:function(){$parent.markDistress(id)}">save</div>
                            </ul>
                          </div>
                       </div>
@@ -522,7 +522,6 @@
       },
       
       addProject : function(id){
-        alert(id)
         classInstance.associateProject(id);
       },
       removeProject : function(index,id){
@@ -551,9 +550,17 @@
         }
          classInstance.listLeads(true,true);
       },
-      markDistress : function(){
+      markDistress : function(id){
 
-        console.log("w",classInstance.viewModel.distress()[0].price)
+        var distressArr = new Array();
+        var distress = classInstance.viewModel.distress();
+        for(var i =0 ; i<distress.length ;i++){
+          if(distress[i].checked){
+            distressArr.push(distress[i])
+          }
+        }
+
+        classInstance.markDistressF(distressArr,id)
       },
       editBhk : function(pro){
         
@@ -562,23 +569,24 @@
         var bhk = pro.bhk;
         var checkedDistressData = classInstance.viewModel.checkedDistress();
         var checkedDistressObj =  checkedDistressData[pro.id];
-      
-        console.log(pro.id,checkedDistressData)
-     
+       
        for (var i=0 ; i<bhk.length;i++){
         
           if(checkedDistressObj){
             
             for(var k=0;k<checkedDistressObj.length;k++){
-              if(checkedDistressObj[i].bhk == bhk[i]){
-                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[i].bhk,"price":checkedDistressObj[i].price,"checked":true})      
-              }else{
-                classInstance.viewModel.distress.push({"bhk":bhk[i].bhk,"price":"","checked":false})
+             
+              if(checkedDistressObj[k] && checkedDistressObj[k].bhk == bhk[i]){
+
+                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[k].bhk,"price":checkedDistressObj[k].price,"checked":true})      
+                break;
+              } else {
+                classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
+                break;
               }
             }
           } else{
-
-            classInstance.viewModel.distress.push({"bhk":bhk[i].bhk,"price":"","checked":false})
+            classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
         }
       }
       }
@@ -697,6 +705,18 @@
        } 
     })
   }
+
+  AdminProfile.prototype.markDistressF = function(distress,projectId) {
+    var distressData={};
+    distressData[projectId]=distress;
+    console.log(distressData)
+    var classInstance = this;
+         httpUtils.post("/mark-distress/"+projectId,
+                        distressData,
+                        {},"JSON",function(result){
+                          alert(1)
+                        })
+  };
 
   AdminProfile.prototype.listLeads = function(replace,previous) {
     var classInstance = this;

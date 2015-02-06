@@ -114,7 +114,10 @@ userController.getUserDetails = function() {
     userId= _nself.req.params.userId;
     userSvc.getUserDetails(userId);
 }
-
+/*
+*  forget Password
+*
+**/
 userController.forgetPassword = function() {
   var userSvc = new userService();
  
@@ -350,5 +353,19 @@ userController.checkUserName = function(){
   }
   userSvc.checkUserName(data);
 }
-
+/*
+*  reset Password
+*
+**/
+userController.resetPassword = function() {
+  var userSvc = new userService();
+ 
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    
+    userId= _nself.req.params.userId;
+   // userSvc.resetPassword(userId);
+}
 module.exports = userController;   
