@@ -2,8 +2,9 @@
 	Homescreen
 ***************/
 
-#header {
-	background-color: #00bcd4 !important;
+#header {/*
+	background-color: #00bcd4 !important;*/
+	background-color: rgba(11, 181, 26, 0.8)!important;
 	border-radius: 0 !important;
 }
 #header>._logo_ , #header>._link, #header .right.menu>.item{
@@ -248,7 +249,7 @@
 }
 
 #agentContent>div,#projectContent>div {
-	padding: 3rem 0 0;
+	padding: 1rem 0 0;
 }
 
 #agentContent .rib-head, #projectContent .rib-head {
@@ -537,10 +538,10 @@
 }
 
 .proj-listing ._actButtons>.ui.basic.button {
-	border: 0 !important;
-	border-radius: 0 !important;
-	box-shadow: none !important;
-	background-color: #f4f4f4 !important;
+	border: 1px solid #ddd !important;/*
+	border-radius: 0 !important;*/
+	box-shadow: none !important;/*
+	background-color: #f4f4f4 !important;*/
 	color: #607d8b !important;
 	transition: all ease .2s;
 	padding: .75rem;
@@ -553,8 +554,9 @@
 	color: #607d8b !important;	
 }
 
-.proj-listing ._actButtons>.ui.basic.button:hover, .proj-listing ._actButtons>.ui.basic.button>a:hover {
-	background-color: #607d8b !important;
+.proj-listing ._actButtons>.ui.basic.button:hover, .proj-listing ._actButtons>.ui.basic.button>a:hover, .proj-listing ._actButtons>.ui.basic.button:hover a {
+	/*background-color: #607d8b !important;*/
+	background-color: #DA713A !important;
 	color: #fff !important;
 	cursor: pointer;
 }

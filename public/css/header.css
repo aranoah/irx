@@ -122,7 +122,8 @@
 
 #searchbar .cont-ainer {
   padding: 0.5rem 0 0.5rem 0;
-  text-align: center;
+  width: 75%;
+  margin: 0 auto;
 }
 
 #searchbar .cont-ainer.search-menu>.item {
@@ -141,8 +142,18 @@
 }
 
 #searchbar .cont-ainer .ui.selection.dropdown {
-  min-width: 145px !important;
+  min-width: 156px !important;
+  max-width: 156px !important;
   background-color: inherit !important;
+}
+
+#searchbar .cont-ainer .ui.selection.dropdown>.text.city {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+  text-transform: capitalize;
+  margin-right: 0 !important;
 }
 
 #searchbar input {
