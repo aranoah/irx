@@ -11,6 +11,14 @@
   ._hide_ {
 		display:none;
 	}
+
+	._pImage_ {
+		min-height: 63px;
+		margin-top: 8px;
+  		background-position: center !important;
+  		background-repeat: no-repeat !important;
+  		background-size: 63px 63px !important;
+	}
   </style>
 </head>
 <% locals.uiContext.menu=true %>
@@ -81,9 +89,14 @@
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
 		  <div class="card">
-		    <div class="ui image tiny">
-		      <img src="/images/elliot.jpg">
-		    </div>
+		 	<!-- ko if:imageUrl!=null -->
+		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
+		   	  	</div>
+		    <!-- /ko -->
+		    <!-- ko if:(imageUrl==null || imageUrl=='') -->
+		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url(/images/elliot.jpg)'}">
+		   	  	</div>
+		    <!-- /ko -->
 		    <div class="content">
 
 		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name"></div></a>
