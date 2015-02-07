@@ -335,10 +335,10 @@ Common.prototype.register = function() {
 
 Common.prototype.captureLeadsProject = function(form) {
 
-var name = $("#"+form).find('input[name="name"]').val()
-var emailId = $("#"+form).find('input[name="emailId"]').val()
-var mobileNo = $("#"+form).find('input[name="mobileNo"]').val()
-var projectId = $("#"+form).find('#_projectIdP_').val()
+var name = $("#"+form).find('input[name="name"]').val();
+var emailId = $("#"+form).find('input[name="emailId"]').val();
+var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
+var projectId = $("#"+form).find('#_projectIdP_').val();
 var type = "user"
 var data = {
   "name":name,
@@ -347,12 +347,16 @@ var data = {
   "projectId":projectId,
   "type":type
 }
+var agentid = $('#'+form).find('#_agentIdP_').val();
+if (agentid && agentid != "") {
+  data["agentId"]=agentid;
+};
   httpUtils.post("/capture-lead",
     data,
      { },"JSON",function(data){
     if(data.status==0){
       alert(1)
-        //$('.close.icon').click();
+        
     }else {
       
     }

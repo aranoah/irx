@@ -282,11 +282,18 @@
 			addAgent:function(name,id,companyName){
 				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id}
 
-				_classInstance.agentIds=[];
-				
-		        _classInstance.agentIds.push(agent)
-		        
-		     }
+				var arr=[];
+				arr.push(agent)
+				_classInstance.aPostReqViewModel.data.agentId([])
+				//for future it has been kept araay and push all so that we can select multuiple agents
+				// and send them leads
+				ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
+				//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
+			 
+				$('#_postA_').modal({
+			   	   	closable:false
+			    	}).modal('show');
+		    }
 		}
 		$(document).off('click','#_subReq_')
 		$(document).on('click','#_subReq_',function(){
@@ -306,14 +313,6 @@
 		$(document).off('click','._subReqI_')
 		$(document).on('click','._subReqI_',function(){
 
-			var arr = _classInstance.agentIds;
-			_classInstance.aPostReqViewModel.data.agentId([])
-			ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
-			//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
-			 
-			$('#_postA_').modal({
-			      closable:false
-			    }).modal('show');
 			})
 		 
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));

@@ -655,7 +655,7 @@ p >.mail.icon{
             Global
 *******************************/
 
-#home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
+#home .menu .right.menu > .mobile.item  {
   display: none;
 }
 

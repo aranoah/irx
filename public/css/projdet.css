@@ -79,12 +79,21 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 
 /* ends here */
 
-.ui.divided.padded.grid {
-	padding: 9rem 5% 0;
+#desktop-projDet.ui.divided.padded.grid {
+	padding: 10rem 0 0 !important;
+	width: 75% !important;
+	margin: 0 auto !important;
 }
 
 .ui.divided.padded.grid>div {
 	box-shadow: none !important;
+	padding: 0 !important;
+}
+
+#desktop-projDet .nine.wide.column {
+	padding-right: 1% !important;
+}#desktop-projDet .seven.wide.column {
+	padding-left: 1% !important;
 }
 
 .ui.inverted.segment.head {
@@ -137,7 +146,6 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 
 .ui.table {
 	border-top: 2px solid #eaeaea !important;
-	border-bottom: 2px solid #eaeaea !important;
 }
 
 .ui.table thead th {
@@ -157,7 +165,7 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 }
 
 ._actions>.ui.button {
-	display: block;
+	display: inline-block;
 	margin-bottom: .5rem;
 	color: #607d8b !important;
 	background: #FFF !important;
@@ -166,7 +174,7 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 }
 
 ._actions>.ui.button:hover {
-	background-color: #DA713A !important;
+	background-color: #09963b !important;
 	color: #fff !important;
 }
 
@@ -202,4 +210,7 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 #desktop-projDet .locality .title.active {
     border-bottom: 2px solid;
     font-weight: bold;
+}
+#desktop-projDet .ui.table tr td {
+	border-top: 1px solid #eee !important;
 }

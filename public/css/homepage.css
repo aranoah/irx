@@ -2,9 +2,9 @@
 	Homescreen
 ***************/
 
-#header {/*
+#header {/*#
 	background-color: #00bcd4 !important;*/
-	background-color: rgba(11, 181, 26, 0.8)!important;
+	background-color: #105296 !important;
 	border-radius: 0 !important;
 }
 #header>._logo_ , #header>._link, #header .right.menu>.item{
@@ -249,7 +249,7 @@
 }
 
 #agentContent>div,#projectContent>div {
-	padding: 1rem 0 0;
+	padding: 0 0;
 }
 
 #agentContent .rib-head, #projectContent .rib-head {
@@ -557,7 +557,7 @@
 
 .proj-listing ._actButtons>.ui.basic.button:hover, .proj-listing ._actButtons>.ui.basic.button>a:hover, .proj-listing ._actButtons>.ui.basic.button:hover a {
 	/*background-color: #607d8b !important;*/
-	background-color: #DA713A !important;
+	background-color: #09963b !important;
 	color: #fff !important;
 	cursor: pointer;
 }
@@ -589,13 +589,17 @@
 .proj-listing table tr td {
 	text-transform: capitalize;
 	font-size: 1rem;
+	padding: .2em .8em !important;
+}
+.proj-listing table tr td:nth-child(2n) {
+	color: #666;
 }
 .proj-listing table tr td>a {
 	color: #444 !important;
 }
 
-.proj-listing .ui.medium.image {
-	position: relative;
+.proj-listing .ui.image {
+	width: 190px !important;
 }
 
 .proj-listing .ui.image>.slider {
