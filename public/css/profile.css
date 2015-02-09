@@ -22,7 +22,7 @@
   box-shadow: 0 0 0 #000;
 }
 .ui.grid.two.column.rib-head>.ui.header.column{
-  color: #A92C16;
+  color: #000000;
   font-weight: 400;
   font-size: 1.1rem !important;
 }
@@ -79,7 +79,7 @@
 .lib-actions>div.button {
   width: 11em;
   margin: 0.5rem;
-  border: 1px solid #38b7ea !important;
+  border: 1px solid #ccc !important;
   color: #38b7ea !important;
   border-radius: 20px !important;
   box-shadow: 0 0 0 #000 !important;
@@ -90,8 +90,8 @@
 }
 
 .lib-actions>div.button.reqdet {
-  background-color: #38b7ea !important;
-  color: #fff;
+  
+  color: #607D7B !important;
 }
 
 .lib-count {
@@ -190,7 +190,7 @@
 
 .pro-ject .meta>h4, .meta.loc-item>h4 {
   margin: 0;
-  color: #8E8D8D;
+  color: #020202;
 }
 
 .rib-items.ui.three.column.grid p {
@@ -216,7 +216,7 @@
 /* Locations*/
 
 .loca-tion {
-  margin: 1rem 0;
+
 }
 
 .loca-tion .ui.divided.items.column {

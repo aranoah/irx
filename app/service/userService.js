@@ -239,13 +239,13 @@ UserService.prototype.updateUser = function(user) {
 *	Get User Details
 *
 **/
-UserService.prototype.getUserDetails = function(userId) {
+UserService.prototype.getUserDetails = function(uData) {
 	console.log("In getUserDetails")
 	var _selfInstance = this;
 	var User = IRXUserProfileModel;
-	var id = userId;
+	var id = uData.userId;
 	
-	User.findOne({"irxId":id},
+	User.findOne({"irxId":id},{"password":0,"userId":0,"irxId":0},
 				function(err,data){
 					if (err){
 			 			console.error(err)
@@ -254,8 +254,21 @@ UserService.prototype.getUserDetails = function(userId) {
 			 		} else{
 
 			 			if(data && data != null){
+			 				var invitationData = {
+			 					"agentId":uData.targetId,
+			 					"parentId":id
+			 				}
+
+			 				var isInvited = false;
+			 				if(data.targetId != ""){
+			 					isInvited = _selfInstance.hasInvitationForReview(invitationData,function(isInvited){
+			 						data["isInvited"]= isInvited;
+			 						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
+			 					});
+			 				}else{
+			 						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
+			 				}
 			 			
-			 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
 			 				
 			 			} else{
 			 				console.log("User data not found")
@@ -715,7 +728,7 @@ UserService.prototype.fbRegisterUser = function(user) {
    });
 	
 };
-	UserService.prototype.forgetPassword = function(data){
+UserService.prototype.forgetPassword = function(data){
 		var _selfInstance = this;
 			var id = _selfInstance.getCustomMongoId("IVER-");
 			var type =  VERIFICATION_TYPE.ACCOUNT;
@@ -736,4 +749,48 @@ UserService.prototype.fbRegisterUser = function(user) {
 			// )
 	}
 	
+	
+UserService.prototype.hasInvitationForReview = function(data, pupulateData){
+	var _selfInstance = this;
+	
+	IRXReviewInvitation.findOne({"parentId":data.parentId,"targetId":data.agentId},{"id":1},function(err,data){
+		if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+       }else if(data==null){
+       		pupulateData(false)
+       		return ;
+            //_selfInstance.emit("done",0,"OK",false,null); 
+       }else{
+       		pupulateData(true)
+       		return ;
+            //_selfInstance.emit("done",0,"OK",true,null); 
+       }
+	})
+}
+
+
+UserService.prototype.listReviews = function(data){
+	var _selfInstance = this;
+	var page = data.page;
+	if(!page) {
+		page=defPage;	
+	}
+	var userId = data.userId;
+	IRXReviewModel.find({"parentId":userId},{},{skip:page.start,limit:page.pageSize+1 },
+					function(err,reviews){
+		if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+       }else {
+       		if(reviews && reviews != null && reviews.length>0){
+
+       			_selfInstance.processPagenation(reviews,page);
+       			_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,reviews,page);
+       		}else{
+       			console.error("No Reviews found")
+	 			_selfInstance.emit("done",404,"No Reviews found",null,null);
+       		}
+       		
+       }
+	})
+}
 module.exports = UserService;

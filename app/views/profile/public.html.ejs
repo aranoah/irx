@@ -10,7 +10,7 @@
     color: #000;
   }
    .proName {
-      color: #868686 !important;
+      color: #020202 !important;
       text-align: center !important;
       white-space: nowrap !important;
       overflow: hidden !important;
@@ -41,7 +41,7 @@
           <img class="" src="/img/fb.png">
 
           <div class="lib-actions">
-            <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
+            <div class="ui basic button reqdet">Request details</div><br/>
             <div class="ui basic button">Enquiry now</div>
           </div>
 
@@ -73,80 +73,95 @@
       <!-- Right panel starts here -->
 
       <div class="twelve wide column">
+        <div class="ui top attached tabular menu" style="background:#EDEDED;text-align:left">
+            <a class="active item" data-tab="first"><i class="building outline icon"></i>Projects</a>
+            <a class="item" data-tab="second"><i class="marker icon"></i>Locations</a>
+            <a class="item" data-tab="third"><i class="user icon"></i>Reviews</a>
+            
+          </div>
 
-        <!-- Project listing here -->
-        <div class="column ri-box" data-bind="visible: (shouldShow()=='' || shouldShow()=='project')">
-          <div class="ui grid two column rib-head">
-            <h2 class="ui header column">projects</h2>
-            <div class="header column right menu"  data-bind="click: showAllProjects,visible:  showButton()=='view' "><a><i class="caret down icon"></a></i>
+          <!-- Project listing here -->
+          <div class="ui bottom attached active tab segment" data-tab="first">
+            <div class="column ri-box">
+            <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
+                 No Project found.
             </div>
-            <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' "><a><i class="caret up icon"></a></i>
-            </div>
-          </div>
-          <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
-            
-              <div class="column item">
-                  <img src="/img/proj.png">
-                  <div class="meta">
-                  <a data-bind="attr:{href:'/project/'+id}">
-                    <h4 class="header projectName proName" data-bind="text: name">THE PRESIDENTIAL TOWER</h4></a>
-                    <p class="cinema projectDetail" data-bind="text: builderName"style="text-align:center;margin-top: .5rem;">Mantri Developers</p>
-                    <p class="cinema projectDetail" data-bind="text: location.city"style="text-align:center;">DLF,Gurgaon,Haryana</p>
+              <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
+                
+                  <div class="column item">
+                      <img src="/img/proj.png">
+                      <div class="meta">
+                      <a data-bind="attr:{href:'/project/'+id}">
+                        <h4 class="header projectName proName" data-bind="text: name"></h4></a>
+                        <p class="cinema projectDetail" data-bind="text: builderName"style="text-align:center;margin-top: .5rem;"></p>
+                        <p class="cinema projectDetail" data-bind="text: location.city"style="text-align:center;"></p>
+                      </div>
                   </div>
+                
               </div>
-            
+            </div>
           </div>
-        </div>
+        
+        
 
         <!-- Locations listing here -->
-        <div class="column ri-box loca-tion" data-bind="visible: (shouldShow()=='' || shouldShow()=='location')">
-          <div class="ui grid two column rib-head">
-            <h2 class="ui header column">working locations</h2>
-            <div class="header column right menu"  data-bind="click: showAllLocations,visible:  showLocButton()=='view' "><a><i class="caret down icon"></a></i>
+        <div class="ui bottom attached tab segment" data-tab="second">
+          <div class="column ri-box loca-tion">
+          <div data-bind="visible:locations().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
+                 No Locality found.
             </div>
-            <div class="header column right menu" data-bind="click: hideAllLocations,visible: showLocButton()=='hide' "><a><i class="caret up icon"></a></i>
-            </div>
-          </div>
           <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: locations">
             <div class="ui divided items column">
               <div class="meta loc-item">
                 <h4 class="header projectName" ><i class="marker icon"></i><!--ko text:name--><!--/ko --></h4>
-                <p class="cinema projectDetail" data-bind="text: location.city">Gurgaon,Haryana</p>
+                <p class="cinema projectDetail" data-bind="text: location.city"></p>
                 <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;"><a class="item" href="/agent-listing">Agent</a></span></span>
                 <span class="header"style="color:#83AAB8;"><a class="item" href="/project-listing">Project</a></span>
               </div>
             </div>
           </div>
         </div>
+        </div>
+        
 
         <!-- Reviews section here -->
-        <div class="column ri-box revi-ew" data-bind="visible: (shouldShow()=='' || shouldShow()=='review')">
-          <div class="ui grid two column rib-head">
-            <h2 class="ui header column">Reviews</h2>
-            <div class="column right menu"><div class="ui button"><i class="icon user"></i>Invite</div></div>
-          </div>
+         <div class="ui bottom attached tab segment" data-tab="third">
+          <div class="column ri-box revi-ew" >
           <div class="rib-items ui grid">
 
             <div class="ui relaxed list ten wide column review-item">
+              <% if(result.isInvited) {%>
               <h3 class="ui header column"style="font-weight: 500; font-size: 0.9rem; margin-top: -0.7rem;">Write a Review</h3>
+
                 <form class="ui reply form">
                   <div class="field">
                     <textarea placeholder="Write a Review here..." style="min-height: 2em; max-height: 6em; margin-top:-0.7rem;font-weight:300;"></textarea>
                   </div>
-                  <div class="ui button reply">Add Reply</div>                </form>
+                  <div class="ui button reply">Add Reply</div>
+                </form>
+                <% }%>
+                <div data-bind="visible:reviews().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
+                   No Reviews found.
+              </div>
+                <!-- ko foreach:reviews -->
                 <div class="item">
                 <img class="ui avatar image" src="images/property.jpg">
                 <div class="content">
-                  <a class="header">Daniel Louise</a>
+                  <a class="header"><!-- ko text:agentId --><!-- /ko --></a>
                   <div class="description">Nov 20,2014</div>
                 </div>
               </div>
+              
               <div class="ui segment">
                 <div class="ui grid two column rib-head">
                   <h3 class="ui header column">Review title</h3>
                   <div class="column right menu"><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i></div>
                 </div>
-                <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                <p><!-- ko text:msg --><!-- /ko --></p>
+              </div>
+              <!-- /ko -->
+              <div data-bind="visible:$root.showMoreReviews()==true">
+                 <div class="positive ui button">load more reviews</div>.
               </div>
             </div>
 
@@ -154,6 +169,8 @@
 
           </div>
         </div>
+         </div>
+        
         </div>
       </div>
       </div>    
@@ -166,6 +183,7 @@
     this.showProjects='project';
     this.showLocations='location';
     this.showReviews='review';
+    
     this.projectsOnPage = 3;
     this.locationsOnPage = 3;
     this.page = {pageSize:3,start:0};
@@ -177,7 +195,9 @@
     var _classInstance = this;
     _classInstance.viewModel = {
       projects: ko.observableArray(),
+      reviews : ko.observableArray(),
       locations : ko.observableArray(),
+      showMoreReviews : ko.observable(false),
       shouldShow : ko.observable(''),
       showButton : ko.observable('view'),
       showLocButton : ko.observable('view'),
@@ -209,6 +229,7 @@
    ko.applyBindings(_classInstance.viewModel,document.getElementById('content'));
    _classInstance.listProjects();
    _classInstance.listUserLocations();
+   _classInstance.listReviews();
   };
   PublicProfile.prototype.resetPage = function() {
     this.page.start = this.projectsOnPage;
@@ -222,18 +243,41 @@
     var classInstance = this;
     httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
        if(data.status==0){
-        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)
+        if(data.result != null){
+          ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projects)
         classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-        if (data.page.hasMore==true) {
+        if (data.page.hasMore) {
           classInstance.viewModel.showButton('view');
         }else{
-
           classInstance.viewModel.showButton('hide');
         }
+        }
+        
        } 
     })
   }
 
+PublicProfile.prototype.listReviews = function() {
+    
+    var classInstance = this;
+    httpUtils.get("/reviews/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+       if(data.status==0){
+        if(data.result != null){
+          ko.utils.arrayPushAll(classInstance.viewModel.reviews,data.result)
+        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+        if (data.page.hasMore==true) {
+          
+          classInstance.viewModel.showMoreReviews(true);
+        }else{
+
+          classInstance.viewModel.showMoreReviews(false);
+        }
+       
+        }
+        
+       } 
+    })
+  }
    PublicProfile.prototype.listUserLocations = function() {
     var classInstance = this;
     httpUtils.get("/list-user-locations/"+classInstance.userId,{page:classInstance.locPage},"JSON",function(data){

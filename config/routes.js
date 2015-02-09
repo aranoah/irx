@@ -42,6 +42,8 @@ module.exports = function routes() {
   
   this.match("invite-for-review/:userid",{controller: 'user/rest/user',action:'inviteForReview',via:'GET'})
   this.match("/irx/review/:parentId",{controller: 'user/rest/user',action:'review',via:'POST'})
+  this.match("/has-invitation/:parentId",{controller: 'user/rest/user',action:'hasInvitationForReview',via:'GET'})
+  this.match("/reviews/:userId",{controller: 'user/rest/user',action:'listReviews',via:'GET'})
 
 
   /*
