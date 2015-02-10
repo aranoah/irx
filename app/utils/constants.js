@@ -39,7 +39,8 @@ var MAIL_TYPE={
   REGISTER:"register" ,
   LEAD:"lead",
   VERIFICATION:"verification",
-  PROJECT_DETAILS:"project-details"
+  PROJECT_DETAILS:"project-details",
+  USER_DETAILS:"user-details"
 };
 var VERIFICATION_TYPE={
   ACCOUNT:"account-register",

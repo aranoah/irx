@@ -45,6 +45,23 @@ userController.validate_createUser=function(){
 }
 
 /*
+* Validate function for user sendUserDetails
+*/
+userController.validate_sendUserDetails=function(){
+      var myvalidator = new commonValidator(this.req);
+    
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("emailId",validateEmail,this.req.query.emailId);
+
+    var validateName = ["required"];
+    myvalidator.validate("name",validateName,this.req.query.name);
+
+    var validatePhone = ["required"];
+    myvalidator.validate("phoneNum",validatePhone,this.req.query.phoneNum);
+
+    console.log(myvalidator.getErrors())
+}
+/*
 * Validate function for user registration
 */
 // userController.validate_updateUser=function(){
@@ -415,4 +432,33 @@ userController.listReviews = function() {
     
     userSvc.listReviews(data);
 }  
+
+/*
+*   List User Projects
+
+*   @TODO : Controller level validation
+**/
+
+userController.sendUserDetails = function() {
+ 
+  var _nself = this;
+  var userId= _nself.req.params.userId;
+  var emailId = _nself.req.query.emailId;
+  var name = _nself.req.query.name;
+  var phoneNum = _nself.req.query.mobileNo;
+
+  var userSvc = new userService();
+console.log("YOO !!")
+   var data= {
+      "emailId":emailId,
+      "userId":userId,
+      "name":name,
+      "phoneNum":phoneNum
+    }
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    
+    userSvc.sendUserDetails(data);
+} 
 module.exports = userController;   

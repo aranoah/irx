@@ -38,11 +38,12 @@
 
           <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
           <div class="item"><div class="header"><%= result.name %></div><%= result.companyName %></div>
+          <div class="item"><div class="header"><%= result.location != null?result.location.city:'' %></div></div>
           <img class="" src="/img/fb.png">
 
           <div class="lib-actions">
-            <div class="ui basic button reqdet">Request details</div><br/>
-            <div class="ui basic button">Enquiry now</div>
+            <div class="ui basic button reqdet" data-bind="click:function(){enquire()}">Request details</div><br/>
+            <div class="ui basic button" data-bind="click:function(){addAgent('<%= result.name %>','<%= result.irxId %>','<%= result.companyName %>')}">Contact</div>
           </div>
 
           <div class="lib-count">
@@ -63,7 +64,11 @@
             </div>
             <% } %>
           </div>
-
+          <div class="item">
+            <div class="header"> Public Url </div>
+            <a href="/<%= result.id %>">irx.com/<%= result.id %></a>
+          </div>
+          <input id="__irxId" type="hidden" value="<%= result.irxId %>">
           
 
         </div>
@@ -76,7 +81,7 @@
         <div class="ui top attached tabular menu" style="background:#EDEDED;text-align:left">
             <a class="active item" data-tab="first"><i class="building outline icon"></i>Projects</a>
             <a class="item" data-tab="second"><i class="marker icon"></i>Locations</a>
-            <a class="item" data-tab="third"><i class="user icon"></i>Reviews</a>
+            <a class="item" data-tab="third" data-bind="click:function(){listReviews()}"><i class="user icon"></i>Reviews</a>
             
           </div>
 
@@ -160,7 +165,8 @@
                 <p><!-- ko text:msg --><!-- /ko --></p>
               </div>
               <!-- /ko -->
-              <div data-bind="visible:$root.showMoreReviews()==true">
+              <div data-bind="visible:$root.showMoreReviews()==true,click:function(){listMoreReviews()}" style="text-align: center;
+  margin-top: 25px;">
                  <div class="positive ui button">load more reviews</div>.
               </div>
             </div>
@@ -174,25 +180,31 @@
         </div>
       </div>
       </div>    
+  
   </div>
 
   <script type="text/javascript">
   function PublicProfile(options){
     this.url = null;
     this.viewModel = null;
+    this.parentContainer = 'content'
     this.showProjects='project';
     this.showLocations='location';
     this.showReviews='review';
     
     this.projectsOnPage = 3;
     this.locationsOnPage = 3;
-    this.page = {pageSize:3,start:0};
-    this.locPage = {pageSize:3,start:0};
+    this.page = {pageSize:5,start:0};
+    this.locPage = {pageSize:5,start:0};
+    this.reviewPage = {pageSize:5,start:0}
     this.userId = options.userId;
   } 
 
   PublicProfile.prototype.init = function() {
     var _classInstance = this;
+    _classInstance.aPostReqViewModel = common.getViewModel('postAgent');
+    common.aPostReqViewModel = _classInstance.aPostReqViewModel;
+    ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
     _classInstance.viewModel = {
       projects: ko.observableArray(),
       reviews : ko.observableArray(),
@@ -224,12 +236,41 @@
           _classInstance.resetLocPage();
           this.locations(this.locations().slice(0,3));
           
-      }
-  }
-   ko.applyBindings(_classInstance.viewModel,document.getElementById('content'));
+      },
+      enquire : function(){
+        $('#_userIdC_').val($('#'+_classInstance.parentContainer).find('#__irxId').val())
+         $('#cInfo').modal({
+          closable:false
+        }).modal('show');
+       
+      },
+      listMoreReviews : function(){
+        _classInstance.listReviews()
+      },
+      addAgent:function(name,id,companyName){
+        var agent={"name":name,"id":id,"companyName":companyName,"irxId":id}
+        var arr=[];
+        arr.push(agent)
+        _classInstance.aPostReqViewModel.data.agentId([])
+        //for future it has been kept araay and push all so that we can select multuiple agents
+        // and send them leads
+        ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
+        //console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
+       
+        $('#_postA_').modal({
+              closable:false
+            }).modal('show');
+        },
+        listReviews : function(){
+          _classInstance.resetReviwPage();
+          _classInstance.listReviews();
+
+        }
+       }
+   ko.applyBindings(_classInstance.viewModel,document.getElementById(_classInstance.parentContainer));
    _classInstance.listProjects();
    _classInstance.listUserLocations();
-   _classInstance.listReviews();
+   
   };
   PublicProfile.prototype.resetPage = function() {
     this.page.start = this.projectsOnPage;
@@ -237,6 +278,10 @@
   PublicProfile.prototype.resetLocPage = function() {
     this.locPage.start = this.locationsOnPage;
   }
+  PublicProfile.prototype.resetReviwPage = function() {
+    this.reviewPage.start = 0;
+  }
+
 
   PublicProfile.prototype.listProjects = function() {
     
@@ -260,11 +305,11 @@
 PublicProfile.prototype.listReviews = function() {
     
     var classInstance = this;
-    httpUtils.get("/reviews/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+    httpUtils.get("/reviews/"+classInstance.userId,{page:classInstance.reviewPage},"JSON",function(data){
        if(data.status==0){
         if(data.result != null){
           ko.utils.arrayPushAll(classInstance.viewModel.reviews,data.result)
-        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+        classInstance.reviewPage.start = Number(data.page.start)+Number(data.page.pageSize);
         if (data.page.hasMore==true) {
           
           classInstance.viewModel.showMoreReviews(true);

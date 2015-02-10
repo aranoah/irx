@@ -108,6 +108,35 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
         if(messageData.action == MAIL_TYPE.VERIFICATION){
           new smsUtils().sendSms({"msg":properties.phone_sms,"phoneNo":messageData.phoneNum});
         }
+        if(messageData.action == MAIL_TYPE.USER_DETAILS){
+          console.log("M yahan hu")
+          IRXUserProfileModel.findOne({"irxId":messageData.irxId},{"name":1,"userId":1,"phoneNum":1},
+          function(err,agent){
+              if(err){
+                console.log(err)
+                 }else {
+                  if(agent != null){
+                     var locals = {
+                    "name":agent.name,
+                    "emailAddress":agent.userId,
+                    "phoneNum":agent.phoneNum,
+                    "subject":properties.user_detail_subject,
+                    "userId":messageData.targetEmailId
+                      }
+                      new emailUtils().sendEmail(MAIL_TYPE.USER_DETAILS,locals,function(error,success){
+                        if(error != null){
+                          console.error(error);
+                        }else if(success != null){
+                          console.log(success)
+                        }
+                      });
+                  } else{
+                    console.log("agent not found")
+                  }
+               }
+            })
+           
+        }
         if(messageData.action == MAIL_TYPE.LEAD){
             // Send Email and sms to user 
             IRXLeadModel.findOne({ 'id': messageData.data }, function (err, lead) {

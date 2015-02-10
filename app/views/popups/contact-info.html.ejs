@@ -1,0 +1,68 @@
+<!-- Leads-Capture popup -->
+
+
+<div id="cInfo" class="ui modal pop-up sell-post">  
+<form id="_cInfoForm_" class="ui form" action="javascript: common.requestUserDetails('_cInfoForm_')">
+  <div class="content">
+    <div class="ui grid">
+      <i class="column right floated remove circle close icon"></i>
+    </div>
+  </div>
+  <div id="lower-content" class="actions ui grid">
+    
+    <!-- Leads capture starts here -->
+
+        <div class="ui inverted menu contact">
+       
+          <h4 class="ui dividing header">Contact Information :</h4>
+               
+          <% if(locals.session.user) {%>
+          <div class="item field">
+          
+            <input name="name" placeholder="Name" value="<%= locals.session.user.name %>" type="text">
+          </div>
+          
+          <div class="item field">
+          
+            <input name="emailId" placeholder="Email.." value="<%= locals.session.user.userId %>" type="text">
+          </div>            
+          
+          <div class="item field">
+          
+            <input name="mobileNo" placeholder="Mobile Number.." value="" type="text">
+          </div>
+          <% }%>
+          
+          <% if(!locals.session.user){%>
+             <div class="item field">
+          
+            <input name="name" value="" placeholder="Name" type="text">
+          </div>
+          
+          <div class="item field">
+          
+            <input name="emailId" value="" placeholder="Email.." type="text">
+          </div>            
+          
+          <div class="item field">
+          
+            <input name="mobileNo" value="" placeholder="Mobile Number.." type="text">
+          </div>
+           <% }%>
+        
+        </div>
+        
+        <input name="userId" id="_userIdC_" type="hidden" value="" >
+        <div class="three column row">
+          <div class="right floated column">
+          <input type="submit" style="height:0;width:0;display:none;outline:0" id="_clickable_">
+            <div class="ui submitAction"  onClick="common.validateContactInfo(this)">Submit</div>
+          </div>
+          
+        </div>
+
+    <!-- Ends here -->  
+  </div>
+  </form>
+</div>
+

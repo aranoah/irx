@@ -248,6 +248,51 @@ Common.prototype.validateLead = function(_button) {
     });
  $(_button).parents('form').submit();
 }
+Common.prototype.validateContactInfo = function(_button) {
+     $(_button).parents('form').form({
+      emailId: {
+        identifier : 'emailId',
+        rules: [
+          {
+            type   : 'email',
+            prompt : 'Please enter a valid e-mail'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Please enter e-mail'
+          }
+        ]
+      }, 
+      name: {
+        identifier : 'name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your name'
+          }
+        ]
+      },
+    
+      mobileNo: {
+        identifier : 'mobileNo',
+        rules: [
+          {
+            type   : 'maxLength[10]',
+            prompt : 'Please enter a valid mobile number'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Please enter a mobile number'
+          },
+          {
+            type   : 'integer',
+            prompt : 'Please enter a valid mobile number'
+          }
+        ]
+      }
+    });
+ $(_button).parents('form').submit();
+};
 Common.prototype.validateForm = function(_button) {
      
      $(_button).parents('form').form({
@@ -332,6 +377,29 @@ Common.prototype.register = function() {
     }
   })
 };  
+
+Common.prototype.requestUserDetails = function(form) {
+
+var name = $("#"+form).find('input[name="name"]').val();
+var emailId = $("#"+form).find('input[name="emailId"]').val();
+var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
+var userId = $("#"+form).find('#_userIdC_').val();
+
+var data = {
+  "name":name,
+  "emailId":emailId,
+  "mobileNo":mobileNo
+}
+  httpUtils.get("/send-user-details/"+userId,
+    data,"JSON",function(data){
+    if(data.status==0){
+      alert(1)
+        
+    }else {
+      
+    }
+  })
+}
 
 Common.prototype.captureLeadsProject = function(form) {
 

@@ -245,7 +245,7 @@ UserService.prototype.getUserDetails = function(uData) {
 	var User = IRXUserProfileModel;
 	var id = uData.userId;
 	
-	User.findOne({"irxId":id},{"password":0,"userId":0,"irxId":0},
+	User.findOne({$or: [ { "irxId": id }, { "id": id } ] },{"password":0,"userId":0},
 				function(err,data){
 					if (err){
 			 			console.error(err)
@@ -256,7 +256,7 @@ UserService.prototype.getUserDetails = function(uData) {
 			 			if(data && data != null){
 			 				var invitationData = {
 			 					"agentId":uData.targetId,
-			 					"parentId":id
+			 					"parentId":data.irxId
 			 				}
 
 			 				var isInvited = false;
@@ -791,6 +791,35 @@ UserService.prototype.listReviews = function(data){
        		}
        		
        }
+	})
+}
+
+
+UserService.prototype.sendUserDetails = function(data){
+	var _selfInstance = this;
+	
+	var targetEmailId = data.emailId
+	var userId = data.userId;
+	var qObj = {
+				"action":MAIL_TYPE.USER_DETAILS,
+				"irxId" : userId,
+				"targetEmailId":targetEmailId
+			}
+			var strQObj = JSON.stringify(qObj)
+			
+			_app_context.sqs.sendMessage({
+	        	"QueueUrl" : _app_context.qUrl,
+	        	"MessageBody" : strQObj
+	     	 }, function(err, data){ 
+	     	      if(err){
+	     	      	console.log("Error putting in queue")
+	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",null,null);
+					return;
+	     	      } else{
+	     	      	console.log("Successfully queued")
+	     	      	_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+					return;
+	     	      }   
 	})
 }
 module.exports = UserService;
