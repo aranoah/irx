@@ -212,13 +212,15 @@
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
 	  			
 	  		<div id="mobile-listing" class="ui items" data-bind="foreach : projects">
+				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
 	  			<div class="item">
 					<div class="content">
 						<div class="ui tiny image" style="padding: 0 .5rem 0 0 !important;width:auto !important;">
-							  <img src="/images/project.jpg" style="width:80px;height:80px;">
-							</div>
-							<div class="content">
-							  <div class="summary">
+						  <img src="/images/project.jpg" style="width:80px;height:80px;">
+						</div>
+						<div class="content">
+							<div class="like _name_" data-bind="text : name"></div>
+						  	<div class="summary">
 							    <a class="user"><b>
 							      <i class="rupee icon"></i>
 							      <!-- ko if:Array.isArray(priceText) -->
@@ -240,7 +242,6 @@
 						    <div class="date">
 					           <span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></span><span data-bind="text : type"></span>
 					        </div>
-							<div class="like _name_" data-bind="text : name"></div>
 					        <div class="date" data-bind="text : builtUpArea">120 sq.ft</div>
 						</div>
 						<div class="meta">
@@ -249,9 +250,8 @@
 				        </div>
 				        <a href="" class="item right floated leads-in" data-bind="click:function(){$parent.enquireNow($data) }" style="margin-top:-1.4rem"><i style="font-size:1.5em;" class="blue help circle icon"></i></a>
 					</div>
-				</div>
+				</div></a>
 	  		</div>
-
 	  	<% } %> 
 	  		
 	  	<!-- ends here -->
@@ -330,7 +330,15 @@
 			Name :
 			<!--ko text: filters.name--><!--/ko-->
     			<!--ko if: filters.name() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('name')} }" class="remove icon"></i><!--/ko-->
-			</span>   	
+
+			</span><span class="ui teal label" data-bind="visible:filters.minPrice() >0|| filters.maxPrice() >0">
+			Price range :
+			<!--ko text: filters.minPrice()>0? filters.minPrice:0 --><!--/ko-->
+			<!--ko text: filters.maxPrice()>0?"-"+filters.maxPrice():''--><!--/ko--> 
+    			<i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('maxPrice')} }" class="remove icon"></i>
+
+			</span> 
+			 	
 	  	</div>
 
 	    <!-- Project Listing goes here -->
@@ -417,12 +425,22 @@
 				</div>	
 				<div class="item" style="margin-bottom:0 !important;">
 				  <div class="ui small image">
-				      <img src="/images/project.jpg">
+				       <!--ko if:gallery!=null && gallery.length>0  -->
+
+				      <img src="" data-bind="attr:{src: gallery[0]}">
 				       <div class="slider">
 				        <i class="chevron right icon"></i>
-				        <span>3 PHOTOS</span>
+				       
+				        <span><!--ko text:gallery.length--><!--/ko --></span>
+				       
 				        <i class="chevron left icon"></i>
 				      </div> 
+				       <!--/ko -->
+
+				       <!--ko if:gallery==null || gallery.length==0  -->
+				       <img src="/images/project.jpg">
+				       <div class="slider"></div> 
+				       <!--/ko -->
 				  </div>
 				  <div class="content">
 				    <a class="header" style="padding-top:1rem;"><i class="rupee icon" style="padding-left:0;"></i>
@@ -684,8 +702,12 @@
 				return true;
 			},
 			removeFilters : function(filterName){
-				
-				_classInstance.viewModel.filters[filterName]("");
+				 if(filterName=='maxPrice'){
+				 	_classInstance.viewModel.filters["minPrice"](0);
+				 	_classInstance.viewModel.filters["maxPrice"](0);
+				 }else{
+				  _classInstance.viewModel.filters[filterName]("");
+			    }
 				_classInstance.resetPage();
 				_classInstance.listProjects(true);
 				return true;
