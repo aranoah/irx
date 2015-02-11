@@ -143,8 +143,7 @@
 			    </div>
 		    </div> -->
 		    <div class="extra content">
-		    	<a href=""><i class="facebook square icon"></i></a>
-				<a href=""><i class="share square icon"></i></a>
+		    	<div class="fb-like left floated" data-bind="html:$parent.callmedude($data)"></div>
 				<div class="right floated created">
 					<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId,companyName)}">Enquiry</div>
 				</div>
@@ -168,6 +167,7 @@
 	  </div> 
 	    
 	</div>
+	<div id="fb-root"></div>
 	<script type="text/javascript">
 	function Agent(options){
 		this.page = {
@@ -278,6 +278,10 @@
 			total: ko.observable(),
 			addSome : function(){
 				//_classInstance.listAgents(true);
+			},
+			callmedude:function(data){
+				
+				return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+data.irxId+'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>';
 			},
 			addAgent:function(name,id,companyName){
 				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id}
@@ -397,4 +401,11 @@
 	  })
 	</script>
   <% include ../partials/footer.html.ejs %>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=453584098038579&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 </body>
