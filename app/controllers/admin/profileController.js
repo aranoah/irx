@@ -35,8 +35,9 @@ profileController.main = function() {
    var userSvc = new userService();
  
     var _nself = this;
-    
+   
     userSvc.on("done", function(code,msg,result,errValue){
+     
     	_nself.title = "Admin-Profile page";
     	_nself.result=result;
      	_nself.userId = _nself.req.params.userId;

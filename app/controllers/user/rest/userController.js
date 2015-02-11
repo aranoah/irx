@@ -20,10 +20,10 @@ var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
 var commonValidator = require(_path_util+"/commonValidator")
-var userController = new Controller();
+
 
 var userService = require(_path_service+"/userService.js" )
-
+var userController = new Controller();
 /*
 * Validate function for user registration
 */
@@ -209,9 +209,9 @@ userController.logout = function() {
 **/
 
 userController.listUserProjects = function() {
- 
+    try{
   var _nself = this;
-  userId= _nself.req.params.userId;
+  var userId= _nself.req.params.userId;
   var page = _nself.request.query.page;
   
   if(!page){
@@ -222,18 +222,23 @@ userController.listUserProjects = function() {
   }
   
   var userSvc = new userService();
- 
+ console.log("Aa gaya m!!!")
    var data= {
       "page":page,
       "userId":userId
     }
     userSvc.on("done", function(code,msg,result,errValue){
+      console.log("yuuqwertetyrtynbgvfbg!!!")
      _nself.processJson(code,msg,result,errValue);
     });
-    
+ 
+
+
     userSvc.listUserProjects(data);
  
-   
+   }catch(e){
+    console.log("tryyy",e)
+   }
 }
 
 /*
@@ -296,6 +301,7 @@ userController.review = function(){
   var parentId = _nself.req.params.parentId;
  
   var msg = _nself.req.body.msg;
+  var rating = _nself.req.body.rating;
   var agentId = _nself.getCurrentUser(_nself);
  
   var userSvc = new userService();
@@ -305,7 +311,8 @@ userController.review = function(){
   var data = {
     "parentId":parentId,
     "agentId": agentId,
-    "msg":msg
+    "msg":msg,
+    "rating":rating
   }
   userSvc.review(data);
 }
@@ -448,7 +455,7 @@ userController.sendUserDetails = function() {
   var phoneNum = _nself.req.query.mobileNo;
 
   var userSvc = new userService();
-console.log("YOO !!")
+
    var data= {
       "emailId":emailId,
       "userId":userId,
@@ -461,4 +468,4 @@ console.log("YOO !!")
     
     userSvc.sendUserDetails(data);
 } 
-module.exports = userController;   
+   module.exports=userController

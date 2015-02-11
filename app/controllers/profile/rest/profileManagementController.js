@@ -171,5 +171,36 @@ pMController.deleteLocation = function() {
     
     pMService.deleteLocation(data);
 };
+userController.listUserProjects = function() {
+    try{
+  var _nself = this;
+  var userId= _nself.req.params.userId;
+  var page = _nself.request.query.page;
+  
+  if(!page){
+    page={
+      "start":0,
+      "pageSize":3
+    }
+  }
+  
+ // var userSvc = new userService();
+ console.log("Aa gaya m!!!")
+   var data= {
+      "page":page,
+      "userId":userId
+    }
+    // userSvc.on("done", function(code,msg,result,errValue){
+    //   console.log("yuuqwertetyrtynbgvfbg!!!")
+    //  _nself.processJson(code,msg,result,errValue);
+    // });
+ 
 
+
+   // userSvc.listUserProjects(data);
+ 
+   }catch(e){
+    console.log("tryyy",e)
+   }
+}
 module.exports=pMController

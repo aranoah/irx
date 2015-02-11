@@ -252,7 +252,7 @@ UserService.prototype.getUserDetails = function(uData) {
 			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 			 			
 			 		} else{
-
+			 			console.log("1")
 			 			if(data && data != null){
 			 				var invitationData = {
 			 					"agentId":uData.targetId,
@@ -261,11 +261,14 @@ UserService.prototype.getUserDetails = function(uData) {
 
 			 				var isInvited = false;
 			 				if(data.targetId != ""){
+			 					console.log("2")
 			 					isInvited = _selfInstance.hasInvitationForReview(invitationData,function(isInvited){
+			 						console.log("5")
 			 						data["isInvited"]= isInvited;
+			 							console.log("6")
 			 						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
 			 					});
-			 				}else{
+			 				}else{console.log("3")
 			 						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
 			 				}
 			 			
@@ -472,7 +475,7 @@ UserService.prototype.review = function(data) {
 	var _selfInstance  = this;
 	//get review invitation
 	var refCode = data.refCode;
-	IRXReviewInvitation.findOne({"refCode":refCode},function(err,reviewInvitation){
+	IRXReviewInvitation.findOne({"parentId":data.parentId,"targetId":data.agentId},function(err,reviewInvitation){
 		if(err){
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error finding review invitation",err,null);
 		} else {
@@ -480,12 +483,7 @@ UserService.prototype.review = function(data) {
 				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
 				return;
 			}
-				
-			if((reviewInvitation.parentId != data.parentId) || (reviewInvitation.targetId != data.agentId)) {
-				
-				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
-				return;
-			}
+			var reviewId = reviewInvitation.id;
 			// save review
 			
 			var id = _selfInstance.getCustomMongoId("IRev-")
@@ -493,7 +491,8 @@ UserService.prototype.review = function(data) {
 				"id":id,
 				"parentId":data.parentId,
 				"agentId":data.agentId,
-				"msg" : data.msg
+				"msg" : data.msg,
+				"rating" : data.rating
 			});
 			reviewModel.save(function(err,review){
 			if (err) {
@@ -502,13 +501,13 @@ UserService.prototype.review = function(data) {
 			}else {
 				//clear invitation
 				
-				IRXReviewInvitation.remove({}, function (err) {
+				IRXReviewInvitation.remove({"id":reviewId}, function (err) {
 					if (err) {
 						console.error(err)
 						_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 					}else{
 						console.log("Review Invitation data cleared");
-						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,review,null);
 					} 
 				});
 				
@@ -752,15 +751,17 @@ UserService.prototype.forgetPassword = function(data){
 	
 UserService.prototype.hasInvitationForReview = function(data, pupulateData){
 	var _selfInstance = this;
-	
+	console.log({"parentId":data.parentId,"targetId":data.agentId})
 	IRXReviewInvitation.findOne({"parentId":data.parentId,"targetId":data.agentId},{"id":1},function(err,data){
 		if(err){
              _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
        }else if(data==null){
+       		console.log("4")
        		pupulateData(false)
        		return ;
             //_selfInstance.emit("done",0,"OK",false,null); 
        }else{
+       		console.log("5")
        		pupulateData(true)
        		return ;
             //_selfInstance.emit("done",0,"OK",true,null); 

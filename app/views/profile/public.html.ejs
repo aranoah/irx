@@ -78,6 +78,15 @@
       <!-- Right panel starts here -->
 
       <div class="twelve wide column">
+      <div class="ui icon message" style="padding:15px">
+        <i class="inbox icon"></i>
+        <div class="content">
+          <div class="header">
+            Claim your profile.
+          </div>
+          <p style="cursor:pointer">Click here to claim your profile</p>
+        </div>
+      </div>
         <div class="ui top attached tabular menu" style="background:#EDEDED;text-align:left">
             <a class="active item" data-tab="first"><i class="building outline icon"></i>Projects</a>
             <a class="item" data-tab="second"><i class="marker icon"></i>Locations</a>
@@ -136,13 +145,14 @@
 
             <div class="ui relaxed list ten wide column review-item">
               <% if(result.isInvited) {%>
-              <h3 class="ui header column"style="font-weight: 500; font-size: 0.9rem; margin-top: -0.7rem;">Write a Review</h3>
+              <h3 class="ui header column"style="font-weight: 500; font-size: 0.9rem; margin-top: -0.7rem;">Write a Review<div class="ui star rating rate" data-max-rating="5" style="float:right"></div></h3>
 
                 <form class="ui reply form">
                   <div class="field">
-                    <textarea placeholder="Write a Review here..." style="min-height: 2em; max-height: 6em; margin-top:-0.7rem;font-weight:300;"></textarea>
+                    <textarea placeholder="Write a Review here..." data-bind="value:msg" style="min-height: 2em; max-height: 6em; margin-top:-0.7rem;font-weight:300;"></textarea>
+
                   </div>
-                  <div class="ui button reply">Add Reply</div>
+                  <div class="ui button reply" data-bind="click:function(){addReply()}">Add Reply</div>
                 </form>
                 <% }%>
                 <div data-bind="visible:reviews().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
@@ -160,7 +170,7 @@
               <div class="ui segment">
                 <div class="ui grid two column rib-head">
                   <h3 class="ui header column">Review title</h3>
-                  <div class="column right menu"><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i></div>
+                  <div class="column right menu"><div class="ui star rating indiv" data-bind="attr :{'data-rating':$data.rating?$data.rating:'0'}" ></div></div>
                 </div>
                 <p><!-- ko text:msg --><!-- /ko --></p>
               </div>
@@ -206,6 +216,7 @@
     common.aPostReqViewModel = _classInstance.aPostReqViewModel;
     ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
     _classInstance.viewModel = {
+      msg:ko.observable(),
       projects: ko.observableArray(),
       reviews : ko.observableArray(),
       locations : ko.observableArray(),
@@ -247,6 +258,12 @@
       listMoreReviews : function(){
         _classInstance.listReviews()
       },
+      addReply : function(){
+        var rating = $('.rate').rating('get rating');
+        httpUtils.post("/irx/review/"+_classInstance.userId,{"msg":_classInstance.viewModel.msg(),"rating":rating},{},"JSON",function(data){
+          alert(1)
+        })
+      },
       addAgent:function(name,id,companyName){
         var agent={"name":name,"id":id,"companyName":companyName,"irxId":id}
         var arr=[];
@@ -270,7 +287,10 @@
    ko.applyBindings(_classInstance.viewModel,document.getElementById(_classInstance.parentContainer));
    _classInstance.listProjects();
    _classInstance.listUserLocations();
-   
+   var ratingPlugin = $('.rate')
+    .rating()
+  ;
+  
   };
   PublicProfile.prototype.resetPage = function() {
     this.page.start = this.projectsOnPage;
@@ -308,7 +328,10 @@ PublicProfile.prototype.listReviews = function() {
     httpUtils.get("/reviews/"+classInstance.userId,{page:classInstance.reviewPage},"JSON",function(data){
        if(data.status==0){
         if(data.result != null){
+          
+         
           ko.utils.arrayPushAll(classInstance.viewModel.reviews,data.result)
+
         classInstance.reviewPage.start = Number(data.page.start)+Number(data.page.pageSize);
         if (data.page.hasMore==true) {
           
@@ -317,7 +340,12 @@ PublicProfile.prototype.listReviews = function() {
 
           classInstance.viewModel.showMoreReviews(false);
         }
-       
+        $('.ui.star.rating.indiv')
+          .rating({
+            interactive:false,
+            maxRating: 5
+          })
+        ;
         }
         
        } 
