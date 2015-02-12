@@ -302,7 +302,7 @@ userController.review = function(){
  
   var msg = _nself.req.body.msg;
   var rating = _nself.req.body.rating;
-  var agentId = _nself.getCurrentUser(_nself);
+  var user = _nself.getCurrentUserInfo(_nself);
  
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,errValue){
@@ -310,9 +310,11 @@ userController.review = function(){
   });
   var data = {
     "parentId":parentId,
-    "agentId": agentId,
+    "agentId": user.userId,
     "msg":msg,
-    "rating":rating
+    "rating":rating,
+    "agentName": user.name,
+    "agentImage" : user.imageUrl
   }
   userSvc.review(data);
 }
