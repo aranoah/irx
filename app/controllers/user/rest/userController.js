@@ -486,6 +486,7 @@ userController.claimProfile = function() {
     userSvc.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
+    user.profileId=_nself.req.params.profileId;
     
     userSvc.claimProfile(user);
 } 
