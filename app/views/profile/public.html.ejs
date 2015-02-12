@@ -16,9 +16,6 @@
       overflow: hidden !important;
       text-overflow: ellipsis !important;
    }
-   .ui.grid.two.column.rib-head{
-    background: rgba(224, 224, 224, 0.49);
-   }
   </style>
 </head>
 <body>  
@@ -99,7 +96,14 @@
       </div>
       <% } %>
       
-        <div class="ui top attached tabular menu" style="background:#EDEDED;text-align:left">
+      <% if(locals.req.device.type == 'desktop'){ %>
+        <div class="ui top attached tabular menu" style="background:#inherit;text-align:left">
+      <% } %>
+
+      <% if(locals.req.device.type != 'desktop'){ %>
+        <div id="mobile-tab" class="ui top attached tabular menu" style="background:#inherit;text-align:left">
+      <% } %>
+
             <a class="active item" data-tab="first"><i class="building outline icon"></i>Projects</a>
             <a class="item" data-tab="second"><i class="marker icon"></i>Locations</a>
             <a class="item" data-tab="third" data-bind="click:function(){listReviews()}"><i class="user icon"></i>Reviews</a>
@@ -113,6 +117,7 @@
             <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
                  No Project found.
             </div>
+
               <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
                 
                   <div class="column item">
@@ -136,9 +141,22 @@
           <div class="column ri-box loca-tion">
           <div data-bind="visible:locations().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
                  No Locality found.
-            </div>
-          <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: locations">
+          </div>
+
+          <% if(locals.req.device.type == 'desktop'){ %>
+
+            <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: locations">
             <div class="ui divided items column">
+
+          <% } %>
+
+          <% if(locals.req.device.type != 'desktop'){ %>
+
+            <div class="rib-items ui pro-ject"  data-bind="foreach: locations">
+            <div class="column" style="padding: 1rem;text-align: left;">
+
+          <% } %>
+        
               <div class="meta loc-item">
                 <h4 class="header projectName" ><i class="marker icon"></i><!--ko text:name--><!--/ko --></h4>
                 <p class="cinema projectDetail" data-bind="text: location.city"></p>
@@ -158,7 +176,18 @@
           <div class="column ri-box revi-ew" >
           <div class="rib-items ui grid">
 
-            <div class="ui relaxed list ten wide column review-item">
+            <% if(locals.req.device.type == 'desktop'){ %>
+
+              <div class="ui relaxed list ten wide column review-item">
+
+            <% } %>
+
+            <% if(locals.req.device.type != 'desktop'){ %>
+
+              <div class="ui relaxed list sixteen wide column review-item">
+
+            <% } %>
+
               <% if(result.isInvited) {%>
               <h3 class="ui header column"style="font-weight: 500; font-size: 0.9rem; margin-top: -0.7rem;">Write a Review<div class="ui star rating rate" data-max-rating="5" style="float:right"></div></h3>
 
@@ -190,7 +219,7 @@
                 </div>
               </div>
               
-              <div class="ui segment">
+              <div class="ui segment prof-rev">
                 <div class="ui grid two column rib-head">
                   <h3 class="ui header column">Review title</h3>
                   <div class="column right menu"><div class="ui star rating indiv" data-bind="attr :{'data-rating':$data.rating?$data.rating:'0'}" ></div></div>
