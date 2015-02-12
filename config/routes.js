@@ -34,6 +34,7 @@ module.exports = function routes() {
   this.match("irx/reset",{controller:'irx-misc/reset', action:'main',via:'GET'})
   this.match("irx/t&c",{controller:'irx-misc/terms', action:'main',via:'GET'})
   this.match("irx/forgot-password",{controller:'irx-misc/forgotpassword', action:'main',via:'GET'})
+  this.match("irx/change-password",{controller:'irx-misc/changepassword', action:'main',via:'GET'})
   this.match("irx/verification",{controller:'irx-misc/verification', action:'main',via:'GET'})
 
   /*
@@ -87,7 +88,7 @@ module.exports = function routes() {
   this.match('list-user-locations/:userId',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
   this.match('check-userName/:text',{ controller: 'user/rest/user', action: 'checkUserName' , via: 'GET' });
   this.match('forget-password/:userId',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
-  this.match('reset-password',{ controller: 'user/rest/user', action: 'resetPassword' , via: 'GET' });
+  this.match('change-password',{ controller: 'user/rest/user', action: 'changePassword' , via: 'GET' });
   this.match('send-user-details/:userId',{ controller: 'user/rest/user', action: 'sendUserDetails' , via: 'GET' });
   this.match('claim-profile/:profileId',{ controller: 'user/rest/user', action: 'claimProfile' , via: 'GET' });
   /*

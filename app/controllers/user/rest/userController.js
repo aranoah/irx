@@ -43,7 +43,22 @@ userController.validate_createUser=function(){
 
     console.log(myvalidator.getErrors())
 }
+userController.validate_changePassword=function(){
+    var myvalidator = new commonValidator(this.req);
+    /// this.req = request object, this.res = response object.
+    console.log("inside validate",this.req.body.emailId);
+    
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("userId",validateEmail,this.req.query.userId);
 
+    var validateCode = ["required"];
+    myvalidator.validate("code",validateName,this.req.query.code);
+
+    var validateCode = ["required"];
+    myvalidator.validate("password",validateName,this.req.query.password);
+
+    console.log(myvalidator.getErrors())
+}
 /*
 * Validate function for user sendUserDetails
 */
@@ -383,16 +398,19 @@ userController.checkUserName = function(){
 *  reset Password
 *
 **/
-userController.resetPassword = function() {
+userController.changePassword = function() {
   var userSvc = new userService();
  
     var _nself = this;
     userSvc.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
-    
-    userId= _nself.req.params.userId;
-   // userSvc.resetPassword(userId);
+    var data={
+      "userId":this.req.query.userId,
+      "code":this.req.query.code,
+      "password":this.req.query.password,
+    }
+    userSvc.changePassword(data);
 }
 
 /*

@@ -736,7 +736,7 @@ UserService.prototype.fbRegisterUser = function(user) {
    });
 	
 };
-UserService.prototype.forgetPassword = function(userId){
+UserService.prototype.forgetPassword = function(userId){ 
 		var _selfInstance = this;
 		IRXUserProfileModel.findOne({"userId":userId},{id:1},function(err,res){
        if(err){
@@ -764,7 +764,52 @@ UserService.prototype.forgetPassword = function(userId){
    });
 			
 	}
-	
+
+
+	UserService.prototype.changePassword = function(data){ 
+		var _selfInstance = this;
+		var userId = data.userId;
+		var code = data.code;
+		var password = data.password;
+		var hashPassword = hashAlgo.SHA1(user.password);
+		IRXVerificationModel.findOne({"vfData":userId,"vfCode":code},{id:1},function(err,res){
+       if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+       }else if(res==null){
+         _selfInstance.emit("done",404,"Invalid code","Invalid code",null);
+       }else{
+       		User.update({"userId":data.userId},
+							{"password":hashPassword},
+							function(err, numberAffected, raw){
+								console.log(numberAffected)
+								if(err){
+									console.error(err)
+									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+								}else{
+									if(numberAffected >0){
+										console.log("User updated successfully");
+										
+						 				verificationModel.remove({}, function (err) {
+											if (err) {
+												console.error(err)
+												_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+											}else{
+												console.log("Verfication data cleared");
+												_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
+											} 
+										});
+										
+									}else{
+										console.log("User not updated")
+										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+									}
+								}	
+							})
+       }
+   });
+			
+	}
+
 	
 UserService.prototype.hasInvitationForReview = function(data, pupulateData){
 	var _selfInstance = this;
