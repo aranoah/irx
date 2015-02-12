@@ -42,4 +42,18 @@ HTTPUtils.prototype.post = function(uri,data,headers,dataType,successCallback,er
           }
         })
 };
+
+HTTPUtils.prototype.checkStatus = function(data,showPopUp) {
+     if(data.status == 0 || data.status==200){
+
+          if(showPopUp){
+               $('#_serverSuccess_').modal('show');
+          }
+          return true;
+    }else{
+     
+        $('#_serverError_').modal('show');
+        $('#_serverError_').find('.errMsg').text(data.message)
+     }
+};
 var httpUtils = new HTTPUtils();

@@ -576,7 +576,7 @@ UserService.prototype.review = function(data) {
 	UserService.prototype.saveVerificationCode = function(vData,type,callback) {
 		var _selfInstance  = this;
 			var id = _selfInstance.getCustomMongoId("IVER-")
-
+			var verCode = _selfInstance.getCustomMongoId("IVC-")
 		// send email
 		_selfInstance.once('sendEmail',function(sVerification){
 			var action="";
@@ -587,6 +587,10 @@ UserService.prototype.review = function(data) {
 			} else if(type==VERIFICATION_TYPE.PHONE){
 				action=MAIL_TYPE.VERIFICATION
 				data = sVerification.phoneNum;
+			}else if(type==VERIFICATION_TYPE.PASSWORD){
+
+				action=MAIL_TYPE.FORGET_PASSWORD
+				data = sVerification.userId;
 			}
 			var qObj = {
 				"action":action,
@@ -603,8 +607,8 @@ UserService.prototype.review = function(data) {
 	     	      	callback(STATUS.ERROR.code,"Error putting in queue");
 					return;
 	     	      } else{
-	     	      	console.log("Successfully queued")
-	     	      	callback(STATUS.OK.code,STATUS.OK.msg);
+	     	      	console.log("Mail has been ")
+	     	      	callback(STATUS.MAIL_SUCCESS.code,STATUS.MAIL_SUCCESS.msg);
 					return;
 	     	      }         
 	      });
@@ -618,8 +622,8 @@ UserService.prototype.review = function(data) {
 					"id":id
 		  			,"vfData": vData.data
 		  			,"type" : type
-		  			,"userId" : vData.irxId
-					,"vfCode":"IRX-ABCD"
+		  			,"userId" : vData.emailId
+					,"vfCode": verCode
 					,"createdOn":new Date()
 		   			,"updatedOn":new Date()
 		   			,"emailId" : vData.emailId
@@ -732,25 +736,33 @@ UserService.prototype.fbRegisterUser = function(user) {
    });
 	
 };
-UserService.prototype.forgetPassword = function(data){
+UserService.prototype.forgetPassword = function(userId){
 		var _selfInstance = this;
-			var id = _selfInstance.getCustomMongoId("IVER-");
-			var type =  VERIFICATION_TYPE.ACCOUNT;
+		IRXUserProfileModel.findOne({"userId":userId},{id:1},function(err,res){
+       if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+       }else if(res==null){
+         _selfInstance.emit("done",404,"User data not found","User data not found",null);
+       }else{
+       		var id = _selfInstance.getCustomMongoId("IVER-");
+			var type =  VERIFICATION_TYPE.PASSWORD;
 			var vData = {
-				"data":userData.irxId,
-				"irxId" : userData.irxId,
-				"emailId" : userData.userId,
-				"phoneNum" : userData.phoneNum
+				"data":userId,
+				"emailId" : userId,
 			}
-			// // _selfInstance.saveVerificationCode(vData,type,function(code,msg){
+
+			_selfInstance.saveVerificationCode(vData,type,function(code,msg){
 			 	
-			//  // 	if(code == STATUS.OK.code){
-			// 	// 	_selfInstance.emit("done",code,msg,userData,null);
-			// 	// } else{
-			// 	// 	_selfInstance.emit("done",code,msg,null,null);
-			// 	// }
-			//  }
-			// )
+			 	if(code == STATUS.OK.code){
+					_selfInstance.emit("done",code,msg,null,null);
+				} else{
+					_selfInstance.emit("done",code,msg,null,null);
+				}
+			 }
+			)
+       }
+   });
+			
 	}
 	
 	

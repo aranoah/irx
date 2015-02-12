@@ -32,6 +32,6 @@ var resetController = new Controller();
 resetController.main = function() {
   console.log("In main Method for reset password page")
   this.title = "reset password page";
-  this.render("irx-misc/reeset"); 
+  this.render("irxmisc/reset"); 
 }
 module.exports = resetController;

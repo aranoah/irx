@@ -86,7 +86,7 @@ module.exports = function routes() {
   this.match('list-user-projects/:userId',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
   this.match('list-user-locations/:userId',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
   this.match('check-userName/:text',{ controller: 'user/rest/user', action: 'checkUserName' , via: 'GET' });
-  this.match('forget-password',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
+  this.match('forget-password/:userId',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
   this.match('reset-password',{ controller: 'user/rest/user', action: 'resetPassword' , via: 'GET' });
   this.match('send-user-details/:userId',{ controller: 'user/rest/user', action: 'sendUserDetails' , via: 'GET' });
   this.match('claim-profile/:profileId',{ controller: 'user/rest/user', action: 'claimProfile' , via: 'GET' });
