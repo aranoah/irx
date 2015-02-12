@@ -757,7 +757,21 @@ p >.mail.icon{
  }
 
 }
-
+/*
+  Ajax error and success
+*/
+._ajSuccess {
+  color: green !important;
+  padding-top:7px !important;
+}
+._ajError {
+  color: red !important;
+  padding-top:7px !important;
+}
+._ajActive {
+  display: block !important;
+}
+/* Ends here */
 @media only screen and (max-width : 992px) {
 
 /* #home .menu .right.menu > .item, #searchbar > .search-menu {

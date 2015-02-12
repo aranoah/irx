@@ -767,21 +767,23 @@ UserService.prototype.forgetPassword = function(userId){
 
 
 	UserService.prototype.changePassword = function(data){ 
+		console.log("qwertyuyuiu")
 		var _selfInstance = this;
 		var userId = data.userId;
 		var code = data.code;
 		var password = data.password;
-		var hashPassword = hashAlgo.SHA1(user.password);
+		var hashPassword = hashAlgo.SHA1(password);
+
 		IRXVerificationModel.findOne({"vfData":userId,"vfCode":code},{id:1},function(err,res){
        if(err){
              _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
        }else if(res==null){
-         _selfInstance.emit("done",404,"Invalid code","Invalid code",null);
+         _selfInstance.emit("done",404,"Token expired","Token expired",null);
        }else{
-       		User.update({"userId":data.userId},
-							{"password":hashPassword},
+       		IRXUserProfileModel.update({"userId":data.userId},
+							{"password":hashPassword.toString()},
 							function(err, numberAffected, raw){
-								console.log(numberAffected)
+								
 								if(err){
 									console.error(err)
 									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -789,13 +791,13 @@ UserService.prototype.forgetPassword = function(userId){
 									if(numberAffected >0){
 										console.log("User updated successfully");
 										
-						 				verificationModel.remove({}, function (err) {
+						 				IRXVerificationModel.remove({"id":res.id}, function (err) {
 											if (err) {
 												console.error(err)
 												_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 											}else{
 												console.log("Verfication data cleared");
-												_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
+												_selfInstance.emit("done",STATUS.OK.code,"Password updated successfully",err,null);
 											} 
 										});
 										

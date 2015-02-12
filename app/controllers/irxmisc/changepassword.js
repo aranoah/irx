@@ -31,6 +31,7 @@ var changePasswordController = new Controller();
 changePasswordController.main = function() {
   console.log("In main Method for forgot password page")
   this.title = "change password page";
+  this.requestObj = this.req.query;
   this.render("irxmisc/changepassword"); 
 }
 module.exports = changePasswordController;
