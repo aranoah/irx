@@ -209,52 +209,6 @@
 			</div>
 			<% } %>
 			<!-- ends here -->
-	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-	  			
-	  		<div id="mobile-listing" class="ui items" data-bind="foreach : projects">
-				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
-	  			<div class="item">
-					<div class="content">
-						<div class="ui tiny image" style="padding: 0 .5rem 0 0 !important;width:auto !important;">
-						  <img src="/images/project.jpg" style="width:80px;height:80px;">
-						</div>
-						<div class="content">
-							<div class="like _name_" data-bind="text : name"></div>
-						  	<div class="summary">
-							    <a class="user"><b>
-							      <i class="rupee icon"></i>
-							      <!-- ko if:Array.isArray(priceText) -->
-						          <!-- ko foreach:priceText -->
-						            <!-- ko if:$index -->-<!-- /ko -->
-						              <!-- ko if:$data != 0 -->
-						                <!-- ko text:$data --><!-- /ko -->
-						              <!-- /ko -->
-						              <!-- ko if:$data == 0 -->
-						                Not Available
-						              <!-- /ko -->
-						          <!-- /ko -->
-						        <!-- /ko -->
-						        <!-- ko if:!Array.isArray(priceText) -->
-						          <!-- ko text:priceText --><!-- /ko -->
-						        <!-- /ko --></b>
-							    </a>
-							</div>
-						    <div class="date">
-					           <span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></span><span data-bind="text : type"></span>
-					        </div>
-					        <div class="date" data-bind="text : builtUpArea">120 sq.ft</div>
-						</div>
-						<div class="meta">
-				            <span data-bind="text : possession">Nov 17,2014</span>
-				            <span data-bind="text : status">Nov 17,2014</span>
-				        </div>
-				        <a href="" class="item right floated leads-in" data-bind="click:function(){$parent.enquireNow($data) }" style="margin-top:-1.4rem"><i style="font-size:1.5em;" class="blue help circle icon"></i></a>
-					</div>
-				</div></a>
-	  		</div>
-	  	<% } %> 
-	  		
-	  	<!-- ends here -->
 	  	
 	  	<% if(locals.req.device.type == 'desktop'){ %>
 	  	<div class="ui menu rib-head">
@@ -341,6 +295,53 @@
 			 	
 	  	</div>
 
+	  	
+	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+	  			
+	  		<div id="mobile-listing" class="ui items" data-bind="foreach : projects">
+				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
+	  			<div class="item">
+					<div class="content">
+						<div class="ui tiny image" style="padding: 0 .5rem 0 0 !important;width:auto !important;">
+						  <img src="/images/project.jpg" style="width:80px;height:80px;">
+						</div>
+						<div class="content">
+							<div class="like _name_" data-bind="text : name"></div>
+						  	<div class="summary">
+							    <a class="user"><b>
+							      <i class="rupee icon"></i>
+							      <!-- ko if:Array.isArray(priceText) -->
+						          <!-- ko foreach:priceText -->
+						            <!-- ko if:$index -->-<!-- /ko -->
+						              <!-- ko if:$data != 0 -->
+						                <!-- ko text:$data --><!-- /ko -->
+						              <!-- /ko -->
+						              <!-- ko if:$data == 0 -->
+						                Not Available
+						              <!-- /ko -->
+						          <!-- /ko -->
+						        <!-- /ko -->
+						        <!-- ko if:!Array.isArray(priceText) -->
+						          <!-- ko text:priceText --><!-- /ko -->
+						        <!-- /ko --></b>
+							    </a>
+							</div>
+						    <div class="date">
+					           <span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></span><span data-bind="text : type"></span>
+					        </div>
+					        <div class="date" data-bind="text : builtUpArea">120 sq.ft</div>
+						</div>
+						<div class="meta">
+				            <span data-bind="text : possession">Nov 17,2014</span>
+				            <span data-bind="text : status">Nov 17,2014</span>
+				        </div>
+				        <a href="" class="item right floated leads-in" data-bind="click:function(){$parent.enquireNow($data) }" style="margin-top:-1.4rem"><i style="font-size:1.5em;" class="blue help circle icon"></i></a>
+					</div>
+				</div></a>
+	  		</div>
+	  	<% } %> 
+	  		
+	  	<!-- ends here -->
 	    <!-- Project Listing goes here -->
 	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">

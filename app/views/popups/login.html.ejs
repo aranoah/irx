@@ -1,8 +1,11 @@
 <!-- Login popup -->
 <script type="text/javascript" src="/js/common/http.js"></script>
 <!-- For mobile screens -->
+
 <div id="login" class="ui modal pop-up grid">
-  <div id="login-mobile" class="row mobile tablet only">  
+
+<% if(locals.req.device.type != 'desktop'){ %>
+  <div id="login-mobile">  
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Login / Signup</h2>
@@ -87,16 +90,17 @@
       <div class="action-button"><div class="ui button" data-bind="click: register">register</div></div>      
       <div class="ui horizontal divider">Or</div>
     </div>
-    <div class="content fb-login">
+    <div class="content fb-login" id="fb-signin">
       <i class="facebook huge icon square"></i><br/><br/>
-      <a class="item">Login with facebook</a>
+      <div class="item" show-faces="false"  max-rows="1">Login with facebook</div>
     </div>
   </div>
 </div>
-
+<% } %>
 <!-- ends here -->
 
-<div id="login-desktop" class="row computer only">  
+<% if(locals.req.device.type == 'desktop'){ %>
+<div id="login-desktop">  
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Login / Signup</h2>
@@ -129,7 +133,7 @@
         </div>
       </div>
       <label>Forgot password?</label>
-      <div class="submitAction"style="margin-top:1rem;"><div class="ui " onclick="validatRegister(this)">login</div></div>
+      <div class="submitAction"style="margin-top:1rem;float: right;display:inline-block;margin-right: 3.6rem;"><div class="ui " onclick="validatRegister(this)">login</div></div>
     </form>
       <div class="ui vertical divider">Or</div>
     
@@ -185,10 +189,12 @@
     </div>
     <div class="four wide column fb-login" id="fb-signin">
       <i class="facebook huge icon square"></i><br/><br/>
-           <div class="item"    show-faces="false"  max-rows="1">Login with facebook</div>
+           <div class="item" show-faces="false"  max-rows="1">Login with facebook</div>
     </div>
   </div>
-</div></div>
+</div>
+<% } %>
+</div>
 <script>
 function validatRegister(_this){
     $(_this).parents('form').form({
