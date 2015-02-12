@@ -37,6 +37,7 @@ publicController.main = function() {
     var _nself = this;
     
     userSvc.on("done", function(code,msg,result,errValue){
+      console.log("final")
      _nself.result=result;
      _nself.title = "profile";
      _nself.userId = _nself.req.params.userId;

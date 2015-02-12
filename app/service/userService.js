@@ -23,11 +23,12 @@ var STATUS = CONSTANTS.him_status;
 var defPage = CONSTANTS.def_page;
 var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
+var IRXProfileClaim = require(_path_model+"/IRXProfileClaim");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var IRXLocationModel = require(_path_model+"/IRXLocation");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
-var IRXReviewInvitation = require(_path_model+"/IRXReviewInvitation");
+var IRXReviewInvitationModel = require(_path_model+"/IRXReviewInvitation");
 var IRXReviewModel = require(_path_model+"/IRXReview");
 var IRXLastVisitedModel = require(_path_model+"/IRXLastVisited");
 var emailUtils = require(_path_util+"/email-utils.js");
@@ -252,7 +253,7 @@ UserService.prototype.getUserDetails = function(uData) {
 			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 			 			
 			 		} else{
-
+			 			
 			 			if(data && data != null){
 			 				var invitationData = {
 			 					"agentId":uData.targetId,
@@ -261,8 +262,11 @@ UserService.prototype.getUserDetails = function(uData) {
 
 			 				var isInvited = false;
 			 				if(data.targetId != ""){
+			 					
 			 					isInvited = _selfInstance.hasInvitationForReview(invitationData,function(isInvited){
+			 						
 			 						data["isInvited"]= isInvited;
+			 							
 			 						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
 			 					});
 			 				}else{
@@ -440,7 +444,7 @@ UserService.prototype.inviteForReview = function(data) {
 		return;
 	}
 	
-	var reviewInvitationModel = new IRXReviewInvitation({
+	var reviewInvitationModel = new IRXReviewInvitationModel({
 		"id":id,
 		"parentId":data.parentId,
 		"targetId":data.targetId,
@@ -472,7 +476,8 @@ UserService.prototype.review = function(data) {
 	var _selfInstance  = this;
 	//get review invitation
 	var refCode = data.refCode;
-	IRXReviewInvitation.findOne({"refCode":refCode},function(err,reviewInvitation){
+	console.log("achaaa",{"parentId":data.parentId,"targetId":data.agentId})
+	IRXReviewInvitationModel.findOne({"parentId":data.parentId,"targetId":data.agentId},function(err,reviewInvitation){
 		if(err){
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error finding review invitation",err,null);
 		} else {
@@ -480,12 +485,7 @@ UserService.prototype.review = function(data) {
 				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
 				return;
 			}
-				
-			if((reviewInvitation.parentId != data.parentId) || (reviewInvitation.targetId != data.agentId)) {
-				
-				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
-				return;
-			}
+			var reviewId = reviewInvitation.id;
 			// save review
 			
 			var id = _selfInstance.getCustomMongoId("IRev-")
@@ -493,7 +493,11 @@ UserService.prototype.review = function(data) {
 				"id":id,
 				"parentId":data.parentId,
 				"agentId":data.agentId,
-				"msg" : data.msg
+				"msg" : data.msg,
+				"rating" : data.rating,
+				"postedOn" : new Date(),
+				"agentName" : data.agentName,
+				"agentImage" : data.agentImage
 			});
 			reviewModel.save(function(err,review){
 			if (err) {
@@ -502,13 +506,13 @@ UserService.prototype.review = function(data) {
 			}else {
 				//clear invitation
 				
-				IRXReviewInvitation.remove({}, function (err) {
+				IRXReviewInvitationModel.remove({"id":reviewId}, function (err) {
 					if (err) {
 						console.error(err)
 						_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 					}else{
 						console.log("Review Invitation data cleared");
-						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,review,null);
 					} 
 				});
 				
@@ -752,15 +756,17 @@ UserService.prototype.forgetPassword = function(data){
 	
 UserService.prototype.hasInvitationForReview = function(data, pupulateData){
 	var _selfInstance = this;
-	
-	IRXReviewInvitation.findOne({"parentId":data.parentId,"targetId":data.agentId},{"id":1},function(err,data){
+	console.log({"parentId":data.parentId,"targetId":data.agentId})
+	IRXReviewInvitationModel.findOne({"parentId":data.parentId,"targetId":data.agentId},{"id":1},function(err,data){
 		if(err){
              _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
        }else if(data==null){
+       		console.log("4")
        		pupulateData(false)
        		return ;
             //_selfInstance.emit("done",0,"OK",false,null); 
        }else{
+       		console.log("5")
        		pupulateData(true)
        		return ;
             //_selfInstance.emit("done",0,"OK",true,null); 
@@ -816,10 +822,47 @@ UserService.prototype.sendUserDetails = function(data){
 	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",null,null);
 					return;
 	     	      } else{
-	     	      	console.log("Successfully queued")
+	     	      	console.log("Successfully queued",data)
 	     	      	_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
 					return;
 	     	      }   
+	})
+}
+
+UserService.prototype.claimProfile = function(data){
+	var _selfInstance = this;
+	var id = _selfInstance.getCustomMongoId("ICP-");
+	var claimData = new IRXProfileClaim({
+		"id":id,
+		"claimerId":data.irxId,
+		"profileId":data.profileId
+	})
+	claimData.save(function(err,sClaimData){
+		if (err) {
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+		} else{
+			var qObj = {
+				"action":MAIL_TYPE.CLAIM_PROFILE,
+				"irxId" : userId,
+				"targetEmailId":targetEmailId
+			}
+			var strQObj = JSON.stringify(qObj)
+			
+			_app_context.sqs.sendMessage({
+	        	"QueueUrl" : _app_context.qUrl,
+	        	"MessageBody" : strQObj
+	     	 }, function(err, data){ 
+	     	      if(err){
+	     	      	console.log("Error putting in queue")
+	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",null,null);
+					return;
+	     	      } else{
+	     	      	console.log("Successfully queued",data)
+	     	      	_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+					return;
+	     	      }   
+	})
+		}
 	})
 }
 module.exports = UserService;

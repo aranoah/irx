@@ -89,6 +89,7 @@ module.exports = function routes() {
   this.match('forget-password',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
   this.match('reset-password',{ controller: 'user/rest/user', action: 'resetPassword' , via: 'GET' });
   this.match('send-user-details/:userId',{ controller: 'user/rest/user', action: 'sendUserDetails' , via: 'GET' });
+  this.match('claim-profile',{ controller: 'user/rest/user', action: 'claimProfile' , via: 'GET' });
   /*
   * Utility urls
   */

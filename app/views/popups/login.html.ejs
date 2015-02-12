@@ -217,3 +217,55 @@ function validatRegister(_this){
     
 </script>
  
+  <script>
+      
+
+  $(document).on('click','#fb-signin',function () {
+        callFB();
+  });
+      initfb();
+  function callFB(callback){
+     FB.login(function(response){
+             statusChangeCallback(response,callback);
+     },{scope: 'public_profile'});
+  }
+  function statusChangeCallback(response,callback) {
+    if (response.status === 'connected') {
+      openFbLogin(response.authResponse.userID,response.authResponse.accessToken,callback);
+    } else if (response.status === 'not_authorized') {
+     
+    } else {
+     
+    }
+}
+function initfb(){
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '346403242107412', // App ID
+        channelUrl : '//localhost:8080', // Channel File
+        cookie     : true,  // enable cookies to allow the server to access // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.1' // use version 2.1
+      });
+     };
+
+}
+ function openFbLogin(uid,accessToken,callback) {
+    FB.api('/me', function(response) {
+    //  loginToServer("facebook",response.id,response.name,uid,accessToken,callback);
+        var classInstance = this;
+      httpUtils.post("/login",
+    {userId:response.id,password:accessToken},
+     { 'authorization': 'FB' },"JSON",function(data){
+    if(data.status==0){
+            
+            ///reload or refresh....
+              $('.close.icon').click();
+    }else {
+      /// error login with fb......
+    }
+  })
+        console.log(response);
+    });
+}    
+ </script>

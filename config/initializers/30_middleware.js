@@ -111,6 +111,7 @@ module.exports = function() {
   this.use(this.router);
   this.use(function(err, req, res, next){
       if (req.xhr) {
+        console.log("Server Errr: ",JSON.stringify(err))
         res.status(500).send({ error: 'Something blew up!' });
       } else {
         console.log(err);
