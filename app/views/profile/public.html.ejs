@@ -36,11 +36,11 @@
       <div class="four wide column">
         <div class="column li-box">
          
-        <% if(typeof(imageUrl) !="undefined" && imageUrl != null){ %>
-          <div class="lib-pic"><img class="ui circular image" data-bind="attr: { src:imageUrl}"></div>
+        <% if(result.imageUrl && result.imageUrl != null){ %>
+          <div class="lib-pic"><img class="ui circular image" src="<%= result.imageUrl%>"></div>
         <% } %>
-        <% if(typeof(imageUrl) =="undefined" || imageUrl == null){ %>
-          <div class="lib-pic"><img class="ui circular image" data-bind="attr: { src:'/images/elliot.jpg'}"></div>
+        <% if(!result.imageUrl || result.imageUrl == null){ %>
+          <div class="lib-pic"><img class="ui circular image" src="/images/elliot.jpg"></div>
         <% } %>
           <div class="item"><div class="header"><%= result.name %></div><%= result.companyName %></div>
           <div class="item"><div class="header"><%= result.location != null?result.location.city:'' %></div></div>
@@ -52,7 +52,7 @@
           </div>
 
           <div class="lib-count">
-            <div class="item left floated"><div class="header">10</div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
+            <div class="item left floated"><div class="header"><%= result.projects && result.projects!= null?result.projects.length:0 %></div>Projects</div><div class="item right floated"><div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>Locations</div>
           </div>
 
           <div class="lib-specs">
@@ -81,9 +81,12 @@
       <!-- Left panel ends here -->
 
       <!-- Right panel starts here -->
-
-      <div class="twelve wide column">
-
+      <% if(locals.req.device.type == 'desktop'){ %>
+            <div class="twelve wide column">
+       <% } %>
+        <% if(locals.req.device.type == 'mobile'){ %>
+            <div class="sixteen wide column">
+       <% } %>
       <% if(result.status == "pending-verification" && locals.session.user) {%>
       <div class="ui icon message" style="padding:15px">
         <i class="inbox icon"></i>
@@ -91,16 +94,18 @@
           <div class="header">
             Claim your profile.
           </div>
-          <p style="cursor:pointer" data-bind="click:claimProfile">Click here to claim your profile</p>
+          <p style="cursor:pointer;color:rgb(2, 86, 2)" data-bind="click:function(){claimProfile('<%= result.id %>')}">Click here to claim your profile</p>
         </div>
       </div>
       <% } %>
+      
         <div class="ui top attached tabular menu" style="background:#EDEDED;text-align:left">
             <a class="active item" data-tab="first"><i class="building outline icon"></i>Projects</a>
             <a class="item" data-tab="second"><i class="marker icon"></i>Locations</a>
             <a class="item" data-tab="third" data-bind="click:function(){listReviews()}"><i class="user icon"></i>Reviews</a>
             
           </div>
+     
 
           <!-- Project listing here -->
           <div class="ui bottom attached active tab segment" data-tab="first">
@@ -137,8 +142,10 @@
               <div class="meta loc-item">
                 <h4 class="header projectName" ><i class="marker icon"></i><!--ko text:name--><!--/ko --></h4>
                 <p class="cinema projectDetail" data-bind="text: location.city"></p>
-                <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;"><a class="item" href="/agent-listing">Agent</a></span></span>
-                <span class="header"style="color:#83AAB8;"><a class="item" href="/project-listing">Project</a></span>
+                
+                <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;"><a class="item" data-bind="attr:{href : '/agent-listing?projectId='+$data.id+'&isLocality=true&searchType=agent&name='+$data.name} ">Agent</a></span></span>
+                
+                <span class="header"style="color:#83AAB8;"><a class="item" data-bind="attr:{href : '/project-listing?projectId='+$data.id+'&isLocality=true&searchType=project&name='+$data.name} ">Project</a></span>
               </div>
             </div>
           </div>
@@ -243,6 +250,13 @@
 
           _classInstance.listProjects();
           this.shouldShow(_classInstance.showProjects);
+      },
+      claimProfile : function(id){
+        httpUtils.get("/claim-profile/"+id,{},function(data){
+          if(data.status == 0){
+            alert(1)
+          }
+        })
       },
       fbIntegration:function(irxId){
         

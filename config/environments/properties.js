@@ -33,6 +33,7 @@ var properties = {
 	"pro_det_url" : "http://localhost:3000/project/",
 	"detail_subject" : "Project details",
 	"user_detail_subject" : "Agent Details",	
-	"irx_agent" : "jndlkaran@gmail.com"
+	"claim_profile_subject" : "Profile Claim",
+	"irx_agent" : "puneetsharma41@gmail.com"
 }
 module.exports=properties

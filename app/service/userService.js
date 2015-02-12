@@ -835,7 +835,8 @@ UserService.prototype.claimProfile = function(data){
 	var claimData = new IRXProfileClaim({
 		"id":id,
 		"claimerId":data.irxId,
-		"profileId":data.profileId
+		"profileId":data.profileId,
+		"date":new Date()
 	})
 	claimData.save(function(err,sClaimData){
 		if (err) {
@@ -843,9 +844,11 @@ UserService.prototype.claimProfile = function(data){
 		} else{
 			var qObj = {
 				"action":MAIL_TYPE.CLAIM_PROFILE,
-				"irxId" : userId,
-				"targetEmailId":targetEmailId
-			}
+				"claimerId" : sClaimData.claimerId,
+				"claimerName": data.name,
+				"profileId": data.profileId
+
+				}
 			var strQObj = JSON.stringify(qObj)
 			
 			_app_context.sqs.sendMessage({
@@ -854,7 +857,7 @@ UserService.prototype.claimProfile = function(data){
 	     	 }, function(err, data){ 
 	     	      if(err){
 	     	      	console.log("Error putting in queue")
-	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",null,null);
+	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",err,null);
 					return;
 	     	      } else{
 	     	      	console.log("Successfully queued",data)

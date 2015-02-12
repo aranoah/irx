@@ -89,11 +89,11 @@
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
 		  <div class="card">
-		 	<!-- ko if:imageUrl!=null -->
+		 	<!-- ko if:($data.imageUrl && $data.imageUrl!=null) -->
 		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
 		   	  	</div>
 		    <!-- /ko -->
-		    <!-- ko if:(imageUrl==null || imageUrl=='') -->
+		    <!-- ko if:(!$data.imageUrl || $data.imageUrl==null) -->
 		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url(/images/elliot.jpg)'}">
 		   	  	</div>
 		    <!-- /ko -->
