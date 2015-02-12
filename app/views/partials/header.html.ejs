@@ -4,6 +4,9 @@
   .ui.mobile.dropdown.link.item>i {
     padding:1rem;
   }
+  .item:before {
+    background:inherit !important;
+  }
 </style>
 <% locals.hosturl = "https://facebook.com/" %>
 <div id="home" class="ui top fixed menu">
@@ -16,7 +19,7 @@
         <a class="header item _logo_" href="/irx/home">IRX</a>
         <div class="ui dropdown">         
           <div class="item">Select</div>
-          <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
+          <i class="dropdown icon item" style="padding: 0 !important;"></i>
           <div class="menu">
             <a class="item _link" href="/project-listing">Projects</a>
             <a class="item _link" href="/agent-listing">Agents</a>

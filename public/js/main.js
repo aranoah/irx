@@ -101,8 +101,9 @@ $(document).ready(function () {
     }).modal('show');
   });
 
-  $(document).off('click','.search-filter');
-  $(document).on('click','.search-filter',function() {
+  $(document).off('click','#search-filter');
+  $(document).on('click','#search-filter',function(event) {
+  //  event.stopPropagation();
     $('#adv-search-filter').modal({
       closable:false
     }).modal('show');
