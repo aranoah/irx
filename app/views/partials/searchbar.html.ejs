@@ -31,6 +31,21 @@
       padding:.72em .8em;
       border-left:1px solid rgba(0,0,0,0.15);
     }
+
+    .ui.mobile.row ._searchInput_ .ui.dropdown.label {
+      top:.15em !important;
+    }
+
+    .ui.mobile.row #__searchAuto {
+      padding-left:4.5rem !important;
+      width:auto !important;
+    }
+    .ui.mobile.row .search-filter>i.icon {
+      font-size: 1.2rem;
+      padding-right: 3.5rem;
+      height: 24px;
+      width: 24px;
+    }
   </style>
   <script type="text/javascript" src="/js/common/search.js"></script>
 <div id="searchF">
@@ -72,18 +87,18 @@
           <div class="ui labeled input" style="border-radius:0;">
             <div class="ui dropdown teal label">
               <input type="hidden" data-bind="value: searchType" name="searchType">
-              <div class="text">Select</div>
-              <i class="dropdown icon"></i>
+              <div class="text"><i class="building outline icon"></i></div>
+              <i class="angle down icon" style="margin:0;"></i>
               <div class="menu">
-                <div class="item" data-value="project">Projects</div>
-                <div class="item" data-value="agent">Agents</div>
+                <div class="item" data-value="project"><i class="building outline icon"></i></div>
+                <div class="item" data-value="agent"><i class="user icon"></i></div>
               </div>
             </div>
             <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">            
           </div>
         </div>
-        <div class="item filter ui dropdown link one wide column">
-          <i class="filter icon search-filter"></i>
+        <div class="item filter ui dropdown link one wide column search-filter">
+          <i class="filter icon"></i>
         </div>
       </div>
     </div>

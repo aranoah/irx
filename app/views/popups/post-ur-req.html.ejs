@@ -40,7 +40,14 @@
             <div data-bind="visible:data.city() != ''">
             <h4 class="ui dividing header">Property Information :</h4>
             
+            <% if(locals.req.device.type == 'desktop'){ %>
             <div class="item field" style="width:368px;padding-bottom:.7rem;">
+            <% } %>
+
+            <% if(locals.req.device.type != 'desktop'){ %>
+              <div class="item field" style="padding-bottom:.7rem;">
+            <% } %>
+
               <div class="ui icon input">
                 <input type="text" name="projectId" id="__postReqSearch" placeholder=" Search project.." data-bind="value:data.proName"style="padding:.7rem;">
                 <i class="search icon"></i>
@@ -49,7 +56,14 @@
             </div>
             </div>
             
+            <% if(locals.req.device.type == 'desktop'){ %>
             <div class="item field" style="width:368px;padding-bottom:.7rem;padding-top:.7rem;">
+            <% } %>
+
+            <% if(locals.req.device.type != 'desktop'){ %>
+              <div class="item field" style="padding-bottom:.7rem;padding-top:.7rem;">
+            <% } %>
+
               <div class="ui icon input">
                 <input type="text" placeholder="Location" data-bind="value:data.locality"style="padding:.7rem;">
                 <i class="marker icon"></i>
