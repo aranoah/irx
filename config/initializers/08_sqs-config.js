@@ -90,6 +90,33 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
 
              
         }
+        if(messageData.action == MAIL_TYPE.FORGET_PASSWORD){
+          var type =  VERIFICATION_TYPE.PASSWORD;
+           IRXVerificationModel.findOne({ 'emailId': messageData.data,"type":type }, function (err, sVerification) {
+            if (err){
+               console.log(err)
+              } else{
+                var url="irx/reset?code="+sVerification.vfCode+"&userId="+sVerification.vfData
+                console.log(url)
+               var locals = {
+                  
+                  "userId":sVerification.emailId,
+                  "subject":properties.registeration_subject,
+                  "url":url
+                }
+                 new emailUtils().sendEmail("forget-password",locals,function(error,success){
+
+                if(error != null){
+                  console.error(error);
+                }else if(success != null){
+                  console.log(success)
+                }
+              });
+              }
+           })
+
+             
+        }
         if(messageData.action == MAIL_TYPE.PROJECT_DETAILS){
           var url = properties.pro_det_url+messageData.data.projectId
           var locals = {

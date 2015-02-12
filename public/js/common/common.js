@@ -168,6 +168,15 @@ Common.prototype.init = function(first_argument) {
         $(".ui-widget-content .ui-state-focus");
          return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
       };  
+
+
+        $(document).off('click','#_logout_');
+        $(document).on('click','#_logout_',function() {
+         httpUtils.get("/logout",{},"JSON",function(data){
+            httpUtils.checkStatus(data)
+            //location.reload();
+         })
+        });
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
  	  ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
 	  ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
@@ -188,10 +197,8 @@ Common.prototype.login = function() {
 	httpUtils.post("/login",
 		{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
 		 { 'authorization': 'POST' },"JSON",function(data){
-		if(data.status==0){
-	     $('.close.icon').click();
-		}else {
-			
+		if(httpUtils.checkStatus(data)){
+       location.reload();
 		}
 	})
 };		 

@@ -117,7 +117,6 @@ $(document).ready(function () {
     }).modal('show');
 	});
 
-
   $(document).off('click','.sell-in');
   $(document).on('click','.sell-in',function() {
    
