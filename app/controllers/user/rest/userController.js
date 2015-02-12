@@ -443,9 +443,9 @@ userController.listReviews = function() {
 }  
 
 /*
-*   List User Projects
+*   Send User Details
 
-*   @TODO : Controller level validation
+*  
 **/
 
 userController.sendUserDetails = function() {
@@ -469,5 +469,24 @@ userController.sendUserDetails = function() {
     });
     
     userSvc.sendUserDetails(data);
+} 
+
+/*
+*  Claim your profile
+*  
+**/
+
+userController.claimProfile = function() {
+ 
+  var _nself = this;
+
+  var userSvc = new userService();
+
+   var user = _nself.getCurrentUserInfo(_nself);
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    
+    userSvc.claimProfile(user);
 } 
    module.exports=userController

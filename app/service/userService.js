@@ -23,6 +23,7 @@ var STATUS = CONSTANTS.him_status;
 var defPage = CONSTANTS.def_page;
 var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
+var IRXProfileClaim = require(_path_model+"/IRXProfileClaim");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var IRXLocationModel = require(_path_model+"/IRXLocation");
@@ -821,10 +822,47 @@ UserService.prototype.sendUserDetails = function(data){
 	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",null,null);
 					return;
 	     	      } else{
-	     	      	console.log("Successfully queued")
+	     	      	console.log("Successfully queued",data)
 	     	      	_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
 					return;
 	     	      }   
+	})
+}
+
+UserService.prototype.claimProfile = function(data){
+	var _selfInstance = this;
+	var id = _selfInstance.getCustomMongoId("ICP-");
+	var claimData = new IRXProfileClaim({
+		"id":id,
+		"claimerId":data.irxId,
+		"profileId":data.profileId
+	})
+	claimData.save(function(err,sClaimData){
+		if (err) {
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+		} else{
+			var qObj = {
+				"action":MAIL_TYPE.CLAIM_PROFILE,
+				"irxId" : userId,
+				"targetEmailId":targetEmailId
+			}
+			var strQObj = JSON.stringify(qObj)
+			
+			_app_context.sqs.sendMessage({
+	        	"QueueUrl" : _app_context.qUrl,
+	        	"MessageBody" : strQObj
+	     	 }, function(err, data){ 
+	     	      if(err){
+	     	      	console.log("Error putting in queue")
+	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",null,null);
+					return;
+	     	      } else{
+	     	      	console.log("Successfully queued",data)
+	     	      	_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+					return;
+	     	      }   
+	})
+		}
 	})
 }
 module.exports = UserService;

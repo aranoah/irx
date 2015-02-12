@@ -285,7 +285,7 @@
        
       },
       listMoreReviews : function(){
-        _classInstance.listReviews()
+        _classInstance.listReviews(true)
       },
       addReply : function(){
         var rating = $('.rate').rating('get rating');
@@ -314,7 +314,7 @@
         },
         listReviews : function(){
           _classInstance.resetReviwPage();
-          _classInstance.listReviews();
+          _classInstance.listReviews(false);
 
         }
        }
@@ -357,14 +357,16 @@
     })
   }
 
-PublicProfile.prototype.listReviews = function() {
+PublicProfile.prototype.listReviews = function(append) {
     
     var classInstance = this;
     httpUtils.get("/reviews/"+classInstance.userId,{page:classInstance.reviewPage},"JSON",function(data){
        if(data.status==0){
         var newList=[];
         if(data.result != null){
-            
+          if(!append){
+            classInstance.viewModel.reviews([])
+          }
           ko.utils.arrayPushAll(classInstance.viewModel.reviews,data.result)
 
         classInstance.reviewPage.start = Number(data.page.start)+Number(data.page.pageSize);
@@ -408,11 +410,5 @@ PublicProfile.prototype.listReviews = function() {
   })
  </script>
   <% include ../partials/footer.html.ejs %>
-  <script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=453584098038579&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+  
 </body>

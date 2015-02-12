@@ -40,7 +40,8 @@ var MAIL_TYPE={
   LEAD:"lead",
   VERIFICATION:"verification",
   PROJECT_DETAILS:"project-details",
-  USER_DETAILS:"user-details"
+  USER_DETAILS:"user-details",
+  CLAIM_PROFILE:"claim-profile"
 };
 var VERIFICATION_TYPE={
   ACCOUNT:"account-register",
