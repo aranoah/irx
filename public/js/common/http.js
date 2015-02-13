@@ -48,12 +48,15 @@ HTTPUtils.prototype.checkStatus = function(data,showPopUp) {
 
           if(showPopUp){
                $('#_serverSuccess_').modal('show');
+               $('#_serverSuccess_').find('.successMsg').text(data.message)
           }
           return true;
     }else{
-     
-        $('#_serverError_').modal('show');
-        $('#_serverError_').find('.errMsg').text(data.message)
+          if(showPopUp){
+               $('#_serverSuccess_').modal('show');
+               $('#_serverSuccess_').find('.successMsg').text(data.message)
+          }
+        return false;
      }
 };
 var httpUtils = new HTTPUtils();

@@ -173,8 +173,10 @@ Common.prototype.init = function(first_argument) {
         $(document).off('click','#_logout_');
         $(document).on('click','#_logout_',function() {
          httpUtils.get("/logout",{},"JSON",function(data){
-            httpUtils.checkStatus(data)
-            //location.reload();
+            if(httpUtils.checkStatus(data)){
+              location.reload();
+            }
+            
          })
         });
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
