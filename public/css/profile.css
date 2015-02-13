@@ -10,6 +10,11 @@
   padding: 0;
 }*/
 
+.fixedwidth {
+    width: 992px;
+    margin: 0 auto;
+}
+
 #content.ui.grid .four.wide.column {
   background-color: #fff;
   box-shadow: 0 0 2px rgba(0,0,0,0.3);
@@ -285,5 +290,4 @@
   padding-right: .8rem !important;
   font-size: .9rem !important;
 }
-
 
