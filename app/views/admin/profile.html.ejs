@@ -12,6 +12,33 @@
   ._hidden_ {
     display: none
   }
+  ._profsearProj>.item {
+    padding: .9rem;
+    background: rgba(242, 242, 242, 0.38);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 3px;
+    margin-right: 1rem;
+  }
+  .ui.horizontal.label {
+    color: #7b7b7b !important;
+    margin-top: .5rem;
+  }
+  ul._dis_  {
+    padding: .8rem;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    border-radius: 3px;
+  }
+  ul._dis_>li {
+    padding: .5rem;
+    list-style-type: none;
+  }
+  ul._dis_>li>input {
+    padding: .5rem;
+    border: 1px solid #ddd;
+  }
+  ._profaddProj {
+    margin: 2rem !important;
+  }
   </style>
   <script type="text/javascript" src="/js/library/jquery.form.js"></script>
 </head>
@@ -57,7 +84,7 @@
             </div>
           </div>
 
-          <div class="lib-count" style="border-bottom: 2px solid #f4f4f4;margin-top:1rem;">
+          <div class="lib-count" style="border-top: 2px solid #f4f4f4;margin-top:1rem;">
             <div class="item left floated"><div class="header"><%= result.projectCounter %></div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
           </div>
 
@@ -154,9 +181,7 @@
               <h3 class="ui heading">manage products</h3>
               <div class="ui stackable two column grid">
               <div class="column left-portion">
-                  <div class="item">
-                    <div class="right floated compact ui button">Add new</div>                    
-                    
+                  <div class="item">                   
                     <div class="content">
                       <h4 class="header">My Projects</h4>
                     </div>
@@ -172,27 +197,33 @@
                  <!-- ko foreach: associatedProjects -->
                     <div class="ui items">
                       <div class="item">
-                         <div class="content left floated">
-                          <a class="header" data-bind="text:name"></a>
+                         <div class="content">
+                          <a class="ui header" data-bind="text:name"></a>
                           
-                          <div class="meta">
+                          <div class="description" style="margin:0;color:#999;">
                             <div class="time" data-bind="text:builderName"></div>
                             <div class="category" data-bind="text:location.locality"></div>
                           </div>
                          </div>
-                         <div class="right floated content" data-bind="click:function () { $parent.removeProject($index,id)}">
-                           <i class="remove circle outline icon"></i>
+                         <div class="content right floated">
+                           <i class="add circle icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i><i class="remove circle outline icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
-                          <div class="right floated content" >
-                           <i class="plus icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i>
-                           <ul class="_dis_" data-bind="visible:$root.currContext()==id">
+                          <div class="content">
+                            <a class="ui horizontal label">2bhk</a>
+                            <a class="ui horizontal label">3bhk</a>
+                            <a class="ui horizontal label">4bhk</a>
+                           <ul class="_dis_ " data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
                              <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
                               <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$data.checked">
                               Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">
                              
                            <!-- /ko --></li>
-                           <div class="ui button _sDistress_" data-bind="click:function(){$parent.markDistress(id)}">save</div>
+                            <li class="ui buttons tiny">
+                              <div class="ui button _scancel_">Cancel</div>
+                              <div class="or"></div>
+                              <div class="ui positive button _sDistress_" data-bind="click:function(){$parent.markDistress(id)}">save</div>
+                             </li>
                            </ul>
                          </div>
                       </div>
@@ -200,8 +231,9 @@
                   <!-- /ko -->
                  
                 </div>
-                <div class="column right-portion">
-                  <div class="item">
+                <div class="right floated ui positive button _profaddProj">Add more projects</div> 
+                <div class="_profsearProj column right-portion" style="display:none;margin:2rem 0;padding:0;">
+                  <div class="item" style="">
                      <div class="right floated content">
                       <div class="column left-portion">
                         <div class="item">
@@ -221,14 +253,15 @@
                         <!-- ko foreach: projects -->
                           <div class="ui items">
                             <div class="item">
-                              <div class="content left floated">
-                                <a class="header" data-bind="text:name"></a>
-                                <div class="meta">
+                              <div class="content">
+                                <a class="ui header" data-bind="text:name"></a>
+                                <div class="description" style="margin:0;color:#999;">
                                   <div class="time" data-bind="text:builderName"></div>
                                   <div class="category" data-bind="text:location.locality"></div>
                                 </div>
                               </div>
-                              <div class="right floated content" data-bind="click:function () { $parent.addProject(id)}"><i class="add circle icon"></i></div>
+                              <div class="right floated content" data-bind="click:function () { $parent.addProject(id)}"><div class="ui mini button">Add</div></div>
+                              <div class="content"></div>
                             </div>
                           </div>
                         <!-- /ko -->
@@ -247,8 +280,7 @@
                 
                 <div class="column left-portion">
 
-                  <div class="item">
-                    <div class="right floated compact ui button" id="addLoc">Add new</div>                    
+                  <div class="item">                   
                     <div class="ui fluid popup">
                       <div class="column left-portion">
                         <div class="item">
@@ -298,9 +330,9 @@
                     <div class="ui items">
                       <div class="item">
                         <div class="content left floated">
-                          <a class="header" data-bind="text:name"></a>
+                          <a class="ui header" data-bind="text:name"></a>
                           
-                          <div class="meta">
+                          <div class="description">
                            
                             <div class="category" data-bind="text:location.locality"></div>
                           </div>
@@ -385,6 +417,16 @@
     }
     this.userId="puneet.sharma"
   }
+
+  $('._profaddProj').click(function () {
+      $('._profsearProj').show();
+      $(this).hide();
+  });
+
+  $(document).off('click','._scancel_');
+  $(document).on('click','._scancel_',function() {
+    $(this).parents('ul._dis_ ').hide();
+  });
 
   function getImage(input) {
       
