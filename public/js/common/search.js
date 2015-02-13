@@ -163,6 +163,7 @@
     });
 
     // disable dropdown ends here
+     $('#searchF').off('change','#_city_')
     $('#searchF').on('change','#_city_',function(){
       var city = $(this).val();
       city = city.replace(/&nbsp;/gi,'')
@@ -170,7 +171,7 @@
       _classInstance.viewModel.city(city)
       localStorage.setItem("city", city);
     });
-    
+    $('#searchF').off('click','._budgetItem_')
     $('#searchF').on('click','._budgetItem_',function(){
       var minPrice = $('#_budget_').find(".minP").val();
       var maxPrice = $('#_budget_').find(".maxP").val();
@@ -302,7 +303,7 @@
                     } else{
                        _classInstance.viewModel.sProAgents(false);
                       _classInstance.viewModel.projectId("");
-                      location.href="/puneet.sharma";
+                      location.href="/"+ui.item.irxId;
                     }
                     
                   } else if(_classInstance.viewModel.searchType()=='project'){
@@ -498,7 +499,7 @@
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-           // alert(locationName)
+           
             return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName};
           }));
         }
@@ -512,7 +513,6 @@
          if(data.result == null){
           arr = new Array();
          }
-         console.log(arr)
           arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(data.result, function(item) {
             var name ="";

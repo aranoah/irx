@@ -45,34 +45,53 @@
 			        <form data-bind="submit: searchFun" >
 				        <div class="ui form _radiogroup_">
 				        	<input type="hidden" name="projectId" placeholder="Search..." id="__projectId">
-							<div class="field">
-						      <div class="ui radio checkbox _main_ checked">
-						      	<div class="radiobutton active _sType_" data-attr="project"></div>
-						        <input type="radio" name="search" class="__searchType"  value="project" checked="">
-						        <label><i class="icon building outline"></i>Projects</label>
-						      </div>
-						    </div>
-						    <div class="field">
-						      <div class="ui radio checkbox _main_">
-						      	<div class="radiobutton _sType_" data-attr="agent"></div>
-						        <input type="radio" name="search" class="__searchType" value="agent">
-						        <label><i class="icon user"></i>Agents</label>
-						      </div>
-						    </div>
-						    <div class="field">
-						      <div class="ui radio checkbox _main_">
-						      	<div class="radiobutton _sType_" data-attr="locality"></div>
-						        <input type="radio" name="search" class="__searchType" >
-						        <label><i class="icon location arrow"></i>Locations</label>
-						      </div>
-						    </div> 
+							<div class="field _sType_" data-attr="project">
+				      <div class="ui radio checkbox checked _main_">
+						<div class="radiobutton active"></div>
+				        <input type="radio" name="search" class="__searchType"  value="project" checked="checked">
+				        <label><i class="icon building outline"></i>Projects</label>
+				      </div>
+				    </div>
+				    <div class="field _sType_" data-attr="agent">
+				      <div class="ui radio checkbox _main_">
+						<div class="radiobutton"></div>
+				        <input type="radio" name="search" class="__searchType" value="agent">
+				        <label><i class="icon user"></i>Agents</label>
+				      </div>
+				    </div>
+				    <div class="field _sType_" data-attr="locality">
+				      <div class="ui radio checkbox _main_">
+						<div class="radiobutton" ></div>
+				        <input type="radio" name="search" class="__searchType" >
+				        <label><i class="icon location arrow"></i>Locations</label>
+				      </div>
+				    </div>
+						   
+						    
 						</div>
-			          <h1 class="ui inverted header">Explore Projects</h1>
+			          	<!-- ko if:searchType()=='project' -->
+			          		<h1 class="ui inverted header">Explore Projects</h1>
+			          	<!-- /ko -->
+			          	<!-- ko if:searchType()=='agent' -->
+			          		<h1 class="ui inverted header">Explore Agents</h1>
+			          	<!-- /ko -->
+			          	<!-- ko if:searchType()=='locality' -->
+			          		<h1 class="ui inverted header">Explore Localities</h1>
+			          	<!-- /ko -->
 			          <div id="search-box" class="large basic inverted animated fade ui">
 			            <div class="ui fluid category search">
 						  <div class="ui icon input _main_">
 
-						    <input class="prompt" id="__searchHome1" name="name" type="text" placeholder="Search projects by name or location...">
+						    <!-- ko if:searchType()=='project' -->
+				          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
+				          	<!-- /ko -->
+						    
+				          	<!-- ko if:searchType()=='agent' -->
+				          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search agents by name, location or project name...">
+				          	<!-- /ko -->
+				          	<!-- ko if:searchType()=='locality' -->
+				          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search location...">
+				          	<!-- /ko -->
 
 						  </div>
 						  <div class="results"></div>
@@ -123,13 +142,28 @@
 				    </div>
 				  </div>
 				</div>
-	          <h1 class="ui inverted header">Explore Projects</h1>
+				<!-- ko if:searchType()=='project' -->
+	          		<h1 class="ui inverted header">Explore Projects</h1>
+	          	<!-- /ko -->
+	          	<!-- ko if:searchType()=='agent' -->
+	          		<h1 class="ui inverted header">Explore Agents</h1>
+	          	<!-- /ko -->
+	          	<!-- ko if:searchType()=='locality' -->
+	          		<h1 class="ui inverted header">Explore Localities</h1>
+	          	<!-- /ko -->
 	          <div id="search-box" class="large basic inverted animated fade ui">
 	            <div class="ui fluid category search">
 				  <div class="ui icon input _main_">
-
-				    <input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
-
+					 <!-- ko if:searchType()=='project' -->
+		          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
+		          	<!-- /ko -->
+				    
+		          	<!-- ko if:searchType()=='agent' -->
+		          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search agents by name, location or project name...">
+		          	<!-- /ko -->
+		          	<!-- ko if:searchType()=='locality' -->
+		          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search location...">
+		          	<!-- /ko -->
 				    <i class="search icon">
 						<button type="submit">Search</button>
 					</i>
@@ -140,7 +174,7 @@
 
 				<div class="inline fields">
 					<div class="ui dropdown field" style="width:185px;padding-left:0 !important;">
-					    <input type="hidden" name="city" value="banglore">
+					    <input type="hidden" name="city" data-bind="value:city" value="banglore">
 					    <div class="default text _city_">Banglore</div>
 					    <i class="angle down icon"></i>
 					    <div class="menu" style="max-height: 20em;overflow-y: scroll;">
@@ -154,7 +188,7 @@
 					       Select City
 					      </div>
 					      <% include ../partials/city.html.ejs %>
-					  </div>
+					 	</div>
 					</div>
 
 					<div class="ui dropdown field" style="min-width:141px;">

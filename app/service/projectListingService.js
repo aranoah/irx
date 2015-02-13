@@ -77,8 +77,21 @@ ProjectListingService.prototype.listProjects = function(data){
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 		}else{
 			if(data != null){
-				_selfInstance.processPagenation(result,page)
+				if(page.start == 0){
+					IRXProductLineModel.count(query, function(err, count) {
+						if(err){
+
+						}else{
+							page['total']=count;
+								_selfInstance.processPagenation(result,page)
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+						}
+					});
+				}else{
+					_selfInstance.processPagenation(result,page)
 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+				}
+				
 			}
 			else {
 				console.log("Project data not found")
@@ -199,6 +212,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	      size:pageSize,
 	      sort:[{ "price" : {"order" : sortOrder}}]
 	    }
+	 
   }).then(function (resp) {
     var hits = resp.hits.hits;
    
@@ -208,6 +222,10 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
     }
   
     _selfInstance.processPagenation(renderingData,page)
+    if(page.start==0){
+    	 page.total=resp.hits.total;
+    }
+   
    _selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,renderingData,page);
 }, function (err) {
   _selfInstance.emit("done",404,"Project data not found","Project data not found",null);
