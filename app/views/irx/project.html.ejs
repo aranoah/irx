@@ -261,6 +261,12 @@
 		        </div>
 		    </a>
 	  	</div>
+	  	<div class="item tempBtn" style="float:right" data-bind="visible:filters.locationFlag()=='true'" >
+
+			<a data-bind="attr:{href:'/agent-listing?projectId='+filters.projectId()+'&name='+filters.name()+'&isLocality=true'}">
+			<div style="position:relative;right:0;color:#337ec8">Show agents</div>
+			</a>
+			</div>
 	  	<% } %>
 	  	<div class="_filters_ _hide_">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''">

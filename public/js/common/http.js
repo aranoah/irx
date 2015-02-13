@@ -43,18 +43,18 @@ HTTPUtils.prototype.post = function(uri,data,headers,dataType,successCallback,er
         })
 };
 
-HTTPUtils.prototype.checkStatus = function(data,showPopUp) {
+HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail) {
      if(data.status == 0 || data.status==200){
 
-          if(showPopUp){
+          if(showPopUpSuccess){
                $('#_serverSuccess_').modal('show');
                $('#_serverSuccess_').find('.successMsg').text(data.message)
           }
           return true;
     }else{
-          if(showPopUp){
-               $('#_serverSuccess_').modal('show');
-               $('#_serverSuccess_').find('.successMsg').text(data.message)
+          if(showPopUpFail){
+               $('#_serverError_').modal('show');
+               $('#_serverError_').find('.errMsg').text(data.message)
           }
         return false;
      }

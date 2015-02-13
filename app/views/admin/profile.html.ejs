@@ -275,53 +275,18 @@
               </div>
             </div>
             <div class="ui bottom attached tab segment" data-tab="second">
-              <h3 class="ui heading">manage locations</h3>
+              <h3 class="ui heading">Manage locations</h3>
               <div class="ui stackable two column grid">
-                
-                <div class="column left-portion">
-
+              <div class="column left-portion">
                   <div class="item">                   
-                    <div class="ui fluid popup">
-                      <div class="column left-portion">
-                        <div class="item">
-                            <div class="ui transparent left icon input">
-                              <input type="text" id="__searchLoc" placeholder="Search locations...">
-                              <i class="search icon"></i>
-                            </div>
-                        </div>
-                        <!-- ko if: locations().length==0 -->
-                          <div class="ui info  message">
-                            <ul class="list">
-                              <li>No location associated to your profile currently.</li>
-                              <li>Click here to add new</li>
-                            </ul>
-                          </div>
-                         <!-- /ko -->
-                        <!-- ko foreach: locations -->
-                          <div class="ui items">
-                            <div class="item">
-                              <div class="content left floated">
-                                <a class="header" data-bind="text:name"></a>
-                                <div class="meta">
-                                 
-                                  <div class="category" data-bind="text:location.locality"></div>
-                                </div>
-                              </div>
-                              <div class="right floated content" data-bind="click:function () { $parent.addLocation(id)}"><i class="add circle icon"></i></div>
-                            </div>
-                          </div>
-                           <!-- /ko -->
-                      
-                        
-                      </div>
-                    </div>
                     <div class="content">
-                      <h4 class="header">My Location</h4>
+                      <h4 class="header">My Locations</h4>
                     </div>
-                    <!-- ko if: associatedLocations().length==0 -->
+                  </div>
+                  <!-- ko if: associatedLocations().length==0 -->
                     <div class="ui info message">
                       <ul class="list">
-                        <li>No location associated to your profile currently.</li>
+                        <li>No projects associated to your profile currently.</li>
                         <li>Click add new</li>
                       </ul>
                     </div>
@@ -329,23 +294,60 @@
                  <!-- ko foreach: associatedLocations -->
                     <div class="ui items">
                       <div class="item">
-                        <div class="content left floated">
+                         <div class="content">
                           <a class="ui header" data-bind="text:name"></a>
                           
-                          <div class="description">
-                           
-                            <div class="category" data-bind="text:location.locality"></div>
-                          </div>
-                        </div>
-                         <div class="right floated content" data-bind="click:function () { $parent.removeLocation($index,id)}"><i class="remove circle outline icon"></i></div>
+                         </div>
+                         <div class="content right floated">
+                           <i class="remove circle outline icon" data-bind="click:function () { $parent.removeLocation($index,id)}"></i>
+                         </div>
+                          
                       </div>
                     </div>
                   <!-- /ko -->
-                  </div>
-                  
+                 
                 </div>
+                <div class="right floated ui positive button _profaddProj">Add more Locations</div> 
+                <div class="_profsearProj column right-portion" style="display:none;margin:2rem 0;padding:0;">
+                  <div class="item" style="">
+                     <div class="right floated content">
+                      <div class="column left-portion">
+                        <div class="item">
+                            <div class="ui transparent left icon input">
+                              <input type="text" id="__searchPro" placeholder="Search projects...">
+                              <i class="search icon"></i>
+                            </div>
+                        </div>
+                        <!-- ko if: locations().length==0 -->
+                          <div class="ui info  message">
+                            <ul class="list">
+                              <li>No project found.</li>
+                              
+                            </ul>
+                          </div>
+                         <!-- /ko -->
+                        <!-- ko foreach: locations -->
+                          <div class="ui items">
+                            <div class="item">
+                              <div class="content">
+                                <a class="ui header" data-bind="text:name"></a>
+                                
+                              </div>
+                              <div class="right floated content" data-bind="click:function () { $parent.addLocation(id)}"><div class="ui mini button">Add</div></div>
+                              <div class="content"></div>
+                            </div>
+                          </div>
+                        <!-- /ko -->
+                      
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
               </div>
             </div>
+            
             <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">manage leads</h3>
               <div class="ui cards">
@@ -353,11 +355,13 @@
                   <div class="card">
                     <div class="content">
                       <div class="header" data-bind="text:name"></div>
-                      <div class="meta">Buy / Sell / Rent</div>
+                      <div class="meta"><!--ko text : propertyType --><!-- /ko --></div>
                       <div class="description" >
+
                       <!--ko text : emailId --><!-- /ko -->
                         <br/><!--ko text : mobileNo --><!-- /ko -->
                       </div>
+                      <span style="color:black!important;">ProjectName :</span><a style="color:#4C4C4C !important" data-bind="attr:{href:'/project/'+projectId}"><!--ko text : projectName --><!-- /ko --></a>
                     </div>
                   </div>
                   <!-- /ko -->
@@ -689,7 +693,7 @@
     var obj = {}
   
     httpUtils.get('/delete-project/'+id,obj,"JSON",function(data){
-       if(data.status==0){
+       if(httpUtils.checkStatus(data,true,true)){
          classInstance.viewModel.associatedProjects.remove(function(item){
           return item.id == id;
         });
@@ -702,7 +706,7 @@
       var obj = {}
     
       httpUtils.get('/delete-location/'+id,obj,"JSON",function(data){
-         if(data.status==0){
+         if(httpUtils.checkStatus(data,true,true)){
            classInstance.viewModel.associatedLocations.remove(function(item){
             return item.id == id;
           });
@@ -739,7 +743,7 @@
     var obj = {}
     
     httpUtils.get('/associate-project/'+id,obj,"JSON",function(data){
-       if(data.status==0){
+       if(httpUtils.checkStatus(data,true,true)){
           classInstance.viewModel.associatedProjects.push(data.result);
        } 
     })
@@ -749,7 +753,7 @@
     var classInstance = this;
     var obj = {}
     httpUtils.get('/associate-location/'+id,obj,"JSON",function(data){
-       if(data.status==0){
+       if(httpUtils.checkStatus(data,true,true)){
            classInstance.viewModel.associatedLocations.push(data.result);
        } 
     })
@@ -763,7 +767,7 @@
          httpUtils.post("/mark-distress/"+projectId,
                         distressData,
                         {},"JSON",function(result){
-                          alert(1)
+                          if(httpUtils.checkStatus(result,true,true)){}
                         })
   };
 
@@ -802,7 +806,7 @@
     
     var classInstance = this;
 
-    httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+    httpUtils.get("/list-user-projects/"+classInstance.userId,{},"JSON",function(data){
        if(data.status==0){
         if(data.result != null){
          classInstance.viewModel.checkedDistress(data.result.distress);

@@ -232,30 +232,18 @@ userController.listUserProjects = function() {
   var userId= _nself.req.params.userId;
   var page = _nself.request.query.page;
   
-  if(!page){
-    page={
-      "start":0,
-      "pageSIze":3
-    }
-  }
-  
   var userSvc = new userService();
- console.log("Aa gaya m!!!")
    var data= {
       "page":page,
       "userId":userId
     }
     userSvc.on("done", function(code,msg,result,errValue){
-      console.log("yuuqwertetyrtynbgvfbg!!!")
      _nself.processJson(code,msg,result,errValue);
     });
- 
-
-
-    userSvc.listUserProjects(data);
+  userSvc.listUserProjects(data);
  
    }catch(e){
-    console.log("tryyy",e)
+    
    }
 }
 

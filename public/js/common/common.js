@@ -199,7 +199,7 @@ Common.prototype.login = function() {
 	httpUtils.post("/login",
 		{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
 		 { 'authorization': 'POST' },"JSON",function(data){
-		if(httpUtils.checkStatus(data)){
+		if(httpUtils.checkStatus(data,false,true)){
        location.reload();
 		}
 	})

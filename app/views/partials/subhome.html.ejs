@@ -81,19 +81,8 @@
 			          <div id="search-box" class="large basic inverted animated fade ui">
 			            <div class="ui fluid category search">
 						  <div class="ui icon input _main_">
-
-						    <!-- ko if:searchType()=='project' -->
-				          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
-				          	<!-- /ko -->
-						    
-				          	<!-- ko if:searchType()=='agent' -->
-				          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search agents by name, location or project name...">
-				          	<!-- /ko -->
-				          	<!-- ko if:searchType()=='locality' -->
-				          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search location...">
-				          	<!-- /ko -->
-
-						  </div>
+							<input class="prompt" id="__searchHome" name="name" type="text" data-bind="attr:{placeholder:placeholderVal()}" >
+				          </div>
 						  <div class="results"></div>
 						</div>
 			          </div>
@@ -154,16 +143,9 @@
 	          <div id="search-box" class="large basic inverted animated fade ui">
 	            <div class="ui fluid category search">
 				  <div class="ui icon input _main_">
-					 <!-- ko if:searchType()=='project' -->
-		          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search projects by name or location...">
-		          	<!-- /ko -->
-				    
-		          	<!-- ko if:searchType()=='agent' -->
-		          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search agents by name, location or project name...">
-		          	<!-- /ko -->
-		          	<!-- ko if:searchType()=='locality' -->
-		          		<input class="prompt" id="__searchHome" name="name" type="text" placeholder="Search location...">
-		          	<!-- /ko -->
+					 
+		          		<input class="prompt" id="__searchHome" name="name" type="text" data-bind="attr:{placeholder:placeholderVal()}" >
+		      
 				    <i class="search icon">
 						<button type="submit">Search</button>
 					</i>

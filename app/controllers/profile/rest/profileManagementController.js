@@ -18,7 +18,6 @@
 var Controller = require(_path_cntlr+'/base/baseController');
 var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
-var hashAlgo = require(_path_util+"/sha1.js")
 var commonValidator = require(_path_util+"/commonValidator")
 var pMController = new Controller();
 
@@ -29,15 +28,16 @@ var profileManagementService = require(_path_service+"/profileManagementService.
 */
 
 pMController.associateProject = function() {
-	var pMService = new profileManagementService();
+     console.log("jo dariya")
      var _nself = this;
-	 var userId = _nself.getCurrentUser(_nself);
-   
+	 var user = _nself.getCurrentUserInfo(_nself);
+   console.log(user)
+    var pMService = new profileManagementService();
     pMService.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
     var data = {
-    	userId:userId,
+    	userId:user.irxId,
     	projectId:_nself.req.params.projectId
     }
     
@@ -52,12 +52,12 @@ pMController.deleteProject = function() {
     var pMService = new profileManagementService();
    
     var _nself = this;
-     var userId = _nself.getCurrentUser(_nself);
+      var user = _nself.getCurrentUserInfo(_nself);
     pMService.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
     var data = {
-        userId:userId,
+        userId:user.irxId,
         projectId:_nself.req.params.projectId
     }
     
@@ -171,36 +171,5 @@ pMController.deleteLocation = function() {
     
     pMService.deleteLocation(data);
 };
-userController.listUserProjects = function() {
-    try{
-  var _nself = this;
-  var userId= _nself.req.params.userId;
-  var page = _nself.request.query.page;
-  
-  if(!page){
-    page={
-      "start":0,
-      "pageSize":3
-    }
-  }
-  
- // var userSvc = new userService();
- console.log("Aa gaya m!!!")
-   var data= {
-      "page":page,
-      "userId":userId
-    }
-    // userSvc.on("done", function(code,msg,result,errValue){
-    //   console.log("yuuqwertetyrtynbgvfbg!!!")
-    //  _nself.processJson(code,msg,result,errValue);
-    // });
- 
 
-
-   // userSvc.listUserProjects(data);
- 
-   }catch(e){
-    console.log("tryyy",e)
-   }
-}
 module.exports=pMController

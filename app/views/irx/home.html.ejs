@@ -374,6 +374,7 @@
 	  		city:ko.observable("banglore"),
 	  		minPrice:ko.observable(),
 	  		maxPrice:ko.observable(),
+	  		placeholderVal:ko.observable("Search project by name or location.."),
 	  		searchFun : function(formElement){
 	  			
 	            if(_classInstance.viewModel.searchType()=='project'){
@@ -432,6 +433,16 @@
 	     $('#'+_classInstance.parent).on('click','._sType_',function(){
 	     	var _self = $(this)
 
+			    	if(_self.attr('data-attr')=="project"){
+			    		
+			    		_classInstance.viewModel.placeholderVal("Search project by name or location..")
+			    	} else if(_self.attr('data-attr')=="agent"){
+			    		
+			    		_classInstance.viewModel.placeholderVal("Search agent by name ,location or project name..")
+			    	} else if(_self.attr('data-attr')=="locality"){
+			    		
+			    		_classInstance.viewModel.placeholderVal("Search location..")
+			    	}
 	     	_classInstance.viewModel.searchType(_self.attr('data-attr'))
 	     })
 	     $('#'+_classInstance.parent).find("#__searchHome").autocomplete({
@@ -439,7 +450,7 @@
 	            source: function(request, response){
 
 	                var _self = this;
-	                alert(_classInstance.viewModel.city())
+	                
 	                if(_classInstance.viewModel.searchType()=='project'){
 	                	//var data={"text":request.term,"city":_classInstance.viewModel.city()}
 	                	var data={"text":request.term,"city":_classInstance.viewModel.city()}
@@ -505,13 +516,14 @@
 	              };  
 	  
 	   
-			    $(document).on('change','.__searchType',function(){
-			    	var _self = $(this);
-			    	_classInstance.viewModel.searchType(_self.val())
-			    })
+			    // $(document).on('change','.__searchType',function(){
+			    // 	var _self = $(this);
+
+			    // 	_classInstance.viewModel.searchType(_self.val())
+			    // })
 	    
 	    $('.search.icon').click(function(){
-	    	 _classInstance.submitForm();
+	    	// _classInstance.submitForm();
 	    })
 	   ko.applyBindings(_classInstance.viewModel,document.getElementById('homescreen'))
 	};
