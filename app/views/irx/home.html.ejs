@@ -431,6 +431,7 @@
     
 	     $('#'+_classInstance.parent).on('click','._sType_',function(){
 	     	var _self = $(this)
+
 	     	_classInstance.viewModel.searchType(_self.attr('data-attr'))
 	     })
 	     $('#'+_classInstance.parent).find("#__searchHome").autocomplete({
@@ -438,14 +439,14 @@
 	            source: function(request, response){
 
 	                var _self = this;
-	                
+	                alert(_classInstance.viewModel.city())
 	                if(_classInstance.viewModel.searchType()=='project'){
 	                	//var data={"text":request.term,"city":_classInstance.viewModel.city()}
-	                	var data={"text":request.term,"city":"bangalore"}
+	                	var data={"text":request.term,"city":_classInstance.viewModel.city()}
 	                  _classInstance.projectAutocomplete(data,request,response)
 	                
 	                } else if(_classInstance.viewModel.searchType()=='agent'){
-	                	var data={"text":request.term,"city":"aurangabad"}
+	                	var data={"text":request.term,"city":_classInstance.viewModel.city()}
 	                  _classInstance.agentAutocomplete(data,request,response)
 	                
 	                }
@@ -458,12 +459,16 @@
 	              	var textName = _classInstance.removeHtml(ui.item.name)
 	                  $('#__searchHome').val(textName)
 	                   //_classInstance.viewModel.name(ui.item.name);
+	                  
 	                   if(_classInstance.viewModel.searchType()=='agent'){
 	                    if(_classInstance.type[ui.item.type]=='project'){
 	                      
 	                      $('#__projectId').val(ui.item.id);
 	                       location.href="/project/"+ui.item.id;
-	                    } else{
+	                    } else if(_classInstance.type[ui.item.type]=='user'){
+	                    
+	                    	  location.href="/"+ui.item.irxId;
+	                    }else{
 	                      
 	                      $('#__projectId').val("");
 	                    }
@@ -479,13 +484,24 @@
 	              }
 	              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 	                $(".ui-widget-content .ui-state-focus");
-	                var type=""
-	                if(item.type){
-	                  
-	                  type="<div class='itLabel'>"+_classInstance.type[item.type]+"</div>"
+	                var type="";
+		                var icon ="";
+		                if(item.type){
+		                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+		                }
 
-	                }
-	                 return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div>"+type+"</a>" ).appendTo(ul);
+		                if(item.type=='irx-euser') {
+		                  icon = "<i class='icon user right floated'></i>"
+		                }else {
+		                  icon ="<i class='icon building outline right floated'></i>"
+		                }
+		                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
+		                if(item.id == -1){
+		                 
+		                    data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
+		                }
+		                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+	                 
 	              };  
 	  
 	   
@@ -552,7 +568,7 @@
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-           // alert(locationName)
+           
             return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName};
           }));
         }
@@ -567,7 +583,6 @@
          if(data.result == null){
           arr = new Array();
          }
-         console.log(arr)
           arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(data.result, function(item) {
             var name ="";
@@ -577,10 +592,18 @@
               name = item.fields.name
             }    
             var productType="";
-            if(item.fields.productType && item.fields.productType.length >0){
+            if(item.fields && item.fields.productType && item.fields.productType.length >0){
               productType = item.fields.productType[0]
             }
-            return {id:item.fields.id[0],name:name,type:item._type,productType:productType};
+            var id="";
+            if(item.fields && item.fields.id && item.fields.id.length >0){
+              id = item.fields.id[0]
+            } 
+            var irxId="";
+            if(item.fields && item.fields.irxId && item.fields.irxId.length >0){
+              irxId = item.fields.irxId[0]
+            } 
+            return {id:id,name:name,type:item._type,productType:productType,irxId:irxId};
           }));
         }
     })

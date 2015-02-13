@@ -141,8 +141,7 @@
 
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
 			<div class="ui menu rib-head" style="border:0 !important;">
-			<h2 class="ui header item">Showing results for
-			<!--ko text: filters.displayName--><!--/ko-->       
+			<h2 class="ui header item"> <h2 class="ui header item"> <!-- ko text:totalCount --><!-- /ko --> PROJECTS </h2>       
 			</h2>    
 			<a class="right menu" style="padding:.5rem 0;">
 			<div id="mobFilter" class="ui teal label"><i style="margin-right: 0;" class="icon filter"></i></div>
@@ -212,7 +211,7 @@
 	  	
 	  	<% if(locals.req.device.type == 'desktop'){ %>
 	  	<div class="ui menu rib-head">
-	        <h2 class="ui header item">PROJECTS</h2>
+	        <h2 class="ui header item"> <!-- ko text:totalCount --><!-- /ko --> PROJECTS </h2>
 	        <a class="right menu">
 		        <div class="item">
 		          <div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
@@ -298,7 +297,7 @@
 	  	
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
 	  			
-	  		<div id="mobile-listing" class="ui items" data-bind="foreach : projects">
+	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects">
 				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
 	  			<div class="item">
 					<div class="content">
@@ -343,7 +342,7 @@
 	  		
 	  	<!-- ends here -->
 	    <!-- Project Listing goes here -->
-	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
+	    <div class="" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
 	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
 	    </div>
@@ -399,8 +398,7 @@
 				    </div>
 			    </div> -->
 			    <div class="extra content">
-			    	<a href=""><i class="facebook square icon"></i></a>
-					<a href=""><i class="share square icon"></i></a>
+			    	
 					<div class="right floated created">
 						<div class="ui label" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId)}">Enquiry</div>
 					</div>
@@ -426,7 +424,7 @@
 				</div>	
 				<div class="item" style="margin-bottom:0 !important;">
 				  <div class="ui small image">
-				       <!--ko if:gallery!=null && gallery.length>0  -->
+				       <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
 
 				      <img src="" data-bind="attr:{src: gallery[0]}">
 				       <div class="slider">
@@ -438,7 +436,7 @@
 				      </div> 
 				       <!--/ko -->
 
-				       <!--ko if:gallery==null || gallery.length==0  -->
+				       <!--ko if:(!$data.gallery || $data.gallery==null || $data.gallery.length==0)  -->
 				       <img src="/images/project.jpg">
 				       <div class="slider"></div> 
 				       <!--/ko -->
@@ -499,10 +497,13 @@
 		  					
 					  	</div>
 					    <div class="two wide column" style="padding:0;margin-top:-1rem;">
+
 					      <div class="ui right floated item _actButtons">
-					        <div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }" target="_blank">View details</a></div>
+					     	 <div class="ui basic button" data-bind="html:$parent.fbIntegration($data)"></div>
+					        <div class="ui basic button" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }" target="_blank">View details</a></div>
 					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquire</div>
 					        <div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id+'&name='+name}">View agents</a></div>
+
 					      </div>
 					    </div>
 				    </div>
@@ -513,10 +514,11 @@
 
 
 				  <div class="ui four column grid mobile tablet only _actButtons">				    
-				    <div class="column" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }"><i class="unhide icon" data-content="View details"></i></a></div>
+				    <div class="column" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }"><i class="unhide icon" data-content="View details"></i></a></div>
 				    <div class="column leads-in" data-bind="click:function(){$parent.enquireNow($data) }"><i data-content="Enquiry now" class="edit icon"></i></div>
 				    <div class="column"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}"><i data-content="View agents" class="user icon"></i></a></div>
-				    <div class="column req-details" data-bind="click:function(){$parent.requestDetails($data) }"><i data-content="Request details" class="help circle icon"></i></div>				    
+				    <div class="column req-details" data-bind="click:function(){$parent.requestDetails($data) }"><i data-content="Request details" class="help circle icon"></i></div>		
+
 				  </div>
 
 				<!-- ends here -->
@@ -679,6 +681,7 @@
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
+			 totalCount : ko.observable(),
 			filters: {
 				displayName:ko.observable("All"),
 				name:ko.observable(filterName),
@@ -715,6 +718,9 @@
 			},
 			requestDetails : function(data){
 				_classInstance.requestDetails(data.id);
+			},
+			fbIntegration:function(data){
+				return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+data.id+'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>';
 			},
 			enquireNow : function(data){
 
@@ -753,14 +759,16 @@
           var filters = {
             "name" : classInstance.viewModel.filters.name()
           }
-          console.log()
+         
           httpUtils.post("/list-projects",
                         {filters:data,page:classInstance.page},
                         {},"JSON",function(data){
            if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	}
-	       
+	        if(data.page.start==0){
+	        	classInstance.viewModel.totalCount(data.page.total)
+	        }
 	       	if(data.result == null || data.result.length == 0){
 	       		classInstance.listLocationAgent();
 	       		return;
@@ -768,25 +776,7 @@
 	       		classInstance.viewModel.agents([]);
 	       	}
 	       	var arr = data.result;
-		 		for (var i=0;i<arr.length;i++){
-		 			
-		 			var price =  arr[i].price;
-			        var aPriceArr = new Array();
-
-			        for (var j=0;j<price.length;j++){
-			        	var aPrice = price[j];
-			        	
-			        	 if(aPrice){
-				          var aPriceText =  classInstance.getPriceText(""+aPrice)
-
-				          aPriceArr.push(aPriceText);
-				        }else{
-				         aPriceArr.push(aPrice);
-				        }
-			        }
-
-			       arr[i].priceText =  aPriceArr;
-		 		}
+		 	 classInstance.setPriceText(arr);
 			
 	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
@@ -799,6 +789,31 @@
         })
      
     }
+    
+    Project.prototype.setPriceText=function(arr){
+    	var classInstance = this;
+		for (var i=0;i<arr.length;i++){
+ 			
+ 			var price =  arr[i].price;
+	        var aPriceArr = new Array();
+
+	        for (var j=0;j<price.length;j++){
+	        	var aPrice = price[j];
+	        	
+	        	 if(aPrice){
+		          var aPriceText =  classInstance.getPriceText(""+aPrice)
+
+		          aPriceArr.push(aPriceText);
+		        }else{
+		         aPriceArr.push(aPrice);
+		        }
+	        }
+
+	       arr[i].priceText =  aPriceArr;
+ 		}
+ 		return arr;
+    }
+
 	Project.prototype.resetPage = function(filters) {
 		var _classInstance=this;
 		_classInstance.page.start=0;
@@ -848,6 +863,9 @@
 
 		classInstance.viewModel.filters.projectId(""+filters.projectId);
 		classInstance.viewModel.filters.locationFlag(""+filters.locationFlag);
+		 if(data.page.start==0){
+	        	classInstance.viewModel.totalCount(data.page.total)
+	        }
 		if(data.result == null || data.result.length == 0){
 	       		classInstance.listLocationAgent();
 	       		return;
@@ -856,25 +874,7 @@
 	       	}
 
 			var arr = data.result;
-		 		for (var i=0;i<arr.length;i++){
-		 			
-		 			var price =  arr[i].price;
-			        var aPriceArr = new Array();
-
-			        for (var j=0;j<price.length;j++){
-			        	var aPrice = price[j];
-			        	
-			        	 if(aPrice){
-				          var aPriceText =  classInstance.getPriceText(""+aPrice)
-
-				          aPriceArr.push(aPriceText);
-				        }else{
-				         aPriceArr.push(aPrice);
-				        }
-			        }
-
-			       arr[i].priceText =  aPriceArr;
-		 		}
+		 	classInstance.setPriceText(arr);
 			classInstance.viewModel.projects([])
 	       	ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 			//ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
@@ -894,7 +894,7 @@
 	    		}	
 	      })
 	}
-	
+
 	Project.prototype.listProjects = function(replace,setUpdate) {
 		
 		var classInstance = this;
@@ -905,6 +905,9 @@
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	}
+	       	 if(data.page.start==0){
+	        	classInstance.viewModel.totalCount(data.page.total)
+	        }
 	       	if(data.result == null || data.result.length == 0){
 	       		classInstance.listLocationAgent();
 	       		return;
@@ -912,33 +915,19 @@
 	       		classInstance.viewModel.agents([]);
 	       	}
 	       	var arr = data.result;
+
 	       	if(!arr || arr == null || arr.length==0){
 	       		return
 	       	}
-		 		for (var i=0;i<arr.length;i++){
-		 			
-		 			var price =  arr[i].price;
-			        var aPriceArr = new Array();
-
-			        for (var j=0;j<price.length;j++){
-			        	var aPrice = price[j];
-			        	
-			        	 if(aPrice){
-				          var aPriceText =  classInstance.getPriceText(""+aPrice)
-
-				          aPriceArr.push(aPriceText);
-				        }else{
-				         aPriceArr.push(aPrice);
-				        }
-			        }
-
-			       arr[i].priceText =  aPriceArr;
-		 		}
+		 		classInstance.setPriceText(arr);
 		
-	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
+	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)
+
+	      
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;
+
 	        if(setUpdate){
 	        	
 	       		setUpdate(data.page.hasMore)
@@ -958,11 +947,4 @@
 	</script>
   <% include ../partials/footer.html.ejs %>
 </body>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+

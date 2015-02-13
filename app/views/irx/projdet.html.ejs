@@ -35,13 +35,13 @@
   	<!-- ends here -->
 
 	<% if(locals.req.device.type != 'desktop'){ %>
-		<div id="mobile-projDet" class="ui grid">
+		<div id="mobile-projDet" class="ui grid projDet">
 
 		<div class="sixteen wide column">
 	<% } %>
 
 	<% if(locals.req.device.type == 'desktop'){ %>
-	<div id="desktop-projDet" class="ui divided padded grid">
+	<div id="desktop-projDet" class="ui divided padded grid projDet">
 
 		<div class="nine wide column">
 	<% } %>
@@ -83,10 +83,17 @@
 				</table>
 			</div>	
 			<input id="_projectId_" type="hidden" value="<%= result.id %>">
-			<div class="ui button" style="background:#fff;border: 1px solid #ddd;margin-bottom:1rem;"><a href="/agent-listing?projectId=<%= result.id %>&name=<%= result.name %>"> View agents of this project</a></div>
+			
+			<% if(locals.req.device.type != 'desktop'){ %>
+			<div style="text-align:center">
+				<div class="ui button" style="background:#fff;border: 1px solid #ddd;margin-bottom:1rem;"><a href="/agent-listing?projectId=<%= result.id %>&name=<%= result.name %>"> View agents of this project</a></div>
+			</div>
+			<% } %>
+			
 			<div class="ui inverted xtra _actions" style="padding-bottom:1rem;">
 				<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
 				<div class="ui blue button leads-in" data-bind="click:function(){enquireNow('<%= result.id %>') }"><i class="icon help circle"></i>Enquire</div>
+				 <div class="ui basic button" data-bind="html:fbIntegration('<%= result.id %>')"></div>
 			</div>
 			<div class="ui top attached tabular menu">
 			  <a class="item active" data-tab="first">Images</a>
@@ -234,8 +241,7 @@
 			      </div>
 			      <div class="extra">
 			        <div class="ui right floated label _subReqP_" data-bind="click:function(){$parent.addAgent(name,irxId,companyName,imageUrl)}">Enquire</div>
-			        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="facebook square icon"></i></a>
-			        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="share square icon"></i></a>
+			       
 			      </div>
 			    </div>
 			  </div>
@@ -351,6 +357,9 @@
 
 				_classInstance.enquireNow(id);
 			},
+			fbIntegration:function(id){
+				return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+id+'" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>';
+			},
 			addAgent:function(name,id,companyName,imageUrl){
 					 
 				$('#leads').modal({
@@ -370,7 +379,8 @@
 	    }
 	
 	    _classInstance.listPreferredAgents(projectId);
-	  	ko.applyBindings(_classInstance.viewModel,document.getElementById('desktop-projDet'));
+
+	  	ko.applyBindings(_classInstance.viewModel,document.getElementsByClassName('projDet')[0]);
 
 	  	$(".locality .title").click(function(){
 	  		var _self=$(this);
