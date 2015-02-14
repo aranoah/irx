@@ -1,10 +1,6 @@
 <!-- Search menu goes her
   -->
-  <style>
-    #__searchAuto {
-      padding-left:7.7rem !important;
-      width:100% !important;
-    }    
+  <style>   
     .buttonClass.ui.button {
       padding:.8em 1.1em !important;
       font-size:1rem !important;
@@ -25,24 +21,7 @@
     ._searchInput_>.ui.right.labeled.input>input {
       width:330px;
     }
-    ._searchInput_ .ui.dropdown.label {
-      position:absolute;
-      top:0.13em;left:0;
-      padding:.72em .8em;
-      border-left:1px solid rgba(0,0,0,0.15);
-    }
 
-    .ui.mobile.column.grid ._searchInput_ .ui.dropdown.label {
-      top:.1em !important;
-      min-width:4.5rem;
-      max-width:4.5rem;
-      padding:.76em .8em;
-    }
-
-    .ui.mobile.column.grid #__searchAuto {
-      padding-left:4.8rem !important;
-      width:auto !important;
-    }
     .ui.mobile.column.grid #search-filter>i.icon {
       font-size: 1.2rem;
       padding-right: 3.5rem;
@@ -81,32 +60,24 @@
   <div id="searchbar" class="ui inverted menu">
   <% if(locals.req.device.type != 'desktop'){ %>
     <div class="ui grid smenu-hide">
-      <div class="ui mobile two column page grid" tabindex="0" style="padding: 1.5rem 2rem .2rem;">
+      <div class="ui mobile two column page grid" tabindex="0" style="padding: 1.5rem 1.5rem .2rem;">
+        <div class="one wide column">
+          <i class="filter icon" id="search-filter"></i>
+        </div> 
         <div class="fourteen wide column _searchInput_" style="padding: 0;">
           <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
           <input type="hidden" name="isLocality" placeholder="Search..." data-bind="value: sLocAgents">
-          
-          <div class="ui labeled input" style="border-radius:0;">
-            <div class="ui dropdown teal label">
-              <input type="hidden" data-bind="value: searchType" name="searchType">
-              <div class="text"><i class="building outline icon"></i></div>
-              <i class="angle down icon" style="margin:0;"></i>
-              <div class="menu">
-                <div class="item" data-value="project"><i class="building outline icon"></i></div>
-                <div class="item" data-value="agent"><i class="user icon"></i></div>
-              </div>
-            </div>
-            <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">            
-          </div>
-        </div>
-        <div class="one wide column" id="search-filter">
-          <i class="filter icon"></i>
+          <div class="ui action input">
+            <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
+            <div class="ui teal mini button">Go</div>
+          </div>         
         </div>
       </div>
     </div>
     <% } %>
+    
     <% if(locals.req.device.type == 'desktop'){ %>
-    <div class="cont-ainer search-menu">
+    <div id="desktop-searchbar" class="cont-ainer search-menu">
       <div class="item">
          <div class="ui selection dropdown">
           <input id="_city_" type="hidden" name="city" data-bind="textInput:city">

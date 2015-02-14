@@ -3,7 +3,8 @@
  font-family:roboto; 
  src: url(/css/fonts/Roboto-Light.ttf) format('ttf');
 }
-.irx-desktop #header,.irx-desktop #searchbar{
+
+#header._desktop_,#desktop-searchbar{
   min-width: 1024px !important;
 }
 
@@ -121,9 +122,8 @@
 }
 
 #searchbar .cont-ainer {
-  padding: 0.5rem 0 0.5rem 0;
-  width: 75%;
-  margin: 0 auto;
+  padding: 0.5rem 0 0.5rem ;
+  text-align: center;
 }
 
 #searchbar .cont-ainer.search-menu>.item {
@@ -157,7 +157,7 @@
 }
 
 #searchbar input {
-  padding: .75em 1.1em .75em 0rem;
+  padding: .75em 1.1em;
   background-color: inherit !important;
 }
 
@@ -774,13 +774,6 @@ p >.mail.icon{
 /* Ends here */
 @media only screen and (max-width : 992px) {
 
-/* #home .menu .right.menu > .item, #searchbar > .search-menu {
-   display: none;
- }
-
- #home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
-   display: block;
- }*/
  #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
    left: auto;
    right: 0em; 
