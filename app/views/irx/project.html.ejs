@@ -39,19 +39,6 @@
 	._hide_ {
 		display:none;
 	}
-	/*.proj-listing ._actButtons>.ui.basic.button {
-	  border: 0 !important;
-	  border-radius: 0 !important;
-	   box-shadow: 0 0 0 !important; 
-	  background-color: #f4f4f4 !important;
-	  color: #607d8b !important;
-	  transition: all ease .2s;
-	  padding: .75rem;
-	  font-weight: 400;
-	  width: 11rem;
-	  margin: 0 .75rem .5rem 0;
-	}*/
-
 	.ui.items>.item>.content a {
 	  color: #345D71 !important;
 	  -webkit-transition: color .2s ease;
@@ -80,7 +67,7 @@
 		font-weight: 400;
 		border-radius: 2px;
 		color: #737373;
-
+	}
 	.proContent {
 		color: #607d8b !important;
 		cursor: default !important;
@@ -102,22 +89,30 @@
 	  width: 11rem;
 	  margin: 0 .75rem .5rem 0;
 	}
-	.mobileFilter.ui.menu {
-		background: inherit !important;
-		box-shadow: none !important;
+	
+	.proFilters{
+		background: #fff !important;
+        border: 1px solid #ddd !important;
 	}
+	.default.text{
+		color: rgb(29, 29, 29) !important;
+        font-weight: 300;
 
-	.mobileFilter.ui.menu>.item {
-		display: block !important;
 	}
-	#HideFilter {
-		display: none;
-	}
-
-	.ui.menu .item:before {
+.ui.menu .item:before {
 		background: linear-gradient(rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0) 50%,rgba(0, 0, 0, 0) 100%);
 	}
-
+	span.ui.teal.label{
+		color: #00B5AD!important;
+		border-color: #00B5AD!important;
+		background: #FFF!important;
+		border: 1px solid #EEE !important;
+		font-weight: normal;
+		font-size: 13px;
+		text-transform: capitalize;
+		border-left: 2px solid #00B5AD !important;
+		margin-right: 10px;
+	}
   </style>
   
 </head>
@@ -141,7 +136,8 @@
 
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
 			<div class="ui menu rib-head" style="border:0 !important;">
-			<h2 class="ui header item"> <h2 class="ui header item"> <!-- ko text:totalCount --><!-- /ko --> PROJECTS </h2>       
+			<!-- ko if:totalCount!=0 -->
+				<h2 class="ui header item"> <h2 class="ui header item"> <!-- ko text:(totalCount()>0?totalCount():'') --><!-- /ko --> PROJECTS </h2> <!-- /ko -->
 			</h2>    
 			<a class="right menu" style="padding:.5rem 0;">
 			<div id="mobFilter" class="ui teal label"><i style="margin-right: 0;" class="icon filter"></i></div>
@@ -210,11 +206,12 @@
 			<!-- ends here -->
 	  	
 	  	<% if(locals.req.device.type == 'desktop'){ %>
-	  	<div class="ui menu rib-head">
-	        <h2 class="ui header item"> <!-- ko text:totalCount --><!-- /ko --> PROJECTS </h2>
+	  	<div class="ui menu rib-head" >
+	        	<h2 class="ui header item"style="float:left;"> <!-- ko text:(totalCount()>0?totalCount():'') --><!-- /ko --> PROJECTS </h2>
+
 	        <a class="right menu">
 		        <div class="item">
-		          <div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
+		          <div class="ui right labeled icon dropdown button proFilters">
 		            <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
 		            <div class="default text">Property Type</div>
 		            <i class="angle down icon"></i>
@@ -229,7 +226,7 @@
 		          </div>
 		        </div>
 		        <div class="item">
-		          <div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
+		          <div class="ui right labeled icon dropdown button proFilters">
 		            <input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
 		            <div class="default text">Status</div>
 		            <i class="angle down icon"></i>
@@ -242,7 +239,7 @@
 		          </div>
 		        </div>
 		        <div class="item">
-		          	<div class="ui right labeled icon dropdown button" style="background: #fff;border: 1px solid #ddd;">
+		          	<div class="ui right labeled icon dropdown button proFilters">
 					  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
 					  <div class="default text">Sort by relevance</div>
 					  <i class="sort right icon"></i>
@@ -268,7 +265,7 @@
 			</a>
 			</div>
 	  	<% } %>
-	  	<div class="_filters_ _hide_">
+	  	<div class="_filters_ _hide_" style="text-align:left;">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''">
 	  		BHK :
 	  		<!--ko text: filters.bhk--><!--/ko-->
@@ -348,12 +345,13 @@
 	  		
 	  	<!-- ends here -->
 	    <!-- Project Listing goes here -->
-	    <div class="" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
-             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
+	    <div class="" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1rem;color: #7b7b7b;
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;">
 	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
 	    </div>
-	    <div class="ui cards sc _hide_" data-bind="foreach : agents" style="margin:0;">
 
+	    <div class="ui cards sc grid _hide_ " data-bind="foreach : agents" style="margin:0;">
+	    	
 			<div class="card">
 			    <div class="ui image tiny">
 			      <img src="/images/elliot.jpg">
@@ -530,8 +528,12 @@
 				<!-- ends here -->
 			</div>
 	    	</div>
-	    	<div class="three wide column">Banner here...</div>
-	    	
+	    	 <div class="four wide column" data-bind="visible:projects().length!=0" style=" padding:0 1rem;font-size: 14px;box-shadow: 0 0 0;">
+	    		<img src="/img/slctCtywlk.jpg" style="width:100%;">
+	    		<img src="/img/slctCtywlk.jpg" style="width:100%;">
+	    		<img src="/img/slctCtywlk.jpg" style="width:100%;">
+	    		<img src="/img/slctCtywlk.jpg" style="width:100%;">
+	    	</div>
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
 		<% } %>
@@ -592,70 +594,70 @@
 			})
   			
   		})
-		_classInstance.scroller = ko.bindingHandlers.scroll = {
+		// _classInstance.scroller = ko.bindingHandlers.scroll = {
 
-		  updating:true,
+		//   updating:true,
 		  
-		  init: function(element, valueAccessor, allBindingsAccessor) {
+		//   init: function(element, valueAccessor, allBindingsAccessor) {
 		  	
-		      var self = this
-		      self.updating =(true);
-		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-		            $(window).off("scroll.ko.scrollHandler")
-		            self.updating= (false); 
-		      });
-		      $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
-		      $(element).on('__sc__more', function(e,flag){
+		//       var self = this
+		//       self.updating =(true);
+		//       ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+		//             $(window).off("scroll.ko.scrollHandler")
+		//             self.updating= (false); 
+		//       });
+		//       $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
+		//       $(element).on('__sc__more', function(e,flag){
 		      		
-				  	 var ele_more = $('#_sc_more');
-				  	 if(typeof(flag) == "undefined"){
-				  	 	return ele_more.attr("hasMore")=='true';
-				  	 }else{
-				  	 	if(flag){
-				  	 		ele_more.show();
-				  	 	}else{
-				  	 		ele_more.hide();
-				  	 	}
-				  	 	ele_more.attr("hasMore",flag);
-				  	 	return flag;
-				  	 }
-				  })
-		  		},
+		// 		  	 var ele_more = $('#_sc_more');
+		// 		  	 if(typeof(flag) == "undefined"){
+		// 		  	 	return ele_more.attr("hasMore")=='true';
+		// 		  	 }else{
+		// 		  	 	if(flag){
+		// 		  	 		ele_more.show();
+		// 		  	 	}else{
+		// 		  	 		ele_more.hide();
+		// 		  	 	}
+		// 		  	 	ele_more.attr("hasMore",flag);
+		// 		  	 	return flag;
+		// 		  	 }
+		// 		  })
+		//   		},
 
-		  update: function(element, valueAccessor, allBindingsAccessor){
+		//   update: function(element, valueAccessor, allBindingsAccessor){
 
-		    var props = allBindingsAccessor().scrollOptions
-		    var offset = props.offset ? props.offset : "0"
-		    var loadFunc = props.loadFunc
-		    var load = ko.utils.unwrapObservable(valueAccessor());
-		    var self = this;
+		//     var props = allBindingsAccessor().scrollOptions
+		//     var offset = props.offset ? props.offset : "0"
+		//     var loadFunc = props.loadFunc
+		//     var load = ko.utils.unwrapObservable(valueAccessor());
+		//     var self = this;
 		    
-		    if(load){
-		      element.style.display = "";
-		      $(window).on("scroll.ko.scrollHandler", function(){
+		//     if(load){
+		//       element.style.display = "";
+		//       $(window).on("scroll.ko.scrollHandler", function(){
 		      	
-		        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
-		          if(self.updating){
+		//         if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
+		//           if(self.updating){
 		          	
-		          	self.updating =(false);
+		//           	self.updating =(false);
 
-		            _classInstance.listProjects(false,function(success){
+		//             _classInstance.listProjects(false,function(success){
 		            	
-		            	self.updating=success;
-		            	$(element).trigger('__sc__more',success)
-		            })
-		          }
-		        }
+		//             	self.updating=success;
+		//             	$(element).trigger('__sc__more',success)
+		//             })
+		//           }
+		//         }
 		       
-		      });
-		    }
-		    else{
-		        element.style.display = "none";
-		        $(window).off("scroll.ko.scrollHandler")
-		        self.updating = false
-		    }
-		  }
-		 };
+		//       });
+		//     }
+		//     else{
+		//         element.style.display = "none";
+		//         $(window).off("scroll.ko.scrollHandler")
+		//         self.updating = false
+		//     }
+		//   }
+		//  };
 		 var filterName = $('#__filterName').val()
 		 if(typeof(filterName) == "undefined" || filterName == null ){
 		 	filterName = "";
@@ -897,6 +899,7 @@
 	    		if(data.result != null && data.result.length !=0 ){
 	    			classInstance.viewModel.agents([])
 	    			 ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
+	    			 console.log(classInstance.viewModel.agents())
 	    		}	
 	      })
 	}
@@ -928,7 +931,6 @@
 		 		classInstance.setPriceText(arr);
 		
 	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)
-
 	      
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;

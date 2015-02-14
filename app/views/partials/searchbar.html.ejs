@@ -83,7 +83,7 @@
           <input id="_city_" type="hidden" name="city" data-bind="textInput:city">
           <div class="default text city"><!--ko text: showCity--><!--/ko--></div>
           <i class="angle down icon"></i>
-          <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
+          <div class="menu _ld_DCTY_DTA" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
             <div class="ui icon search input">
               <i class="search icon"></i>
               <input type="text" name="search" placeholder="Search city...">
@@ -93,7 +93,6 @@
               <i class="tags icon"></i>
              Select City
             </div>
-            <% include ../partials/city.html.ejs %>
           </div>
         </div>
       </div>
@@ -103,18 +102,18 @@
         <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
         <input type="hidden" name="isLocality" placeholder="Search..." data-bind="value: isLocality">
         <div class="ui labeled input" style="width:415px;border-radius:0;">
-          <div class="ui dropdown basic label">
+          <div class="_csn ui dropdown basic label" style="padding:.80em;">
 
-            <input type="hidden" data-bind="value: searchType" name="searchType" id="__searchType__">
-            <div class="text" ><p style="text-transform: capitalize;"><!--ko text: searchType --><!-- /ko --></p></div>
-            <i class="dropdown icon"></i>
+            <input type="hidden" data-bind="value: searchType" name="searchType" id="__searchType__"/>
+            <div class="text" style="width:60px;" ><p style="text-transform: capitalize;"><!--ko text: searchType --><!-- /ko --></p></div>
+            <i class="dropdown icon" style="margin:0"></i>
             <div class="menu">
               <div class="item" data-value="project">Projects</div>
               <div class="item" data-value="agent">Agents</div>
               <div class="item" data-value="locality">Locality</div>
             </div>
           </div>
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">          
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name" class="_csn" style="margin-left: -.2em;"/> 
         </div>
       </div>
       <!-- ends here -->
@@ -136,7 +135,7 @@
       <div class="item">
 
         <div class="ui selection dropdown __budget__">
-          <div class="default text" id="_budget_">Budget</div>
+          <div class="default text" id="_budget_" style='text-overflow: ellipsis;white-space: nowrap;width: 80%;overflow: hidden; height: 15px;margin:0'>Budget</div>
           <i class="angle down icon"></i>
           <div class="menu">
             <div class="header">
@@ -150,27 +149,27 @@
                 <span class="text"><!-- ko text:minPriceText --><!-- /ko --></span>-
                 <span class="text"><!-- ko text:maxPriceText --><!-- /ko --></span>
               </div>
-              <div class="item _budgetItem_" style="width:100%;float:left">
+              <div class="item _budgetItem_" style="width:100%;float:left !important">
                 <input class="minP" type="hidden" value="0">
                 <input class="maxP" type="hidden" value="500000">
-                Less than 5Lac
+                > 5Lac
               </div>
-              <div class="item _budgetItem_" style="width:100%;float:left">
+              <div class="item _budgetItem_" style="width:100%;float:left !important">
                 <input class="minP" type="hidden" value="500000">
                 <input class="maxP" type="hidden" value="2500000">
                 5Lac - 25Lac
               </div>
-              <div class="item _budgetItem_" style="width:100%;float:left">
+              <div class="item _budgetItem_" style="width:100%;float:left !important">
                 <input class="minP" type="hidden" value="2500000">
                 <input class="maxP" type="hidden" value="5000000">
                 25Lac - 50Lac
               </div>
-              <div class="item _budgetItem_" style="width:100%;float:left">
+              <div class="item _budgetItem_" style="width:100%;float:left !important">
                 <input class="minP" type="hidden" value="5000000">
                 <input class="maxP" type="hidden" value="10000000">
                 50Lac - 1cr
               </div>
-              <div class="item _budgetItem_" style="width:100%;float:left">
+              <div class="item _budgetItem_" style="width:100%;float:left !important">
                 <input class="minP" type="hidden" value="10000000">
                 More than 1cr
               </div>
@@ -194,5 +193,3 @@
     </div>
   </form>
 </div>
-
-

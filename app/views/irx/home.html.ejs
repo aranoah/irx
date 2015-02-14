@@ -361,6 +361,8 @@
 <div id="autoDiv"></div>
  <script type="text/javascript">
 	function Home(){
+
+		
 		this.type={
 	      "irx-eproduct":"project",
 	      "irx-euser":"user"
@@ -466,6 +468,10 @@
 	              dataType: "json",
 	              cache: false,
 	              appendTo:'#autoDiv',
+	              focus:function( event, ui ){
+	              	$(this).val(ui.item.real);
+	              	return false;
+	              },
 	              select: function( event, ui ) {
 	              	var textName = _classInstance.removeHtml(ui.item.name)
 	                  $('#__searchHome').val(textName)
@@ -557,12 +563,13 @@
        
           arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(arr, function(item) {
-            var name ="";
+            var name ="",nameValue='';
             if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
                name = item.highlight.name[0]
             }else{
               name = item.fields.name
             }
+            nameValue=(item.fields.name?item.fields.name[0]:'');
             var location ={}
             if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
               var lCity = item.fields['location.city'];
@@ -581,7 +588,7 @@
               productType = item.fields.productType[0];
             }
            
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName};
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue};
           }));
         }
     })
@@ -624,8 +631,9 @@
 	$(document).ready(function(){
 		var home = new Home();
 		home.init();
-	
-	})
+		console.log($city)
+		$("#mainSearchCity").append($city);
+	});
 	Home.prototype.getPriceText = function(amount) {
     var text = "";
     if(amount.length==4 || amount.length==5){

@@ -195,23 +195,21 @@
 		     <!-- ko if:agents().length!=0 -->
 			<div class="ui divided items" data-bind="foreach : agents">
 			  <div class="item">
-			    <!-- ko if:imageUrl!=null -->
-			    	<div class="ui image tiny _pImage_">
-			    		<img src="" data-bind="attr: { src: imageUrl}">
-			   	  	</div>
-			    <!-- /ko -->
-			    <!-- ko if:(imageUrl==null || imageUrl=='') -->
-			    	<div class="ui image tiny _pImage_">
-			    		<img src="/images/elliot.png">
-			   	  	</div>
-			    <!-- /ko -->
 			    <div class="content">
+					<div class="ui image tiny _pImage_" style="padding:0 .5em 0 0 !important">
+				    	<!-- ko if:imageUrl!=null -->
+							<img src="" data-bind="attr: { src: imageUrl}" style="width: 100%;max-height: 65px;vertical-align: top;" alt="Agent Image"/>
+						<!-- /ko -->
+						<!-- ko if:(imageUrl==null || imageUrl=='') -->
+								<img src="/images/elliot.png" style="width: 100%;max-height: 65px;vertical-align: top;"alt="Agent Image"/>
+						<!-- /ko -->	
+				  	</div>
 			      <a data-bind="attr: { href: '/'+irxId},text : name" class="header">Elliot Fu</a>
 			      <div class="meta">
 			        <div class="price" data-bind="text : companyName" style="padding:.5rem 0;">IRX,India</div>
 			        <div class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--></div>
 			      </div>
-			      <div class="description">
+			      <div class="description" style="margin-top:15px;">
 			        Projects : 
 			        <span data-bind="foreach : projects" style="margin-right:0;">
 			          <!-- ko if:$index()<=1 -->

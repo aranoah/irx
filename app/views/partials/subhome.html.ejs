@@ -143,7 +143,23 @@
 	          <div id="search-box" class="large basic inverted animated fade ui">
 	            <div class="ui fluid category search">
 				  <div class="ui icon input _main_">
-					 
+						<div class="ui dropdown field" style="width:25%;padding-left:0 !important;">
+						    <input type="hidden" name="city" data-bind="value:city" value="banglore"/>
+						    <div class="default text _city_">Banglore</div>
+						    <i class="angle down icon" style="color: rgba(182, 182, 182, 0.82) !important;font-size: 1.2em;"></i>
+						    <div class="menu" style="max-height: 20em;overflow-y: scroll;" id="mainSearchCity">
+						      	<div class="ui icon search input">
+						        	<i class="search icon"></i>
+						        	<input type="text" name="search" placeholder="Search city..."/>
+						      	</div>
+						      	<div class="divider"></div>
+						      	<div class="header">
+						        	<i class="tags icon"></i>
+						       		Select City
+						      	</div>
+						      	
+						 	</div>
+						</div>					 
 		          		<input class="prompt" id="__searchHome" name="name" type="text" data-bind="attr:{placeholder:placeholderVal()}" >
 		      
 				    <i class="search icon">
@@ -154,26 +170,8 @@
 				  <div class="results"></div>
 				</div>
 
-				<div class="inline fields">
-					<div class="ui dropdown field" style="width:185px;padding-left:0 !important;">
-					    <input type="hidden" name="city" data-bind="value:city" value="banglore">
-					    <div class="default text _city_">Banglore</div>
-					    <i class="angle down icon"></i>
-					    <div class="menu" style="max-height: 20em;overflow-y: scroll;">
-					      <div class="ui icon search input">
-					        <i class="search icon"></i>
-					        <input type="text" name="search" placeholder="Search city...">
-					      </div>
-					      <div class="divider"></div>
-					      <div class="header">
-					        <i class="tags icon"></i>
-					       Select City
-					      </div>
-					      <% include ../partials/city.html.ejs %>
-					 	</div>
-					</div>
-
-					<div class="ui dropdown field" style="min-width:141px;">
+				<div class="inline fields" >
+					<div class="ui dropdown field">
 						<input type="hidden" name="action">
 					  <div class="text">Type</div>
 					  <i class="angle down icon"></i>

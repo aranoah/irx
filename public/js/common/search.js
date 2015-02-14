@@ -102,7 +102,7 @@
                 return true;
               }
             }
-           
+        $(".ui-menu-item").hide();
       }
          
     }
@@ -280,6 +280,10 @@
               dataType: "json",
               cache: false,
               appendTo:'#autoDiv',
+              focus: function (event, ui) {
+                  $(this).val(ui.item.real);
+                  return false;
+              },
               select: function( event, ui ) {
 
                   $("#__searchAutoM").val(ui.item.name)
@@ -327,30 +331,31 @@
                       _classInstance.viewModel.isLocality(true)
                       _classInstance.viewModel.projectId(ui.item.id);
                   }
+
                    return false;
                   
               }
-              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-                $(".ui-widget-content .ui-state-focus");
-                var type="";
-                var icon ="";
-                if(item.type){
-                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
-                }
+            }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+              $(".ui-widget-content .ui-state-focus");
+              var type="";
+              var icon ="";
+              if(item.type){
+                type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+              }
 
-                if(item.type=='irx-euser') {
-                  icon = "<i class='icon user right floated'></i>"
-                }else {
-                  icon ="<i class='icon building outline right floated'></i>"
-                }
-                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
-                if(item.id == -1){
-                 
-                    data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
-                }
-                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
-                
-              };  
+              if(item.type=='irx-euser') {
+                icon = "<i class='icon user right floated'></i>"
+              }else {
+                icon ="<i class='icon building outline right floated'></i>"
+              }
+              var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
+              if(item.id == -1){
+               
+                  data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
+              }
+               return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+              
+            };  
 
     ko.applyBindings(_classInstance.viewModel,document.getElementById('searchF'));
   }
@@ -476,12 +481,14 @@
        
           arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(arr, function(item) {
-            var name ="";
+            var name ="",nameValue='';
+
             if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
                name = item.highlight.name[0]
             }else{
               name = item.fields.name
             }
+            nameValue=(item.fields.name?item.fields.name[0]:'');
             var location ={}
             if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
               var lCity = item.fields['location.city'];
@@ -499,8 +506,7 @@
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-           
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName};
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue};
           }));
         }
     })
@@ -546,4 +552,5 @@ $(document).ready(function(){
     sBar.viewModel.showCity("Gurgaon")
   }
 
+  $("._ld_DCTY_DTA").append($city);
 })

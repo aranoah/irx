@@ -8,7 +8,17 @@
   min-width: 1024px !important;
 }
 
-
+span.ui.teal.label {
+  color: #00B5AD!important;
+  border-color: #00B5AD!important;
+  background: #FFF!important;
+  border: 1px solid #EEE !important;
+  font-weight: normal;
+  font-size: 13px;
+  text-transform: capitalize;
+  border-left: 2px solid #00B5AD !important;
+  margin-right: 10px;
+}
 /* Rupee */
  @font-face {
  font-family:rupee; 
@@ -154,11 +164,13 @@
   width: 80%;
   text-transform: capitalize;
   margin-right: 0 !important;
+  line-height: 20px;
 }
 
 #searchbar input {
-  padding: .75em 1.1em;
+  padding: .75em 1em;
   background-color: inherit !important;
+  width: 75%;
 }
 
 /*#searchbar .search-menu input {
@@ -335,12 +347,12 @@
 }
 
 #lower-content .ui.form {
-  margin: 1rem 0;
+  margin: 0 0 1rem ;
 }
 
 #lower-content .ui.form h4 {
   border: 0;
-  color: #74c9f4;
+  color: #43788C;
 }
 
 #lower-content .ui.form .required.field {
@@ -401,11 +413,11 @@ margin-right: 1rem;
 .sell-post .ui.inverted.menu {
   background-color: inherit;
   box-shadow: none;
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
 .sell-post .ui.inverted.menu.contact {
-  padding: 0 1rem;
+  padding: 0 2rem;
 }
 
 .sell-post .ui.dividing.header {

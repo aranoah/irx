@@ -95,7 +95,9 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 }#desktop-projDet .seven.wide.column {
 	padding-left: 1% !important;
 }
-
+#desktop-projDet .ui.items>.item>.content>div.description {
+    font-size: .85em;    color: #617E8C;
+}
 .ui.inverted.segment.head {
 	background-color: inherit !important;
 }

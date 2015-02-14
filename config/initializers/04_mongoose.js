@@ -21,8 +21,9 @@ module.exports = function(done) {
     
  switch (this.env) {
 
-    case 'development':    
-      this.mongoose.connect('mongodb://localhost:27017/IRX');
+    case 'development':
+   
+      this.mongoose.connect('mongodb://192.168.1.60:27017/IRX');
 
     break;
    
