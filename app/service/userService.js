@@ -16,6 +16,7 @@
 *
 **/
 var CONSTANTS = require(_path_util+'/constants');
+var s3Utils = require(_path_util+'/s3-utils')
 var mongoErr = require(_path_util+'/mongo-error');
 var MAIL_TYPE = CONSTANTS.MAIL_TYPE;
 var VERIFICATION_TYPE = CONSTANTS.VERIFICATION_TYPE;
@@ -193,6 +194,22 @@ UserService.prototype.updateUser = function(user) {
 	if(user.specialities != null) {
 		updateObject["specialities"]=user.specialities;
 	}
+	if(user.file && user.file != null) {
+		var file = user.file;
+		var s3UtilsObj = new s3Utils();
+		var type = file.type;
+		var ext ="";
+		if(type && type !=""  ){
+			var iType = type.split("/");
+			if(iType != null && iType.length >0){
+				ext = iType[1]
+			}
+		}
+		var remotefileName = "user/"+id+"-img."+ext;
+		s3UtilsObj.uploadFile(file.path,file.name,remotefileName)
+		updateObject["imageUrl"]=properties.user_image_url+remotefileName;
+		
+	}
 	if(user.phoneNum != null) {
 		updateObject["phoneNum"]=user.phoneNum;
 		var id = _selfInstance.getCustomMongoId("IVER-");
@@ -205,7 +222,7 @@ UserService.prototype.updateUser = function(user) {
 			 _selfInstance.saveVerificationCode(vData,type,function(code,msg){
 			 	
 			 	if(code == STATUS.OK.code){
-					_selfInstance.emit("done",code,msg,"yo yo",null);
+					_selfInstance.emit("done",code,msg,"",null);
 				} else{
 					_selfInstance.emit("done",code,msg,null,null);
 				}
@@ -213,6 +230,7 @@ UserService.prototype.updateUser = function(user) {
 			)
 			 return;
 	}
+	console.log("yoyooyoo!!",updateObject);
 	User.update({"irxId":id},
 							{
 								$set:updateObject
@@ -702,7 +720,8 @@ UserService.prototype.review = function(data) {
 	UserService.prototype.listLastVisited = function(data){
 		var irxId = data.irxId;
 		var _selfInstance = this;
-		IRXLastVisitedModel.find({"agentId":irxId},{},{},
+
+		IRXLastVisitedModel.findOne({"agentId":irxId},
 					function(err,lastVisitedData){
 						if(err){
 								console.error(err)

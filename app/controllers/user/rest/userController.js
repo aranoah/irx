@@ -128,10 +128,16 @@ userController.updateUser = function() {
     userSvc.on("done", function(status,msg,result,page){
      _nself.processJson(status,msg,result,page);
     });
-    var user = _nself.req.body;
-  console.log(_nself.req.files)
-    user.irxId = _nself.getCurrentUser(_nself);
-    userSvc.updateUser(user);
+      var user = _nself.getCurrentUserInfo(_nself);
+      var userData ={
+        "irxId":user.irxId
+      }
+    if(_nself.req.files){
+       userData.file=_nself.req.files.image;
+    }
+   
+
+    userSvc.updateUser(userData);
 }
 
 /*
@@ -342,7 +348,8 @@ userController.addLastVisited = function(){
    "lastVisited":{
       "name":name,
       "url":url,
-      "type":type
+      "type":type,
+      "date":new Date()
      }
   }
   userSvc.addLastVisited(data);

@@ -106,7 +106,7 @@ module.exports = function routes() {
   this.match('associate-project/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
   this.match('delete-project/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteProject' , via: 'GET' });
   this.match('list-product/:type',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
-  //this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
+  this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('list-associated-product/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('mark-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'POST' });
   this.match('associate-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateLocation' , via: 'GET' });
@@ -148,8 +148,8 @@ module.exports = function routes() {
   this.match("/irx/404", {controller:'irx/noResult', action:'main', via:'GET'});
 
   this.match("project-detailing",{controller: 'irx/projdet', action:'main', via:'GET'});
-
-  this.match("/admin/profile/:userId", {controller: 'admin/profile', action:'main', via:'GET'})
+  this.match("/loginPage",{controller: 'irx/loginPage', action:'main', via:'GET'});
+  this.match("/admin/profile",function(req, res, next)  {req.isUi=true;next();}, _app_context.cansec.restrictToLoggedIn,{controller: 'admin/profile', action:'main', via:'GET'})
   
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});

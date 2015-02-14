@@ -40,7 +40,7 @@ profileController.main = function() {
      
     	_nself.title = "Admin-Profile page";
     	_nself.result=result;
-     	_nself.userId = _nself.req.params.userId;
+     	
   		_nself.render("admin/profile"); 
     	
   		

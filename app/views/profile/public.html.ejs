@@ -24,12 +24,13 @@
   <!-- content goes here -->
   
   <div id="content" class="ui centered page grid">
-  <input type="hidden" id="__userId" value="<%= userId %>">
+  <input type="hidden" id="__userId" value="<%= result.irxId %>">
     <div class="fourteen wide column">
 
       <div class="ui two column center aligned stackable divided grid">
     <!-- Left panel starts here -->
-
+      <input id="__name_" value="<%= result.name%>" type="hidden">
+      <input id="__id_" value="<%= result.id%>" type="hidden"> 
       <div class="four wide column">
         <div class="column li-box">
          
@@ -283,7 +284,7 @@
       claimProfile : function(id){
         httpUtils.get("/claim-profile/"+id,{},function(data){
           if(data.status == 0){
-            alert(1)
+            
           }
         })
       },
@@ -365,6 +366,7 @@
    ko.applyBindings(_classInstance.viewModel,document.getElementById(_classInstance.parentContainer));
    _classInstance.listProjects();
    _classInstance.listUserLocations();
+   _classInstance.addToLastVisited();
    var ratingPlugin = $('.rate')
     .rating()
   ;
@@ -445,6 +447,11 @@ PublicProfile.prototype.listReviews = function(append) {
         }
        } 
     })
+  }
+  PublicProfile.prototype.addToLastVisited = function(){
+    httpUtils.post("/add-last-visited",{"name":$('#__name_').val(),"url":"http://indianrealtyexchange.com/"+$('#__id_').val(),"type":"user"},{},"JSON",function(data){
+        
+        })
   }
   $(document).ready(function(){
     var userId=$('#__userId').val();

@@ -74,8 +74,12 @@ module.exports = function() {
               if(!message || message == null){
                   message = msg;
               }
-              res.send(200,{status:status,message:(message)});
-             
+              if(req.isUi && status == 401){
+                console.log("here")
+                res.redirect("/loginPage")
+              }else{
+                res.send(200,{status:status,message:(message)});
+               }
             
         },debug:true    
     }

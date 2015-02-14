@@ -34,6 +34,7 @@ var properties = {
 	"detail_subject" : "Project details",
 	"user_detail_subject" : "Agent Details",	
 	"claim_profile_subject" : "Profile Claim",
-	"irx_agent" : "puneetsharma41@gmail.com"
+	"irx_agent" : "puneetsharma41@gmail.com",
+	"user_image_url" : "https://s3-ap-southeast-1.amazonaws.com/irx/"
 }
 module.exports=properties

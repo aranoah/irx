@@ -59,7 +59,7 @@ S3_UTILS.prototype.uploadFile = function(filePath, fileName , remoteFileName) {
     Body: fileBuffer,
     ContentType: metaData
   }, function(error, response) {
-    console.log('uploaded file');
+    console.log('file uploaded');
     console.log(arguments);
   });
 }

@@ -19,7 +19,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var IRXLastVisitedSchema =new mongoose.Schema({
 	id:{type:String},
-   lastVisited :[{type:String,name:String,url:String,date:Date}],
+   lastVisited :{type:Array},
    data : Schema.Types.Mixed
 });
 

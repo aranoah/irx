@@ -45,9 +45,9 @@
 <body>  
   <% include ../partials/header.html.ejs %>
   <!-- content goes here -->
-  
+   
   <div id="content" class="ui centered page grid admin">
-    <input type="hidden" id="__userId" value="">
+    <input type="hidden" id="__userId" value="<%= result.irxId %>">
 
     <div class="fourteen wide column" id="adminProfile">
 
@@ -58,7 +58,8 @@
       <div class="four wide column _editable_">
         <div class="column li-box">
           <div class="lib-pic">
-            <img id="pic" class="ui circular image" src="/img/pic.png">
+            <img id="pic" class="ui circular image" 
+            src="<%= result.imageUrl?result.imageUrl+'?date='+new Date():'/img/pic.png'%>">
             <div class="Editpic" style="cursor:pointer !important">
               <form id="_profilePicForm" enctype="multipart/form-data">
                 <input id="_profilePic" name="image" type="file" ><i class="icon photo"></i>
@@ -170,7 +171,7 @@
               <a class="active item" data-tab="first"><i class="building outline icon"></i>products</a>
               <a class="item" data-tab="second"><i class="marker icon"></i>locations</a>
               <a class="item" data-tab="third"><i class="user icon"></i>leads</a>
-              <a class="item" data-tab="fourth"><i class="history icon"></i>last visited</a>
+              <a class="item" data-tab="fourth" data-bind="click:function(){listLastVisited()}"><i class="history icon"></i>last visited</a>
               <a class="ui dropdown item right floated column">
                 <i class="settings icon"></i>settings
                 <div class="menu">
@@ -389,7 +390,7 @@
                   <!-- /ko -->
                </div>
             </div>
-            <div class="ui bottom attached tab segment" data-tab="fourth">
+            <div class="ui bottom attached tab segment"  data-tab="fourth">
               <h3 class="ui heading">Recently viewed</h3>
               <div class="ui horizontal list">
               <!-- ko foreach:lastVisited -->
@@ -402,7 +403,7 @@
                   <!-- /ko-->
                   <div class="content">
                     <div class="header"><!-- ko text:name --><!-- /ko --></div>
-                    20,Nov 2014<span class="item">7:00 AM</span>
+                    <a data-bind="attr:{href:url}">Visit</a>
                   </div>
                 </div>
               <!-- /ko-->
@@ -423,7 +424,7 @@
       start:0,
       pageSize:3
     }
-    this.userId="puneet.sharma"
+    this.userId=$('#__userId').val();
   }
 
   $('._profaddProj').click(function () {
@@ -458,7 +459,7 @@
       url: '/update-user',
        type: 'post',
        success: function(data){
-        alert(1)
+        httpUtils.checkStatus(data,true,true)
        }
      })
      getImage(this);
@@ -629,6 +630,10 @@
 
         classInstance.markDistressF(distressArr,id)
       },
+      listLastVisited: function(){
+        alert(1)
+        classInstance.listLastVisited();
+      },
       editBhk : function(pro){
         
         classInstance.viewModel.currContext(pro.id)
@@ -665,7 +670,7 @@
     classInstance.listAssociatedLocations();
     classInstance.listAllLocations();
     classInstance.listLeads(false);
-    classInstance.listLastVisited();
+    
     
     $(document).on('click','._bhk_',function(){
 
