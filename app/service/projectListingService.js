@@ -77,8 +77,21 @@ ProjectListingService.prototype.listProjects = function(data){
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 		}else{
 			if(data != null){
-				_selfInstance.processPagenation(result,page)
+				if(page.start == 0){
+					IRXProductLineModel.count(query, function(err, count) {
+						if(err){
+
+						}else{
+							page['total']=count;
+								_selfInstance.processPagenation(result,page)
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+						}
+					});
+				}else{
+					_selfInstance.processPagenation(result,page)
 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,result,page);
+				}
+				
 			}
 			else {
 				console.log("Project data not found")
@@ -100,7 +113,6 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		page = defPage;
 		
 	}
-	console.log("qwertyuiop",filters)
 
 	if(filters && filters.city != null &&  filters.city != "") {
 		console.log("city",filters.city)
@@ -113,7 +125,8 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		query.push(match);
 		
 	}
-	if(filters && filters.type != null &&  filters.type != "") {
+
+	if(filters && filters.type != null &&  filters.type != "" && filters.type != "all") {
 		console.log("type",filters.type)
 		var match = {
 			"match":{
@@ -123,7 +136,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		query.push(match);
 	}
 	// console.log("In Service...",filters.productType)
-	if(filters && filters.productType != null &&  filters.productType != "") {
+	if(filters && filters.productType != null &&  filters.productType != "" && filters.productType != "all") {
 		console.log("proType",filters.productType)
 		var match = {
 			"match":{
@@ -133,7 +146,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		query.push(match);
 	}
 	
-	if(filters && filters.status != null &&  filters.status != "") {
+	if(filters && filters.status != null &&  filters.status != "" && filters.status !="all") {
 		console.log("status",filters.status)
 		var match = {
 			"match":{
@@ -142,6 +155,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		}
 		query.push(match);
 	}
+
 	if(filters && filters.bhk != null &&  filters.bhk != "") {
 		var match = {
 			"match":{
@@ -188,7 +202,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	if(filters && filters.order && filters.order != null && filters.order!=""){
 		sortOrder=filters.order;
 	}
-	console.log("jai ho !!",query)
+	
     _app_context.esClient.search({
 	    index: 'irx_schema',
 	    type:"irx-eproduct",
@@ -198,6 +212,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	      size:pageSize,
 	      sort:[{ "price" : {"order" : sortOrder}}]
 	    }
+	 
   }).then(function (resp) {
     var hits = resp.hits.hits;
    
@@ -207,6 +222,10 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
     }
   
     _selfInstance.processPagenation(renderingData,page)
+    if(page.start==0){
+    	 page.total=resp.hits.total;
+    }
+   
    _selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code.msg,renderingData,page);
 }, function (err) {
   _selfInstance.emit("done",404,"Project data not found","Project data not found",null);

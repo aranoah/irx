@@ -23,11 +23,12 @@ var STATUS = CONSTANTS.him_status;
 var defPage = CONSTANTS.def_page;
 var hashAlgo = require(_path_util+"/sha1.js");
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
+var IRXProfileClaim = require(_path_model+"/IRXProfileClaim");
 var IRXVerificationModel = require(_path_model+"/IRXVerification");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var IRXLocationModel = require(_path_model+"/IRXLocation");
 var IRXAgentMProductModel = require(_path_model+"/IRXAgentMProduct");
-var IRXReviewInvitation = require(_path_model+"/IRXReviewInvitation");
+var IRXReviewInvitationModel = require(_path_model+"/IRXReviewInvitation");
 var IRXReviewModel = require(_path_model+"/IRXReview");
 var IRXLastVisitedModel = require(_path_model+"/IRXLastVisited");
 var emailUtils = require(_path_util+"/email-utils.js");
@@ -239,22 +240,69 @@ UserService.prototype.updateUser = function(user) {
 *	Get User Details
 *
 **/
-UserService.prototype.getUserDetails = function(userId) {
+UserService.prototype.getUserDetails = function(uData) {
 	console.log("In getUserDetails")
 	var _selfInstance = this;
 	var User = IRXUserProfileModel;
-	var id = userId;
+	var id = uData.userId;
 	
-	User.findOne({"irxId":id},
+	User.findOne({$or: [ { "irxId": id }, { "id": id } ] },{"password":0,"userId":0},
 				function(err,data){
 					if (err){
 			 			console.error(err)
 			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 			 			
 			 		} else{
-
-			 			if(data && data != null){
 			 			
+			 			if(data && data != null){
+			 				var invitationData = {
+			 					"agentId":uData.targetId,
+			 					"parentId":data.irxId
+			 				}
+
+			 				var isInvited = false;
+			 				if(data.targetId != ""){
+			 					
+			 					isInvited = _selfInstance.hasInvitationForReview(invitationData,function(isInvited){
+			 						
+			 						data["isInvited"]= isInvited;
+			 							
+			 						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
+			 					});
+			 				}else{
+			 						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
+			 				}
+			 			
+			 				
+			 			} else{
+			 				console.log("User data not found")
+							_selfInstance.emit("done",404,"User data not found","User data not found",null);
+			 			}
+			 			
+			  		}
+				})
+	
+}
+/*
+*	Get User Details
+*
+**/
+UserService.prototype.getUserDetailsAdmin = function(uData) {
+	console.log("In getUserDetails")
+	var _selfInstance = this;
+	var User = IRXUserProfileModel;
+	var id = uData.userId;
+	console.log("qwewret",id)
+	User.findOne( { "irxId": id} ,{"password":0},
+				function(err,data){
+					if (err){
+			 			console.error(err)
+			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+			 			
+			 		} else{
+			 			
+			 			if(data && data != null){
+			 					console.log(data)
 			 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
 			 				
 			 			} else{
@@ -266,7 +314,6 @@ UserService.prototype.getUserDetails = function(userId) {
 				})
 	
 }
-
 /************************
 	List User's projects
 *************************/
@@ -303,6 +350,7 @@ UserService.prototype.listUserProjects = function(user) {
 					//     projectIds.push(projectId)
 					// }
 					var start = page.start;
+					var distress= data.distress;
 					var pageSize = Number(page.pageSize)+1;
 		Projects.find({"id":{$in:projectList}},{},{skip:start,limit:pageSize },
 					function(err,projectDetails){
@@ -310,8 +358,13 @@ UserService.prototype.listUserProjects = function(user) {
 							console.log(err)
 							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 						} else {
+							
 								_selfInstance.processPagenation(projectDetails,page)
-							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,projectDetails,page);			
+								var result ={
+								"projects":projectDetails,
+								"distress":distress
+							}
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,result,page);			
 						}	
 					})
 	 			} else {
@@ -421,7 +474,7 @@ UserService.prototype.inviteForReview = function(data) {
 		return;
 	}
 	
-	var reviewInvitationModel = new IRXReviewInvitation({
+	var reviewInvitationModel = new IRXReviewInvitationModel({
 		"id":id,
 		"parentId":data.parentId,
 		"targetId":data.targetId,
@@ -453,7 +506,8 @@ UserService.prototype.review = function(data) {
 	var _selfInstance  = this;
 	//get review invitation
 	var refCode = data.refCode;
-	IRXReviewInvitation.findOne({"refCode":refCode},function(err,reviewInvitation){
+	console.log("achaaa",{"parentId":data.parentId,"targetId":data.agentId})
+	IRXReviewInvitationModel.findOne({"parentId":data.parentId,"targetId":data.agentId},function(err,reviewInvitation){
 		if(err){
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error finding review invitation",err,null);
 		} else {
@@ -461,12 +515,7 @@ UserService.prototype.review = function(data) {
 				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
 				return;
 			}
-				
-			if((reviewInvitation.parentId != data.parentId) || (reviewInvitation.targetId != data.agentId)) {
-				
-				_selfInstance.emit("done",STATUS.FORBIDDEN.code,STATUS.FORBIDDEN.msg,err,null);
-				return;
-			}
+			var reviewId = reviewInvitation.id;
 			// save review
 			
 			var id = _selfInstance.getCustomMongoId("IRev-")
@@ -474,7 +523,11 @@ UserService.prototype.review = function(data) {
 				"id":id,
 				"parentId":data.parentId,
 				"agentId":data.agentId,
-				"msg" : data.msg
+				"msg" : data.msg,
+				"rating" : data.rating,
+				"postedOn" : new Date(),
+				"agentName" : data.agentName,
+				"agentImage" : data.agentImage
 			});
 			reviewModel.save(function(err,review){
 			if (err) {
@@ -483,13 +536,13 @@ UserService.prototype.review = function(data) {
 			}else {
 				//clear invitation
 				
-				IRXReviewInvitation.remove({}, function (err) {
+				IRXReviewInvitationModel.remove({"id":reviewId}, function (err) {
 					if (err) {
 						console.error(err)
 						_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 					}else{
 						console.log("Review Invitation data cleared");
-						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,review,null);
 					} 
 				});
 				
@@ -553,7 +606,7 @@ UserService.prototype.review = function(data) {
 	UserService.prototype.saveVerificationCode = function(vData,type,callback) {
 		var _selfInstance  = this;
 			var id = _selfInstance.getCustomMongoId("IVER-")
-
+			var verCode = _selfInstance.getCustomMongoId("IVC-")
 		// send email
 		_selfInstance.once('sendEmail',function(sVerification){
 			var action="";
@@ -564,6 +617,10 @@ UserService.prototype.review = function(data) {
 			} else if(type==VERIFICATION_TYPE.PHONE){
 				action=MAIL_TYPE.VERIFICATION
 				data = sVerification.phoneNum;
+			}else if(type==VERIFICATION_TYPE.PASSWORD){
+
+				action=MAIL_TYPE.FORGET_PASSWORD
+				data = sVerification.userId;
 			}
 			var qObj = {
 				"action":action,
@@ -580,8 +637,8 @@ UserService.prototype.review = function(data) {
 	     	      	callback(STATUS.ERROR.code,"Error putting in queue");
 					return;
 	     	      } else{
-	     	      	console.log("Successfully queued")
-	     	      	callback(STATUS.OK.code,STATUS.OK.msg);
+	     	      	console.log("Mail has been ")
+	     	      	callback(STATUS.MAIL_SUCCESS.code,STATUS.MAIL_SUCCESS.msg);
 					return;
 	     	      }         
 	      });
@@ -595,8 +652,8 @@ UserService.prototype.review = function(data) {
 					"id":id
 		  			,"vfData": vData.data
 		  			,"type" : type
-		  			,"userId" : vData.irxId
-					,"vfCode":"IRX-ABCD"
+		  			,"userId" : vData.emailId
+					,"vfCode": verCode
 					,"createdOn":new Date()
 		   			,"updatedOn":new Date()
 		   			,"emailId" : vData.emailId
@@ -709,25 +766,195 @@ UserService.prototype.fbRegisterUser = function(user) {
    });
 	
 };
-	UserService.prototype.forgetPassword = function(data){
+UserService.prototype.forgetPassword = function(userId){ 
 		var _selfInstance = this;
-			var id = _selfInstance.getCustomMongoId("IVER-");
-			var type =  VERIFICATION_TYPE.ACCOUNT;
+		IRXUserProfileModel.findOne({"userId":userId},{id:1},function(err,res){
+       if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+       }else if(res==null){
+         _selfInstance.emit("done",404,"User data not found","User data not found",null);
+       }else{
+       		var id = _selfInstance.getCustomMongoId("IVER-");
+			var type =  VERIFICATION_TYPE.PASSWORD;
 			var vData = {
-				"data":userData.irxId,
-				"irxId" : userData.irxId,
-				"emailId" : userData.userId,
-				"phoneNum" : userData.phoneNum
+				"data":userId,
+				"emailId" : userId,
 			}
-			// // _selfInstance.saveVerificationCode(vData,type,function(code,msg){
+
+			_selfInstance.saveVerificationCode(vData,type,function(code,msg){
 			 	
-			//  // 	if(code == STATUS.OK.code){
-			// 	// 	_selfInstance.emit("done",code,msg,userData,null);
-			// 	// } else{
-			// 	// 	_selfInstance.emit("done",code,msg,null,null);
-			// 	// }
-			//  }
-			// )
+			 	if(code == STATUS.OK.code){
+					_selfInstance.emit("done",code,msg,null,null);
+				} else{
+					_selfInstance.emit("done",code,msg,null,null);
+				}
+			 }
+			)
+       }
+   });
+			
 	}
+
+
+	UserService.prototype.changePassword = function(data){ 
+		console.log("qwertyuyuiu")
+		var _selfInstance = this;
+		var userId = data.userId;
+		var code = data.code;
+		var password = data.password;
+		var hashPassword = hashAlgo.SHA1(password);
+
+		IRXVerificationModel.findOne({"vfData":userId,"vfCode":code},{id:1},function(err,res){
+       if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+       }else if(res==null){
+         _selfInstance.emit("done",404,"Token expired","Token expired",null);
+       }else{
+       		IRXUserProfileModel.update({"userId":data.userId},
+							{"password":hashPassword.toString()},
+							function(err, numberAffected, raw){
+								
+								if(err){
+									console.error(err)
+									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+								}else{
+									if(numberAffected >0){
+										console.log("User updated successfully");
+										
+						 				IRXVerificationModel.remove({"id":res.id}, function (err) {
+											if (err) {
+												console.error(err)
+												_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+											}else{
+												console.log("Verfication data cleared");
+												_selfInstance.emit("done",STATUS.OK.code,"Password updated successfully",err,null);
+											} 
+										});
+										
+									}else{
+										console.log("User not updated")
+										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+									}
+								}	
+							})
+       }
+   });
+			
+	}
+
 	
+UserService.prototype.hasInvitationForReview = function(data, pupulateData){
+	var _selfInstance = this;
+	console.log({"parentId":data.parentId,"targetId":data.agentId})
+	IRXReviewInvitationModel.findOne({"parentId":data.parentId,"targetId":data.agentId},{"id":1},function(err,data){
+		if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+       }else if(data==null){
+       		console.log("4")
+       		pupulateData(false)
+       		return ;
+            //_selfInstance.emit("done",0,"OK",false,null); 
+       }else{
+       		console.log("5")
+       		pupulateData(true)
+       		return ;
+            //_selfInstance.emit("done",0,"OK",true,null); 
+       }
+	})
+}
+
+
+UserService.prototype.listReviews = function(data){
+	var _selfInstance = this;
+	var page = data.page;
+	if(!page) {
+		page=defPage;	
+	}
+	var userId = data.userId;
+	IRXReviewModel.find({"parentId":userId},{},{skip:page.start,limit:page.pageSize+1 },
+					function(err,reviews){
+		if(err){
+             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+       }else {
+       		if(reviews && reviews != null && reviews.length>0){
+
+       			_selfInstance.processPagenation(reviews,page);
+       			_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,reviews,page);
+       		}else{
+       			console.error("No Reviews found")
+	 			_selfInstance.emit("done",404,"No Reviews found",null,null);
+       		}
+       		
+       }
+	})
+}
+
+
+UserService.prototype.sendUserDetails = function(data){
+	var _selfInstance = this;
+	
+	var targetEmailId = data.emailId
+	var userId = data.userId;
+	var qObj = {
+				"action":MAIL_TYPE.USER_DETAILS,
+				"irxId" : userId,
+				"targetEmailId":targetEmailId
+			}
+			var strQObj = JSON.stringify(qObj)
+			
+			_app_context.sqs.sendMessage({
+	        	"QueueUrl" : _app_context.qUrl,
+	        	"MessageBody" : strQObj
+	     	 }, function(err, data){ 
+	     	      if(err){
+	     	      	console.log("Error putting in queue")
+	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",null,null);
+					return;
+	     	      } else{
+	     	      	console.log("Successfully queued",data)
+	     	      	_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+					return;
+	     	      }   
+	})
+}
+
+UserService.prototype.claimProfile = function(data){
+	var _selfInstance = this;
+	var id = _selfInstance.getCustomMongoId("ICP-");
+	var claimData = new IRXProfileClaim({
+		"id":id,
+		"claimerId":data.irxId,
+		"profileId":data.profileId,
+		"date":new Date()
+	})
+	claimData.save(function(err,sClaimData){
+		if (err) {
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+		} else{
+			var qObj = {
+				"action":MAIL_TYPE.CLAIM_PROFILE,
+				"claimerId" : sClaimData.claimerId,
+				"claimerName": data.name,
+				"profileId": data.profileId
+
+				}
+			var strQObj = JSON.stringify(qObj)
+			
+			_app_context.sqs.sendMessage({
+	        	"QueueUrl" : _app_context.qUrl,
+	        	"MessageBody" : strQObj
+	     	 }, function(err, data){ 
+	     	      if(err){
+	     	      	console.log("Error putting in queue")
+	     	      	_selfInstance.emit("done",STATUS.OK.code,"Error putting in queue",err,null);
+					return;
+	     	      } else{
+	     	      	console.log("Successfully queued",data)
+	     	      	_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+					return;
+	     	      }   
+	})
+		}
+	})
+}
 module.exports = UserService;

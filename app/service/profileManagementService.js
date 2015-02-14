@@ -42,7 +42,7 @@ PMService.prototype.associateProject = function(data) {
  var _selfInstance = this;
  var userId = data.userId;
  var projectId = data.projectId;
- console.log(userId)
+ 
  this.once("stage2",function(project){
  	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId},
@@ -61,20 +61,20 @@ PMService.prototype.associateProject = function(data) {
 					} else if(mapping !=null && mapping.project.indexOf(projectId)==-1){
 						update = true;
 					} else{
-						_selfInstance.emit("done","Already Exists",STATUS.NO_UPDATION.msg,err,null);
+						_selfInstance.emit("done",STATUS.NO_UPDATION.code,"Already Exists",err,null);
 					}
 					if(update){
 						//update user
 						IRXUserProfileModel.update({"irxId":userId},
-							{$inc:{"projectCounter":1}},
+							{$inc:{"projectCounter":1},$addToSet:{"projects":project.name}},
 							function(err,numberAffected,raw){
 								if(err){
-									console.error("projectCount in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+									console.error("projects in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
 								} else {
 									if(numberAffected>0){
-										console.log("projectCount has been udated");
+										console.log("projects in user has been udated");
 									}else{
-										console.error("projectCount in user not updated. ");
+										console.error("projects in user not updated. ");
 									}
 								}
 							}
@@ -94,7 +94,7 @@ PMService.prototype.associateProject = function(data) {
 								}
 							}
 							)
-						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,project,null);	
+						_selfInstance.emit("done",STATUS.OK.code,"Project Added Successfully",project,null);	
 					}
 					
 				}	
@@ -107,7 +107,7 @@ PMService.prototype.associateProject = function(data) {
  	/*
  	* Check Valid project
  	*/
- 	IRXProductLineModel.findOne({"id":projectId},function(err,project){
+ 	IRXProductLineModel.findOne({"id":projectId},{"id":1,"name":1,"location":1,"builderName":1,"description":1},function(err,project){
  		if(err){
  			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -175,7 +175,7 @@ PMService.prototype.deleteProject = function(data) {
 					if(update){
 						//update user
 						IRXUserProfileModel.update({"irxId":userId,"projectCounter":{$gt:1}},
-							{$inc:{"projectCounter":-1}},
+							{$inc:{"projectCounter":-1},$pull:{"projects":project.name}},
 							function(err,numberAffected,raw){
 								if(err){
 									console.error("projectCount in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
@@ -203,7 +203,7 @@ PMService.prototype.deleteProject = function(data) {
 								}
 							}
 							)
-						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,project,null);	
+						_selfInstance.emit("done",STATUS.OK.code,"Project removed successfully",project,null);	
 					}
 					
 				}	
@@ -216,7 +216,7 @@ PMService.prototype.deleteProject = function(data) {
  	/*
  	* Check Valid project
  	*/
- 	IRXProductLineModel.findOne({"id":projectId},function(err,project){
+ 	IRXProductLineModel.findOne({"id":projectId},{"id":1,"name":1,"location":1,"builderName":1,"description":1},function(err,project){
  		if(err){
  			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -327,7 +327,7 @@ PMService.prototype.markDistress = function(data) {
 				_selfInstance.emit("done",STATUS.ERROR.code,"No Project mapping found",null,null);
 				}
 				//update user
-				console.log("IrxId",userId)
+				
 						IRXUserProfileModel.update({"irxId":userId},
 							{$inc:{"distress":1}},
 							function(err,numberAffected,raw){
@@ -343,7 +343,7 @@ PMService.prototype.markDistress = function(data) {
 							}
 							)
 						//update project
-						console.log("pId",projectId)
+						
 							IRXProductLineModel.update({"id":projectId.trim()},
 							{$inc:{"distress":1}},
 							function(err,numberAffected,raw){
@@ -359,7 +359,7 @@ PMService.prototype.markDistress = function(data) {
 							}
 							)
 
-							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
+							_selfInstance.emit("done",STATUS.OK.code,"Project Successfully updated for distress property",null,null);
 			}
 		})
 }
@@ -395,7 +395,7 @@ PMService.prototype.associateLocation = function(data) {
 					if(update){
 						//update user
 						IRXUserProfileModel.update({"irxId":userId},
-							{$inc:{"locationCounter":1}},
+							{$inc:{"locationCounter":1},$addToSet:{"locationProjects":project.name}},
 							function(err,numberAffected,raw){
 								if(err){
 									console.error("locationCounter in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
@@ -423,7 +423,7 @@ PMService.prototype.associateLocation = function(data) {
 								}
 							}
 							)
-						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,project,null);	
+						_selfInstance.emit("done",STATUS.OK.code,"Location Added successfully",project,null);	
 					}
 					
 				}	
@@ -436,7 +436,7 @@ PMService.prototype.associateLocation = function(data) {
  	/*
  	* Check Valid project
  	*/
- 	IRXProductLineModel.findOne({"id":projectId},function(err,project){
+ 	IRXProductLineModel.findOne({"id":projectId},{"id":1,"name":1,"location":1,"builderName":1,"description":1},function(err,project){
  		if(err){
  			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -504,7 +504,7 @@ PMService.prototype.deleteLocation = function(data) {
 					if(update){
 						//update user
 						IRXUserProfileModel.update({"irxId":userId,"locationCounter":{$gt:1}},
-							{$inc:{"locationCounter":-1}},
+							{$inc:{"locationCounter":-1},$pull:{"locationProjects":project.name}},
 							function(err,numberAffected,raw){
 								if(err){
 									console.error("locationCount in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
@@ -532,7 +532,7 @@ PMService.prototype.deleteLocation = function(data) {
 								}
 							}
 							)
-						_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,project,null);	
+						_selfInstance.emit("done",STATUS.OK.code,"Location removed successfully",project,null);	
 					}
 					
 				}	
@@ -545,7 +545,7 @@ PMService.prototype.deleteLocation = function(data) {
  	/*
  	* Check Valid project
  	*/
- 	IRXProductLineModel.findOne({"id":projectId},function(err,project){
+ 	IRXProductLineModel.findOne({"id":projectId},{"id":1,"name":1,"location":1,"builderName":1,"description":1},function(err,project){
  		if(err){
  			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -583,4 +583,35 @@ IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USE
 	
 	
 };
+
+
+PMService.prototype.resetPassword = function(data){
+	var _selfInstance = this;
+	var userId = data.userId;
+	
+	var ePassword = data.password;
+	var hashEPassword = hashAlgo.SHA1(ePassword);
+
+	var nPassword = data.newPassword;
+	var hashNPassword = hashAlgo.SHA1(nPassword);
+	IRXUserProfileModel.update({"irxId":data.userId,"password":hashEPassword.toString()},
+		{$set:{"password":hashNPassword.toString()}},
+		function(err, numberAffected, raw){
+			
+			if(err){
+				console.error(err)
+				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+			}else{
+				if(numberAffected >0){
+					
+					console.log("User not updated")
+					_selfInstance.emit("done",STATUS.OK.code,"Your password has been succesfully updated.",err,null);
+				}else{
+					console.log("User not updated")
+					_selfInstance.emit("done",STATUS.NO_UPDATION.code,"Not Updated. You may have entered a wrong password",err,null);
+				}
+			}	
+		})
+		
+}
 module.exports = PMService;

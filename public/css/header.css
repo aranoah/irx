@@ -3,11 +3,22 @@
  font-family:roboto; 
  src: url(/css/fonts/Roboto-Light.ttf) format('ttf');
 }
-.irx-desktop #header,.irx-desktop #searchbar{
+
+#header._desktop_,#desktop-searchbar{
   min-width: 1024px !important;
 }
 
-
+span.ui.teal.label {
+  color: #00B5AD!important;
+  border-color: #00B5AD!important;
+  background: #FFF!important;
+  border: 1px solid #EEE !important;
+  font-weight: normal;
+  font-size: 13px;
+  text-transform: capitalize;
+  border-left: 2px solid #00B5AD !important;
+  margin-right: 10px;
+}
 /* Rupee */
  @font-face {
  font-family:rupee; 
@@ -121,7 +132,7 @@
 }
 
 #searchbar .cont-ainer {
-  padding: 0.5rem 0 0.5rem 0;
+  padding: 0.5rem 0 0.5rem ;
   text-align: center;
 }
 
@@ -141,13 +152,25 @@
 }
 
 #searchbar .cont-ainer .ui.selection.dropdown {
-  min-width: 145px !important;
+  min-width: 156px !important;
+  max-width: 156px !important;
   background-color: inherit !important;
 }
 
+#searchbar .cont-ainer .ui.selection.dropdown>.text.city {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+  text-transform: capitalize;
+  margin-right: 0 !important;
+  line-height: 20px;
+}
+
 #searchbar input {
-  padding: .7em 1.1em .7em 0rem;
+  padding: .75em 1em;
   background-color: inherit !important;
+  width: 75%;
 }
 
 /*#searchbar .search-menu input {
@@ -644,7 +667,7 @@ p >.mail.icon{
             Global
 *******************************/
 
-#home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
+#home .menu .right.menu > .mobile.item  {
   display: none;
 }
 
@@ -746,16 +769,23 @@ p >.mail.icon{
  }
 
 }
-
+/*
+  Ajax error and success
+*/
+._ajSuccess {
+  color: green !important;
+  padding-top:7px !important;
+}
+._ajError {
+  color: red !important;
+  padding-top:7px !important;
+}
+._ajActive {
+  display: block !important;
+}
+/* Ends here */
 @media only screen and (max-width : 992px) {
 
-/* #home .menu .right.menu > .item, #searchbar > .search-menu {
-   display: none;
- }
-
- #home .menu .right.menu > .mobile.item , #searchbar > .smenu-hide {
-   display: block;
- }*/
  #home .menu .right.menu > .mobile.item .menu , #searchbar > .smenu-hide .menu {
    left: auto;
    right: 0em; 

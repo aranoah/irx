@@ -102,6 +102,17 @@
 .ui.menu .item:before {
 		background: linear-gradient(rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0) 50%,rgba(0, 0, 0, 0) 100%);
 	}
+	span.ui.teal.label{
+		color: #00B5AD!important;
+		border-color: #00B5AD!important;
+		background: #FFF!important;
+		border: 1px solid #EEE !important;
+		font-weight: normal;
+		font-size: 13px;
+		text-transform: capitalize;
+		border-left: 2px solid #00B5AD !important;
+		margin-right: 10px;
+	}
   </style>
   
 </head>
@@ -114,21 +125,90 @@
 <div id="projListing">
   	<div id="projectContent" class="ui centered page grid">
   		<% if(locals.req.device.type == 'desktop'){ %>
-  			<div class="twelve wide column">
+  			<div class="fixedwidth">
 	  	<% } %>
 	  
 	  	
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-	  		<div class="fourteen wide column">
+	  		<div class="fourteen wide column" style="padding-top:0 !important;">
 	  	<% } %> 
 	  	<!-- For mobile screens -->
 
-	  		
-	  	<!-- ends here -->
+	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+			<div class="ui menu rib-head" style="border:0 !important;">
+			<!-- ko if:totalCount!=0 -->
+				<h2 class="ui header item"> <h2 class="ui header item"> <!-- ko text:(totalCount()>0?totalCount():'') --><!-- /ko --> PROJECTS </h2> <!-- /ko -->
+			</h2>    
+			<a class="right menu" style="padding:.5rem 0;">
+			<div id="mobFilter" class="ui teal label"><i style="margin-right: 0;" class="icon filter"></i></div>
+			<div id="HideFilter" class="ui teal label"><i style="margin-right: 0;" class="icon hide"></i></div>
+			</a>
+			</div>
+
+			<div class="mobileFilter ui menu" style="display:none;">
+			<div class="item">
+			<div class="ui right labeled icon dropdown button">
+			<input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
+			<div class="default text">Property Type</div>
+			<i class="angle down icon"></i>
+			<div class="menu">
+			<div class="item" data-value="all">All</div>
+			<div class="item" data-value="apartments">Apartment</div>
+			<div class="item" data-value="independent house">Independent House</div>
+			<div class="item" data-value="villas">Villas</div>
+			<div class="item" data-value="plot">Plot</div>
+			<div class="item" data-value="row house">Row House</div>
+			</div>
+			</div>
+			</div>
+			<div class="item">
+			<div class="ui right labeled icon dropdown button">
+			<input type="hidden" name="status" data-bind="textInput:filters.status, event: {  change:applyFilters }">
+			<div class="default text">Status</div>
+			<i class="angle down icon"></i>
+			<div class="menu">
+			  <div class="item" data-value="all">All</div>
+			  <div class="item" data-value="ongoing">ongoing</div>
+			  <div class="item" data-value="completed">completed</div>
+			  <div class="item" data-value="upcoming">upcoming</div>            
+			</div>
+			</div>
+			</div>
+			<div class="item">
+			  <div class="ui right labeled icon dropdown button">
+			  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
+			  <div class="default text">Sort by relevance</div>
+			  <i class="sort right icon"></i>
+			  <div class="menu">
+			    <div class="item" data-value="asc">Newest</div>
+			    <div class="item" data-value="desc">Price : High to Low</div>
+			    <div class="item" data-value="asc">Price : Low to High</div>            
+			  </div>
+			</div>
+			</div>
+			<div class="item">
+			<div class="ui checkbox _hasDistress_">
+			<input type="checkbox" name="distress">
+			<label>Show Distress</label>
+			</div>
+			</div>
+
+
+			</div>
+
+			<div class="item tempBtn" style="float:right" data-bind="visible:filters.locationFlag()=='true'" >
+
+			<a data-bind="attr:{href:'/agent-listing?projectId='+filters.projectId()+'&name='+filters.name()+'&isLocality=true'}">
+			<div style="position:relative;right:0;color:#337ec8">Show agents</div>
+			</a>
+			</div>
+			<% } %>
+			<!-- ends here -->
 	  	
 	  	<% if(locals.req.device.type == 'desktop'){ %>
-	  	<div class="ui menu rib-head">
-	        <h2 class="ui header item">PROJECTS</h2>
+	  	<div class="ui menu rib-head" >
+	        	<h2 class="ui header item"style="float:left;"> <!-- ko text:(totalCount()>0?totalCount():'') --><!-- /ko --> PROJECTS </h2>
+
 	        <a class="right menu">
 		        <div class="item">
 		          <div class="ui right labeled icon dropdown button proFilters">
@@ -136,6 +216,7 @@
 		            <div class="default text">Property Type</div>
 		            <i class="angle down icon"></i>
 		            <div class="menu">
+		            <div class="item" data-value="all">All</div>
 		            <div class="item" data-value="apartments">Apartment</div>
 		            <div class="item" data-value="independent house">Independent House</div>
 		            <div class="item" data-value="villas">Villas</div>
@@ -150,6 +231,7 @@
 		            <div class="default text">Status</div>
 		            <i class="angle down icon"></i>
 		            <div class="menu">
+		              <div class="item" data-value="all">All</div>
 		              <div class="item" data-value="ongoing">ongoing</div>
 		              <div class="item" data-value="completed">completed</div>
 		              <div class="item" data-value="upcoming">upcoming</div>            
@@ -176,8 +258,14 @@
 		        </div>
 		    </a>
 	  	</div>
+	  	<div class="item tempBtn" style="float:right" data-bind="visible:filters.locationFlag()=='true'" >
+
+			<a data-bind="attr:{href:'/agent-listing?projectId='+filters.projectId()+'&name='+filters.name()+'&isLocality=true'}">
+			<div style="position:relative;right:0;color:#337ec8">Show agents</div>
+			</a>
+			</div>
 	  	<% } %>
-	  	<div class="_filters_ _hide_">
+	  	<div class="_filters_ _hide_" style="text-align:left;">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''">
 	  		BHK :
 	  		<!--ko text: filters.bhk--><!--/ko-->
@@ -198,16 +286,72 @@
 			Name :
 			<!--ko text: filters.name--><!--/ko-->
     			<!--ko if: filters.name() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('name')} }" class="remove icon"></i><!--/ko-->
-			</span>   	
+
+			</span><span class="ui teal label" data-bind="visible:filters.minPrice() >0|| filters.maxPrice() >0">
+			Price range :
+			<!--ko text: filters.minPrice()>0? filters.minPrice:0 --><!--/ko-->
+			<!--ko text: filters.maxPrice()>0?"-"+filters.maxPrice():''--><!--/ko--> 
+    			<i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('maxPrice')} }" class="remove icon"></i>
+
+			</span> 
+			 	
 	  	</div>
 
+	  	
+	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+	  			
+	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects">
+				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
+	  			<div class="item">
+					<div class="content">
+						<div class="ui tiny image" style="padding: 0 .5rem 0 0 !important;width:auto !important;">
+						  <img src="/images/project.jpg" style="width:80px;height:80px;">
+						</div>
+						<div class="content">
+							<div class="like _name_" data-bind="text : name"></div>
+						  	<div class="summary">
+							    <a class="user"><b>
+							      <i class="rupee icon"></i>
+							      <!-- ko if:Array.isArray(priceText) -->
+						          <!-- ko foreach:priceText -->
+						            <!-- ko if:$index -->-<!-- /ko -->
+						              <!-- ko if:$data != 0 -->
+						                <!-- ko text:$data --><!-- /ko -->
+						              <!-- /ko -->
+						              <!-- ko if:$data == 0 -->
+						                Not Available
+						              <!-- /ko -->
+						          <!-- /ko -->
+						        <!-- /ko -->
+						        <!-- ko if:!Array.isArray(priceText) -->
+						          <!-- ko text:priceText --><!-- /ko -->
+						        <!-- /ko --></b>
+							    </a>
+							</div>
+						    <div class="date">
+					           <span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></span><span data-bind="text : type"></span>
+					        </div>
+					        <div class="date" data-bind="text : builtUpArea">120 sq.ft</div>
+						</div>
+						<div class="meta">
+				            <span data-bind="text : possession">Nov 17,2014</span>
+				            <span data-bind="text : status">Nov 17,2014</span>
+				        </div>
+				        <a href="" class="item right floated leads-in" data-bind="click:function(){$parent.enquireNow($data) }" style="margin-top:-1.4rem"><i style="font-size:1.5em;" class="blue help circle icon"></i></a>
+					</div>
+				</div></a>
+	  		</div>
+	  	<% } %> 
+	  		
+	  	<!-- ends here -->
 	    <!-- Project Listing goes here -->
-	    <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
-             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
+	    <div class="" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1rem;color: #7b7b7b;
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;">
 	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
 	    </div>
-	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
+	    <div class="ui cards sc grid _hide_ " data-bind="foreach : agents" style="margin:0;">
+	    	
 			<div class="card">
 			    <div class="ui image tiny">
 			      <img src="/images/elliot.jpg">
@@ -258,8 +402,7 @@
 				    </div>
 			    </div> -->
 			    <div class="extra content">
-			    	<a href=""><i class="facebook square icon"></i></a>
-					<a href=""><i class="share square icon"></i></a>
+			    	
 					<div class="right floated created">
 						<div class="ui label" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId)}">Enquiry</div>
 					</div>
@@ -273,34 +416,37 @@
 			    </div>
 			</div>    
 		</div>
-	    <div class="ui relaxed divided items _hide_" data-bind="foreach : projects" style="margin:1rem 0;">
+		<% if(locals.req.device.type == 'desktop'){ %>
+	    <div class="ui relaxed divided items _hide_ grid"style="margin:0;">
 
-	    	
-	    	<div class="ui items proj-listing column"><!-- 
+	    	<div class="twelve wide column" data-bind="foreach : projects" style="padding:0;">
+	    		<div class="ui items proj-listing column "><!-- 
   				<a class="ui green ribbon label">Distress</a> -->
-				<div class="four column row">
-					<div class="left floated column">
-						<a data-bind="attr: { href: 'project/'+ id }"><h3 class="ui header" data-bind="text: name"></h3></a>
-						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
-					</div>					
-					<div class="right floated column menu">						
-					  	<div class="social-share">
-						  	<!--<div class="fb-like " data-bind="attr: { 'data-href': 'http://122.176.220.113:3000/project/'+ id }" data-layout="standard" data-action="like" data-show-faces="false" data-share="false"></div>
-						  		<div class="ui teal button"><i class="share icon"></i>share</div>-->
-					  	</div>				    	
-					</div>
-				</div>
-				<div class="item">
-				  <div class="ui medium image">
-				      <img src="/images/project.jpg">
-				      <!-- <div class="slider">
+				<div class="column" style="position:relative;">
+					<a data-bind="attr: { href: 'project/'+ id }" target="_blank"><h3 class="ui header" data-bind="text: name"></h3></a>
+					<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
+				</div>	
+				<div class="item" style="margin-bottom:0 !important;">
+				  <div class="ui small image">
+				       <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
+
+				      <img src="" data-bind="attr:{src: gallery[0]}">
+				       <div class="slider">
 				        <i class="chevron right icon"></i>
-				        <span>3 PHOTOS</span>
+				       
+				        <span><!--ko text:gallery.length--><!--/ko --></span>
+				       
 				        <i class="chevron left icon"></i>
-				      </div> -->
+				      </div> 
+				       <!--/ko -->
+
+				       <!--ko if:(!$data.gallery || $data.gallery==null || $data.gallery.length==0)  -->
+				       <img src="/images/project.jpg">
+				       <div class="slider"></div> 
+				       <!--/ko -->
 				  </div>
 				  <div class="content">
-				    <a class="header" style="padding-top:1rem;"><i class="rupee icon"></i>
+				    <a class="header" style="padding-top:1rem;"><i class="rupee icon" style="padding-left:0;"></i>
 				        <!-- ko if:Array.isArray(priceText) -->
 				          <!-- ko foreach:priceText -->
 				            <!-- ko if:$index -->-<!-- /ko -->
@@ -308,47 +454,43 @@
 				                <!-- ko text:$data --><!-- /ko -->
 				              <!-- /ko -->
 				              <!-- ko if:$data == 0 -->
-				                Not Available
+				                On Request
 				              <!-- /ko -->
 				          <!-- /ko -->
 				        <!-- /ko -->
 				        <!-- ko if:!Array.isArray(priceText) -->
 				          <!-- ko text:priceText --><!-- /ko -->
 				        <!-- /ko -->
-				    </a>
-
-	    			<% if(!locals.req.device || locals.req.device.type == 'desktop'){ %>
+				    </a><br/>	    			
 				    <div class="ui two column grid" style="margin-top:0">
 				    	<div class="fourteen wide column" style="padding:0;">
 				    		<table class="ui small table pj-items extra column">
 						      <tbody>
-						        <tr>
-						          <td>Builder Name</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: builderName--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Property Type</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: type--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Unit</td>
-						          <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
-						        </tr>
-						        <tr>
-						          <td>Possesion</td>
-						          <td><a href="javascript:void(0)" class="header proContent"><!--ko text: possession--><!--/ko--></a></td>
-						        </tr> 
-						        <tr>
-						          <td>Area</td>
-						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: builtUpArea--><!--/ko--></a></td>
-						        </tr>
-						        <tr>
-						          <td>Status</td>
-						          <td><a href="javascript:void(0)" class="header proContent">             <!--ko text: status--><!--/ko--></a></td>
-						        </tr>
-						      </tbody>
-						    </table> 
-						    <% if(locals.req.device.type == 'desktop'){ %>
+						      		<tr>
+						      			<td>Builder</td>
+						      			<td><!--ko text: builderName--><!--/ko--></td>
+						      		</tr>
+									<tr>
+									  <td>Property Type</td>
+
+									  <td><!--ko text: type--><!--/ko--></td>
+									</tr>
+									<tr>
+									  <td>Unit</td>
+									  <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
+									</tr>
+									<tr>
+									  <td>Possesion</td>
+									  <td><!--ko text: possession--><!--/ko--></td>
+									</tr>
+									<tr>
+									  <td>Area</td>
+									  <td><!--ko text: builtUpArea--><!--/ko--></td>
+									</tr>
+									  <td>Status</td><td><!--ko text: status--><!--/ko--></td>		
+									</tr>
+								</tbody>
+						    </table>
 					      <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
 					      <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
 					      <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
@@ -356,18 +498,19 @@
 		  					<input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
 		  					<input type="hidden" id="__minPrice" value="<%= requestObj.minPrice?requestObj.minPrice:'' %>">
 		  					<input type="hidden" id="__maxPrice" value="<%= requestObj.maxPrice?requestObj.maxPrice:'' %>">
-		  					<% } %>
+		  					
 					  	</div>
-					    <div class="two wide column">
+					    <div class="two wide column" style="padding:0;margin-top:-1rem;">
+
 					      <div class="ui right floated item _actButtons">
-					        <div class="ui basic button" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }">View details</a></div>
-					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquiry now</div>
+					     	 <div class="ui basic button" data-bind="html:$parent.fbIntegration($data)"></div>
+					        <div class="ui basic button" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }" target="_blank">View details</a></div>
+					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquire</div>
 					        <div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id+'&name='+name}">View agents</a></div>
-					        <div class="ui basic button req-details" data-bind="click:function(){$parent.requestDetails($data) }">Request details</div>
+
 					      </div>
 					    </div>
 				    </div>
-				    <% } %>
 				  </div>
 				</div>
 
@@ -375,17 +518,25 @@
 
 
 				  <div class="ui four column grid mobile tablet only _actButtons">				    
-				    <div class="column" onClick="function(){alert(1)}"><a data-bind="attr: { 'href': '/project/'+ id }"><i class="unhide icon" data-content="View details"></i></a></div>
+				    <div class="column" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }"><i class="unhide icon" data-content="View details"></i></a></div>
 				    <div class="column leads-in" data-bind="click:function(){$parent.enquireNow($data) }"><i data-content="Enquiry now" class="edit icon"></i></div>
 				    <div class="column"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}"><i data-content="View agents" class="user icon"></i></a></div>
-				    <div class="column req-details" data-bind="click:function(){$parent.requestDetails($data) }"><i data-content="Request details" class="help circle icon"></i></div>				    
+				    <div class="column req-details" data-bind="click:function(){$parent.requestDetails($data) }"><i data-content="Request details" class="help circle icon"></i></div>		
+
 				  </div>
 
 				<!-- ends here -->
 			</div>
+	    	</div>
+	    	 <div class="four wide column" data-bind="visible:projects().length!=0" style=" padding:0 1rem;font-size: 14px;box-shadow: 0 0 0;">
+	    		<img src="/img/slctCtywlk.jpg" style="width:100%;">
+	    		<img src="/img/slctCtywlk.jpg" style="width:100%;">
+	    		<img src="/img/slctCtywlk.jpg" style="width:100%;">
+	    		<img src="/img/slctCtywlk.jpg" style="width:100%;">
+	    	</div>
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
-		
+		<% } %>
 	    <!-- Project ends here -->
 	</div>
 	</div>
@@ -443,70 +594,70 @@
 			})
   			
   		})
-		_classInstance.scroller = ko.bindingHandlers.scroll = {
+		// _classInstance.scroller = ko.bindingHandlers.scroll = {
 
-		  updating:true,
+		//   updating:true,
 		  
-		  init: function(element, valueAccessor, allBindingsAccessor) {
+		//   init: function(element, valueAccessor, allBindingsAccessor) {
 		  	
-		      var self = this
-		      self.updating =(true);
-		      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-		            $(window).off("scroll.ko.scrollHandler")
-		            self.updating= (false); 
-		      });
-		      $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
-		      $(element).on('__sc__more', function(e,flag){
+		//       var self = this
+		//       self.updating =(true);
+		//       ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+		//             $(window).off("scroll.ko.scrollHandler")
+		//             self.updating= (false); 
+		//       });
+		//       $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
+		//       $(element).on('__sc__more', function(e,flag){
 		      		
-				  	 var ele_more = $('#_sc_more');
-				  	 if(typeof(flag) == "undefined"){
-				  	 	return ele_more.attr("hasMore")=='true';
-				  	 }else{
-				  	 	if(flag){
-				  	 		ele_more.show();
-				  	 	}else{
-				  	 		ele_more.hide();
-				  	 	}
-				  	 	ele_more.attr("hasMore",flag);
-				  	 	return flag;
-				  	 }
-				  })
-		  		},
+		// 		  	 var ele_more = $('#_sc_more');
+		// 		  	 if(typeof(flag) == "undefined"){
+		// 		  	 	return ele_more.attr("hasMore")=='true';
+		// 		  	 }else{
+		// 		  	 	if(flag){
+		// 		  	 		ele_more.show();
+		// 		  	 	}else{
+		// 		  	 		ele_more.hide();
+		// 		  	 	}
+		// 		  	 	ele_more.attr("hasMore",flag);
+		// 		  	 	return flag;
+		// 		  	 }
+		// 		  })
+		//   		},
 
-		  update: function(element, valueAccessor, allBindingsAccessor){
+		//   update: function(element, valueAccessor, allBindingsAccessor){
 
-		    var props = allBindingsAccessor().scrollOptions
-		    var offset = props.offset ? props.offset : "0"
-		    var loadFunc = props.loadFunc
-		    var load = ko.utils.unwrapObservable(valueAccessor());
-		    var self = this;
+		//     var props = allBindingsAccessor().scrollOptions
+		//     var offset = props.offset ? props.offset : "0"
+		//     var loadFunc = props.loadFunc
+		//     var load = ko.utils.unwrapObservable(valueAccessor());
+		//     var self = this;
 		    
-		    if(load){
-		      element.style.display = "";
-		      $(window).on("scroll.ko.scrollHandler", function(){
+		//     if(load){
+		//       element.style.display = "";
+		//       $(window).on("scroll.ko.scrollHandler", function(){
 		      	
-		        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
-		          if(self.updating){
+		//         if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
+		//           if(self.updating){
 		          	
-		          	self.updating =(false);
+		//           	self.updating =(false);
 
-		            _classInstance.listProjects(false,function(success){
+		//             _classInstance.listProjects(false,function(success){
 		            	
-		            	self.updating=success;
-		            	$(element).trigger('__sc__more',success)
-		            })
-		          }
-		        }
+		//             	self.updating=success;
+		//             	$(element).trigger('__sc__more',success)
+		//             })
+		//           }
+		//         }
 		       
-		      });
-		    }
-		    else{
-		        element.style.display = "none";
-		        $(window).off("scroll.ko.scrollHandler")
-		        self.updating = false
-		    }
-		  }
-		 };
+		//       });
+		//     }
+		//     else{
+		//         element.style.display = "none";
+		//         $(window).off("scroll.ko.scrollHandler")
+		//         self.updating = false
+		//     }
+		//   }
+		//  };
 		 var filterName = $('#__filterName').val()
 		 if(typeof(filterName) == "undefined" || filterName == null ){
 		 	filterName = "";
@@ -538,6 +689,7 @@
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
+			 totalCount : ko.observable(),
 			filters: {
 				displayName:ko.observable("All"),
 				name:ko.observable(filterName),
@@ -562,14 +714,21 @@
 				return true;
 			},
 			removeFilters : function(filterName){
-				
-				_classInstance.viewModel.filters[filterName]("");
+				 if(filterName=='maxPrice'){
+				 	_classInstance.viewModel.filters["minPrice"](0);
+				 	_classInstance.viewModel.filters["maxPrice"](0);
+				 }else{
+				  _classInstance.viewModel.filters[filterName]("");
+			    }
 				_classInstance.resetPage();
 				_classInstance.listProjects(true);
 				return true;
 			},
 			requestDetails : function(data){
 				_classInstance.requestDetails(data.id);
+			},
+			fbIntegration:function(data){
+				return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+data.id+'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>';
 			},
 			enquireNow : function(data){
 
@@ -596,6 +755,7 @@
 		_classInstance.viewModel.filters.name(filters.name)
 		_classInstance.viewModel.filters.bhk(filters.bhk)
 		_classInstance.scroller.updating=true;
+		
 		_classInstance.resetPage();
 	}
 	 Project.prototype.listProjectsOfLocation=function(localityId,replace,setUpdate){
@@ -607,14 +767,16 @@
           var filters = {
             "name" : classInstance.viewModel.filters.name()
           }
-          console.log()
+         
           httpUtils.post("/list-projects",
                         {filters:data,page:classInstance.page},
                         {},"JSON",function(data){
            if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	}
-	       
+	        if(data.page.start==0){
+	        	classInstance.viewModel.totalCount(data.page.total)
+	        }
 	       	if(data.result == null || data.result.length == 0){
 	       		classInstance.listLocationAgent();
 	       		return;
@@ -622,25 +784,7 @@
 	       		classInstance.viewModel.agents([]);
 	       	}
 	       	var arr = data.result;
-		 		for (var i=0;i<arr.length;i++){
-		 			
-		 			var price =  arr[i].price;
-			        var aPriceArr = new Array();
-
-			        for (var j=0;j<price.length;j++){
-			        	var aPrice = price[j];
-			        	
-			        	 if(aPrice){
-				          var aPriceText =  classInstance.getPriceText(""+aPrice)
-
-				          aPriceArr.push(aPriceText);
-				        }else{
-				         aPriceArr.push(aPrice);
-				        }
-			        }
-
-			       arr[i].priceText =  aPriceArr;
-		 		}
+		 	 classInstance.setPriceText(arr);
 			
 	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
@@ -653,6 +797,31 @@
         })
      
     }
+    
+    Project.prototype.setPriceText=function(arr){
+    	var classInstance = this;
+		for (var i=0;i<arr.length;i++){
+ 			
+ 			var price =  arr[i].price;
+	        var aPriceArr = new Array();
+
+	        for (var j=0;j<price.length;j++){
+	        	var aPrice = price[j];
+	        	
+	        	 if(aPrice){
+		          var aPriceText =  classInstance.getPriceText(""+aPrice)
+
+		          aPriceArr.push(aPriceText);
+		        }else{
+		         aPriceArr.push(aPrice);
+		        }
+	        }
+
+	       arr[i].priceText =  aPriceArr;
+ 		}
+ 		return arr;
+    }
+
 	Project.prototype.resetPage = function(filters) {
 		var _classInstance=this;
 		_classInstance.page.start=0;
@@ -702,6 +871,9 @@
 
 		classInstance.viewModel.filters.projectId(""+filters.projectId);
 		classInstance.viewModel.filters.locationFlag(""+filters.locationFlag);
+		 if(data.page.start==0){
+	        	classInstance.viewModel.totalCount(data.page.total)
+	        }
 		if(data.result == null || data.result.length == 0){
 	       		classInstance.listLocationAgent();
 	       		return;
@@ -710,25 +882,7 @@
 	       	}
 
 			var arr = data.result;
-		 		for (var i=0;i<arr.length;i++){
-		 			
-		 			var price =  arr[i].price;
-			        var aPriceArr = new Array();
-
-			        for (var j=0;j<price.length;j++){
-			        	var aPrice = price[j];
-			        	
-			        	 if(aPrice){
-				          var aPriceText =  classInstance.getPriceText(""+aPrice)
-
-				          aPriceArr.push(aPriceText);
-				        }else{
-				         aPriceArr.push(aPrice);
-				        }
-			        }
-
-			       arr[i].priceText =  aPriceArr;
-		 		}
+		 	classInstance.setPriceText(arr);
 			classInstance.viewModel.projects([])
 	       	ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
 			//ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)	
@@ -745,10 +899,11 @@
 	    		if(data.result != null && data.result.length !=0 ){
 	    			classInstance.viewModel.agents([])
 	    			 ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
+	    			 console.log(classInstance.viewModel.agents())
 	    		}	
 	      })
 	}
-	
+
 	Project.prototype.listProjects = function(replace,setUpdate) {
 		
 		var classInstance = this;
@@ -759,6 +914,9 @@
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	}
+	       	 if(data.page.start==0){
+	        	classInstance.viewModel.totalCount(data.page.total)
+	        }
 	       	if(data.result == null || data.result.length == 0){
 	       		classInstance.listLocationAgent();
 	       		return;
@@ -766,33 +924,18 @@
 	       		classInstance.viewModel.agents([]);
 	       	}
 	       	var arr = data.result;
+
 	       	if(!arr || arr == null || arr.length==0){
 	       		return
 	       	}
-		 		for (var i=0;i<arr.length;i++){
-		 			
-		 			var price =  arr[i].price;
-			        var aPriceArr = new Array();
-
-			        for (var j=0;j<price.length;j++){
-			        	var aPrice = price[j];
-			        	
-			        	 if(aPrice){
-				          var aPriceText =  classInstance.getPriceText(""+aPrice)
-
-				          aPriceArr.push(aPriceText);
-				        }else{
-				         aPriceArr.push(aPrice);
-				        }
-			        }
-
-			       arr[i].priceText =  aPriceArr;
-		 		}
-			console.log(arr)
-	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)	
+		 		classInstance.setPriceText(arr);
+		
+	       ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)
+	      
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;
+
 	        if(setUpdate){
 	        	
 	       		setUpdate(data.page.hasMore)
@@ -812,11 +955,4 @@
 	</script>
   <% include ../partials/footer.html.ejs %>
 </body>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+

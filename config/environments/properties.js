@@ -32,6 +32,8 @@ var properties = {
 	"phone_sms" : "Your requirement has been successfully published",
 	"pro_det_url" : "http://localhost:3000/project/",
 	"detail_subject" : "Project details",
-	"irx_agent" : "jndlkaran@gmail.com"
+	"user_detail_subject" : "Agent Details",	
+	"claim_profile_subject" : "Profile Claim",
+	"irx_agent" : "puneetsharma41@gmail.com"
 }
 module.exports=properties

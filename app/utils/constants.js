@@ -32,14 +32,18 @@ var STATUS={
   ERROR:{code:1,msg:"Error"} ,
   NO_UPDATION:{code:22,msg:"Not Updated"},
   FORBIDDEN : {code:403,msg:"Not Allowed"},
-  NOT_AUTHENTICATED : {code:401,msg:"Not Authenticated"}
+  NOT_AUTHENTICATED : {code:401,msg:"Not Authenticated"},
+  MAIL_SUCCESS :{code:0,msg:"A mail has been sent to your account.Please check your mails"}
 };
 var MAIL_TYPE={
   INVITATION:"invitation",
   REGISTER:"register" ,
   LEAD:"lead",
   VERIFICATION:"verification",
-  PROJECT_DETAILS:"project-details"
+  PROJECT_DETAILS:"project-details",
+  USER_DETAILS:"user-details",
+  CLAIM_PROFILE:"claim-profile",
+  FORGET_PASSWORD :"forget-password"
 };
 var VERIFICATION_TYPE={
   ACCOUNT:"account-register",

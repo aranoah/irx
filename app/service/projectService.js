@@ -80,7 +80,7 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 	
 	this.once("listPrefStage1",function(agentIds){
  	
-	 	IRXUserProfileModel.find({"irxId":{$in:agentIds}},function(err,agents){
+	 	IRXUserProfileModel.find({"irxId":{$in:agentIds}},{'name': 1,'companyName':1,'location':1,"projects":1,"locationProjects":1,"imageUrl":1,"irxId":1},function(err,agents){
 	 		
 	 		if(err){
 	 			console.error(err);
@@ -98,12 +98,9 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 		
 	}) 
 	var query ={"project":id};
-	console.log("qq",data.location)
 	if(data.location && data.location == 'true'){
-		console.log("ka be")
 		query={"location":id}
 	}
-	console.log("hey",query)
 	Mapping.find(query,{"agentId":1},{skip:0,limit:4 },
 					function(err,mapping){
 						if(err){

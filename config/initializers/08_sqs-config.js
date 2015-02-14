@@ -90,6 +90,33 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
 
              
         }
+        if(messageData.action == MAIL_TYPE.FORGET_PASSWORD){
+          var type =  VERIFICATION_TYPE.PASSWORD;
+           IRXVerificationModel.findOne({ 'emailId': messageData.data,"type":type }, function (err, sVerification) {
+            if (err){
+               console.log(err)
+              } else{
+                var url="irx/reset?code="+sVerification.vfCode+"&userId="+sVerification.vfData
+                console.log(url)
+               var locals = {
+                  
+                  "userId":sVerification.emailId,
+                  "subject":properties.registeration_subject,
+                  "url":url
+                }
+                 new emailUtils().sendEmail("forget-password",locals,function(error,success){
+
+                if(error != null){
+                  console.error(error);
+                }else if(success != null){
+                  console.log(success)
+                }
+              });
+              }
+           })
+
+             
+        }
         if(messageData.action == MAIL_TYPE.PROJECT_DETAILS){
           var url = properties.pro_det_url+messageData.data.projectId
           var locals = {
@@ -107,6 +134,35 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
         }
         if(messageData.action == MAIL_TYPE.VERIFICATION){
           new smsUtils().sendSms({"msg":properties.phone_sms,"phoneNo":messageData.phoneNum});
+        }
+        if(messageData.action == MAIL_TYPE.USER_DETAILS){
+        
+          IRXUserProfileModel.findOne({"irxId":messageData.irxId},{"name":1,"userId":1,"phoneNum":1},
+          function(err,agent){
+              if(err){
+                console.log(err)
+                 }else {
+                  if(agent != null){
+                     var locals = {
+                    "name":agent.name,
+                    "emailAddress":agent.userId,
+                    "phoneNum":agent.phoneNum,
+                    "subject":properties.user_detail_subject,
+                    "userId":messageData.targetEmailId
+                      }
+                      new emailUtils().sendEmail(MAIL_TYPE.USER_DETAILS,locals,function(error,success){
+                        if(error != null){
+                          console.error(error);
+                        }else if(success != null){
+                          console.log(success)
+                        }
+                      });
+                  } else{
+                    console.log("agent not found")
+                  }
+               }
+            })
+           
         }
         if(messageData.action == MAIL_TYPE.LEAD){
             // Send Email and sms to user 
@@ -159,6 +215,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                     console.log(err)
                   }else{
                     for (var i=0; i<users.length;i++){
+                      //change this logic
                         locals.userId="puneetsharma41@gmail.com";
                         locals.subject = properties.leads_subject;
                       new emailUtils().sendEmail("leads",locals,function(error,success){
@@ -178,10 +235,26 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
           
         }
         if(messageData.action == MAIL_TYPE.INVITATION){
-          console.log("here")
+          
             var locals =messageData.data;
             locals.userId=messageData.data.targetId;
               new emailUtils().sendEmail("invitation",locals,function(error,success){
+                if(error != null){
+                  console.error(error);
+                }else if(success != null){
+                  console.log(success)
+                }
+              });
+        }
+        if(messageData.action == MAIL_TYPE.CLAIM_PROFILE){
+          
+            var locals ={
+              "subject":properties.claim_profile_subject,
+              "userId":properties.irx_agent,
+              "claimerName":messageData.claimerName,
+              "profileId":messageData.profileId
+            }
+              new emailUtils().sendEmail("claim-profile",locals,function(error,success){
                 if(error != null){
                   console.error(error);
                 }else if(success != null){

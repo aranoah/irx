@@ -42,4 +42,21 @@ HTTPUtils.prototype.post = function(uri,data,headers,dataType,successCallback,er
           }
         })
 };
+
+HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail) {
+     if(data.status == 0 || data.status==200){
+
+          if(showPopUpSuccess){
+               $('#_serverSuccess_').modal('show');
+               $('#_serverSuccess_').find('.successMsg').text(data.message)
+          }
+          return true;
+    }else{
+          if(showPopUpFail){
+               $('#_serverError_').modal('show');
+               $('#_serverError_').find('.errMsg').text(data.message)
+          }
+        return false;
+     }
+};
 var httpUtils = new HTTPUtils();

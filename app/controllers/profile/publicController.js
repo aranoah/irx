@@ -37,13 +37,24 @@ publicController.main = function() {
     var _nself = this;
     
     userSvc.on("done", function(code,msg,result,errValue){
+      console.log("final")
      _nself.result=result;
      _nself.title = "profile";
      _nself.userId = _nself.req.params.userId;
   		_nself.render("profile/public"); 
     });
-   userId= _nself.req.params.userId;
-    userSvc.getUserDetails(userId);
+   var userId= _nself.req.params.userId;
+    var currentUser = _nself.getCurrentUserInfo(_nself);
+    var targetId= "";
+
+    if(currentUser != null && currentUser !=""){
+      targetId = currentUser.userId;
+    }
+    var data ={
+      "userId":userId,
+      "targetId":targetId
+    }
+    userSvc.getUserDetails(data);
   	
 
 }

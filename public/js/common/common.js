@@ -168,6 +168,17 @@ Common.prototype.init = function(first_argument) {
         $(".ui-widget-content .ui-state-focus");
          return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
       };  
+
+
+        $(document).off('click','#_logout_');
+        $(document).on('click','#_logout_',function() {
+         httpUtils.get("/logout",{},"JSON",function(data){
+            if(httpUtils.checkStatus(data)){
+              location.reload();
+            }
+            
+         })
+        });
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
  	  ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
 	  ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
@@ -188,10 +199,8 @@ Common.prototype.login = function() {
 	httpUtils.post("/login",
 		{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
 		 { 'authorization': 'POST' },"JSON",function(data){
-		if(data.status==0){
-	     $('.close.icon').click();
-		}else {
-			
+		if(httpUtils.checkStatus(data,false,true)){
+       location.reload();
 		}
 	})
 };		 
@@ -248,6 +257,51 @@ Common.prototype.validateLead = function(_button) {
     });
  $(_button).parents('form').submit();
 }
+Common.prototype.validateContactInfo = function(_button) {
+     $(_button).parents('form').form({
+      emailId: {
+        identifier : 'emailId',
+        rules: [
+          {
+            type   : 'email',
+            prompt : 'Please enter a valid e-mail'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Please enter e-mail'
+          }
+        ]
+      }, 
+      name: {
+        identifier : 'name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your name'
+          }
+        ]
+      },
+    
+      mobileNo: {
+        identifier : 'mobileNo',
+        rules: [
+          {
+            type   : 'maxLength[10]',
+            prompt : 'Please enter a valid mobile number'
+          },
+          {
+            type   : 'empty',
+            prompt : 'Please enter a mobile number'
+          },
+          {
+            type   : 'integer',
+            prompt : 'Please enter a valid mobile number'
+          }
+        ]
+      }
+    });
+ $(_button).parents('form').submit();
+};
 Common.prototype.validateForm = function(_button) {
      
      $(_button).parents('form').form({
@@ -333,12 +387,35 @@ Common.prototype.register = function() {
   })
 };  
 
+Common.prototype.requestUserDetails = function(form) {
+
+var name = $("#"+form).find('input[name="name"]').val();
+var emailId = $("#"+form).find('input[name="emailId"]').val();
+var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
+var userId = $("#"+form).find('#_userIdC_').val();
+
+var data = {
+  "name":name,
+  "emailId":emailId,
+  "mobileNo":mobileNo
+}
+  httpUtils.get("/send-user-details/"+userId,
+    data,"JSON",function(data){
+    if(data.status==0){
+      alert(1)
+        
+    }else {
+      
+    }
+  })
+}
+
 Common.prototype.captureLeadsProject = function(form) {
 
-var name = $("#"+form).find('input[name="name"]').val()
-var emailId = $("#"+form).find('input[name="emailId"]').val()
-var mobileNo = $("#"+form).find('input[name="mobileNo"]').val()
-var projectId = $("#"+form).find('#_projectIdP_').val()
+var name = $("#"+form).find('input[name="name"]').val();
+var emailId = $("#"+form).find('input[name="emailId"]').val();
+var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
+var projectId = $("#"+form).find('#_projectIdP_').val();
 var type = "user"
 var data = {
   "name":name,
@@ -347,12 +424,16 @@ var data = {
   "projectId":projectId,
   "type":type
 }
+var agentid = $('#'+form).find('#_agentIdP_').val();
+if (agentid && agentid != "") {
+  data["agentId"]=agentid;
+};
   httpUtils.post("/capture-lead",
     data,
      { },"JSON",function(data){
     if(data.status==0){
       alert(1)
-        //$('.close.icon').click();
+        
     }else {
       
     }

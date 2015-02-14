@@ -3,13 +3,25 @@
   #adv-search-filter>.content>.ui.grid {
     padding:0 !important;
   }
-  .sell-post .ui.selection.dropdown {
-    min-width:257px !important;
+  #mobile .ui.selection.dropdown {
+    min-width:240px !important;
   }
-  .sell-post .ui.selection.dropdown>.default.text {
+  #mobile .ui.selection.dropdown>.text {
+    min-width:180px !important;
+    max-width:180px !important;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
     margin-right:0 !important;
-    width:83%;
   }
+  .minCostLeft.__visible>* {
+    float: none !important;
+    white-space: normal;
+    width: 100%;
+}
+.ui.dropdown .menu>.header {
+    margin: .75rem 0;  padding: 0 1rem;
+}
 </style>
 <script type="text/javascript" src="/js/common/http.js"></script>
 <form class="ui form" >
@@ -20,37 +32,42 @@
       <i class="column right floated remove circle close icon"></i>
     </div>
   </div>
+
   <div id="lower-content" class="actions ui grid">
     
     <!--advanced search filter starts here -->
-        <input type="hidden" data-bind="value:data.origin" value="post-req">
-        <div class="ui inverted menu">
+        <input type="hidden" data-bind="value:data.origin" value="post-req">  
+
+        <% if(locals.req.device.type != 'desktop'){ %>
+        
+          <div id="mobile" class="ui inverted menu">
+
+        <% } %>
+
+        <% if(locals.req.device.type == 'desktop'){ %>
+        
+          <div id="desktop" class="ui inverted menu">
+
+        <% } %>
+
           <h4 class="ui dividing header">Select your filter :</h4>
 
             <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="type" data-bind="value:data.propertyType">
-                <div class="default text">Type</div>
+                <input type="hidden" name="city" data-bind="value:city">
+                <div class="default text" style="min-width:14rem;margin-right:0 !important;">Select City</div>
                 <i class="angle down icon"></i>
-                <div class="menu">
-                  <div class="item" data-value="Rent">Apartemnt</div>
-                  <div class="item" data-value="sale">Villa</div>
-                  <div class="item" data-value="land">Land</div>
-                  <div class="item" data-value="proj">Flat</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="item">
-              <div class="ui selection dropdown">
-                <input type="hidden" name="city" data-bind="value:data.city">
-                <div class="default text">City</div>
-                <i class="angle down icon"></i>
-                <div class="menu">
-                  <div class="item" data-value="New Delhi">New Delhi</div>
-                  <div class="item" data-value="Bangalore">Bangalore</div>
-                  <div class="item" data-value="Mumbai">Mumbai</div>
-                  <div class="item" data-value="Chennai">Chennai</div>
+                <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
+                  <div class="ui icon search input">
+                    <i class="search icon"></i>
+                    <input type="text" name="city" placeholder="Search city..."style="width:14rem;">
+                  </div>
+                  <div class="divider"></div>
+                  <div class="header">
+                    <i class="tags icon"></i>
+                   Select City
+                  </div>
+                  <% include ../partials/city.html.ejs %>
                 </div>
               </div>
             </div>
@@ -80,8 +97,8 @@
                 </div>
               </div>
             </div>
-            <div class="item right floated">
-               <div class="ui" data-bind="click: captureLeads">Submit</div>
+            <div class="item right floated" style="padding-top:1rem;margin-right:5.5rem;">
+               <div class="ui blue button buttonClass" data-bind="click: captureLeads">Submit</div>
             </div>
         </div>
 

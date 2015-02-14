@@ -13,19 +13,16 @@
 	#desktop-projDet .ui.images .image, #desktop-projDet .ui.images img {
 		width: 120px !important;
 	}
-    .ui.blue.button.req-details{
-        border: 1px solid rgba(179, 86, 86, 0.65);
-    }
-    .ui.blue.button.leads-in{/*
-    	border: 1px solid rgba(179, 86, 86, 0.65);*/
-        border: 1px solid#337EC8 !important;
-        color: #337EC8 !important;
-    }
-    .ui.blue.button.leads-in{
-    	border: 1px solid#337EC8 !important;
-        color: #337EC8 !important;
-    }
-	
+	/*._pImage_ {
+		min-height: 63px;
+		margin-top: 8px;
+  		background-position: center !important;
+  		background-repeat: no-repeat !important;
+  		background-size: 63px 63px !important;
+	}*/
+	._subReqP_ {
+		cursor: pointer
+	}
 </style>
 <body>
   <% include ../partials/header.html.ejs %>
@@ -33,266 +30,102 @@
   <!-- Proj Detailing starts here -->
 <div id="__proDet__">
   	<!-- For mobile screens -->
-  		<% if(locals.req.device.type != 'desktop'){ %>
-
-  		<div id="mobile-projDet" class="ui relaxed stackable grid">
-
-			
-			<div class="ui inverted segment head">
-				<h3 class="ui header _csn"><%= result.name %></h3><br/>	
-				<h4 class="ui header _csn">
-					<i class="rupee icon"></i><%= result.price[0]/100000.0 %>L <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"L": '' %>
-				</h4>
-			</div>
-			<input id="_projectId" value="<%= projectId %>" type="hidden">
-			<div class="ui inverted title">
-				<div class="item">				
-					<h4 class="ui header"><%= result.builderName %></h4>
-				</div>
-				<!-- <div class="item _price">
-					<h2><i class="rupee icon"></i> <%= result.price %></h2>
-				</div> -->
-			</div>
-			<div class="ui one column grid">
-				<div class="column">
-					<table>
-						<tbody>
-							<tr>
-								<td>Built-up Area</td>
-								<th>580-1350 sq.ft.</th>
-							</tr>
-							<tr>
-								<td>BHK</td>
-								<th><%= result.bhk %></th>
-							</tr>
-							<tr>
-								<td>Possession</td>
-								<th><%= result.possession %></th>
-							</tr>
-							<tr>
-								<td>Property Type</td>
-								<th><%= result.type %></th>
-							</tr>
-							<tr>
-								<td>Locality</td>
-								<th><%= result.location.name %></th>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>		
-			<div class="ui inverted xtra">
-				<div class="item">				
-					<h3 class="ui header">Region</h3>
-					<h4 class="ui header"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
-				</div>
-				<div class="item _button">
-					<div class="ui blue small button req-details"><i class="icon edit"></i>Request Details</div>
-					<div class="ui blue small button leads-in"><i class="icon help circle"></i>Enquiry Now</div>
-				</div>
-			</div>			
-			<!-- <img class="ui medium rounded image" src="/images/project.jpg"> -->
-			<% if(result.profileImage!=null){%>
-				<img class="ui medium rounded image" src="<%=result.profileImage%>"/>
-			<%} else if (result.gallery!=null && result.gallery.length>0){%>
-				<img class="ui medium rounded image" src="<%=result.gallery[0]%>"/>
-			<%}else {%>
-			<%}%>
-			<div class="ui images">
-				<% if(result.gallery!=null){
-					 for(var glry=0 ;glry<result.gallery.length;glry++){		  %>
-						<img class="ui tiny image" src="<%=result.gallery[glry]%>">
-					<%}
-				}%>
-			</div><div class="content" style="padding:2rem 1rem;">
-				<!-- tab goes here -->
-
-					<div class="ui top attached tabular menu">
-					  <!-- <a class="active item" data-tab="first">Locality</a> -->
-					  <a class="active item" data-tab="first">Floor Plan</a>
-					  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
-					</div>
-					<div class="ui bottom active attached tab segment" data-tab="first">
-						<%=result.floorPlan%>
-						<% if(result.floorPlan!=null){
-						 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
-							<img class="ui small image" src="<%=result.floorPlan[fp]%>" style="padding:1rem;">
-						<%}
-						}%>
-					</div>
-					<!-- <div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
-
-						<div class="ui divided items" data-bind="foreach : agents">
-						  <div class="item">
-						    <div class="image">
-						      <img src="http://semantic-ui.com/images/avatar/large/stevie.jpg">
-						    </div>
-						    <div class="content">
-						      <a data-bind="attr: { href:irxId}" class="header" data-bind="text : name">Elliot Fu</a>
-						      <div class="meta">
-						        <span class="price" data-bind="text : companyName">IRX,India</span><br>
-						        <span class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--><!--</span>
-						      </div>
-						      <div class="description">
-						        Projects : 
-						        <span data-bind="foreach : projects" style="margin-right:0;">
-						          <!-- ko if:$index()<=1 
-						            <span class="header" data-bind="text : $data"></span>
-						             <!-- ko if:$index()==0 
-						              <span class="header">,</span>
-						             <!-- /ko 
-						          <!-- /ko 
-						        </span>
-						        <span data-bind="if:projects.length>2">
-						        (+
-						          <span class="header" data-bind="text : projects.length-2"></span>)
-						        </span>
-						       </div>
-						       <div class="description">
-						          Operating Localities : 
-						          <span data-bind="foreach : locationProjects" style="margin-right:0;">
-						            <!-- ko if:$index()<=1 
-						              <span class="header" data-bind="text : $data"></span>
-						               <!-- ko if:$index()==0 
-						                <span class="header">,</span>
-						               <!-- /ko 
-						            <!-- /ko 
-						        </span>
-						        <span data-bind="if:locationProjects.length>2">
-						        (+
-						          <span class="header" data-bind="text : locationProjects.length-2"></span>)
-						        </span>
-						      </div>
-						      <div class="extra">
-						        <div class="ui right floated label">Enquiry now</div>
-						        <a href=""><i class="facebook big square icon"></i></a>
-						        <a href=""><i class="share big square icon"></i></a>
-						      </div>
-						    </div>
-						  </div>
-						</div>		
-					</div> -->
-					<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
-
-				<div class="ui divided items" data-bind="foreach : agents">
-				  <div class="item">
-				    <div class="ui tiny image">
-				      <img src="/images/elliot.jpg">
-				    </div>
-				    <div class="content">
-				      <a data-bind="attr: { href:irxId}" class="header" data-bind="text : name">Elliot Fu</a>
-				      <div class="meta">
-				        <div class="price" data-bind="text : companyName" style="padding:.5rem 0;">IRX,India</div>
-				        <div class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--></div>
-				      </div>
-				      <div class="description">
-				        Projects : 
-				        <span data-bind="foreach : projects" style="margin-right:0;">
-				          <!-- ko if:$index()<=1 -->
-				            <span class="header" data-bind="text : $data"></span>
-				             <!-- ko if:$index()==0 -->
-				              <span class="header">,</span>
-				             <!-- /ko -->
-				          <!-- /ko -->
-				        </span>
-				        <span data-bind="if:projects.length>2">
-				        (+
-				          <span class="header" data-bind="text : projects.length-2"></span>)
-				        </span>
-				       </div>
-				       <div class="description">
-				          Operating Localities : 
-				          <span data-bind="foreach : locationProjects" style="margin-right:0;">
-				            <!-- ko if:$index()<=1 -->
-				              <span class="header" data-bind="text : $data"></span>
-				               <!-- ko if:$index()==0 -->
-				                <span class="header">,</span>
-				               <!-- /ko -->
-				            <!-- /ko -->
-				        </span>
-				        <span data-bind="if:locationProjects.length>2">
-				        (+
-				          <span class="header" data-bind="text : locationProjects.length-2"></span>)
-				        </span>
-				      </div>
-				      <div class="extra">
-				        <div class="ui right floated label">Enquiry now</div>
-				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="facebook square icon"></i></a>
-				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="share square icon"></i></a>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class="ui centered aligned grid" style="padding: 2rem 0;">
-					<div class="ui button">View all agents</div>
-				</div>
-			</div>
-		</div>
-				<!-- ends here -->
-			</div>
-		</div>
-	<% } %>
+  		
 
   	<!-- ends here -->
 
-  	<% if(locals.req.device.type == 'desktop'){ %>
+	<% if(locals.req.device.type != 'desktop'){ %>
+		<div id="mobile-projDet" class="ui grid projDet">
 
-	<div id="desktop-projDet" class="ui divided padded grid">
+		<div class="sixteen wide column">
+	<% } %>
+
+	<% if(locals.req.device.type == 'desktop'){ %>
+	<div id="desktop-projDet" class="ui divided padded grid projDet">
 
 		<div class="nine wide column">
-<!-- 			<div class="ui inverted segment head four column row">
-				<h3 class="left floated column"><%= result.name %></h3>			
-				<div class="right floated column">
-					<i class="mail icon"></i> i'm interested
-				</div>
-			</div> -->
+	<% } %>
 			<input id="_projectId" value="<%= projectId %>" type="hidden">
-			<div class="ui inverted title grid" style="margin:0;padding:0 !important;background: #fff !important;">
-				<div class="eight wide column _csn">				
-					<h2 class="ui header"><%= result.name %></h2>
-					<h4 class="ui header"><%= result.builderName %></h4>
+			<div class="content" style="padding:.6rem;background:#fff;box-shadow:0 0 2px rgba(0,0,0,0.2);margin-bottom:2rem;">
+				<div class="ui inverted title grid" style="margin:0;padding:0 !important;">
+					<div class="ten wide column _csn">				
+						<h2 class="ui header"><%= result.name %></h2>
+						<h4 class="ui header"><%= result.builderName %></h4>
+					</div>
+					<div class="six wide column _csn" style="text-align: right;">
+						<h2><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
+					</div>
 				</div>
-
-				<div class="floated column _csn" style="vertical-align:top;text-align: right;min-width: 25%;">
-					<h2 style="color: #337EC8 !important;font-weight: normal;font-size: 1.4em;width:22rem;"><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
-				</div>
+				<div class="description" style="padding:1rem;border-top: 2px solid #eaeaea !important;">
+			        <p>No description available.</p>
+			    </div>
+				<table class="ui table" style="margin:0 !important;padding-bottom:0 !important;">
+				  	<tr>
+				      <td style="border:0 !important;">Built-up Area</td>
+				      <td style="border:0 !important;">580-1350 sq.ft.</td>
+				    </tr>
+				    <tr>
+				      <td>BHK</td>
+				      <td><%= result.bhk %></td>
+				    </tr>
+				    <tr>
+				    	<td>Possession</td>
+				      <td><%= result.possession %></td>
+				    </tr>
+				    <tr>
+				    	<td>Type</td>
+				      	<td><%= result.type %></td>
+				    </tr>
+				    <tr>
+				    	<td>Locality</td>
+				      	<td><%= result.location.name %></td>
+				    </tr>
+				</table>
+			</div>	
+			<input id="_projectId_" type="hidden" value="<%= result.id %>">
+			
+			<% if(locals.req.device.type != 'desktop'){ %>
+			<div style="text-align:center">
+				<div class="ui button" style="background:#fff;border: 1px solid #ddd;margin-bottom:1rem;"><a href="/agent-listing?projectId=<%= result.id %>&name=<%= result.name %>"> View agents of this project</a></div>
 			</div>
-			<table class="ui table" style="margin:0 0 1em;background:#fff !important;">
-			  <thead>
-			    <tr>
-			      <th>Built-up Area</th>
-			      <th>BHK</th>
-			      <th>Possession</th>
-			      <th>Property Type</th>
-			      <th>Locality</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <td>580-1350 sq.ft.</td>
-			      <td><%= result.bhk %></td>
-			      <td><%= result.possession %></td>
-			      <td><%= result.type %></td>
-			      <td><%= result.location.name %></td>
-			    </tr>
-			  </tbody>
-			</table>		
-			<div class="ui inverted xtra four column row">
-				<div class="left floated column">				
-					<h3 class="ui header">Region</h3>
-					<h4 class="ui header" id="location"><%= result.location.name %>,<%= result.location.city %>,<%= result.location.state %></h4>
-				</div>
-				<div class="right floated column">
-					<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
-					<div class="ui blue button leads-in" data-bind="click:function(){enquireNow('<%= result.id %>') }"><i class="icon help circle"></i>Enquiry Now</div>
-				</div>
+			<% } %>
+			
+			<div class="ui inverted xtra _actions" style="padding-bottom:1rem;">
+				<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
+				<div class="ui blue button leads-in" data-bind="click:function(){enquireNow('<%= result.id %>') }"><i class="icon help circle"></i>Enquire</div>
+				 <div class="ui basic button" data-bind="html:fbIntegration('<%= result.id %>')"></div>
 			</div>
 			<div class="ui top attached tabular menu">
-			  <a class="active item" data-tab="first">Locality</a>
-			  <a class="item" data-tab="second">Floor Plan</a>
-			  <a class="item pref_agents_btn" id="pref_agents_btn" data-tab="third">Preferred Agents</a>
+			  <a class="item active" data-tab="first">Images</a>
+			  <a class="item" data-tab="second">Locality</a>
+			  <a class="item" data-tab="third">Floor Plan</a>
 			</div>
-			<div class="ui bottom attached active tab segment locality" data-tab="first">
+			<div class="ui bottom attached active tab segment" data-tab="first">
+				<% if(result.profileImage!=null){%>
+				<img class="ui medium rounded image" src="<%=result.profileImage%>"/>
+				<%} else if (result.gallery!=null && result.gallery.length>0){%>
+					<img class="ui medium rounded image" src="<%=result.gallery[0]%>"/>
+				<%}else {%>
+					<img class="ui medium rounded image" src="/images/square-image.png"/>
+				<%}%>
+				<div class="ui images">
+				  <!-- <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png">
+				  <img class="ui image" src="/images/square-image.png"> -->
+				  <% if(result.gallery!=null){
+						 for(var glry=0 ;glry<result.gallery.length;glry++){		  %>
+							<img class="ui image" src="<%=result.gallery[glry]%>">
+						<%}
+					}%>
+				</div>
+				<%	if(result.gallery==null || result.gallery.length==0) {	%>
+					<div style="padding: 1rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);margin-bottom:1rem;">
+				    	No Gallery Found. 
+				    </div>
+				<%}	%>
+			</div>
+			<div class="ui bottom attached tab segment locality" data-tab="second">
 				<div class="ui">
 					<div class="">
 					    <div class="title _csn _txt_cntr" data-tab-item="air">
@@ -321,7 +154,7 @@
 				    </div>
 				  </div>
 			</div>
-			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="second">
+			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="third">
 				<% if(result.floorPlan!=null){
 					 for(var fp=0 ;fp<result.floorPlan.length;fp++){		  %>											
 						<img class="ui medium image _csn" src="<%=result.floorPlan[fp]%>">
@@ -335,89 +168,92 @@
 				<%}
 				%>
 			</div>
-			<div id="pref_agents" class="ui bottom attached tab segment" data-tab="third">
-
-				<div class="ui divided items" data-bind="foreach : agents">
-				  <div class="item">
-				    <div class="image">
-				      <img src="/images/elliot.jpg">
-				    </div>
-				    <div class="content">
-				      <a data-bind="attr: { href:irxId}" class="header" data-bind="text : name">Elliot Fu</a>
-				      <div class="meta">
-				        <div class="price" data-bind="text : companyName" style="padding:.5rem 0;">IRX,India</div>
-				        <div class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--></div>
-				      </div>
-				      <div class="description">
-				        Projects : 
-				        <span data-bind="foreach : projects" style="margin-right:0;">
-				          <!-- ko if:$index()<=1 -->
-				            <span class="header" data-bind="text : $data"></span>
-				             <!-- ko if:$index()==0 -->
-				              <span class="header">,</span>
-				             <!-- /ko -->
-				          <!-- /ko -->
-				        </span>
-				        <span data-bind="if:projects.length>2">
-				        (+
-				          <span class="header" data-bind="text : projects.length-2"></span>)
-				        </span>
-				       </div>
-				       <div class="description">
-				          Operating Localities : 
-				          <span data-bind="foreach : locationProjects" style="margin-right:0;">
-				            <!-- ko if:$index()<=1 -->
-				              <span class="header" data-bind="text : $data"></span>
-				               <!-- ko if:$index()==0 -->
-				                <span class="header">,</span>
-				               <!-- /ko -->
-				            <!-- /ko -->
-				        </span>
-				        <span data-bind="if:locationProjects.length>2">
-				        (+
-				          <span class="header" data-bind="text : locationProjects.length-2"></span>)
-				        </span>
-				      </div>
-				      <div class="extra">
-				        <div class="ui right floated label">Enquiry now</div>
-				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="facebook square icon"></i></a>
-				        <a href="" style="margin:0;"><i style="font-size:1.5em;margin-right:0;" class="share square icon"></i></a>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<div class="ui centered aligned grid" style="padding: 2rem 0;">
-					<div class="ui button">View all agents</div>
-				</div>
-			</div>
 		</div>
-		<div class="seven wide column">
-			<% if(result.profileImage!=null){%>
-				<img class="ui medium rounded image" src="<%=result.profileImage%>"/>
-			<%} else if (result.gallery!=null && result.gallery.length>0){%>
-				<img class="ui medium rounded image" src="<%=result.gallery[0]%>"/>
-			<%}else {%>
-				<img class="ui medium rounded image" src="/images/square-image.png"/>
-			<%}%>
-			<div class="ui images">
-			  <!-- <img class="ui image" src="/images/square-image.png">
-			  <img class="ui image" src="/images/square-image.png">
-			  <img class="ui image" src="/images/square-image.png">
-			  <img class="ui image" src="/images/square-image.png"> -->
-			  <% if(result.gallery!=null){
-					 for(var glry=0 ;glry<result.gallery.length;glry++){		  %>
-						<img class="ui image" src="<%=result.gallery[glry]%>">
-					<%}
-				}%>
+
+		<% if(locals.req.device.type != 'desktop'){ %>
+		
+			<div class="sixteen wide column">
+
+		<% } %>
+
+		<% if(locals.req.device.type == 'desktop'){ %>
+		
+			<div class="seven wide column">
+				
+		<% } %>
+		<% if(locals.req.device.type == 'desktop'){ %>
+			<div class="ui top attached tabular menu" style="margin: 0 -.05rem;border-bottom:0;">
+			  <div class="active item pref_agents_btn" id="pref_agents_btn">AGENTS</div>
 			</div>
-			<%	if(result.gallery==null || result.gallery.length==0) {	%>
-				<div style="padding: 1rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);margin-bottom:1rem;">
-			    	No Gallery Found. 
+			<div id="pref_agents" class="ui bottomm active attached tab segment">
+			 <div data-bind="visible:agents().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
+		    	No preferred agent found for this project. 
+		    </div>
+		     <!-- ko if:agents().length!=0 -->
+			<div class="ui divided items" data-bind="foreach : agents">
+			  <div class="item">
+			    <div class="content">
+					<div class="ui image tiny _pImage_" style="padding:0 .5em 0 0 !important">
+				    	<!-- ko if:imageUrl!=null -->
+							<img src="" data-bind="attr: { src: imageUrl}" style="width: 100%;max-height: 65px;vertical-align: top;" alt="Agent Image"/>
+						<!-- /ko -->
+						<!-- ko if:(imageUrl==null || imageUrl=='') -->
+								<img src="/images/elliot.png" style="width: 100%;max-height: 65px;vertical-align: top;"alt="Agent Image"/>
+						<!-- /ko -->	
+				  	</div>
+			      <a data-bind="attr: { href: '/'+irxId},text : name" class="header">Elliot Fu</a>
+			      <div class="meta">
+			        <div class="price" data-bind="text : companyName" style="padding:.5rem 0;">IRX,India</div>
+			        <div class="cinema"><i class="map marker icon"></i><!--ko text: location.city--><!--/ko--></div>
+			      </div>
+			      <div class="description" style="margin-top:15px;">
+			        Projects : 
+			        <span data-bind="foreach : projects" style="margin-right:0;">
+			          <!-- ko if:$index()<=1 -->
+			            <span class="header" data-bind="text : $data"></span>
+			             <!-- ko if:$index()==0 -->
+			              <span class="header">,</span>
+			             <!-- /ko -->
+			          <!-- /ko -->
+			        </span>
+			        <span data-bind="if:projects.length>2">
+			        (+
+			          <span class="header" data-bind="text : projects.length-2"></span>)
+			        </span>
+			       </div>
+			       <div class="description">
+			          Operating Localities : 
+			          <span data-bind="foreach : locationProjects" style="margin-right:0;">
+			            <!-- ko if:$index()<=1 -->
+			              <span class="header" data-bind="text : $data"></span>
+			               <!-- ko if:$index()==0 -->
+			                <span class="header">,</span>
+			               <!-- /ko -->
+			            <!-- /ko -->
+			        </span>
+			        <span data-bind="if:locationProjects.length>2">
+			        (+
+			          <span class="header" data-bind="text : locationProjects.length-2"></span>)
+			        </span>
+			      </div>
+			      <div class="extra">
+			        <div class="ui right floated label _subReqP_" data-bind="click:function(){$parent.addAgent(name,irxId,companyName,imageUrl)}">Enquire</div>
+			       
+			      </div>
 			    </div>
-			<%}	%>
+			  </div>
+			</div>
+			<div class="ui centered aligned grid" style="padding: 2rem 0;">
+					<div class="ui button" style="background:#fff;border: 1px solid #ddd"><a href="/agent-listing?projectId=<%= result.id %>&name=<%= result.name %>"> View all agents</a></div>
+				</div>
+			<!-- /ko -->
+				
+			</div>
+		<% } %>
 			<!-- <img class="ui medium rounded image" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= result.location.name %>+<%= result.location.city %>+<%= result.location.state%>+India&zoom=15&size=500x400&maptype=roadmap"> -->
 		</div>
-	</div> <% } %>
+	</div>
   <!-- Proj detailing ends here -->
 </div>
 <script type="text/javascript">
@@ -501,10 +337,15 @@
 			start:0,
 			pageSize:5
 		}
+		this.agentIds = [];
 	}
 	
 	Project.prototype.init = function() {
+
 	    var _classInstance = this;
+	    // _classInstance.aPostReqViewModel = common.getViewModel('postAgent');
+	    // ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
+	    var projectId = $('#_projectId_').val();
 	    _classInstance.viewModel = {
 	      agents: ko.observableArray(),
 	      requestDetails : function(id){
@@ -514,18 +355,30 @@
 
 				_classInstance.enquireNow(id);
 			},
+			fbIntegration:function(id){
+				return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+id+'" data-layout="button_count" data-action="like" data-show-faces="false" data-share="true"></div>';
+			},
+			addAgent:function(name,id,companyName,imageUrl){
+					 
+				$('#leads').modal({
+		     	 closable:false
+		   		 }).modal('show');
+				$('._showAgent_').show();
+      	 		$("#_projectIdP_").val(projectId);
+      	 		$("#_agentIdP_").val(id);
+      	 		$('.agentName').text(name);
+      	 		$('.companyName').text(companyName);
+      	 		if(!imageUrl || imageUrl== null || imageUrl==""){
+      	 			imageUrl="/images/elliot.jpg"
+      	 		}
+		        $('._pImageLead_').css("background-image",'url('+imageUrl+')')
+		    }
 			
 	    }
+	
+	    _classInstance.listPreferredAgents(projectId);
 
-	  	ko.applyBindings(_classInstance.viewModel,document.getElementById('desktop-projDet'));
-	  	$('.pref_agents_btn').click(function(){
-	  		
-	  		if(_classInstance.viewModel.agents().length ==0){
-	  			var projectId= $('#_projectId').val();
-	  			_classInstance.listPreferredAgents(projectId);
-	  		}
-	  		
-	  	});
+	  	ko.applyBindings(_classInstance.viewModel,document.getElementsByClassName('projDet')[0]);
 
 	  	$(".locality .title").click(function(){
 	  		var _self=$(this);
@@ -536,6 +389,7 @@
 	}
 	
 	Project.prototype.listPreferredAgents = function(projectId) {
+		
 		var classInstance = this;
     	httpUtils.get("/prefered-agents/"+projectId,{page:classInstance.page},"JSON",function(data){
 	       	if(data.status==0){
@@ -557,10 +411,14 @@
       };
 
       Project.prototype.enquireNow = function(projectId) {
+      	$('._showAgent_').hide();
+      	 $("#_agentIdP_").val("");
+      	 $("#_projectIdP_").val(projectId);
       	 $('#leads').modal({
 		      closable:false
 		    }).modal('show');
-      	 $("#_projectIdP_").val(projectId);
+      	 //alert(1)
+      	 
       };
 
       Project.prototype.getPriceText = function(amount) {

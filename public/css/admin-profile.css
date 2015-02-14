@@ -12,13 +12,13 @@
 	right: 25%;
 	width: 2rem;
 }
-.lib-pic>.Editpic>input {
+.lib-pic>.Editpic>form>input {
 	opacity: 0;
 	width: 17px;height: 16px;
 	position: relative;
 	z-index: 10;
 }
-.lib-pic>.Editpic>i {
+.lib-pic>.Editpic>form>i {
 	position: absolute;
 	top: 0;left: 0.4rem;
 	opacity: .8;
@@ -114,7 +114,7 @@
 }
 
 .left-portion>.item, .right-portion>.item {
-	border-bottom: 3px solid #f5f8f9;
+	border-bottom: 3px solid #efefef;
 }
 .ui.stackable.two.column.grid h4 {
 	font-weight: normal;
@@ -128,7 +128,7 @@
 	font-size: .9em;
 }
 .left-portion>.ui.items:not(:last-child) {
-	border-bottom: 1px solid #f5f8f9;
+	border-bottom: 1px solid #efefef;
 	padding-bottom: 1rem;
 }
 .left-portion>.ui.items a.header {

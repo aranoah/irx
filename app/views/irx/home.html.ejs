@@ -361,6 +361,8 @@
 <div id="autoDiv"></div>
  <script type="text/javascript">
 	function Home(){
+
+		
 		this.type={
 	      "irx-eproduct":"project",
 	      "irx-euser":"user"
@@ -374,6 +376,7 @@
 	  		city:ko.observable("banglore"),
 	  		minPrice:ko.observable(),
 	  		maxPrice:ko.observable(),
+	  		placeholderVal:ko.observable("Search project by name or location.."),
 	  		searchFun : function(formElement){
 	  			
 	            if(_classInstance.viewModel.searchType()=='project'){
@@ -431,6 +434,17 @@
     
 	     $('#'+_classInstance.parent).on('click','._sType_',function(){
 	     	var _self = $(this)
+
+			    	if(_self.attr('data-attr')=="project"){
+			    		
+			    		_classInstance.viewModel.placeholderVal("Search project by name or location..")
+			    	} else if(_self.attr('data-attr')=="agent"){
+			    		
+			    		_classInstance.viewModel.placeholderVal("Search agent by name ,location or project name..")
+			    	} else if(_self.attr('data-attr')=="locality"){
+			    		
+			    		_classInstance.viewModel.placeholderVal("Search location..")
+			    	}
 	     	_classInstance.viewModel.searchType(_self.attr('data-attr'))
 	     })
 	     $('#'+_classInstance.parent).find("#__searchHome").autocomplete({
@@ -441,11 +455,11 @@
 	                
 	                if(_classInstance.viewModel.searchType()=='project'){
 	                	//var data={"text":request.term,"city":_classInstance.viewModel.city()}
-	                	var data={"text":request.term,"city":"bangalore"}
+	                	var data={"text":request.term,"city":_classInstance.viewModel.city()}
 	                  _classInstance.projectAutocomplete(data,request,response)
 	                
 	                } else if(_classInstance.viewModel.searchType()=='agent'){
-	                	var data={"text":request.term,"city":"aurangabad"}
+	                	var data={"text":request.term,"city":_classInstance.viewModel.city()}
 	                  _classInstance.agentAutocomplete(data,request,response)
 	                
 	                }
@@ -454,16 +468,24 @@
 	              dataType: "json",
 	              cache: false,
 	              appendTo:'#autoDiv',
+	              focus:function( event, ui ){
+	              	$(this).val(ui.item.real);
+	              	return false;
+	              },
 	              select: function( event, ui ) {
 	              	var textName = _classInstance.removeHtml(ui.item.name)
 	                  $('#__searchHome').val(textName)
 	                   //_classInstance.viewModel.name(ui.item.name);
+	                  
 	                   if(_classInstance.viewModel.searchType()=='agent'){
 	                    if(_classInstance.type[ui.item.type]=='project'){
 	                      
 	                      $('#__projectId').val(ui.item.id);
 	                       location.href="/project/"+ui.item.id;
-	                    } else{
+	                    } else if(_classInstance.type[ui.item.type]=='user'){
+	                    
+	                    	  location.href="/"+ui.item.irxId;
+	                    }else{
 	                      
 	                      $('#__projectId').val("");
 	                    }
@@ -479,23 +501,35 @@
 	              }
 	              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 	                $(".ui-widget-content .ui-state-focus");
-	                var type=""
-	                if(item.type){
-	                  
-	                  type="<div class='itLabel'>"+_classInstance.type[item.type]+"</div>"
+	                var type="";
+		                var icon ="";
+		                if(item.type){
+		                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+		                }
 
-	                }
-	                 return $( "<li>" ).append( "<a><div class='itLabel'>"+item.name+"</div>"+type+"</a>" ).appendTo(ul);
+		                if(item.type=='irx-euser') {
+		                  icon = "<i class='icon user right floated'></i>"
+		                }else {
+		                  icon ="<i class='icon building outline right floated'></i>"
+		                }
+		                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
+		                if(item.id == -1){
+		                 
+		                    data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
+		                }
+		                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+	                 
 	              };  
 	  
 	   
-			    $(document).on('change','.__searchType',function(){
-			    	var _self = $(this);
-			    	_classInstance.viewModel.searchType(_self.val())
-			    })
+			    // $(document).on('change','.__searchType',function(){
+			    // 	var _self = $(this);
+
+			    // 	_classInstance.viewModel.searchType(_self.val())
+			    // })
 	    
 	    $('.search.icon').click(function(){
-	    	 _classInstance.submitForm();
+	    	// _classInstance.submitForm();
 	    })
 	   ko.applyBindings(_classInstance.viewModel,document.getElementById('homescreen'))
 	};
@@ -529,12 +563,13 @@
        
           arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(arr, function(item) {
-            var name ="";
+            var name ="",nameValue='';
             if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
                name = item.highlight.name[0]
             }else{
               name = item.fields.name
             }
+            nameValue=(item.fields.name?item.fields.name[0]:'');
             var location ={}
             if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
               var lCity = item.fields['location.city'];
@@ -552,8 +587,8 @@
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-           // alert(locationName)
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName};
+           
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue};
           }));
         }
     })
@@ -567,7 +602,6 @@
          if(data.result == null){
           arr = new Array();
          }
-         console.log(arr)
           arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(data.result, function(item) {
             var name ="";
@@ -577,10 +611,18 @@
               name = item.fields.name
             }    
             var productType="";
-            if(item.fields.productType && item.fields.productType.length >0){
+            if(item.fields && item.fields.productType && item.fields.productType.length >0){
               productType = item.fields.productType[0]
             }
-            return {id:item.fields.id[0],name:name,type:item._type,productType:productType};
+            var id="";
+            if(item.fields && item.fields.id && item.fields.id.length >0){
+              id = item.fields.id[0]
+            } 
+            var irxId="";
+            if(item.fields && item.fields.irxId && item.fields.irxId.length >0){
+              irxId = item.fields.irxId[0]
+            } 
+            return {id:id,name:name,type:item._type,productType:productType,irxId:irxId};
           }));
         }
     })
@@ -589,8 +631,9 @@
 	$(document).ready(function(){
 		var home = new Home();
 		home.init();
-	
-	})
+		console.log($city)
+		$("#mainSearchCity").append($city);
+	});
 	Home.prototype.getPriceText = function(amount) {
     var text = "";
     if(amount.length==4 || amount.length==5){

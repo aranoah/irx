@@ -34,6 +34,7 @@ module.exports = function routes() {
   this.match("irx/reset",{controller:'irx-misc/reset', action:'main',via:'GET'})
   this.match("irx/t&c",{controller:'irx-misc/terms', action:'main',via:'GET'})
   this.match("irx/forgot-password",{controller:'irx-misc/forgotpassword', action:'main',via:'GET'})
+  this.match("irx/change-password",{controller:'irx-misc/changepassword', action:'main',via:'GET'})
   this.match("irx/verification",{controller:'irx-misc/verification', action:'main',via:'GET'})
 
   /*
@@ -42,6 +43,8 @@ module.exports = function routes() {
   
   this.match("invite-for-review/:userid",{controller: 'user/rest/user',action:'inviteForReview',via:'GET'})
   this.match("/irx/review/:parentId",{controller: 'user/rest/user',action:'review',via:'POST'})
+  this.match("/has-invitation/:parentId",{controller: 'user/rest/user',action:'hasInvitationForReview',via:'GET'})
+  this.match("/reviews/:userId",{controller: 'user/rest/user',action:'listReviews',via:'GET'})
 
 
   /*
@@ -84,8 +87,10 @@ module.exports = function routes() {
   this.match('list-user-projects/:userId',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
   this.match('list-user-locations/:userId',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
   this.match('check-userName/:text',{ controller: 'user/rest/user', action: 'checkUserName' , via: 'GET' });
-  this.match('forget-password',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
-  //this.match('rese-password/:text',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
+  this.match('forget-password/:userId',{ controller: 'user/rest/user', action: 'forgetPassword' , via: 'GET' });
+  this.match('change-password',{ controller: 'user/rest/user', action: 'changePassword' , via: 'GET' });
+  this.match('send-user-details/:userId',{ controller: 'user/rest/user', action: 'sendUserDetails' , via: 'GET' });
+  this.match('claim-profile/:profileId',{ controller: 'user/rest/user', action: 'claimProfile' , via: 'GET' });
   /*
   * Utility urls
   */
@@ -101,15 +106,14 @@ module.exports = function routes() {
   this.match('associate-project/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateProject' , via: 'GET' });
   this.match('delete-project/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteProject' , via: 'GET' });
   this.match('list-product/:type',{ controller: 'profile/rest/profileManagement', action: 'listProject' , via: 'GET' });
-  this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
+  //this.match('product-autocomplete/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('list-associated-product/:type',{ controller: 'profile/rest/profileManagement', action: 'projectAutocomplete' , via: 'GET' });
   this.match('mark-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'POST' });
   this.match('associate-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateLocation' , via: 'GET' });
   this.match('delete-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteLocation' , via: 'GET' });
+  this.match('reset-password',{ controller: 'profile/rest/profileManagement', action: 'resetPassword' , via: 'GET' });
   
-   // remove-distress
-  // array of object having bhks which have been marked distress
-  //this.match('remove-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'GET' });
+  
   /*
   * Lead Capture related urls
   */

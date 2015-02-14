@@ -1,8 +1,11 @@
 <!-- Login popup -->
 <script type="text/javascript" src="/js/common/http.js"></script>
 <!-- For mobile screens -->
+
 <div id="login" class="ui modal pop-up grid">
-  <div id="login-mobile" class="row mobile tablet only">  
+
+<% if(locals.req.device.type != 'desktop'){ %>
+  <div id="login-mobile">  
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Login / Signup</h2>
@@ -87,16 +90,17 @@
       <div class="action-button"><div class="ui button" data-bind="click: register">register</div></div>      
       <div class="ui horizontal divider">Or</div>
     </div>
-    <div class="content fb-login">
+    <div class="content fb-login" id="fb-signin">
       <i class="facebook huge icon square"></i><br/><br/>
-      <a class="item">Login with facebook</a>
+      <div class="item" show-faces="false"  max-rows="1">Login with facebook</div>
     </div>
   </div>
 </div>
-
+<% } %>
 <!-- ends here -->
 
-<div id="login-desktop" class="row computer only">  
+<% if(locals.req.device.type == 'desktop'){ %>
+<div id="login-desktop">  
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Login / Signup</h2>
@@ -128,8 +132,8 @@
           </div>
         </div>
       </div>
-      <label>Forgot password?</label>
-      <div class="submitAction"style="margin-top:1rem;"><div class="ui " onclick="validatRegister(this)">login</div></div>
+      <label><a href="/irx/forgot-password">Forgot password?</a></label>
+      <div class="submitAction"style="margin-top:1rem;float: right;display:inline-block;margin-right: 3.6rem;"><div class="ui " onclick="validatRegister(this)">login</div></div>
     </form>
       <div class="ui vertical divider">Or</div>
     
@@ -185,10 +189,12 @@
     </div>
     <div class="four wide column fb-login" id="fb-signin">
       <i class="facebook huge icon square"></i><br/><br/>
-           <div class="item"    show-faces="false"  max-rows="1">Login with facebook</div>
+           <div class="item" show-faces="false"  max-rows="1">Login with facebook</div>
     </div>
   </div>
-</div></div>
+</div>
+<% } %>
+</div>
 <script>
 function validatRegister(_this){
     $(_this).parents('form').form({
@@ -217,3 +223,55 @@ function validatRegister(_this){
     
 </script>
  
+  <script>
+      
+
+  $(document).on('click','#fb-signin',function () {
+        callFB();
+  });
+      initfb();
+  function callFB(callback){
+     FB.login(function(response){
+             statusChangeCallback(response,callback);
+     },{scope: 'public_profile'});
+  }
+  function statusChangeCallback(response,callback) {
+    if (response.status === 'connected') {
+      openFbLogin(response.authResponse.userID,response.authResponse.accessToken,callback);
+    } else if (response.status === 'not_authorized') {
+     
+    } else {
+     
+    }
+}
+function initfb(){
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '453584098038579', // App ID
+        channelUrl : '//indianrealtyexchange.com', // Channel File
+        cookie     : true,  // enable cookies to allow the server to access // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.1' // use version 2.1
+      });
+     };
+
+}
+ function openFbLogin(uid,accessToken,callback) {
+    FB.api('/me', function(response) {
+    //  loginToServer("facebook",response.id,response.name,uid,accessToken,callback);
+        var classInstance = this;
+      httpUtils.post("/login",
+    {userId:response.id,password:accessToken},
+     { 'authorization': 'FB' },"JSON",function(data){
+    if(data.status==0){
+            
+            ///reload or refresh....
+              $('.close.icon').click();
+    }else {
+      /// error login with fb......
+    }
+  })
+        console.log(response);
+    });
+}    
+ </script>

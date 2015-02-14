@@ -20,10 +20,10 @@ var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
 var commonValidator = require(_path_util+"/commonValidator")
-var userController = new Controller();
+
 
 var userService = require(_path_service+"/userService.js" )
-
+var userController = new Controller();
 /*
 * Validate function for user registration
 */
@@ -43,7 +43,42 @@ userController.validate_createUser=function(){
 
     console.log(myvalidator.getErrors())
 }
+/*
+* Validate function for change password
+*/
+userController.validate_changePassword=function(){
+    var myvalidator = new commonValidator(this.req);
+    /// this.req = request object, this.res = response object.
+    console.log("inside validate change password",this.req.query.userId);
+    
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("userId",validateEmail,this.req.query.userId);
 
+    var validateCode = ["required"];
+    myvalidator.validate("code",validateCode,this.req.query.code);
+
+    var validatePassword = ["required"];
+    myvalidator.validate("password",validatePassword,this.req.query.password);
+
+    console.log(myvalidator.getErrors())
+}
+/*
+* Validate function for user sendUserDetails
+*/
+userController.validate_sendUserDetails=function(){
+      var myvalidator = new commonValidator(this.req);
+    
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("emailId",validateEmail,this.req.query.emailId);
+
+    var validateName = ["required"];
+    myvalidator.validate("name",validateName,this.req.query.name);
+
+    var validatePhone = ["required"];
+    myvalidator.validate("phoneNum",validatePhone,this.req.query.phoneNum);
+
+    console.log(myvalidator.getErrors())
+}
 /*
 * Validate function for user registration
 */
@@ -94,7 +129,8 @@ userController.updateUser = function() {
      _nself.processJson(status,msg,result,page);
     });
     var user = _nself.req.body;
-    user.irxId = _nself.getCurrentUser(_nself);;
+  console.log(_nself.req.files)
+    user.irxId = _nself.getCurrentUser(_nself);
     userSvc.updateUser(user);
 }
 
@@ -114,7 +150,10 @@ userController.getUserDetails = function() {
     userId= _nself.req.params.userId;
     userSvc.getUserDetails(userId);
 }
-
+/*
+*  forget Password
+*
+**/
 userController.forgetPassword = function() {
   var userSvc = new userService();
  
@@ -148,7 +187,6 @@ userController.verifyUser = function() {
     	"vfCode":vfCode,
       "phoneNum":phoneNum
     }
-    console.log(data)
     userSvc.verifyUser(data);
 }
 /*
@@ -188,20 +226,12 @@ userController.logout = function() {
 **/
 
 userController.listUserProjects = function() {
- 
+    try{
   var _nself = this;
-  userId= _nself.req.params.userId;
+  var userId= _nself.req.params.userId;
   var page = _nself.request.query.page;
   
-  if(!page){
-    page={
-      "start":0,
-      "pageSIze":3
-    }
-  }
-  
   var userSvc = new userService();
- 
    var data= {
       "page":page,
       "userId":userId
@@ -209,10 +239,11 @@ userController.listUserProjects = function() {
     userSvc.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
-    
-    userSvc.listUserProjects(data);
+  userSvc.listUserProjects(data);
  
-   
+   }catch(e){
+    
+   }
 }
 
 /*
@@ -253,7 +284,7 @@ userController.listUserLocations = function() {
 userController.inviteForReview = function(){
   var _nself = this;
   var targetId = _nself.req.params.userid;
-  var parentId = _nself.getCurrentUser(_nself);;
+  var parentId = _nself.getCurrentUser(_nself);
   var msg = _nself.req.query.msg;
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,errValue){
@@ -275,7 +306,8 @@ userController.review = function(){
   var parentId = _nself.req.params.parentId;
  
   var msg = _nself.req.body.msg;
-  var agentId = _nself.getCurrentUser(_nself);
+  var rating = _nself.req.body.rating;
+  var user = _nself.getCurrentUserInfo(_nself);
  
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,errValue){
@@ -283,8 +315,11 @@ userController.review = function(){
   });
   var data = {
     "parentId":parentId,
-    "agentId": agentId,
-    "msg":msg
+    "agentId": user.userId,
+    "msg":msg,
+    "rating":rating,
+    "agentName": user.name,
+    "agentImage" : user.imageUrl
   }
   userSvc.review(data);
 }
@@ -323,7 +358,6 @@ userController.listLastVisited = function(){
  
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,page){
-    console.log("yo yo",result)
     _nself.processJson(code,msg,result,page);
   });
 
@@ -350,5 +384,119 @@ userController.checkUserName = function(){
   }
   userSvc.checkUserName(data);
 }
+/*
+*  reset Password
+*
+**/
+userController.changePassword = function() {
+  var userSvc = new userService();
+  console.log("huuiuuiu")
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    var data={
+      "userId":_nself.req.query.userId,
+      "code":_nself.req.query.code,
+      "password":_nself.req.query.password,
+    }
 
-module.exports = userController;   
+    userSvc.changePassword(data);
+}
+
+/*
+*  check if user has invitation for invitation
+*
+**/
+userController.hasInvitationForReview = function() {
+  var userSvc = new userService();
+ 
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    
+  var  parentId= _nself.req.params.parentId;
+  var agentId = _nself.getCurrentUser(_nself);
+  var data ={
+    "parentId" : parentId,
+    "agentId" : agentId
+  }
+  userSvc.hasInvitationForReview(data);
+}
+
+
+/*
+*   List User Projects
+
+*   @TODO : Controller level validation
+**/
+
+userController.listReviews = function() {
+ 
+  var _nself = this;
+  var userId= _nself.req.params.userId;
+  var page = _nself.request.query.page;
+
+  var userSvc = new userService();
+
+   var data= {
+      "page":page,
+      "userId":userId
+    }
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    
+    userSvc.listReviews(data);
+}  
+
+/*
+*   Send User Details
+
+*  
+**/
+
+userController.sendUserDetails = function() {
+ 
+  var _nself = this;
+  var userId= _nself.req.params.userId;
+  var emailId = _nself.req.query.emailId;
+  var name = _nself.req.query.name;
+  var phoneNum = _nself.req.query.mobileNo;
+
+  var userSvc = new userService();
+
+   var data= {
+      "emailId":emailId,
+      "userId":userId,
+      "name":name,
+      "phoneNum":phoneNum
+    }
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    
+    userSvc.sendUserDetails(data);
+} 
+
+/*
+*  Claim your profile
+*  
+**/
+
+userController.claimProfile = function() {
+ 
+  var _nself = this;
+
+  var userSvc = new userService();
+
+   var user = _nself.getCurrentUserInfo(_nself);
+    userSvc.on("done", function(code,msg,result,errValue){
+     _nself.processJson(code,msg,result,errValue);
+    });
+    user.profileId=_nself.req.params.profileId;
+    
+    userSvc.claimProfile(user);
+} 
+   module.exports=userController

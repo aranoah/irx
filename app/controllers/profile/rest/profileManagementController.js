@@ -18,26 +18,39 @@
 var Controller = require(_path_cntlr+'/base/baseController');
 var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
-var hashAlgo = require(_path_util+"/sha1.js")
 var commonValidator = require(_path_util+"/commonValidator")
 var pMController = new Controller();
 
 var profileManagementService = require(_path_service+"/profileManagementService.js" )
 
+pMController.validate_resetPassword=function(){
+    var myvalidator = new commonValidator(this.req);
+    /// this.req = request object, this.res = response object.
+    console.log("inside validate reset password");
+
+    var validateEPassword = ["required"];
+    myvalidator.validate("ePassword",validateEPassword,this.req.query.ePassword);
+
+    var validateNPassword = ["required"];
+    myvalidator.validate("nPassword",validateNPassword,this.req.query.nPassword);
+
+    console.log(myvalidator.getErrors())
+}
 /**
 *   Associate a project to agent
 */
 
 pMController.associateProject = function() {
-	var pMService = new profileManagementService();
+ 
      var _nself = this;
-	 var userId = _nself.getCurrentUser(_nself);
-   
+	 var user = _nself.getCurrentUserInfo(_nself);
+   console.log(user)
+    var pMService = new profileManagementService();
     pMService.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
     var data = {
-    	userId:userId,
+    	userId:user.irxId,
     	projectId:_nself.req.params.projectId
     }
     
@@ -52,12 +65,12 @@ pMController.deleteProject = function() {
     var pMService = new profileManagementService();
    
     var _nself = this;
-     var userId = _nself.getCurrentUser(_nself);
+      var user = _nself.getCurrentUserInfo(_nself);
     pMService.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
     var data = {
-        userId:userId,
+        userId:user.irxId,
         projectId:_nself.req.params.projectId
     }
     
@@ -139,13 +152,13 @@ pMController.markDistress = function() {
 pMController.associateLocation = function() {
     var pMService = new profileManagementService();
      var _nself = this;
-     var userId = _nself.getCurrentUser(_nself);
+       var user = _nself.getCurrentUserInfo(_nself);
    
     pMService.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
     var data = {
-        userId:userId,
+        userId:user.irxId,
         projectId:_nself.req.params.projectId
     }
     
@@ -160,16 +173,33 @@ pMController.deleteLocation = function() {
     var pMService = new profileManagementService();
    
     var _nself = this;
-     var userId = _nself.getCurrentUser(_nself);
+       var user = _nself.getCurrentUserInfo(_nself);
     pMService.on("done", function(code,msg,result,errValue){
      _nself.processJson(code,msg,result,errValue);
     });
     var data = {
-        userId:userId,
+        userId:user.irxId,
         projectId:_nself.req.params.projectId
     }
     
     pMService.deleteLocation(data);
 };
+
+pMController.resetPassword = function() {
+   var pMService = new profileManagementService();
+
+    var _nself = this;
+    pMService.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+      var user = _nself.getCurrentUserInfo(_nself);
+    var data={
+      "userId":user.irxId,
+      "password":_nself.req.query.ePassword,
+      "newPassword":_nself.req.query.nPassword,
+    }
+
+    pMService.resetPassword(data);
+}
 
 module.exports=pMController

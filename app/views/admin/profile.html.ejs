@@ -12,7 +12,35 @@
   ._hidden_ {
     display: none
   }
+  ._profsearProj>.item {
+    padding: .9rem;
+    background: rgba(242, 242, 242, 0.38);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: 3px;
+    margin-right: 1rem;
+  }
+  .ui.horizontal.label {
+    color: #7b7b7b !important;
+    margin-top: .5rem;
+  }
+  ul._dis_  {
+    padding: .8rem;
+    box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    border-radius: 3px;
+  }
+  ul._dis_>li {
+    padding: .5rem;
+    list-style-type: none;
+  }
+  ul._dis_>li>input {
+    padding: .5rem;
+    border: 1px solid #ddd;
+  }
+  ._profaddProj {
+    margin: 2rem !important;
+  }
   </style>
+  <script type="text/javascript" src="/js/library/jquery.form.js"></script>
 </head>
 <body>  
   <% include ../partials/header.html.ejs %>
@@ -31,8 +59,10 @@
         <div class="column li-box">
           <div class="lib-pic">
             <img id="pic" class="ui circular image" src="/img/pic.png">
-            <div class="Editpic">
-              <input id="_profilePic" type="file"><i class="icon photo"></i>
+            <div class="Editpic" style="cursor:pointer !important">
+              <form id="_profilePicForm" enctype="multipart/form-data">
+                <input id="_profilePic" name="image" type="file" ><i class="icon photo"></i>
+              </form>
             </div>
           </div>
           <div class="content">
@@ -53,15 +83,8 @@
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
             </div>
           </div>
-          <img style="padding: 1rem 0 .5rem;" src="/img/fb.png">
-
-          <div class="lib-actions">
-            <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
-            <div class="ui basic button">Send Message</div>
-          </div>
-
-          <div class="lib-count">
-            <div class="item left floated"><div class="header"><%= result.projectCounter %></div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
+          <div class="lib-count" style="border-top: 2px solid #f4f4f4;margin-top:1rem;">
+            <div class="item left floated"><div class="header"><%= result.projects && result.projects!= null?result.projects.length:0 %></div>Projects</div><div class="item right floated"><div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>Locations</div>
           </div>
 
          <div class="lib-specs">
@@ -79,11 +102,15 @@
             <% } %>
           </div>
           
-           <div class="ui divided list lib-xtras">
-            <% if(result.location) {%>
+           <div class="ui divided list lib-xtras" style="text-align:left">
+            <% if(result.location && result.location != null) {%>
               <div class="item _location_ profEdit" contenteditable="false">
-                <i class="map marker icon"></i>
-                <!--ko text : location.name --><!-- /ko -->,<!--ko text : location.city --><!-- /ko -->,<!--ko text : location.state --><!-- /ko -->
+                <i class="map marker icon _csn"></i>
+                <span class="_csn">
+                  <!-- ko text:location.name --><!-- /ko -->,
+                  <!-- ko text:location.city --><!-- /ko -->,
+                  <!-- ko text:location.state --><!-- /ko -->
+                </span>
                 <i data-bind="click:function(){locationEdit('_location_')}" class="write icon"></i>
               </div>
             <% } %>
@@ -105,9 +132,9 @@
               <div class="ui button _cancel_" data-bind="click:function(){locationClose('_location_')}">Cancel</div>
             </form>
             <div class="content">
-              <i class="linkify icon"></i>irx.com/
-                <div class="item _unUserName_ profEdit" contenteditable="false">
-                   <!--ko text : id --><!-- /ko -->
+            
+                <div class="item _unUserName_ profEdit" contenteditable="false" data-bind="attr:{title:'www.indianrealtyexchange.com/'+id()}">
+                   <i class="linkify icon"></i> <!--ko text : id --><!-- /ko -->
                    <i data-bind="click:function(){profileEdit('_unUserName_')}" class="write icon"></i>
                     
                 </div>
@@ -149,7 +176,7 @@
                 <div class="menu">
                   <div class="item">Suspend Account</div>
                   <div class="divider"></div>
-                  <div class="item">Reset Password</div>
+                  <div class="item" style="cursor:pointer" id="_reset_btn">Reset Password</div>
                 </div>
               </a>
             </div>
@@ -157,9 +184,7 @@
               <h3 class="ui heading">manage products</h3>
               <div class="ui stackable two column grid">
               <div class="column left-portion">
-                  <div class="item">
-                    <div class="right floated compact ui button">Add new</div>                    
-                    
+                  <div class="item">                   
                     <div class="content">
                       <h4 class="header">My Projects</h4>
                     </div>
@@ -175,27 +200,31 @@
                  <!-- ko foreach: associatedProjects -->
                     <div class="ui items">
                       <div class="item">
-                         <div class="content left floated">
-                          <a class="header" data-bind="text:name"></a>
+                         <div class="content">
+                          <a class="ui header" data-bind="text:name"></a>
                           
-                          <div class="meta">
+                          <div class="description" style="margin:0;color:#999;">
                             <div class="time" data-bind="text:builderName"></div>
                             <div class="category" data-bind="text:location.locality"></div>
                           </div>
                          </div>
-                         <div class="right floated content" data-bind="click:function () { $parent.removeProject($index,id)}">
-                           <i class="remove circle outline icon"></i>
+                         <div class="content right floated">
+                           <i class="add circle icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i><i class="remove circle outline icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
-                          <div class="right floated content" >
-                           <i class="plus icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i>
-                           <ul class="_dis_" data-bind="visible:$root.currContext()==id">
+                          <div class="content">
+                        
+                           <ul class="_dis_ " data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
-                             <li> <!--ko text:$data --><!-- /ko -->BHK :
-                              <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$root.distress.bhk">
+                             <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
+                              <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$data.checked">
                               Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">
                              
                            <!-- /ko --></li>
-                           <div class="ui button _sDistress_" data-bind="click:$parent.markDistress">save</div>
+                            <li class="ui buttons tiny">
+                              <div class="ui button _scancel_">Cancel</div>
+                              <div class="or"></div>
+                              <div class="ui positive button _sDistress_" data-bind="click:function(){$parent.markDistress(id)}">save</div>
+                             </li>
                            </ul>
                          </div>
                       </div>
@@ -203,8 +232,9 @@
                   <!-- /ko -->
                  
                 </div>
-                <div class="column right-portion">
-                  <div class="item">
+                <div class="right floated ui positive button _profaddProj">Add more projects</div> 
+                <div class="_profsearProj column right-portion" style="display:none;margin:2rem 0;padding:0;">
+                  <div class="item" style="">
                      <div class="right floated content">
                       <div class="column left-portion">
                         <div class="item">
@@ -224,14 +254,15 @@
                         <!-- ko foreach: projects -->
                           <div class="ui items">
                             <div class="item">
-                              <div class="content left floated">
-                                <a class="header" data-bind="text:name"></a>
-                                <div class="meta">
+                              <div class="content">
+                                <a class="ui header" data-bind="text:name"></a>
+                                <div class="description" style="margin:0;color:#999;">
                                   <div class="time" data-bind="text:builderName"></div>
                                   <div class="category" data-bind="text:location.locality"></div>
                                 </div>
                               </div>
-                              <div class="right floated content" data-bind="click:function () { $parent.addProject(id)}"><i class="add circle icon"></i></div>
+                              <div class="right floated content" data-bind="click:function () { $parent.addProject(id)}"><div class="ui mini button">Add</div></div>
+                              <div class="content"></div>
                             </div>
                           </div>
                         <!-- /ko -->
@@ -245,54 +276,18 @@
               </div>
             </div>
             <div class="ui bottom attached tab segment" data-tab="second">
-              <h3 class="ui heading">manage locations</h3>
+              <h3 class="ui heading">Manage locations</h3>
               <div class="ui stackable two column grid">
-                
-                <div class="column left-portion">
-
-                  <div class="item">
-                    <div class="right floated compact ui button" id="addLoc">Add new</div>                    
-                    <div class="ui fluid popup">
-                      <div class="column left-portion">
-                        <div class="item">
-                            <div class="ui transparent left icon input">
-                              <input type="text" id="__searchLoc" placeholder="Search locations...">
-                              <i class="search icon"></i>
-                            </div>
-                        </div>
-                        <!-- ko if: locations().length==0 -->
-                          <div class="ui info  message">
-                            <ul class="list">
-                              <li>No location associated to your profile currently.</li>
-                              <li>Click here to add new</li>
-                            </ul>
-                          </div>
-                         <!-- /ko -->
-                        <!-- ko foreach: locations -->
-                          <div class="ui items">
-                            <div class="item">
-                              <div class="content left floated">
-                                <a class="header" data-bind="text:name"></a>
-                                <div class="meta">
-                                 
-                                  <div class="category" data-bind="text:location.locality"></div>
-                                </div>
-                              </div>
-                              <div class="right floated content" data-bind="click:function () { $parent.addLocation(id)}"><i class="add circle icon"></i></div>
-                            </div>
-                          </div>
-                           <!-- /ko -->
-                      
-                        
-                      </div>
-                    </div>
+              <div class="column left-portion">
+                  <div class="item">                   
                     <div class="content">
-                      <h4 class="header">My Location</h4>
+                      <h4 class="header">My Locations</h4>
                     </div>
-                    <!-- ko if: associatedLocations().length==0 -->
+                  </div>
+                  <!-- ko if: associatedLocations().length==0 -->
                     <div class="ui info message">
                       <ul class="list">
-                        <li>No location associated to your profile currently.</li>
+                        <li>No projects associated to your profile currently.</li>
                         <li>Click add new</li>
                       </ul>
                     </div>
@@ -300,23 +295,60 @@
                  <!-- ko foreach: associatedLocations -->
                     <div class="ui items">
                       <div class="item">
-                        <div class="content left floated">
-                          <a class="header" data-bind="text:name"></a>
+                         <div class="content">
+                          <a class="ui header" data-bind="text:name"></a>
                           
-                          <div class="meta">
-                           
-                            <div class="category" data-bind="text:location.locality"></div>
-                          </div>
-                        </div>
-                         <div class="right floated content" data-bind="click:function () { $parent.removeLocation($index,id)}"><i class="remove circle outline icon"></i></div>
+                         </div>
+                         <div class="content right floated">
+                           <i class="remove circle outline icon" data-bind="click:function () { $parent.removeLocation($index,id)}"></i>
+                         </div>
+                          
                       </div>
                     </div>
                   <!-- /ko -->
-                  </div>
-                  
+                 
                 </div>
+                <div class="right floated ui positive button _profaddProj">Add more Locations</div> 
+                <div class="_profsearProj column right-portion" style="display:none;margin:2rem 0;padding:0;">
+                  <div class="item" style="">
+                     <div class="right floated content">
+                      <div class="column left-portion">
+                        <div class="item">
+                            <div class="ui transparent left icon input">
+                              <input type="text" id="__searchPro" placeholder="Search projects...">
+                              <i class="search icon"></i>
+                            </div>
+                        </div>
+                        <!-- ko if: locations().length==0 -->
+                          <div class="ui info  message">
+                            <ul class="list">
+                              <li>No project found.</li>
+                              
+                            </ul>
+                          </div>
+                         <!-- /ko -->
+                        <!-- ko foreach: locations -->
+                          <div class="ui items">
+                            <div class="item">
+                              <div class="content">
+                                <a class="ui header" data-bind="text:name"></a>
+                                
+                              </div>
+                              <div class="right floated content" data-bind="click:function () { $parent.addLocation(id)}"><div class="ui mini button">Add</div></div>
+                              <div class="content"></div>
+                            </div>
+                          </div>
+                        <!-- /ko -->
+                      
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
               </div>
             </div>
+            
             <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">manage leads</h3>
               <div class="ui cards">
@@ -324,11 +356,13 @@
                   <div class="card">
                     <div class="content">
                       <div class="header" data-bind="text:name"></div>
-                      <div class="meta">Buy / Sell / Rent</div>
+                      <div class="meta"><!--ko text : propertyType --><!-- /ko --></div>
                       <div class="description" >
+
                       <!--ko text : emailId --><!-- /ko -->
                         <br/><!--ko text : mobileNo --><!-- /ko -->
                       </div>
+                      <span style="color:black!important;">ProjectName :</span><a style="color:#4C4C4C !important" data-bind="attr:{href:'/project/'+projectId}"><!--ko text : projectName --><!-- /ko --></a>
                     </div>
                   </div>
                   <!-- /ko -->
@@ -389,8 +423,18 @@
     this.userId="puneet.sharma"
   }
 
+  $('._profaddProj').click(function () {
+      $('._profsearProj').show();
+      $(this).hide();
+  });
+
+  $(document).off('click','._scancel_');
+  $(document).on('click','._scancel_',function() {
+    $(this).parents('ul._dis_ ').hide();
+  });
+
   function getImage(input) {
-      
+  
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
@@ -406,7 +450,17 @@
   }
 
   $("#_profilePic").change(function(){
-    getImage(this);
+    
+    $("#_profilePicForm").ajaxSubmit({
+      url: '/update-user',
+       type: 'post',
+       success: function(data){
+        alert(1)
+       }
+     })
+     getImage(this);
+    return false;
+   
   });
 
   $('div[contenteditable="false"]:not(.active)').on('mouseenter',function(){
@@ -492,9 +546,18 @@
       distress : ko.observableArray([
         {
           "bhk" : ko.observable(),
-          "price": ko.observable()
+          "price": ko.observable(),
+          "checked":ko.observable()
         }
       ]),
+      distressQ : ko.observableArray([
+        {
+          "bhk" : ko.observable(),
+          "price": ko.observable(),
+          "checked":ko.observable()
+        }
+      ]),
+      checkedDistress : ko.observable(),
       updateUser : function(self){
         var _self = $('.'+self);
         var item =""
@@ -548,18 +611,24 @@
         }
          classInstance.listLeads(true,true);
       },
-      markDistress : function(){
+      markDistress : function(id){
 
-        console.log("w",classInstance.viewModel.distress()[0].price)
+        var distressArr = new Array();
+        var distress = classInstance.viewModel.distress();
+        for(var i =0 ; i<distress.length ;i++){
+          if(distress[i].checked){
+            distressArr.push(distress[i])
+          }
+        }
+
+        classInstance.markDistressF(distressArr,id)
       },
       editBhk : function(pro){
-        console.log(pro.id)
+        
         classInstance.viewModel.currContext(pro.id)
-        classInstance.viewModel.distress([])
-        var bhk = pro.bhk;
-       for (var i=0 ; i<bhk.length;i++){
-        classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"1224"})
-       }
+        
+        classInstance.getDistressBhk(pro);
+
       }
      
     }
@@ -571,10 +640,15 @@
     classInstance.listLeads(false);
     classInstance.listLastVisited();
     
-    // $(document).on('click','._bhk_',function(){
+    $(document).on('click','._bhk_',function(){
 
-    //   $(this).parent().find('._dis_').toggleClass('_hidden_')
-    // })
+      $(this).parent().find('._dis_').toggleClass('_hidden_')
+    })
+    
+    $(document).off('click','#_reset_btn')
+    $(document).on('click','#_reset_btn',function(){
+      location.href="/irx/reset"
+    })
 
     $("#__searchPro").autocomplete({
 
@@ -611,20 +685,52 @@
     var obj = {}
   
     httpUtils.get('/delete-project/'+id,obj,"JSON",function(data){
-       if(data.status==0){
+       if(httpUtils.checkStatus(data,true,true)){
          classInstance.viewModel.associatedProjects.remove(function(item){
           return item.id == id;
         });
       } 
     })
  }
- 
+
+ AdminProfile.prototype.getDistressBhk = function(pro){
+        var classInstance = this;
+        classInstance.viewModel.distress([]);
+        var bhk = pro.bhk;
+        
+        var checkedDistressData = classInstance.viewModel.checkedDistress();
+        var checkedDistressObj =  checkedDistressData[pro.id];
+       
+       for (var i=0 ; i<bhk.length;i++){
+        
+          if(checkedDistressObj){
+            
+            for(var k=0;k<checkedDistressObj.length;k++){
+             
+              if(checkedDistressObj[k] && checkedDistressObj[k].bhk == bhk[i]){
+
+                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[k].bhk,"price":checkedDistressObj[k].price,"checked":true})      
+                break;
+              } else {
+                classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
+                break;
+              }
+            }
+          } else{
+            classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
+        }
+      }
+      return classInstance.viewModel.distress();
+ }
+  
+
+
   AdminProfile.prototype.removeAssociatedLocation = function(index,id) {
       var classInstance = this;
       var obj = {}
     
       httpUtils.get('/delete-location/'+id,obj,"JSON",function(data){
-         if(data.status==0){
+         if(httpUtils.checkStatus(data,true,true)){
            classInstance.viewModel.associatedLocations.remove(function(item){
             return item.id == id;
           });
@@ -661,7 +767,7 @@
     var obj = {}
     
     httpUtils.get('/associate-project/'+id,obj,"JSON",function(data){
-       if(data.status==0){
+       if(httpUtils.checkStatus(data,true,true)){
           classInstance.viewModel.associatedProjects.push(data.result);
        } 
     })
@@ -671,11 +777,23 @@
     var classInstance = this;
     var obj = {}
     httpUtils.get('/associate-location/'+id,obj,"JSON",function(data){
-       if(data.status==0){
+       if(httpUtils.checkStatus(data,true,true)){
            classInstance.viewModel.associatedLocations.push(data.result);
        } 
     })
   }
+
+  AdminProfile.prototype.markDistressF = function(distress,projectId) {
+    var distressData={};
+    distressData[projectId]=distress;
+    console.log(distressData)
+    var classInstance = this;
+         httpUtils.post("/mark-distress/"+projectId,
+                        distressData,
+                        {},"JSON",function(result){
+                          if(httpUtils.checkStatus(result,true,true)){}
+                        })
+  };
 
   AdminProfile.prototype.listLeads = function(replace,previous) {
     var classInstance = this;
@@ -712,12 +830,15 @@
     
     var classInstance = this;
 
-    httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
+    httpUtils.get("/list-user-projects/"+classInstance.userId,{},"JSON",function(data){
        if(data.status==0){
-        ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result)
-        classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-      
-       } 
+        if(data.result != null){
+         classInstance.viewModel.checkedDistress(data.result.distress);
+
+          ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result.projects)
+         classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
+        }
+        } 
     })
   }
   

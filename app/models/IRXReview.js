@@ -20,9 +20,10 @@ var mongoose = require('mongoose');
 var IRXReviewSchema =new mongoose.Schema({
    id:{type:String,required:true},
    msg:{type:String,required:true},
-   parentId:{type:String,required:true},
-   agentId: {type:String,required:true},
-   name:{type:String},
+   parentId:{type:String,required:true},// Who is being reviewed
+   agentId: {type:String,required:true},//Who is reviewing
+   agentName:{type:String,required:true},
+   agentImage :{type:String},
    likeCount:{type:Number},
    likedByUser:[{userId:String}],
    ratingByUser:[{userId:String,rating:Number}],

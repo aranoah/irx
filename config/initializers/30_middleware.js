@@ -17,6 +17,7 @@
 **/
 var express = require('express')
   , poweredBy = require('connect-powered-by');
+
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var hashAlgo = require(_path_util+"/sha1.js");
 var cors=require("cors");
@@ -111,6 +112,7 @@ module.exports = function() {
   this.use(this.router);
   this.use(function(err, req, res, next){
       if (req.xhr) {
+        console.log("Server Errr: ",err)
         res.status(500).send({ error: 'Something blew up!' });
       } else {
         console.log(err);

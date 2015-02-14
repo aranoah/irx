@@ -102,7 +102,7 @@
                 return true;
               }
             }
-           
+        $(".ui-menu-item").hide();
       }
          
     }
@@ -163,6 +163,7 @@
     });
 
     // disable dropdown ends here
+     $('#searchF').off('change','#_city_')
     $('#searchF').on('change','#_city_',function(){
       var city = $(this).val();
       city = city.replace(/&nbsp;/gi,'')
@@ -170,7 +171,7 @@
       _classInstance.viewModel.city(city)
       localStorage.setItem("city", city);
     });
-    
+    $('#searchF').off('click','._budgetItem_')
     $('#searchF').on('click','._budgetItem_',function(){
       var minPrice = $('#_budget_').find(".minP").val();
       var maxPrice = $('#_budget_').find(".maxP").val();
@@ -279,6 +280,10 @@
               dataType: "json",
               cache: false,
               appendTo:'#autoDiv',
+              focus: function (event, ui) {
+                  $(this).val(ui.item.real);
+                  return false;
+              },
               select: function( event, ui ) {
 
                   $("#__searchAutoM").val(ui.item.name)
@@ -302,7 +307,7 @@
                     } else{
                        _classInstance.viewModel.sProAgents(false);
                       _classInstance.viewModel.projectId("");
-                      location.href="/puneet.sharma";
+                      location.href="/"+ui.item.irxId;
                     }
                     
                   } else if(_classInstance.viewModel.searchType()=='project'){
@@ -326,30 +331,31 @@
                       _classInstance.viewModel.isLocality(true)
                       _classInstance.viewModel.projectId(ui.item.id);
                   }
+
                    return false;
                   
               }
-              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-                $(".ui-widget-content .ui-state-focus");
-                var type="";
-                var icon ="";
-                if(item.type){
-                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
-                }
+            }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+              $(".ui-widget-content .ui-state-focus");
+              var type="";
+              var icon ="";
+              if(item.type){
+                type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+              }
 
-                if(item.type=='irx-euser') {
-                  icon = "<i class='icon user right floated'></i>"
-                }else {
-                  icon ="<i class='icon building outline right floated'></i>"
-                }
-                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
-                if(item.id == -1){
-                 
-                    data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
-                }
-                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
-                
-              };  
+              if(item.type=='irx-euser') {
+                icon = "<i class='icon user right floated'></i>"
+              }else {
+                icon ="<i class='icon building outline right floated'></i>"
+              }
+              var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
+              if(item.id == -1){
+               
+                  data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
+              }
+               return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+              
+            };  
 
     ko.applyBindings(_classInstance.viewModel,document.getElementById('searchF'));
   }
@@ -475,12 +481,14 @@
        
           arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(arr, function(item) {
-            var name ="";
+            var name ="",nameValue='';
+
             if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
                name = item.highlight.name[0]
             }else{
               name = item.fields.name
             }
+            nameValue=(item.fields.name?item.fields.name[0]:'');
             var location ={}
             if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
               var lCity = item.fields['location.city'];
@@ -498,8 +506,7 @@
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-           // alert(locationName)
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName};
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue};
           }));
         }
     })
@@ -512,7 +519,6 @@
          if(data.result == null){
           arr = new Array();
          }
-         console.log(arr)
           arr.push({fields:{id:[-1],name:reqData.text}})
           response($.map(data.result, function(item) {
             var name ="";

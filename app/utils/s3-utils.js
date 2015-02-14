@@ -22,11 +22,11 @@ var properties = require(_path_env+'/properties');
 var events = require('events');
 var CONSTANTS = require(_path_util+'/constants');
 var STATUS = CONSTANTS.him_status;
+
 function S3_UTILS(){
    this.eventEmitter = new events.EventEmitter();
-
-
 }
+
 S3_UTILS.prototype.on = function(callback){
   this.eventEmitter.on("taskcomplete",callback);
 }

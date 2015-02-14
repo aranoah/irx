@@ -10,14 +10,11 @@
     color: #000;
   }
    .proName {
-      color: #868686 !important;
+      color: #020202 !important;
       text-align: center !important;
       white-space: nowrap !important;
       overflow: hidden !important;
       text-overflow: ellipsis !important;
-   }
-   .ui.grid.two.column.rib-head{
-    background: rgba(224, 224, 224, 0.49);
    }
   </style>
 </head>
@@ -35,18 +32,24 @@
 
       <div class="four wide column">
         <div class="column li-box">
-
-          <div class="lib-pic"><img class="ui circular image" src="/img/pic.png"></div>
+         
+        <% if(result.imageUrl && result.imageUrl != null){ %>
+          <div class="lib-pic"><img class="ui circular image" src="<%= result.imageUrl%>"></div>
+        <% } %>
+        <% if(!result.imageUrl || result.imageUrl == null){ %>
+          <div class="lib-pic"><img class="ui circular image" src="/images/elliot.jpg"></div>
+        <% } %>
           <div class="item"><div class="header"><%= result.name %></div><%= result.companyName %></div>
-          <img class="" src="/img/fb.png">
+          <div class="item"><div class="header"><%= result.location != null?result.location.city:'' %></div></div>
+          <div class="fb-like left floated" data-bind="html:fbIntegration('<%= result.irxId %>')"></div>
 
           <div class="lib-actions">
-            <div class="ui basic button reqdet" style="color:#fff !important;">Request details</div><br/>
-            <div class="ui basic button">Enquiry now</div>
+            <div class="ui basic button reqdet" data-bind="click:function(){enquire()}">Request details</div><br/>
+            <div class="ui basic button" data-bind="click:function(){addAgent('<%= result.name %>','<%= result.irxId %>','<%= result.companyName %>')}">Contact</div>
           </div>
 
           <div class="lib-count">
-            <div class="item left floated"><div class="header">10</div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
+            <div class="item left floated"><div class="header"><%= result.projects && result.projects!= null?result.projects.length:0 %></div>Projects</div><div class="item right floated"><div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>Locations</div>
           </div>
 
           <div class="lib-specs">
@@ -63,7 +66,11 @@
             </div>
             <% } %>
           </div>
-
+          <div class="item">
+            <div class="header"> Public Url </div>
+            <a href="/<%= result.id %>">irx.com/<%= result.id %></a>
+          </div>
+          <input id="__irxId" type="hidden" value="<%= result.irxId %>">
           
 
         </div>
@@ -71,82 +78,157 @@
       <!-- Left panel ends here -->
 
       <!-- Right panel starts here -->
-
-      <div class="twelve wide column">
-
-        <!-- Project listing here -->
-        <div class="column ri-box" data-bind="visible: (shouldShow()=='' || shouldShow()=='project')">
-          <div class="ui grid two column rib-head">
-            <h2 class="ui header column">projects</h2>
-            <div class="header column right menu"  data-bind="click: showAllProjects,visible:  showButton()=='view' "><a><i class="caret down icon"></a></i>
-            </div>
-            <div class="header column right menu" data-bind="click: hideAllProjects,visible: showButton()=='hide' "><a><i class="caret up icon"></a></i>
-            </div>
+      <% if(locals.req.device.type == 'desktop'){ %>
+            <div class="twelve wide column">
+       <% } %>
+        <% if(locals.req.device.type == 'mobile'){ %>
+            <div class="sixteen wide column">
+       <% } %>
+      <% if(result.status == "pending-verification" && locals.session.user) {%>
+      <div class="ui icon message" style="padding:15px">
+        <i class="inbox icon"></i>
+        <div class="content">
+          <div class="header">
+            Claim your profile.
           </div>
-          <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
-            
-              <div class="column item">
-                  <img src="/img/proj.png">
-                  <div class="meta">
-                  <a data-bind="attr:{href:'/project/'+id}">
-                    <h4 class="header projectName proName" data-bind="text: name">THE PRESIDENTIAL TOWER</h4></a>
-                    <p class="cinema projectDetail" data-bind="text: builderName"style="text-align:center;margin-top: .5rem;">Mantri Developers</p>
-                    <p class="cinema projectDetail" data-bind="text: location.city"style="text-align:center;">DLF,Gurgaon,Haryana</p>
-                  </div>
-              </div>
-            
-          </div>
+          <p style="cursor:pointer;color:rgb(2, 86, 2)" data-bind="click:function(){claimProfile('<%= result.id %>')}">Click here to claim your profile</p>
         </div>
+      </div>
+      <% } %>
+      
+      <% if(locals.req.device.type == 'desktop'){ %>
+        <div class="ui top attached tabular menu" style="background:#inherit;text-align:left">
+      <% } %>
+
+      <% if(locals.req.device.type != 'desktop'){ %>
+        <div id="mobile-tab" class="ui top attached tabular menu" style="background:#inherit;text-align:left">
+      <% } %>
+
+            <a class="active item" data-tab="first"><i class="building outline icon"></i>Projects</a>
+            <a class="item" data-tab="second"><i class="marker icon"></i>Locations</a>
+            <a class="item" data-tab="third" data-bind="click:function(){listReviews()}"><i class="user icon"></i>Reviews</a>
+            
+          </div>
+     
+
+          <!-- Project listing here -->
+          <div class="ui bottom attached active tab segment" data-tab="first">
+            <div class="column ri-box">
+            <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
+                 No Project found.
+            </div>
+
+              <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
+                
+                  <div class="column item">
+                      <img src="/img/proj.png">
+                      <div class="meta">
+                      <a data-bind="attr:{href:'/project/'+id}">
+                        <h4 class="header projectName proName" data-bind="text: name"></h4></a>
+                        <p class="cinema projectDetail" data-bind="text: builderName"style="text-align:center;margin-top: .5rem;"></p>
+                        <p class="cinema projectDetail" data-bind="text: location.city"style="text-align:center;"></p>
+                      </div>
+                  </div>
+                
+              </div>
+            </div>
+          </div>
+        
+        
 
         <!-- Locations listing here -->
-        <div class="column ri-box loca-tion" data-bind="visible: (shouldShow()=='' || shouldShow()=='location')">
-          <div class="ui grid two column rib-head">
-            <h2 class="ui header column">working locations</h2>
-            <div class="header column right menu"  data-bind="click: showAllLocations,visible:  showLocButton()=='view' "><a><i class="caret down icon"></a></i>
-            </div>
-            <div class="header column right menu" data-bind="click: hideAllLocations,visible: showLocButton()=='hide' "><a><i class="caret up icon"></a></i>
-            </div>
+        <div class="ui bottom attached tab segment" data-tab="second">
+          <div class="column ri-box loca-tion">
+          <div data-bind="visible:locations().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
+                 No Locality found.
           </div>
-          <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: locations">
+
+          <% if(locals.req.device.type == 'desktop'){ %>
+
+            <div class="rib-items ui three column grid pro-ject"  data-bind="foreach: locations">
             <div class="ui divided items column">
+
+          <% } %>
+
+          <% if(locals.req.device.type != 'desktop'){ %>
+
+            <div class="rib-items ui pro-ject"  data-bind="foreach: locations">
+            <div class="column" style="padding: 1rem;text-align: left;">
+
+          <% } %>
+        
               <div class="meta loc-item">
                 <h4 class="header projectName" ><i class="marker icon"></i><!--ko text:name--><!--/ko --></h4>
-                <p class="cinema projectDetail" data-bind="text: location.city">Gurgaon,Haryana</p>
-                <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;"><a class="item" href="/agent-listing">Agent</a></span></span>
-                <span class="header"style="color:#83AAB8;"><a class="item" href="/project-listing">Project</a></span>
+                <p class="cinema projectDetail" data-bind="text: location.city"></p>
+                
+                <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;"><a class="item" data-bind="attr:{href : '/agent-listing?projectId='+$data.id+'&isLocality=true&searchType=agent&name='+$data.name} ">Agent</a></span></span>
+                
+                <span class="header"style="color:#83AAB8;"><a class="item" data-bind="attr:{href : '/project-listing?projectId='+$data.id+'&isLocality=true&searchType=project&name='+$data.name} ">Project</a></span>
               </div>
             </div>
           </div>
         </div>
+        </div>
+        
 
         <!-- Reviews section here -->
-        <div class="column ri-box revi-ew" data-bind="visible: (shouldShow()=='' || shouldShow()=='review')">
-          <div class="ui grid two column rib-head">
-            <h2 class="ui header column">Reviews</h2>
-            <div class="column right menu"><div class="ui button"><i class="icon user"></i>Invite</div></div>
-          </div>
+         <div class="ui bottom attached tab segment" data-tab="third">
+          <div class="column ri-box revi-ew" >
           <div class="rib-items ui grid">
 
-            <div class="ui relaxed list ten wide column review-item">
-              <h3 class="ui header column"style="font-weight: 500; font-size: 0.9rem; margin-top: -0.7rem;">Write a Review</h3>
+            <% if(locals.req.device.type == 'desktop'){ %>
+
+              <div class="ui relaxed list ten wide column review-item">
+
+            <% } %>
+
+            <% if(locals.req.device.type != 'desktop'){ %>
+
+              <div class="ui relaxed list sixteen wide column review-item">
+
+            <% } %>
+
+              <% if(result.isInvited) {%>
+              <h3 class="ui header column"style="font-weight: 500; font-size: 0.9rem; margin-top: -0.7rem;">Write a Review<div class="ui star rating rate" data-max-rating="5" style="float:right"></div></h3>
+
                 <form class="ui reply form">
                   <div class="field">
-                    <textarea placeholder="Write a Review here..." style="min-height: 2em; max-height: 6em; margin-top:-0.7rem;font-weight:300;"></textarea>
+                    <textarea placeholder="Write a Review here..." data-bind="value:msg" style="min-height: 2em; max-height: 6em; margin-top:-0.7rem;font-weight:300;"></textarea>
+
                   </div>
-                  <div class="ui button reply">Add Reply</div>                </form>
+                  <div class="ui button reply" data-bind="click:function(){addReply()}">Add Reply</div>
+                </form>
+                <% }%>
+                <div data-bind="visible:reviews().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
+                   No Reviews found.
+              </div>
+                <!-- ko foreach:reviews -->
                 <div class="item">
-                <img class="ui avatar image" src="images/property.jpg">
+                    <!-- ko if:($data.imageUrl && $data.imageUrl!=null) -->
+                       <img class="ui avatar image" data-bind="attr: { src: imageUrl}">
+                    <!-- /ko -->
+                    <!-- ko if:(!$data.imageUrl || $data.imageUrl=='') -->
+                     <img class="ui avatar image" data-bind="attr: { src: 'images/elliot.jpg'}">
+                    <!-- /ko -->
+               
                 <div class="content">
-                  <a class="header">Daniel Louise</a>
-                  <div class="description">Nov 20,2014</div>
+                  <a class="header"><!-- ko text:agentName --><!-- /ko --></a>
+                  <!-- ko if:$data.postedOn != null -->
+                    <div class="description" data-bind="text : $root.getDate(postedOn)"></div>
+                  <!-- /ko -->
                 </div>
               </div>
-              <div class="ui segment">
+              
+              <div class="ui segment prof-rev">
                 <div class="ui grid two column rib-head">
                   <h3 class="ui header column">Review title</h3>
-                  <div class="column right menu"><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i><i class="empty star icon"></i></div>
+                  <div class="column right menu"><div class="ui star rating indiv" data-bind="attr :{'data-rating':$data.rating?$data.rating:'0'}" ></div></div>
                 </div>
-                <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                <p><!-- ko text:msg --><!-- /ko --></p>
+              </div>
+              <!-- /ko -->
+              <div data-bind="visible:$root.showMoreReviews()==true,click:function(){listMoreReviews()}" style="text-align: center;margin-top: 25px;">
+                 <div class="positive ui button">load more reviews</div>.
               </div>
             </div>
 
@@ -154,30 +236,42 @@
 
           </div>
         </div>
+         </div>
+        
         </div>
       </div>
       </div>    
+  
   </div>
 
   <script type="text/javascript">
   function PublicProfile(options){
     this.url = null;
     this.viewModel = null;
+    this.parentContainer = 'content'
     this.showProjects='project';
     this.showLocations='location';
     this.showReviews='review';
+    
     this.projectsOnPage = 3;
     this.locationsOnPage = 3;
-    this.page = {pageSize:3,start:0};
-    this.locPage = {pageSize:3,start:0};
+    this.page = {pageSize:5,start:0};
+    this.locPage = {pageSize:5,start:0};
+    this.reviewPage = {pageSize:5,start:0}
     this.userId = options.userId;
   } 
 
   PublicProfile.prototype.init = function() {
     var _classInstance = this;
+    _classInstance.aPostReqViewModel = common.getViewModel('postAgent');
+    common.aPostReqViewModel = _classInstance.aPostReqViewModel;
+    ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
     _classInstance.viewModel = {
+      msg:ko.observable(),
       projects: ko.observableArray(),
+      reviews : ko.observableArray(),
       locations : ko.observableArray(),
+      showMoreReviews : ko.observable(false),
       shouldShow : ko.observable(''),
       showButton : ko.observable('view'),
       showLocButton : ko.observable('view'),
@@ -185,6 +279,27 @@
 
           _classInstance.listProjects();
           this.shouldShow(_classInstance.showProjects);
+      },
+      claimProfile : function(id){
+        httpUtils.get("/claim-profile/"+id,{},function(data){
+          if(data.status == 0){
+            alert(1)
+          }
+        })
+      },
+      fbIntegration:function(irxId){
+        
+        return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+irxId+'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>';
+      },
+      getDate : function (date){
+        var d = new Date(date)
+           
+            var strHrs = ""+d.getHours()
+            var hrs= strHrs.length>1?d.getHours():"0"+d.getHours();
+            var strMin = ""+d.getMinutes();
+            var min= strMin.length>1?d.getMinutes():"0"+d.getMinutes();
+            var meridian = hrs>=12?"pm":"am"
+            return d.toDateString()+" "+hrs+":"+min+" "+meridian;
       },
       hideAllProjects : function() {
           this.showButton('view');
@@ -204,11 +319,56 @@
           _classInstance.resetLocPage();
           this.locations(this.locations().slice(0,3));
           
-      }
-  }
-   ko.applyBindings(_classInstance.viewModel,document.getElementById('content'));
+      },
+      enquire : function(){
+        $('#_userIdC_').val($('#'+_classInstance.parentContainer).find('#__irxId').val())
+         $('#cInfo').modal({
+          closable:false
+        }).modal('show');
+       
+      },
+      listMoreReviews : function(){
+        _classInstance.listReviews(true)
+      },
+      addReply : function(){
+        var rating = $('.rate').rating('get rating');
+        httpUtils.post("/irx/review/"+_classInstance.userId,{"msg":_classInstance.viewModel.msg(),"rating":rating},{},"JSON",function(data){
+          if(data.status == 0){
+            if(data.result != null){
+              _classInstance.viewModel.reviews.unshift(data.result)
+
+            }
+          }
+        })
+      },
+      addAgent:function(name,id,companyName){
+        var agent={"name":name,"id":id,"companyName":companyName,"irxId":id}
+        var arr=[];
+        arr.push(agent)
+        _classInstance.aPostReqViewModel.data.agentId([])
+        //for future it has been kept araay and push all so that we can select multuiple agents
+        // and send them leads
+        ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
+        //console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
+       
+        $('#_postA_').modal({
+              closable:false
+            }).modal('show');
+        },
+        listReviews : function(){
+          _classInstance.resetReviwPage();
+          _classInstance.listReviews(false);
+
+        }
+       }
+     
+   ko.applyBindings(_classInstance.viewModel,document.getElementById(_classInstance.parentContainer));
    _classInstance.listProjects();
    _classInstance.listUserLocations();
+   var ratingPlugin = $('.rate')
+    .rating()
+  ;
+  
   };
   PublicProfile.prototype.resetPage = function() {
     this.page.start = this.projectsOnPage;
@@ -216,24 +376,61 @@
   PublicProfile.prototype.resetLocPage = function() {
     this.locPage.start = this.locationsOnPage;
   }
+  PublicProfile.prototype.resetReviwPage = function() {
+    this.reviewPage.start = 0;
+  }
+
 
   PublicProfile.prototype.listProjects = function() {
     
     var classInstance = this;
     httpUtils.get("/list-user-projects/"+classInstance.userId,{page:classInstance.page},"JSON",function(data){
        if(data.status==0){
-        ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result)
+        if(data.result != null){
+          ko.utils.arrayPushAll(classInstance.viewModel.projects,data.result.projects)
         classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
-        if (data.page.hasMore==true) {
+        if (data.page.hasMore) {
           classInstance.viewModel.showButton('view');
         }else{
-
           classInstance.viewModel.showButton('hide');
         }
+        }
+        
        } 
     })
   }
 
+PublicProfile.prototype.listReviews = function(append) {
+    
+    var classInstance = this;
+    httpUtils.get("/reviews/"+classInstance.userId,{page:classInstance.reviewPage},"JSON",function(data){
+       if(data.status==0){
+        var newList=[];
+        if(data.result != null){
+          if(!append){
+            classInstance.viewModel.reviews([])
+          }
+          ko.utils.arrayPushAll(classInstance.viewModel.reviews,data.result)
+
+        classInstance.reviewPage.start = Number(data.page.start)+Number(data.page.pageSize);
+        if (data.page.hasMore==true) {
+          
+          classInstance.viewModel.showMoreReviews(true);
+        }else{
+
+          classInstance.viewModel.showMoreReviews(false);
+        }
+        $('.ui.star.rating.indiv')
+          .rating({
+            interactive:false,
+            maxRating: 5
+          })
+        ;
+        }
+        
+       } 
+    })
+  }
    PublicProfile.prototype.listUserLocations = function() {
     var classInstance = this;
     httpUtils.get("/list-user-locations/"+classInstance.userId,{page:classInstance.locPage},"JSON",function(data){
@@ -256,4 +453,5 @@
   })
  </script>
   <% include ../partials/footer.html.ejs %>
+  
 </body>

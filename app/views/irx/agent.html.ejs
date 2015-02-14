@@ -11,6 +11,14 @@
   ._hide_ {
 		display:none;
 	}
+
+	._pImage_ {
+		min-height: 63px;
+		margin-top: 8px;
+  		background-position: center !important;
+  		background-repeat: no-repeat !important;
+  		background-size: 63px 63px !important;
+	}
   </style>
 </head>
 <% locals.uiContext.menu=true %>
@@ -80,10 +88,15 @@
 		  	<% }%>
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
-		  <div class="card">
-		    <div class="ui image tiny">
-		      <img src="/images/elliot.jpg">
-		    </div>
+		  <div class="_csn card">
+		 	<!-- ko if:($data.imageUrl && $data.imageUrl!=null) -->
+		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
+		   	  	</div>
+		    <!-- /ko -->
+		    <!-- ko if:(!$data.imageUrl || $data.imageUrl==null) -->
+		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url(/images/elliot.jpg)'}">
+		   	  	</div>
+		    <!-- /ko -->
 		    <div class="content">
 
 		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name"></div></a>
@@ -130,8 +143,7 @@
 			    </div>
 		    </div> -->
 		    <div class="extra content">
-		    	<a href=""><i class="facebook square icon"></i></a>
-				<a href=""><i class="share square icon"></i></a>
+		    	<div class="fb-like left floated" data-bind="html:$parent.fbIntegration($data)"></div>
 				<div class="right floated created">
 					<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId,companyName)}">Enquiry</div>
 				</div>
@@ -155,6 +167,7 @@
 	  </div> 
 	    
 	</div>
+	<div id="fb-root"></div>
 	<script type="text/javascript">
 	function Agent(options){
 		this.page = {
@@ -266,14 +279,25 @@
 			addSome : function(){
 				//_classInstance.listAgents(true);
 			},
+			fbIntegration:function(data){
+				
+				return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+data.irxId+'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>';
+			},
 			addAgent:function(name,id,companyName){
 				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id}
 
-				_classInstance.agentIds=[];
-				
-		        _classInstance.agentIds.push(agent)
-		        
-		     }
+				var arr=[];
+				arr.push(agent)
+				_classInstance.aPostReqViewModel.data.agentId([])
+				//for future it has been kept araay and push all so that we can select multuiple agents
+				// and send them leads
+				ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
+				//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
+			 
+				$('#_postA_').modal({
+			   	   	closable:false
+			    	}).modal('show');
+		    }
 		}
 		$(document).off('click','#_subReq_')
 		$(document).on('click','#_subReq_',function(){
@@ -293,14 +317,6 @@
 		$(document).off('click','._subReqI_')
 		$(document).on('click','._subReqI_',function(){
 
-			var arr = _classInstance.agentIds;
-			_classInstance.aPostReqViewModel.data.agentId([])
-			ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
-			//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
-			 
-			$('#_postA_').modal({
-			      closable:false
-			    }).modal('show');
 			})
 		 
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById("agentContent"));
@@ -385,4 +401,5 @@
 	  })
 	</script>
   <% include ../partials/footer.html.ejs %>
+
 </body>
