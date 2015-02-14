@@ -1,125 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../partials/head.html.ejs %>  
-</head>
-<style type="text/css">
-	.mobileFilter.ui.menu {
-		background: inherit !important;
-		box-shadow: none !important;
-	}
-
-	.mobileFilter.ui.menu>.item {
-		display: block !important;
-	}
-	#HideFilter {
-		display: none;
-	}
-
-	.ui.header .icon:only-child {
-	  display: inline-block;
-	  padding: 0;
-	  margin-right: .5rem;
-	  vertical-align: baseline;
-	  font-size: medium;
-	}
-	.proj-listing h5.ui.header {
-	  padding-left: 1.2rem;
-	  opacity: .8;
-	  font-weight: 400;
-	  color: #747474;
-	}
-
-	.tempBtn {
-	  float: right;
-  	  border: 1px solid #ddd;
-  	  padding: 7px 10px;
-      background: #fff;
-	}
-	._hide_ {
-		display:none;
-	}
-	/*.proj-listing ._actButtons>.ui.basic.button {
-	  border: 0 !important;
-	  border-radius: 0 !important;
-	   box-shadow: 0 0 0 !important; 
-	  background-color: #f4f4f4 !important;
-	  color: #607d8b !important;
-	  transition: all ease .2s;
-	  padding: .75rem;
-	  font-weight: 400;
-	  width: 11rem;
-	  margin: 0 .75rem .5rem 0;
-	}*/
-
-	.ui.items>.item>.content a {
-	  color: #345D71 !important;
-	  -webkit-transition: color .2s ease;
-	  transition: color .2s ease;
-	}
-	.pDate {
-		margin-right: 15px;
-	}
-	.extra.pDate{
-		color: #838080;
-        opacity: .8;
-	}
-
-	.ui.grid.rib-head.mobile.tablet.only .ui.selection.dropdown>.text {
-		margin-right: .5rem !important;
-	}
-	.ui.grid.rib-head.mobile.tablet.only .eight.wide.column {
-		padding:0;
-		text-align: center;
-	}
-	.ui.grid.rib-head.mobile.tablet.only .sort.right.icon {
-		float: right;
-	}
-
-	.pj-items.extra >.ui.horizontal.label{
-		font-weight: 400;
-		border-radius: 2px;
-		color: #737373;
-
-	.proContent {
-		color: #607d8b !important;
-		cursor: default !important;
-	}
-	.ui.table td {
-	  padding: .4em 2.9em !important;
-	  text-align: left;
-	  vertical-align: middle;
-	}
-	.proj-listing ._actButtons>.ui.basic.button {
-	  border: 0 !important;
-	  border-radius: 0 !important;
-	  /* box-shadow: 0 0 0 #000 !important; */
-	  background-color: #f4f4f4 !important;
-	  /* color: #607d8b !important; */
-	  transition: all ease .2s;
-	  padding: .75rem;
-	  font-weight: 400;
-	  width: 11rem;
-	  margin: 0 .75rem .5rem 0;
-	}
-	.mobileFilter.ui.menu {
-		background: inherit !important;
-		box-shadow: none !important;
-	}
-
-	.mobileFilter.ui.menu>.item {
-		display: block !important;
-	}
-	#HideFilter {
-		display: none;
-	}
-
-	.ui.menu .item:before {
-		background: linear-gradient(rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0) 50%,rgba(0, 0, 0, 0) 100%);
-	}
-
-  </style>
-  
+  <link rel="stylesheet" type="text/css" href="/css/proj-listing.css">
+  <% include ../partials/head.html.ejs %>
 </head>
 <body class="<%="irx-"+(locals.req.device.type)%>">
 	<% locals.uiContext.menu=true %>
@@ -128,7 +11,7 @@
   
 
 <div id="projListing">
-  	<div id="projectContent" class="ui centered page grid">
+  	<div id="projectContent">
   		<% if(locals.req.device.type == 'desktop'){ %>
   			<div class="fixedwidth">
 	  	<% } %>
@@ -419,118 +302,97 @@
 			</div>    
 		</div>
 		<% if(locals.req.device.type == 'desktop'){ %>
-	    <div class="ui relaxed divided items _hide_ grid"style="margin:0;">
+	    <div class="proj-listContainer _hide_ inlineparent"style="margin:0;">
 
-	    	<div class="twelve wide column" data-bind="foreach : projects" style="padding:0;">
-	    		<div class="ui items proj-listing column "><!-- 
-  				<a class="ui green ribbon label">Distress</a> -->
-				<div class="column" style="position:relative;">
-					<a data-bind="attr: { href: 'project/'+ id }" target="_blank"><h3 class="ui header" data-bind="text: name"></h3></a>
-					<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
-				</div>	
-				<div class="item" style="margin-bottom:0 !important;">
-				  <div class="ui small image">
-				       <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
+	    	<div class="_left-column" data-bind="foreach : projects">
 
-				      <img src="" data-bind="attr:{src: gallery[0]}">
-				       <div class="slider">
-				        <i class="chevron right icon"></i>
-				       
-				        <span><!--ko text:gallery.length--><!--/ko --></span>
-				       
-				        <i class="chevron left icon"></i>
-				      </div> 
-				       <!--/ko -->
+	    		<!-- project listing here -->
 
-				       <!--ko if:(!$data.gallery || $data.gallery==null || $data.gallery.length==0)  -->
-				       <img src="/images/project.jpg">
-				       <div class="slider"></div> 
-				       <!--/ko -->
-				  </div>
-				  <div class="content">
-				    <a class="header" style="padding-top:1rem;"><i class="rupee icon" style="padding-left:0;"></i>
-				        <!-- ko if:Array.isArray(priceText) -->
-				          <!-- ko foreach:priceText -->
-				            <!-- ko if:$index -->-<!-- /ko -->
-				              <!-- ko if:$data != 0 -->
-				                <!-- ko text:$data --><!-- /ko -->
-				              <!-- /ko -->
-				              <!-- ko if:$data == 0 -->
-				                On Request
-				              <!-- /ko -->
-				          <!-- /ko -->
-				        <!-- /ko -->
-				        <!-- ko if:!Array.isArray(priceText) -->
-				          <!-- ko text:priceText --><!-- /ko -->
-				        <!-- /ko -->
-				    </a><br/>	    			
-				    <div class="ui two column grid" style="margin-top:0">
-				    	<div class="fourteen wide column" style="padding:0;">
-				    		<table class="ui small table pj-items extra column">
-						      <tbody>
-						      		<tr>
-						      			<td>Builder</td>
-						      			<td><!--ko text: builderName--><!--/ko--></td>
-						      		</tr>
-									<tr>
-									  <td>Property Type</td>
-
-									  <td><!--ko text: type--><!--/ko--></td>
-									</tr>
-									<tr>
-									  <td>Unit</td>
-									  <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
-									</tr>
-									<tr>
-									  <td>Possesion</td>
-									  <td><!--ko text: possession--><!--/ko--></td>
-									</tr>
-									<tr>
-									  <td>Area</td>
-									  <td><!--ko text: builtUpArea--><!--/ko--></td>
-									</tr>
-									  <td>Status</td><td><!--ko text: status--><!--/ko--></td>		
-									</tr>
-								</tbody>
-						    </table>
-					      <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
-					      <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
-					      <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
-					      <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
-		  					<input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
-		  					<input type="hidden" id="__minPrice" value="<%= requestObj.minPrice?requestObj.minPrice:'' %>">
-		  					<input type="hidden" id="__maxPrice" value="<%= requestObj.maxPrice?requestObj.maxPrice:'' %>">
-		  					
-					  	</div>
-					    <div class="two wide column" style="padding:0;margin-top:-1rem;">
-
-					      <div class="ui right floated item _actButtons">
-					     	 <div class="ui basic button" data-bind="html:$parent.fbIntegration($data)"></div>
-					        <div class="ui basic button" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }" target="_blank">View details</a></div>
-					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquire</div>
-					        <div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id+'&name='+name}">View agents</a></div>
-
-					      </div>
-					    </div>
-				    </div>
-				  </div>
+	    		<div class="proj-listing">
+	    			<!-- <a class="ui green ribbon label">Distress</a> -->
+					<div class="column" style="position:relative;">
+						<a data-bind="attr: { href: 'project/'+ id }" target="_blank"><h3 class="ui header" data-bind="text: name"></h3></a>
+						<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
+					</div>
+					<div class="cellparent projlist-lower">
+						<div class="ui small image">
+						    <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
+							    <img src="" data-bind="attr:{src: gallery[0]}">
+							    <div class="slider">
+							    	<i class="chevron right icon"></i>			       
+							        <span><!--ko text:gallery.length--><!--/ko --></span>			       
+							    	<i class="chevron left icon"></i>
+							    </div> 
+						   <!--/ko -->
+						   <!--ko if:(!$data.gallery || $data.gallery==null || $data.gallery.length==0)  -->
+							   <img src="/images/project.jpg">
+							   <div class="slider"></div> 
+						   <!--/ko -->
+						</div>
+						<div class="" style="width:55%;">
+							<div class="content">
+							    <a class="header" style="padding-top:1rem;"><i class="rupee icon" style="padding-left:0;"></i>
+							        <!-- ko if:Array.isArray(priceText) -->
+							          <!-- ko foreach:priceText -->
+							            <!-- ko if:$index -->-<!-- /ko -->
+							              <!-- ko if:$data != 0 -->
+							                <!-- ko text:$data --><!-- /ko -->
+							              <!-- /ko -->
+							              <!-- ko if:$data == 0 -->
+							                On Request
+							              <!-- /ko -->
+							          <!-- /ko -->
+							        <!-- /ko -->
+							        <!-- ko if:!Array.isArray(priceText) -->
+							          <!-- ko text:priceText --><!-- /ko -->
+							        <!-- /ko -->
+							    </a><br/> 
+							</div>
+							<table class="ui small table pj-items extra">
+						  		<tr>
+						  			<td>Builder</td>
+						  			<td><!--ko text: builderName--><!--/ko--></td>
+						  		</tr>
+								<tr>
+								  <td>Property Type</td>
+								  <td><!--ko text: type--><!--/ko--></td>
+								</tr>
+								<tr>
+								  <td>Unit</td>
+								  <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
+								</tr>
+								<tr>
+								  <td>Possesion</td>
+								  <td><!--ko text: possession--><!--/ko--></td>
+								</tr>
+								<tr>
+								  <td>Area</td>
+								  <td><!--ko text: builtUpArea--><!--/ko--></td>
+								</tr>
+								  <td>Status</td><td><!--ko text: status--><!--/ko--></td>		
+								</tr>
+						    </table>    
+							<input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
+							<input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+							<input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
+							<input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
+							<input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
+							<input type="hidden" id="__minPrice" value="<%= requestObj.minPrice?requestObj.minPrice:'' %>">
+							<input type="hidden" id="__maxPrice" value="<%= requestObj.maxPrice?requestObj.maxPrice:'' %>">			
+						</div>
+						<div class="_actButtons">
+							<div class="ui basic button" data-bind="html:$parent.fbIntegration($data)"></div>
+							<div class="ui basic button" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }" target="_blank">View details</a></div>
+							<div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquire</div>
+							<div class="ui basic button"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id+'&name='+name}">View agents</a></div>
+						</div>
+					</div>				
 				</div>
-
-				<!-- For tablet -->
-
-
-				  <div class="ui four column grid mobile tablet only _actButtons">				    
-				    <div class="column" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }"><i class="unhide icon" data-content="View details"></i></a></div>
-				    <div class="column leads-in" data-bind="click:function(){$parent.enquireNow($data) }"><i data-content="Enquiry now" class="edit icon"></i></div>
-				    <div class="column"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}"><i data-content="View agents" class="user icon"></i></a></div>
-				    <div class="column req-details" data-bind="click:function(){$parent.requestDetails($data) }"><i data-content="Request details" class="help circle icon"></i></div>		
-
-				  </div>
-
-				<!-- ends here -->
-			</div>
 	    	</div>
-	    	<div class="three wide column">Banner here...</div>
+
+	    	<!-- project listing ends here -->
+
+	    	<div class="_right-column_">Banner here...</div>
 	    	
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>

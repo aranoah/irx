@@ -8,6 +8,20 @@
   min-width: 1024px !important;
 }
 
+.inlineparent > * {
+  display:inline-block;
+  vertical-align:middle;
+}
+
+.cellparent {
+  display:table;
+}
+
+.cellparent > * {
+  display:table-cell;
+  vertical-align: top;
+}
+
 
 /* Rupee */
  @font-face {
