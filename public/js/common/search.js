@@ -552,4 +552,5 @@ $(document).ready(function(){
     sBar.viewModel.showCity("Gurgaon")
   }
 
+  $("._ld_DCTY_DTA").append($city);
 })

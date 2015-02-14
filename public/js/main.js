@@ -119,9 +119,10 @@ $(document).ready(function () {
 
   $(document).off('click','.sell-in');
   $(document).on('click','.sell-in',function() {
-   
+    
     $('#sell').modal({
-      closable:false
+      closable:false,
+      position:"top center"
     }).modal('show');
   });
 
@@ -148,7 +149,6 @@ $(document).ready(function () {
 
 $(document)
   .ready(function() {
-
     var
       changeSides = function() {
         $('.ui.shape')
@@ -208,5 +208,6 @@ $(document)
     //   _parent.find('.toggleBox').hide();
     //   _parent.find('.'+_self.attr("attr-tab")).css('display','inline-block');
     // });
+    $("._ld_DCTY_DTA").append($city);
 
   });
