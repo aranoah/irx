@@ -211,8 +211,11 @@
                          <div class="content right floated">
                            <i class="add circle icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i><i class="remove circle outline icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
-                          <div class="content">
-                        
+                          <div class="content" style="padding-top:15px">
+                            <div class="" data-bind="html:$parent.getDistressInfo(id)">
+                              
+                            </div>
+                            
                            <ul class="_dis_ " data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
                              <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
@@ -550,13 +553,6 @@
           "checked":ko.observable()
         }
       ]),
-      distressQ : ko.observableArray([
-        {
-          "bhk" : ko.observable(),
-          "price": ko.observable(),
-          "checked":ko.observable()
-        }
-      ]),
       checkedDistress : ko.observable(),
       updateUser : function(self){
         var _self = $('.'+self);
@@ -594,7 +590,17 @@
       removeLocation : function(index,id){
         classInstance.removeAssociatedLocation(index,id)
      },
-
+     getDistressInfo : function(id){
+      var str=""
+        var checkedDistressData = classInstance.viewModel.checkedDistress();
+        var checkedDistressObj =  checkedDistressData[id];
+      if(checkedDistressObj){
+        for(var k=0;k<checkedDistressObj.length;k++){
+          str=str+'<a class="ui horizontal label">'+checkedDistressObj[k].bhk+'BHK</a>'
+        }
+      }
+       return str;
+     },   
       leadsPageObj :{
         start:ko.observable("0"),
         pageSize:ko.observable("9"),
@@ -626,9 +632,30 @@
       editBhk : function(pro){
         
         classInstance.viewModel.currContext(pro.id)
+        classInstance.viewModel.distress([])
+        var bhk = pro.bhk;
+        var checkedDistressData = classInstance.viewModel.checkedDistress();
+        var checkedDistressObj =  checkedDistressData[pro.id];
+       
+       for (var i=0 ; i<bhk.length;i++){
         
-        classInstance.getDistressBhk(pro);
+          if(checkedDistressObj){
+            
+            for(var k=0;k<checkedDistressObj.length;k++){
+             
+              if(checkedDistressObj[k] && checkedDistressObj[k].bhk == bhk[i]){
 
+                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[k].bhk,"price":checkedDistressObj[k].price,"checked":true})      
+                break;
+              } else {
+                classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
+                break;
+              }
+            }
+          } else{
+            classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
+        }
+      }
       }
      
     }
@@ -692,39 +719,7 @@
       } 
     })
  }
-
- AdminProfile.prototype.getDistressBhk = function(pro){
-        var classInstance = this;
-        classInstance.viewModel.distress([]);
-        var bhk = pro.bhk;
-        
-        var checkedDistressData = classInstance.viewModel.checkedDistress();
-        var checkedDistressObj =  checkedDistressData[pro.id];
-       
-       for (var i=0 ; i<bhk.length;i++){
-        
-          if(checkedDistressObj){
-            
-            for(var k=0;k<checkedDistressObj.length;k++){
-             
-              if(checkedDistressObj[k] && checkedDistressObj[k].bhk == bhk[i]){
-
-                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[k].bhk,"price":checkedDistressObj[k].price,"checked":true})      
-                break;
-              } else {
-                classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
-                break;
-              }
-            }
-          } else{
-            classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
-        }
-      }
-      return classInstance.viewModel.distress();
- }
-  
-
-
+ 
   AdminProfile.prototype.removeAssociatedLocation = function(index,id) {
       var classInstance = this;
       var obj = {}
@@ -834,7 +829,6 @@
        if(data.status==0){
         if(data.result != null){
          classInstance.viewModel.checkedDistress(data.result.distress);
-
           ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result.projects)
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
         }
