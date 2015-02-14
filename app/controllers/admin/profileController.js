@@ -45,7 +45,10 @@ profileController.main = function() {
     	
   		
     });
-   userId= _nself.req.params.userId;
-    userSvc.getUserDetails(userId);
+    var user = _nself.getCurrentUserInfo(_nself);
+    var data ={
+      "userId":user.irxId
+    }
+    userSvc.getUserDetailsAdmin(data);
 }
 module.exports = profileController;

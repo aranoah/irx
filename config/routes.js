@@ -111,6 +111,7 @@ module.exports = function routes() {
   this.match('mark-distress/:projectId',{ controller: 'profile/rest/profileManagement', action: 'markDistress' , via: 'POST' });
   this.match('associate-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'associateLocation' , via: 'GET' });
   this.match('delete-location/:projectId',{ controller: 'profile/rest/profileManagement', action: 'deleteLocation' , via: 'GET' });
+  this.match('reset-password',{ controller: 'profile/rest/profileManagement', action: 'resetPassword' , via: 'GET' });
   
   
   /*

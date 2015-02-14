@@ -83,9 +83,8 @@
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
             </div>
           </div>
-
           <div class="lib-count" style="border-top: 2px solid #f4f4f4;margin-top:1rem;">
-            <div class="item left floated"><div class="header"><%= result.projectCounter %></div>Projects</div><div class="item right floated"><div class="header">10</div>Locations</div>
+            <div class="item left floated"><div class="header"><%= result.projects && result.projects!= null?result.projects.length:0 %></div>Projects</div><div class="item right floated"><div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>Locations</div>
           </div>
 
          <div class="lib-specs">
@@ -103,11 +102,15 @@
             <% } %>
           </div>
           
-           <div class="ui divided list lib-xtras">
-            <% if(result.location) {%>
+           <div class="ui divided list lib-xtras" style="text-align:left">
+            <% if(result.location && result.location != null) {%>
               <div class="item _location_ profEdit" contenteditable="false">
-                <i class="map marker icon"></i>
-               
+                <i class="map marker icon _csn"></i>
+                <span class="_csn">
+                  <!-- ko text:location.name --><!-- /ko -->,
+                  <!-- ko text:location.city --><!-- /ko -->,
+                  <!-- ko text:location.state --><!-- /ko -->
+                </span>
                 <i data-bind="click:function(){locationEdit('_location_')}" class="write icon"></i>
               </div>
             <% } %>
@@ -129,9 +132,9 @@
               <div class="ui button _cancel_" data-bind="click:function(){locationClose('_location_')}">Cancel</div>
             </form>
             <div class="content">
-              <i class="linkify icon"></i>irx.com/
-                <div class="item _unUserName_ profEdit" contenteditable="false">
-                   <!--ko text : id --><!-- /ko -->
+            
+                <div class="item _unUserName_ profEdit" contenteditable="false" data-bind="attr:{title:'www.indianrealtyexchange.com/'+id()}">
+                   <i class="linkify icon"></i> <!--ko text : id --><!-- /ko -->
                    <i data-bind="click:function(){profileEdit('_unUserName_')}" class="write icon"></i>
                     
                 </div>
@@ -173,7 +176,7 @@
                 <div class="menu">
                   <div class="item">Suspend Account</div>
                   <div class="divider"></div>
-                  <div class="item">Reset Password</div>
+                  <div class="item" style="cursor:pointer" id="_reset_btn">Reset Password</div>
                 </div>
               </a>
             </div>
@@ -209,9 +212,7 @@
                            <i class="add circle icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i><i class="remove circle outline icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
                           <div class="content">
-                            <a class="ui horizontal label">2bhk</a>
-                            <a class="ui horizontal label">3bhk</a>
-                            <a class="ui horizontal label">4bhk</a>
+                        
                            <ul class="_dis_ " data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
                              <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
@@ -433,7 +434,7 @@
   });
 
   function getImage(input) {
-      
+  
     if (input.files && input.files[0]) {
       var reader = new FileReader();
       reader.onload = function (e) {
@@ -549,6 +550,13 @@
           "checked":ko.observable()
         }
       ]),
+      distressQ : ko.observableArray([
+        {
+          "bhk" : ko.observable(),
+          "price": ko.observable(),
+          "checked":ko.observable()
+        }
+      ]),
       checkedDistress : ko.observable(),
       updateUser : function(self){
         var _self = $('.'+self);
@@ -618,30 +626,9 @@
       editBhk : function(pro){
         
         classInstance.viewModel.currContext(pro.id)
-        classInstance.viewModel.distress([])
-        var bhk = pro.bhk;
-        var checkedDistressData = classInstance.viewModel.checkedDistress();
-        var checkedDistressObj =  checkedDistressData[pro.id];
-       
-       for (var i=0 ; i<bhk.length;i++){
         
-          if(checkedDistressObj){
-            
-            for(var k=0;k<checkedDistressObj.length;k++){
-             
-              if(checkedDistressObj[k] && checkedDistressObj[k].bhk == bhk[i]){
+        classInstance.getDistressBhk(pro);
 
-                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[k].bhk,"price":checkedDistressObj[k].price,"checked":true})      
-                break;
-              } else {
-                classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
-                break;
-              }
-            }
-          } else{
-            classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
-        }
-      }
       }
      
     }
@@ -653,10 +640,15 @@
     classInstance.listLeads(false);
     classInstance.listLastVisited();
     
-    // $(document).on('click','._bhk_',function(){
+    $(document).on('click','._bhk_',function(){
 
-    //   $(this).parent().find('._dis_').toggleClass('_hidden_')
-    // })
+      $(this).parent().find('._dis_').toggleClass('_hidden_')
+    })
+    
+    $(document).off('click','#_reset_btn')
+    $(document).on('click','#_reset_btn',function(){
+      location.href="/irx/reset"
+    })
 
     $("#__searchPro").autocomplete({
 
@@ -700,7 +692,39 @@
       } 
     })
  }
- 
+
+ AdminProfile.prototype.getDistressBhk = function(pro){
+        var classInstance = this;
+        classInstance.viewModel.distress([]);
+        var bhk = pro.bhk;
+        
+        var checkedDistressData = classInstance.viewModel.checkedDistress();
+        var checkedDistressObj =  checkedDistressData[pro.id];
+       
+       for (var i=0 ; i<bhk.length;i++){
+        
+          if(checkedDistressObj){
+            
+            for(var k=0;k<checkedDistressObj.length;k++){
+             
+              if(checkedDistressObj[k] && checkedDistressObj[k].bhk == bhk[i]){
+
+                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[k].bhk,"price":checkedDistressObj[k].price,"checked":true})      
+                break;
+              } else {
+                classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
+                break;
+              }
+            }
+          } else{
+            classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
+        }
+      }
+      return classInstance.viewModel.distress();
+ }
+  
+
+
   AdminProfile.prototype.removeAssociatedLocation = function(index,id) {
       var classInstance = this;
       var obj = {}
@@ -810,6 +834,7 @@
        if(data.status==0){
         if(data.result != null){
          classInstance.viewModel.checkedDistress(data.result.distress);
+
           ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result.projects)
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
         }

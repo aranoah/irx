@@ -283,7 +283,37 @@ UserService.prototype.getUserDetails = function(uData) {
 				})
 	
 }
-
+/*
+*	Get User Details
+*
+**/
+UserService.prototype.getUserDetailsAdmin = function(uData) {
+	console.log("In getUserDetails")
+	var _selfInstance = this;
+	var User = IRXUserProfileModel;
+	var id = uData.userId;
+	console.log("qwewret",id)
+	User.findOne( { "irxId": id} ,{"password":0},
+				function(err,data){
+					if (err){
+			 			console.error(err)
+			 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+			 			
+			 		} else{
+			 			
+			 			if(data && data != null){
+			 					console.log(data)
+			 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,data,null);
+			 				
+			 			} else{
+			 				console.log("User data not found")
+							_selfInstance.emit("done",404,"User data not found","User data not found",null);
+			 			}
+			 			
+			  		}
+				})
+	
+}
 /************************
 	List User's projects
 *************************/

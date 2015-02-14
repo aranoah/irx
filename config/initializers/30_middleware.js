@@ -17,6 +17,8 @@
 **/
 var express = require('express')
   , poweredBy = require('connect-powered-by');
+
+var multer = require('multer');
 var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var hashAlgo = require(_path_util+"/sha1.js");
 var cors=require("cors");
@@ -87,6 +89,15 @@ module.exports = function() {
   
   this.use(express.cookieParser());
   this.use(express.session({secret: 'aniyus'}));
+  this.use(multer({ dest: './images/',
+      onFileUploadStart: function (file) {
+        console.log(file.originalname + ' is starting ...')
+      },
+      onFileUploadComplete: function (file) {
+        console.log(file.fieldname + ' uploaded to  ' + file.path)
+        done=true;
+      }
+      }));
   this.use(express.bodyParser());
   this.use(express.methodOverride());
   this.use(cansec);

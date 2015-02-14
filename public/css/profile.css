@@ -61,7 +61,7 @@
 }
 
 .li-box .item {
-  padding: 0.5rem;
+  padding: 0.5rem 0;
   font-size: 1em;
   color: #808080;
 }

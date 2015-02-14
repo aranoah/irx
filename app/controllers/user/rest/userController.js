@@ -129,7 +129,7 @@ userController.updateUser = function() {
      _nself.processJson(status,msg,result,page);
     });
     var user = _nself.req.body;
-    console.log("hello..",_nself.req.files.image)
+  console.log(_nself.req.files)
     user.irxId = _nself.getCurrentUser(_nself);
     userSvc.updateUser(user);
 }
@@ -187,7 +187,6 @@ userController.verifyUser = function() {
     	"vfCode":vfCode,
       "phoneNum":phoneNum
     }
-    console.log(data)
     userSvc.verifyUser(data);
 }
 /*
@@ -285,7 +284,7 @@ userController.listUserLocations = function() {
 userController.inviteForReview = function(){
   var _nself = this;
   var targetId = _nself.req.params.userid;
-  var parentId = _nself.getCurrentUser(_nself);;
+  var parentId = _nself.getCurrentUser(_nself);
   var msg = _nself.req.query.msg;
   var userSvc = new userService();
   userSvc.on("done", function(code,msg,result,errValue){

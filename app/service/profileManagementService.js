@@ -583,4 +583,35 @@ IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USE
 	
 	
 };
+
+
+PMService.prototype.resetPassword = function(data){
+	var _selfInstance = this;
+	var userId = data.userId;
+	
+	var ePassword = data.password;
+	var hashEPassword = hashAlgo.SHA1(ePassword);
+
+	var nPassword = data.newPassword;
+	var hashNPassword = hashAlgo.SHA1(nPassword);
+	IRXUserProfileModel.update({"irxId":data.userId,"password":hashEPassword.toString()},
+		{$set:{"password":hashNPassword.toString()}},
+		function(err, numberAffected, raw){
+			
+			if(err){
+				console.error(err)
+				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+			}else{
+				if(numberAffected >0){
+					
+					console.log("User not updated")
+					_selfInstance.emit("done",STATUS.OK.code,"Your password has been succesfully updated.",err,null);
+				}else{
+					console.log("User not updated")
+					_selfInstance.emit("done",STATUS.NO_UPDATION.code,"Not Updated. You may have entered a wrong password",err,null);
+				}
+			}	
+		})
+		
+}
 module.exports = PMService;
