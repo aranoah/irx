@@ -68,7 +68,7 @@ module.exports = function() {
      },
      sessionKey:"agf67dchkQ!",
      authCallback:function(req,res,status,msg,funName){
-             console.log("funName:",funName)
+             console.log("funName:",funName,status)
              var message=messages[funName];
               if(!message || message == null){
                   message = msg;
@@ -76,7 +76,10 @@ module.exports = function() {
               if(req.isUi && status == 401){
                 console.log("here")
                 res.redirect("/loginPage")
-              }else{
+              }else if(status==200){
+
+              }
+              else{
                 res.send(200,{status:status,message:(message)});
                }
             

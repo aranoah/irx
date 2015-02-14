@@ -31,7 +31,7 @@ var userService = require(_path_service+"/userService.js" )
 
 profileController.main = function() {
   
-  
+  console.log("Main")
    var userSvc = new userService();
  
     var _nself = this;
