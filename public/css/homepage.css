@@ -318,9 +318,13 @@
 }
 
 .ui.image.tiny {
+	min-height: 65px;
+	background-size: 100%;
+	background-repeat: no-repeat;
 	float: left;
 	padding: .6rem !important;
 	background-color: inherit !important;
+	margin-right: 5px;
 }
 .card .content .description {
     font-size: .8em;

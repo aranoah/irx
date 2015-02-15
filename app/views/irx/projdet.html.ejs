@@ -80,7 +80,7 @@
 				    </tr>
 				    <tr>
 				    	<td>Locality</td>
-				      	<td><%= result.location.name %></td>
+				      	<td id="location"><%= result.location.name %>, <%= result.location.city %>, <%= result.location.state%>, India</td>
 				    </tr>
 				</table>
 			</div>	
@@ -95,14 +95,44 @@
 			<div class="ui inverted xtra _actions" style="padding-bottom:1rem;">
 				<div class="ui blue button req-details" data-bind="click:function(){requestDetails('<%= result.id %>') }"><i class="icon edit"></i>Request Details</div>
 				<div class="ui blue button leads-in" data-bind="click:function(){enquireNow('<%= result.id %>') }"><i class="icon help circle"></i>Enquire</div>
-				 <div class="ui basic button" data-bind="html:fbIntegration('<%= result.id %>')"></div>
+				 <div class="ui basic" data-bind="html:fbIntegration('<%= result.id %>')" style="float:right;padding:15px;"></div>
 			</div>
 			<div class="ui top attached tabular menu">
-			  <a class="item active" data-tab="first">Images</a>
-			  <a class="item" data-tab="second">Locality</a>
+			  <a class="item active" data-tab="first">Locality</a>
+			  <a class="item" data-tab="second">Images</a>
 			  <a class="item" data-tab="third">Floor Plan</a>
 			</div>
-			<div class="ui bottom attached active tab segment" data-tab="first">
+			
+			<div class="ui bottom attached active tab segment locality" data-tab="first">
+				<div class="ui">
+					<div class="">
+					    <div class="title _csn _txt_cntr" data-tab-item="air">
+					     	Airports
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="school">
+							Schools
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="bus">
+					    	Bus
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="bank">
+					    	Banks
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="store">
+							Store
+					    </div>
+					    <div class="title _csn _txt_cntr" data-tab-item="food">
+					    	Resturants
+					    </div>
+					</div>
+				    <div class="active content _lclt_tb_cnt" data-tab-item="air">
+				    	<div id="map-canvas" name="mapdiv" style="width: 100%;height: 500px;"> </div>
+						<!-- <p>Indira Gandhi International Airport T-318 min 12.9 km </p>
+						<p>Indira Gandhi International Airport T-318 min 12.9 km </p> -->
+				    </div>
+				  </div>
+			</div>
+			<div class="ui bottom attached tab segment" data-tab="second">
 				<% if(result.profileImage!=null){%>
 				<img class="ui medium rounded image" src="<%=result.profileImage%>"/>
 				<%} else if (result.gallery!=null && result.gallery.length>0){%>
@@ -126,35 +156,6 @@
 				    	No Gallery Found. 
 				    </div>
 				<%}	%>
-			</div>
-			<div class="ui bottom attached tab segment locality" data-tab="second">
-				<div class="ui">
-					<div class="">
-					    <div class="title _csn _txt_cntr" data-tab-item="air">
-					     	Airports
-					    </div>
-					    <div class="title _csn _txt_cntr" data-tab-item="train">
-							Train
-					    </div>
-					    <div class="title _csn _txt_cntr" data-tab-item="bus">
-					    	Bus
-					    </div>
-					    <div class="title _csn _txt_cntr" data-tab-item="bank">
-					    	Banks
-					    </div>
-					    <div class="title _csn _txt_cntr" data-tab-item="store">
-							Store
-					    </div>
-					    <div class="title _csn _txt_cntr" data-tab-item="food">
-					    	Resturants
-					    </div>
-					</div>
-				    <div class="active content _lclt_tb_cnt" data-tab-item="air">
-				    	<div id="map-canvas" name="mapdiv" style="width: 100%;height: 500px;"> </div>
-						<!-- <p>Indira Gandhi International Airport T-318 min 12.9 km </p>
-						<p>Indira Gandhi International Airport T-318 min 12.9 km </p> -->
-				    </div>
-				  </div>
 			</div>
 			<div class="ui bottom attached tab segment floorPlan _txt_cntr" data-tab="third">
 				<% if(result.floorPlan!=null){
@@ -196,14 +197,13 @@
 			<div class="ui divided items" data-bind="foreach : agents">
 			  <div class="item">
 			    <div class="content">
-					<div class="ui image tiny _pImage_" style="padding:0 .5em 0 0 !important">
-				    	<!-- ko if:imageUrl!=null -->
-							<img src="" data-bind="attr: { src: imageUrl}" style="width: 100%;max-height: 65px;vertical-align: top;" alt="Agent Image"/>
-						<!-- /ko -->
-						<!-- ko if:(imageUrl==null || imageUrl=='') -->
-								<img src="/images/elliot.png" style="width: 100%;max-height: 65px;vertical-align: top;"alt="Agent Image"/>
-						<!-- /ko -->	
-				  	</div>
+			    	<!-- ko if:imageUrl!=null -->
+						<div class="ui image tiny _pImage_" style="padding:0 .5em 0 0 !important;height: 65px;background-size: 100%;background-repeat: no-repeat;margin-right:5px;" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}"></div>
+					<!-- /ko -->
+					<!-- ko if:(imageUrl==null || imageUrl=='') -->
+						<div class="ui image tiny _pImage_" style="padding:0 .5em 0 0 !important; background-image:url(/images/elliot.png);background-size: 100%;background-repeat: no-repeat;margin-right:5px;"></div>
+					<!-- /ko -->	
+							
 			      <a data-bind="attr: { href: '/'+irxId},text : name" class="header">Elliot Fu</a>
 			      <div class="meta">
 			        <div class="price" data-bind="text : companyName" style="padding:.5rem 0;">IRX,India</div>
