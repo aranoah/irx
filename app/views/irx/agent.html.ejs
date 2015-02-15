@@ -35,19 +35,24 @@
 	  
 	  	
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-	  		<div id="irx-mobile" class="fourteen wide column">
+	  		<div id="irx-mobile" class="sixteen wide column">
 	  	<% } %>
 
 	  	<!-- For mobile and tablet -->
 	  		<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
 	  		<div class="ui grid rib-head">
-		    	<h2 class="ui header">Showing results for
+		    	<h4 class="ui header" style="margin:1rem;font-weight:normal;">Showing results for
 
 	    		<a data-bind="text:filters.displayName"></a>
 	    	
+
 	    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></h2>
 		    	<!-- <div class="ui grid">  
 				  <div class="row centered aligned">
+
+		    	<div class="ui grid">  
+				  <div class="row" style="text-align:left;">
+
 				    <div class="header right menu">
 			    		<div class="ui checkbox" style="margin:0 2rem;">
 					    	<input type="checkbox">
@@ -64,8 +69,10 @@
 
 	  	<% if(locals.req.device.type == 'desktop'){ %>
 	  	<div class="ui grid two column rib-head">
+
 			<h2 class="ui header column" style="margin-top:1em"><!-- ko text:total --><!--/ko--> AGENTS </h2>	  		
     		
+
 	    	
 	    	<div class="header column right menu">
 	    		<!-- <div class="ui checkbox">
@@ -84,7 +91,17 @@
 		  	<% }%>
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
-		  <div class="_csn card" <% if(locals.req.device.type != 'desktop'){ %>style="margin:0 0 10px;" <% } %>>
+
+
+			<% if(locals.req.device.type != 'desktop'){ %>
+			  <div class="_csn card mobile-agent">
+
+			<% } %>
+		    <% if(locals.req.device.type == 'desktop'){ %>
+			  <div class="_csn card">
+
+			<% } %>
+
 		 	<!-- ko if:($data.imageUrl && $data.imageUrl!=null) -->
 		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
 		   	  	</div>
