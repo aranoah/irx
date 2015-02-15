@@ -59,17 +59,16 @@
 <form data-bind="submit: searchF" id="searchForm">
   <div id="searchbar" class="ui inverted menu">
   <% if(locals.req.device.type != 'desktop'){ %>
-    <div class="ui grid smenu-hide">
+  <div class="ui grid smenu-hide">
       <div class="ui mobile two column page grid" tabindex="0" style="padding: 1.5rem 1.5rem .2rem;">
-        <div class="one wide column">
-          <i class="filter icon" id="search-filter"></i>
-        </div> 
-        <div class="fourteen wide column _searchInput_" style="padding: 0;">
+        <div class="sixteen wide column _searchInput_" style="padding: 0;">
+              
           <input type="hidden" name="projectId" placeholder="Search..." data-bind="value: projectId">
           <input type="hidden" name="isLocality" placeholder="Search..." data-bind="value: sLocAgents">
-          <div class="ui action input">
-            <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name">
-            <div class="ui teal mini button">Go</div>
+          <div class="ui action  left icon input" style="width:100%">
+            <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name" style="width:100%">
+               <i class="map icon" id="search-filter" style="width:3em"></i>
+            <div class="ui teal mini button" data-bind="click:function(){this.searchType('<%=locals.searchtype?locals.searchtype:"project"%>');this.searchF($('#searchForm'))}">GO</div>
           </div>         
         </div>
       </div>

@@ -18,7 +18,7 @@
       <div id="header" class="ui inverted menu">
         <a class="header item _logo_" href="/irx/home">IRX</a>
         <div class="ui dropdown">         
-          <div class="item">Select</div>
+          <div class="item"><%=(locals.searchType && locals.searchType=='agent')?'Agents':'Projects'%></div>
           <i class="dropdown icon item" style="padding: 0 !important;"></i>
           <div class="menu">
             <a class="item _link" href="/project-listing">Projects</a>
