@@ -6,6 +6,7 @@ function Common() {
   this.agentIdArr = [];
   this.viewModelPost=null;
   this.aPostReqViewModel = null;
+  this.viewModelSell = null;
 }
 Common.prototype.getViewModel = function(type) {
 	var classInstance = this;
@@ -477,13 +478,18 @@ $(document).ready(function(){
   if(common == null){
    common = new Common();
    common.init();
-  //  var city = localStorage.getItem("city");
-  // if(city){
-  //   common.sellPostLeads.data.showCity(city)
-  //   common.sellPostLeads.data.viewModel.city(city)
-  // } else{
-  //   common.sellPostLeads.data.showCity("city")
-  // }
+   var city = localStorage.getItem("city");
+   var action = localStorage.getItem("action");
+  if(city){
+ 
+    common.viewModelSell.data.city(city)
+    common.viewModelSell.data.showCity(city)
+  }
+   if(action){
+ 
+    common.viewModelSell.data.action(action)
+   
+  }
   }
 })
  

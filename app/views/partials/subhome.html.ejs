@@ -145,7 +145,7 @@
 				  <div class="ui icon input _main_">
 						<div class="ui dropdown field" style="width:25%;padding-left:0 !important;">
 						    <input type="hidden" name="city" data-bind="value:city" value="banglore"/>
-						    <div class="default text _city_">Banglore</div>
+						    <div class="default text _city_"><!-- ko text : showCity()--><!-- /ko --></div>
 						    <i class="angle down icon" style="color: rgba(182, 182, 182, 0.82) !important;font-size: 1.2em;"></i>
 						    <div class="menu" style="max-height: 20em;overflow-y: scroll;" id="mainSearchCity">
 						      	<div class="ui icon search input">
@@ -172,14 +172,12 @@
 
 				<div class="inline fields" >
 					<div class="ui dropdown field">
-						<input type="hidden" name="action">
-					  <div class="text">Type</div>
+						<input type="hidden" name="action" id="_actn_">
+					  <div class="text">Action</div>
 					  <i class="angle down icon"></i>
 					  <div class="menu abx">
 					    <div class="item">Rent</div>
-					    <div class="item">Resale</div>
-					    <div class="item">Land</div>
-					    <div class="item">Project</div>
+					    <div class="item">Buy</div>
 					  </div>
 					</div><div class="ui dropdown field">
 					<input type="hidden" name="bhk">

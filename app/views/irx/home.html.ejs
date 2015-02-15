@@ -405,17 +405,22 @@
         
     }, _classInstance.viewModel);
 
-	  $('#homescreen').off('change','#_city_')
-    $('#homescreen').on('change','#_city_',function(){
+	  $('#'+_classInstance.parent).off('change','input[name="city"]')
+    $('#'+_classInstance.parent).on('change','input[name="city"]',function(){
       var city = $(this).val();
       city = city.replace(/&nbsp;/gi,'')
       city = city.trim();
       _classInstance.viewModel.city(city)
-      alert
-      localStorage.setItem("city", city);
       
+      localStorage.setItem("city", city);
+     
     });
-
+     $('#'+_classInstance.parent).off('change','#_actn_')
+    $('#'+_classInstance.parent).on('change','#_actn_',function(){
+      var action = $(this).val();
+     localStorage.setItem("action", action);
+     
+    });
    _classInstance.viewModel.maxPriceText = ko.pureComputed(function() {
 
         var maxPrice =  _classInstance.viewModel.maxPrice();
