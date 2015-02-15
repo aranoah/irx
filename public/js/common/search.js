@@ -136,8 +136,10 @@
         var maxPrice =  _classInstance.viewModel.maxPrice();
         var minPriceText = "";
         if(maxPrice){
-          var minPrice = _classInstance.viewModel.minPrice;
-          if(minPrice && maxPrice<minPrice){
+          var minPrice = _classInstance.viewModel.minPrice();
+         
+
+          if(minPrice && Number(maxPrice)<Number(minPrice)){
             
             _classInstance.viewModel.minPrice(100)
           } 
@@ -535,7 +537,11 @@
             if(item.fields.productType && item.fields.productType.length >0){
               productType = item.fields.productType[0]
             }
-            return {id:item.fields.id[0],name:name,type:item._type,productType:productType};
+            var irxId="";
+            if(item.fields && item.fields.irxId && item.fields.irxId.length >0){
+              irxId = item.fields.irxId[0]
+            }
+            return {id:item.fields.id[0],name:name,type:item._type,productType:productType,irxId:irxId};
           }));
         }
     })
@@ -546,7 +552,9 @@ $(document).ready(function(){
 
    sBar = new SearchBar();
   sBar.init();
-   
+   $("._ld_DCTY_DTA").find('.item').remove();
+
+ $("._ld_DCTY_DTA").append($city);
   var city = localStorage.getItem("city");
   if(city){
     sBar.viewModel.showCity(city)
@@ -556,5 +564,5 @@ $(document).ready(function(){
     sBar.viewModel.showCity("Gurgaon")
   }
 
-  $("._ld_DCTY_DTA").append($city);
+ 
 })

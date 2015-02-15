@@ -14,15 +14,13 @@
 *
 * CHANGES :
 *
-**/
+**/   
 module.exports = function(done) {
 	this.elasticsearch = require('elasticsearch');
-	
+	    
 	try{
 		_app_context.esClient = new this.elasticsearch.Client({
-
 			host: '122.176.158.142:9200',
-
 			log: 'trace'
 		});
 	}

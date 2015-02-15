@@ -64,12 +64,8 @@
 
 	  	<% if(locals.req.device.type == 'desktop'){ %>
 	  	<div class="ui grid two column rib-head">
-			<h2 class="ui header column" style="margin-top:1em">AGENTS</h2>	  		
-    		<!--<h2 class="ui header "> Showing results -->  <!-- for
-
-    		<a data-bind="text:filters.displayName"></a>
-    	
-    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a> </h2>-->
+			<h2 class="ui header column" style="margin-top:1em"><!-- ko text:total --><!--/ko--> AGENTS </h2>	  		
+    		
 	    	
 	    	<div class="header column right menu">
 	    		<!-- <div class="ui checkbox">
@@ -145,7 +141,7 @@
 		    <div class="extra content">
 		    	<div class="fb-like left floated" data-bind="html:$parent.fbIntegration($data)"></div>
 				<div class="right floated created">
-					<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId,companyName)}">Enquiry</div>
+					<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId,companyName,imageUrl)}">Enquiry</div>
 				</div>
 		      <!--<a class="friends">
 		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
@@ -283,8 +279,8 @@
 				
 				return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+data.irxId+'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>';
 			},
-			addAgent:function(name,id,companyName){
-				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id}
+			addAgent:function(name,id,companyName,imageUrl){
+				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id,"imageUrl":imageUrl}
 
 				var arr=[];
 				arr.push(agent)

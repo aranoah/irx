@@ -149,7 +149,7 @@ module.exports = function routes() {
 
   this.match("project-detailing",{controller: 'irx/projdet', action:'main', via:'GET'});
   this.match("/loginPage",{controller: 'irx/loginPage', action:'main', via:'GET'});
-  this.match("/admin/profile",function(req, res, next)  {req.isUi=true;_app_context.cansec.restrictToLoggedIn(req,res,next)} ,{controller: 'admin/profile', action:'main', via:'GET'})
+  this.match("/admin/profile",function(req, res, next)  {req.isUi=true;_app_context.cansec.restrictToLoggedIn(req,res,next);} ,{controller: 'admin/profile', action:'main', via:'GET'})
   
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});

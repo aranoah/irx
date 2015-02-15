@@ -21,6 +21,8 @@
           <div class="">
 
             <span data-bind="foreach:data.agentId">
+            <div class="ui image tiny _pImage_ _pImageLead_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
+             </div>
               <h4 class="_csn" style="  font-size: 1.5rem;font-weight: normal;color: rgb(76, 76, 76);"><!-- ko text:name --><!-- /ko -->&nbsp;&nbsp;<!-- ko text:companyName --><!-- /ko -->
               </h4>
             </span>
@@ -152,6 +154,7 @@
           <div class="item field">
             <input type="text" placeholder="Mobile" name="mobileNo" data-bind="value:data.mobileNo">
           </div>
+          <div class="item field" style="display:none" id="_msg">OK</div>
         </div>
 
         <div class="three column row">
