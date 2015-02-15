@@ -52,17 +52,6 @@
         opacity: .8;
 	}
 
-	.ui.grid.rib-head.mobile.tablet.only .ui.selection.dropdown>.text {
-		margin-right: .5rem !important;
-	}
-	.ui.grid.rib-head.mobile.tablet.only .eight.wide.column {
-		padding:0;
-		text-align: center;
-	}
-	.ui.grid.rib-head.mobile.tablet.only .sort.right.icon {
-		float: right;
-	}
-
 	.pj-items.extra >.ui.horizontal.label{
 		font-weight: 400;
 		border-radius: 2px;
@@ -73,21 +62,8 @@
 		cursor: default !important;
 	}
 	.ui.table td {
-	  padding: .4em 2.9em !important;
 	  text-align: left;
 	  vertical-align: middle;
-	}
-	.proj-listing ._actButtons>.ui.basic.button {
-	  border: 0 !important;
-	  border-radius: 0 !important;
-	  /* box-shadow: 0 0 0 #000 !important; */
-	  background-color: #f4f4f4 !important;
-	  /* color: #607d8b !important; */
-	  transition: all ease .2s;
-	  padding: .75rem;
-	  font-weight: 400;
-	  width: 11rem;
-	  margin: 0 .75rem .5rem 0;
 	}
 	
 	.proFilters{
@@ -99,7 +75,7 @@
         font-weight: 300;
 
 	}
-.ui.menu .item:before {
+	.ui.menu .item:before {
 		background: linear-gradient(rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0) 50%,rgba(0, 0, 0, 0) 100%);
 	}
 	span.ui.teal.label{
@@ -113,6 +89,7 @@
 		border-left: 2px solid #00B5AD !important;
 		margin-right: 10px;
 	}
+
   </style>
   
 </head>
@@ -120,10 +97,8 @@
 	<% locals.uiContext.menu=true %>
   	<% include ../partials/header.html.ejs %>
 
-  
-
 <div id="projListing">
-  	<div id="projectContent" class="ui centered page grid">
+  	<div id="projectContent">
   		<% if(locals.req.device.type == 'desktop'){ %>
   			<div class="fixedwidth">
 	  	<% } %>
@@ -427,7 +402,7 @@
 					<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
 				</div>	
 				<div class="item" style="margin-bottom:0 !important;">
-				  <div class="ui small image">
+				  <div id="_projImg" class="ui small image">
 				       <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
 
 				      <img src="" data-bind="attr:{src: gallery[0]}">
@@ -467,27 +442,26 @@
 				    		<table class="ui small table pj-items extra column">
 						      <tbody>
 						      		<tr>
-						      			<td>Builder</td>
+						      			<td class="_unit_">Builder</td>
 						      			<td><!--ko text: builderName--><!--/ko--></td>
 						      		</tr>
 									<tr>
-									  <td>Property Type</td>
-
+									  <td class="_unit_">Property Type</td>
 									  <td><!--ko text: type--><!--/ko--></td>
 									</tr>
 									<tr>
-									  <td>Unit</td>
+									  <td class="_unit_">Unit</td>
 									  <td><span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></td>
 									</tr>
 									<tr>
-									  <td>Possesion</td>
+									  <td class="_unit_">Possesion</td>
 									  <td><!--ko text: possession--><!--/ko--></td>
 									</tr>
 									<tr>
-									  <td>Area</td>
+									  <td class="_unit_">Area</td>
 									  <td><!--ko text: builtUpArea--><!--/ko--></td>
 									</tr>
-									  <td>Status</td><td><!--ko text: status--><!--/ko--></td>		
+									  <td class="_unit_">Status</td><td><!--ko text: status--><!--/ko--></td>		
 									</tr>
 								</tbody>
 						    </table>
@@ -500,7 +474,7 @@
 		  					<input type="hidden" id="__maxPrice" value="<%= requestObj.maxPrice?requestObj.maxPrice:'' %>">
 		  					
 					  	</div>
-					    <div class="two wide column" style="padding:0;margin-top:-1rem;">
+					    <div class="two wide column" style="padding:0;margin-top:-2rem;">
 
 					      <div class="ui right floated item _actButtons">
 					     	 <div class="ui basic button" data-bind="html:$parent.fbIntegration($data)"></div>
@@ -513,19 +487,6 @@
 				    </div>
 				  </div>
 				</div>
-
-				<!-- For tablet -->
-
-
-				  <div class="ui four column grid mobile tablet only _actButtons">				    
-				    <div class="column" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }"><i class="unhide icon" data-content="View details"></i></a></div>
-				    <div class="column leads-in" data-bind="click:function(){$parent.enquireNow($data) }"><i data-content="Enquiry now" class="edit icon"></i></div>
-				    <div class="column"><a data-bind="attr: { 'href': '/agent-listing?projectId='+id}"><i data-content="View agents" class="user icon"></i></a></div>
-				    <div class="column req-details" data-bind="click:function(){$parent.requestDetails($data) }"><i data-content="Request details" class="help circle icon"></i></div>		
-
-				  </div>
-
-				<!-- ends here -->
 			</div>
 	    	</div>
 	    	 <div class="four wide column" data-bind="visible:projects().length!=0" style=" padding:0 1rem;font-size: 14px;box-shadow: 0 0 0;">
