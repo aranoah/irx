@@ -23,7 +23,7 @@ module.exports = function(done) {
    
     case 'development':
    
-      this.mongoose.connect('mongodb://192.168.1.60:27017/IRX');   
+      this.mongoose.connect('mongodb://122.176.158.142:27017/IRX');   
 
     break;
    

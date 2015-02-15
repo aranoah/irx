@@ -106,12 +106,12 @@
 	  
 	  	
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-	  		<div class="fourteen wide column" style="padding-top:0 !important;">
+	  		<div class="fourteen wide column" style="padding:0 1rem !important;">
 	  	<% } %> 
 	  	<!-- For mobile screens -->
 
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-			<div class="ui menu rib-head" style="border:0 !important;">
+			<div class="ui menu rib-head" style="border:0 !important;margin:0;">
 			<!-- ko if:totalCount!=0 -->
 				<h2 class="ui header item"> <h2 class="ui header item"> <!-- ko text:(totalCount()>0?totalCount():'') --><!-- /ko --> PROJECTS </h2> <!-- /ko -->
 			</h2>    
@@ -276,10 +276,10 @@
 	  	
 	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
 	  			
-	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects">
+	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects" style="margin:0;">
 				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
-	  			<div class="item">
-					<div class="content">
+	  			<div class="item" style="margin:0 0 .5rem;">
+					<div class="content" style="background:#fff;padding:1rem;box-shadow:0 0 3px rgba(0,0,0,0.2);">
 						<div class="ui tiny image" style="padding: 0 .5rem 0 0 !important;width:auto !important;">
 						  <img src="/images/project.jpg" style="width:80px;height:80px;">
 						</div>
@@ -287,7 +287,7 @@
 							<div class="like _name_" data-bind="text : name"></div>
 						  	<div class="summary">
 							    <a class="user"><b>
-							      <i class="rupee icon"></i>
+							      <i class="rupee icon" style="padding:0;margin:0;"></i>
 							      <!-- ko if:Array.isArray(priceText) -->
 						          <!-- ko foreach:priceText -->
 						            <!-- ko if:$index -->-<!-- /ko -->
@@ -309,7 +309,7 @@
 					        </div>
 					        <div class="date" data-bind="text : builtUpArea">120 sq.ft</div>
 						</div>
-						<div class="meta">
+						<div class="meta" style="padding-top:1rem;">
 				            <span data-bind="text : possession">Nov 17,2014</span>
 				            <span data-bind="text : status">Nov 17,2014</span>
 				        </div>
