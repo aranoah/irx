@@ -14,7 +14,7 @@ app.phase(locomotive.boot.views());
 app.phase(require('bootable-environment')(__dirname + '/config/environments'));
 app.phase(bootable.initializers(__dirname + '/config/initializers'));
 app.phase(locomotive.boot.routes(__dirname + '/config/routes'));
-app.phase(locomotive.boot.httpServer(80, '0.0.0.0'));
+app.phase(locomotive.boot.httpServer(8080, '0.0.0.0')); 
 
 // Boot the application.  The phases registered above will be executed
 // sequentially, resulting in a fully initialized server that is listening
@@ -27,3 +27,4 @@ app.boot(function(err) {
     return process.exit(-1);
   }
 });
+
