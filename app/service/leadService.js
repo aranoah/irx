@@ -85,13 +85,13 @@ LeadService.prototype.captureLeads = function(data) {
              			 }, function(err, data){                
              		});
 					if(data.createLogin && data.createLogin=="true"){
-						console.log("hellllloo")
+						
                 		var userSvc = new userService();
                 		
                 		userSvc.registerUser({"emailId":data.emailId,"name":data.name,"password":password,type:data.type});
                 		return;
                 	}
-                	console.log("byee")
+                	
 					_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,savedData,null);
 				} else{
 					_selfInstance.emit("done",STATUS.SERVER_ERROR.code,"Error saving verification",err,null);

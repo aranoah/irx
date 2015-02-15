@@ -176,7 +176,7 @@ Common.prototype.init = function(first_argument) {
         $(document).on('click','#_logout_',function() {
          httpUtils.get("/logout",{},"JSON",function(data){
             if(httpUtils.checkStatus(data)){
-              location.reload();
+              location.href="/";
             }
             
          })
@@ -430,11 +430,26 @@ var agentid = $('#'+form).find('#_agentIdP_').val();
 if (agentid && agentid != "") {
   data["agentId"]=agentid;
 };
+  var type = "leads";
   httpUtils.post("/capture-lead",
     data,
      { },"JSON",function(data){
     if(data.status==0){
-     httpUtils.checkStatus(data,true,true)
+    if(httpUtils.checkStatus(data,false,false)){
+        if(httpUtils.checkStatus(data,false)){
+
+              $('#'+type).find('#_msg').text("Successfully Submitted");
+              $('#'+type).find('#_msg').addClass('_ajActive');
+              $('#'+type).find('#_msg').removeClass('_ajError');
+              $('#'+type).find('#_msg').addClass('_ajSuccess');
+              $('#'+type).find('.ui.buttons').hide();
+             }else{
+              $('#'+type).find('#_msg').text(data.message);
+              $('#'+type).find('#_msg').addClass('_ajActive');
+              $('#'+type).find('#_msg').removeClass('_ajSuccess');
+              $('#'+type).find('#_msg').addClass('_ajError');
+             }
+      }
     }else {
       
     }
