@@ -46,7 +46,7 @@
 	    		<a data-bind="text:filters.displayName"></a>
 	    	
 	    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></h2>
-		    	<div class="ui grid">  
+		    	<!-- <div class="ui grid">  
 				  <div class="row centered aligned">
 				    <div class="header right menu">
 			    		<div class="ui checkbox" style="margin:0 2rem;">
@@ -56,7 +56,7 @@
 						<div class="ui basic button">submit request</div>
 			    	</div>
 				  </div>
-				</div>
+				</div> -->
 		    </div>
 		   <% } %>
 	  	<!-- ends here -->
@@ -88,7 +88,7 @@
 		  	<% }%>
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
-		  <div class="_csn card">
+		  <div class="_csn card" <% if(locals.req.device.type != 'desktop'){ %>style="margin:0 0 10px;" <% } %>>
 		 	<!-- ko if:($data.imageUrl && $data.imageUrl!=null) -->
 		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
 		   	  	</div>
@@ -161,7 +161,7 @@
 		  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
 		  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
 		  <input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
-					  
+		 <input type="hidden" value="agent" id="_searchTypeG_">  
 		</div>	   
 		<div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
 	  </div> 

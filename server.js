@@ -1,3 +1,4 @@
+
 var locomotive = require('locomotive')
   , bootable = require('bootable');
 // Create a new application and initialize it with *required* support for

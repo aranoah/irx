@@ -318,9 +318,13 @@
 }
 
 .ui.image.tiny {
+	min-height: 65px;
+	background-size: 100%;
+	background-repeat: no-repeat;
 	float: left;
 	padding: .6rem !important;
 	background-color: inherit !important;
+	margin-right: 5px;
 }
 .card .content .description {
     font-size: .8em;
@@ -545,26 +549,30 @@
 }
 
 .proj-listing ._actButtons>.ui.basic.button {
-	border: 1px solid #ddd !important;/*
-	border-radius: 0 !important;*/
-	box-shadow: none !important;/*
-	background-color: #f4f4f4 !important;*/
+	border: 1px solid #ddd !important;
+	border-radius: 3px;
+	box-shadow: none !important;
+	background-color: #fff !important;
 	color: #607d8b !important;
 	transition: all ease .2s;
 	padding: .75rem;
 	font-weight: 400;
-	width: 11rem;
+	width: 10rem;
 	margin: 0 .75rem .5rem 0;
+}
+
+.proj-listing ._actButtons>.ui.basic.button:first-child {
+	border: 0 !important;
+	cursor: inherit;
 }
 
 .proj-listing ._actButtons>.ui.basic.button>a {
 	color: #607d8b !important;	
 }
 
-.proj-listing ._actButtons>.ui.basic.button:hover, .proj-listing ._actButtons>.ui.basic.button>a:hover, .proj-listing ._actButtons>.ui.basic.button:hover a {
-	/*background-color: #607d8b !important;*/
-	/*background-color: #09963b !important;
-	color: #fff !important;*/
+.proj-listing ._actButtons>.ui.basic.button:not(:first-child):hover, .proj-listing ._actButtons>.ui.basic.button>a:hover, .proj-listing ._actButtons>.ui.basic.button:hover a {
+	background-color: #09963b !important;
+	color: #fff !important;
 	cursor: pointer;
 	font-weight: bold;
 }
