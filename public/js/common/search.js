@@ -11,12 +11,16 @@
   }
   SearchBar.prototype.getViewModel = function(){
     var _classInstance = this;
+    var searchType = $('#_searchTypeG_').val();
+    if(!searchType && searchType!=""){
+      searchType = "project"
+    }
     var viewModel = {
     
       name : ko.observable(""),
       bhk : ko.observable(""),
       order : ko.observable("asc"),
-      searchType : ko.observable("project"),
+      searchType : ko.observable(searchType),
       sProAgents : ko.observable(false),
       sLocAgents : ko.observable(false),
       projectId : ko.observable(""),

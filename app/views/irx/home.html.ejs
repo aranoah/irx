@@ -373,7 +373,8 @@
 		 var _classInstance = this;
 	  	_classInstance.viewModel = {
 	  		searchType:ko.observable("project"),
-	  		city:ko.observable("banglore"),
+	  		city:ko.observable(),
+	  		showCity:ko.observable(),
 	  		minPrice:ko.observable(),
 	  		maxPrice:ko.observable(),
 	  		placeholderVal:ko.observable("Search project by name or location.."),
@@ -403,6 +404,17 @@
         }
         
     }, _classInstance.viewModel);
+
+	  $('#homescreen').off('change','#_city_')
+    $('#homescreen').on('change','#_city_',function(){
+      var city = $(this).val();
+      city = city.replace(/&nbsp;/gi,'')
+      city = city.trim();
+      _classInstance.viewModel.city(city)
+      alert
+      localStorage.setItem("city", city);
+      
+    });
 
    _classInstance.viewModel.maxPriceText = ko.pureComputed(function() {
 
@@ -631,9 +643,19 @@
 	$(document).ready(function(){
 		var home = new Home();
 		home.init();
-		console.log($city)
+		var city = localStorage.getItem("city");
+			
+		  if(city){
+		   home.viewModel.showCity(city)
+		    home.viewModel.city(city)
+
+		  } else{
+		    home.viewModel.city("gurgaon")
+		    home.viewModel.showCity("Gurgaon")
+		  }
 		$("#mainSearchCity").append($city);
 	});
+
 	Home.prototype.getPriceText = function(amount) {
     var text = "";
     if(amount.length==4 || amount.length==5){
