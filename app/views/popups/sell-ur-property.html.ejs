@@ -118,18 +118,20 @@
             <div class="item field">
               <input type="text" placeholder="Mobile" name="mobileNo" data-bind="value:data.mobileNo">
             </div>
+            <div class="item field" style="display:none" id="_msg">OK</div>
           </div>
 
         <div class="three column row">
           <div class="right floated column">
             <div class="ui submitAction"  onClick="common.validateForm(this)">Submit</div>
           </div>
-          <div class="left floated column">
+          <div class="left floated column __createLogin">
             <div class="ui checkbox">
-              <input type="checkbox">
+              <input type="checkbox" data-binding="checked:createLogin">
               <label>Also create a login</label>
             </div>
           </div>
+
         </div>
        </div>
       

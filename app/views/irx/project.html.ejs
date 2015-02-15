@@ -187,7 +187,7 @@
 
 	        <a class="right menu">
 		        <div class="item">
-		          <div class="ui right labeled icon dropdown button proFilters">
+		          <div class="ui right labeled icon dropdown button proFilters type">
 		            <input type="hidden" name="type" data-bind="value:filters.type, event: {  change:applyFilters }">
 		            <div class="default text">Property Type</div>
 		            <i class="angle down icon"></i>
@@ -202,7 +202,7 @@
 		          </div>
 		        </div>
 		        <div class="item">
-		          <div class="ui right labeled icon dropdown button proFilters">
+		          <div class="ui right labeled icon dropdown button proFilters status">
 		            <input type="hidden" name="status" data-bind="value:filters.status, event: {  change:applyFilters }">
 		            <div class="default text">Status</div>
 		            <i class="angle down icon"></i>
@@ -215,7 +215,7 @@
 		          </div>
 		        </div>
 		        <div class="item">
-		          	<div class="ui right labeled icon dropdown button proFilters">
+		          	<div class="ui right labeled icon dropdown button proFilters price">
 					  <input type="hidden" name="order" data-bind="value:filters.order, event: {  change:applyFilters }">
 					  <div class="default text">Sort by relevance</div>
 					  <i class="sort right icon"></i>
@@ -406,13 +406,17 @@
 				  <div id="_projImg" class="ui small image">
 				       <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
 
-				      <img src="" data-bind="attr:{src: gallery[0]}">
+				      <img src="" data-bind="attr:{src: gallery[$root.galleryIndex()]}">
 				       <div class="slider">
-				        <i class="chevron right icon"></i>
-				       
-				        <span><!--ko text:gallery.length--><!--/ko --></span>
-				       
-				        <i class="chevron left icon"></i>
+				       		
+					        	<i class="chevron right icon" data-bind="visible:($root.galleryIndex()<gallery.length-1),click:function(){$root.getNextImage()}"></i>
+					      
+					       
+					        <span><!--ko text:gallery.length--><!--/ko --> PHOTOS</span>
+					       	
+					     
+					       	 	<i class="chevron left icon" data-bind="visible:($root.galleryIndex()>0),click:function(){$root.getPreviousImage()}"></i>
+					        
 				      </div> 
 				       <!--/ko -->
 
@@ -651,7 +655,8 @@
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
-			 totalCount : ko.observable(),
+			totalCount : ko.observable(),
+			galleryIndex : ko.observable(0),
 			filters: {
 				displayName:ko.observable("All"),
 				name:ko.observable(filterName),
@@ -680,9 +685,11 @@
 				 	_classInstance.viewModel.filters["minPrice"](0);
 				 	_classInstance.viewModel.filters["maxPrice"](0);
 				 }else{
+
 				  _classInstance.viewModel.filters[filterName]("");
 			    }
 				_classInstance.resetPage();
+				$('.'+filterName).dropdown('restore defaults');
 				_classInstance.listProjects(true);
 				return true;
 			},
@@ -696,7 +703,13 @@
 
 				_classInstance.enquireNow(data.id);
 			},
-			
+			getNextImage : function(){
+				_classInstance.viewModel.galleryIndex(_classInstance.viewModel.galleryIndex()+1)
+
+			},
+			getPreviousImage : function(){
+				_classInstance.viewModel.galleryIndex(_classInstance.viewModel.galleryIndex()-1)
+			},
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
 		}
@@ -870,7 +883,7 @@
 		
 		var classInstance = this;
 		//alert(classInstance.viewModel.filters.type)
-    	
+    	classInstance.viewModel.filters.city=localStorage.getItem("city")
 	    httpUtils.post("/list-projects-elastic",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){

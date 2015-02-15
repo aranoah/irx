@@ -6,6 +6,7 @@ function Common() {
   this.agentIdArr = [];
   this.viewModelPost=null;
   this.aPostReqViewModel = null;
+  this.viewModelSell = null;
 }
 Common.prototype.getViewModel = function(type) {
 	var classInstance = this;
@@ -34,6 +35,7 @@ Common.prototype.getViewModel = function(type) {
         action:ko.observable(""),
         origin:ko.observable(type),
         showCity:ko.observable(""),
+        createLogin:ko.observable(false)
         //projectName:ko.observable("")
       },
       captureLeads:function(){
@@ -432,8 +434,7 @@ if (agentid && agentid != "") {
     data,
      { },"JSON",function(data){
     if(data.status==0){
-      alert(1)
-        
+     httpUtils.checkStatus(data,true,true)
     }else {
       
     }
@@ -444,16 +445,18 @@ Common.prototype.captureLeads = function(type) {
 
 	var classInstance = this;
 	var viewModel = null;
-	
+	var parent = "";
   if(type == classInstance.postReqLeads){
 		viewModel = classInstance.viewModelPost;
+    
 	} else if(type == classInstance.sellPostLeads){
 		viewModel = classInstance.viewModelSell;
+   
 	} else {
     viewModel = classInstance.aPostReqViewModel;
+
     var agentId = viewModel.data.agentId();
     if(agentId && agentId.length >0){
-      alert(agentId[0].irxId)
       viewModel.data["dealerId"] = agentId[0].irxId  
     }
     
@@ -465,8 +468,21 @@ Common.prototype.captureLeads = function(type) {
 		viewModel.data,
 		 { },"JSON",function(data){
 		if(data.status==0){
-      alert(1)
-	      //$('.close.icon').click();
+      if(httpUtils.checkStatus(data,false,false)){
+	      if(httpUtils.checkStatus(data,false)){
+
+              $('#'+type).find('#_msg').text("Successfully Submitted");
+              $('#'+type).find('#_msg').addClass('_ajActive');
+              $('#'+type).find('#_msg').removeClass('_ajError');
+              $('#'+type).find('#_msg').addClass('_ajSuccess');
+              $('#'+type).find('.ui.buttons').hide();
+             }else{
+              $('#'+type).find('#_msg').text(data.message);
+              $('#'+type).find('#_msg').addClass('_ajActive');
+              $('#'+type).find('#_msg').removeClass('_ajSuccess');
+              $('#'+type).find('#_msg').addClass('_ajError');
+             }
+      }
 		}else {
 			
 		}
@@ -477,13 +493,18 @@ $(document).ready(function(){
   if(common == null){
    common = new Common();
    common.init();
-  //  var city = localStorage.getItem("city");
-  // if(city){
-  //   common.sellPostLeads.data.showCity(city)
-  //   common.sellPostLeads.data.viewModel.city(city)
-  // } else{
-  //   common.sellPostLeads.data.showCity("city")
-  // }
+   var city = localStorage.getItem("city");
+   var action = localStorage.getItem("action");
+  if(city){
+ 
+    common.viewModelSell.data.city(city)
+    common.viewModelSell.data.showCity(city)
+  }
+   if(action){
+ 
+    common.viewModelSell.data.action(action)
+   
+  }
   }
 })
  

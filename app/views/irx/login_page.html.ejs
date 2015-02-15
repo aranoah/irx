@@ -3,26 +3,65 @@
   <head>
     <head>
     <% include ../partials/head.html.ejs %>
-
-    <!--   Css files -->
-    <link rel="stylesheet" type="text/css" href="/css/irxmisc/forgot.css">
-    <style type="text/css">
-    
-    </style>
   </head>
+    <style type="text/css">
+      #loginPage {
+        padding-top: 8rem;
+        width: 600px;
+        margin: 0 auto;
+      }
+
+      #loginPage>.ui.form {
+        padding: 1rem;
+        background-color: #fff;
+        box-shadow: 0 0 2px rgba(0,0,0,0.2);
+        overflow: hidden;
+      }
+
+      #loginPage>.ui.form>h4 {
+        color: #74c9f4;
+        padding: .5em 0;
+        border-bottom: 2px solid #f4f4f4;
+      }
+
+      #loginPage>.ui.form>.ui.button {
+        margin-top: -2rem;
+      }
+    </style>
   <body>
     <% locals.uiContext.menu=false %>
     <% include ../partials/header.html.ejs %>
-   
-    <div class="irx-misc ui very relaxed stackable page grid"  style="padding-top:10rem;">
-       <div class="ui centered page grid">
-    <script type="text/javascript" src="/js/common/http.js"></script>
-<!-- For mobile screens -->
 
-<div id="login" class="ui modal pop-up grid">
-
-</div>
-  </body>
+    <div id="loginPage">
+      <div class="ui form">
+        <h4 class="ui dividing header">Login to your account</h4>
+        <div class="two fields">
+          <div class="field">
+            <label>First Name</label>
+            <input placeholder="First Name" type="text">
+          </div>
+          <div class="field">
+            <label>Email ID</label>
+            <input placeholder="example@you.com" type="text">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password">
+          </div>
+          <div class="field">
+            <label>Confirm Password</label>
+            <input type="password">
+          </div>
+        </div>
+        <div class="inline field">
+          <div class="ui checkbox">
+            <input type="checkbox">
+            <label>I agree to the terms and conditions</label>
+          </div>
+        </div>
+        <div class="ui submit button right floated">Submit</div>
+      </div>
+    </div>
 <script>
 function validatRegister(_this){
     $(_this).parents('form').form({
@@ -103,14 +142,5 @@ function initfb(){
     });
 }    
  </script>
-
-
- <!DOCTYPE html>
-      
-      </div>
-    </div>
     <% include ../partials/footer.html.ejs %>
-
-  
-
-</html>
+</body>

@@ -53,6 +53,7 @@ HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail) 
           return true;
     }else{
           if(showPopUpFail){
+            
                $('#_serverError_').modal('show');
                $('#_serverError_').find('.errMsg').text(data.message)
           }

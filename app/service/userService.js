@@ -230,7 +230,7 @@ UserService.prototype.updateUser = function(user) {
 			)
 			 return;
 	}
-	console.log("yoyooyoo!!",updateObject);
+	
 	User.update({"irxId":id},
 							{
 								$set:updateObject
@@ -816,7 +816,7 @@ UserService.prototype.forgetPassword = function(userId){
 
 
 	UserService.prototype.changePassword = function(data){ 
-		console.log("qwertyuyuiu")
+		
 		var _selfInstance = this;
 		var userId = data.userId;
 		var code = data.code;
