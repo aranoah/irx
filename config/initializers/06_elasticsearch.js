@@ -14,7 +14,7 @@
 *
 * CHANGES :
 *
-**/
+**/   
 module.exports = function(done) {
 	this.elasticsearch = require('elasticsearch');
 	

@@ -542,7 +542,7 @@ $(document).ready(function(){
 
    sBar = new SearchBar();
   sBar.init();
-   
+ $("._ld_DCTY_DTA").append($city);
   var city = localStorage.getItem("city");
   if(city){
     sBar.viewModel.showCity(city)
@@ -552,5 +552,5 @@ $(document).ready(function(){
     sBar.viewModel.showCity("Gurgaon")
   }
 
-  $("._ld_DCTY_DTA").append($city);
+ 
 })
