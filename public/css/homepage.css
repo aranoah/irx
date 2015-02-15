@@ -686,5 +686,9 @@
 	margin: .6em; 
 }
 #agentContent .rib-head{
-	padding: 1.5rem 0 0 !important; 
+	padding: 1.5rem 1rem 0 !important; 
+}
+
+._csn.card.mobile-agent {
+	width: 95% !important;
 }
