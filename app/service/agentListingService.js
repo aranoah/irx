@@ -60,7 +60,7 @@ AgentListingService.prototype.listAgents = function(data){
 
 		query["name"]={ $regex: filters.name, $options: 'i' };
 	}
-	
+	query["type"]="agent";
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
 	
