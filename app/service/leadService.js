@@ -185,6 +185,23 @@ LeadService.prototype.reviewLeadVerify = function(data) {
 };
 
 /*
+* Delete lead
+*/
+LeadService.prototype.leadDelete = function(data) {
+	console.log("In leadDelete")
+	var _selfInstance = this;
+	
+	IRXLeadModel.remove({"id":data.leadId},function(err){
+		if (err) {
+			console.error(err)
+			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+		}else{
+			console.log("Lead successfully deleted");
+			_selfInstance.emit("done",STATUS.OK.code,"Lead successfully deleted",null,null);
+		} 
+	})
+};
+/*
 * List Lead // Add criteria
 */
 

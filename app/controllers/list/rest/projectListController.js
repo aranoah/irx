@@ -74,7 +74,7 @@ projectController.projectAutocomplete = function() {
     index: 'irx_schema',
     type:"irx-eproduct",
     body: {
-      fields : ["id", "name", "productType","location.city","location.name"],
+      fields : ["id", "name","builderName", "productType","location.city","location.name"],
       query: {
         bool:{
           must:[

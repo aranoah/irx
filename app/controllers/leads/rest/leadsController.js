@@ -85,7 +85,7 @@ leadsController.reviewLeadVerify = function() {
 /*
 *   Delete leads 
 **/
-leadsController.reviewLeadDelete = function() {
+leadsController.leadDelete = function() {
  var lService = new leadService();
   
     var _nself = this;
@@ -96,7 +96,7 @@ leadsController.reviewLeadDelete = function() {
       "userId":_nself.req.session['X-CS-Auth'].userId,
       "leadId":_nself.req.params.leadId
     }
-    lService.reviewLeadDelete(data);
+    lService.leadDelete(data);
 }
 module.exports = leadsController;
 

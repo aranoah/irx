@@ -120,7 +120,7 @@ module.exports = function routes() {
   
   this.match("/capture-lead",{controller: 'leads/rest/leads', action:'captureLeads', via:'POST'});
   this.match("/review-lead-verify/:leadId",{controller: 'leads/rest/leads', action:'reviewLeadVerify', via:'POST'});
-  this.match("/review-lead-delete/:leadId",{controller: 'leads/rest/leads', action:'reviewLeadDelete', via:'POST'});
+  this.match("/lead-delete/:leadId",{controller: 'leads/rest/leads', action:'leadDelete', via:'GET'});
   this.match("/leads",{controller: 'leads/rest/leads', action:'listLeads', via:'GET'});
 
   /*

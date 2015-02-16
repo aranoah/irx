@@ -157,7 +157,7 @@
 
 .ui.bottom.attached.tab.segment .card {
 	background-color: #fbfbfb;
-	width: 269px !important;
+	width: 264px !important;
 }
 
 .ui.bottom.attached.tab.segment .card .header {
@@ -183,5 +183,18 @@
 }
 .ui.bottom.attached.tab.segment>.ui.horizontal.list>.item:last-child {
 	margin-right:0; 
+}
+.leadName {
+	color: #105296 !important;
+	font-size: 1em !important;
+	font-weight: 400 !important;
+	text-transform: capitalize !important;
+}
+.leadType {
+	opacity: .8 !important;
+	font-weight: 400 !important;
+	color: #747474 !important;
+	font-size: .9em !important;
+	text-transform: capitalize !important;
 }
 

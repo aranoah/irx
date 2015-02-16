@@ -39,6 +39,10 @@
   ._profaddProj {
     margin: 2rem !important;
   }
+  ._proCity {
+    text-transform: capitalize;
+    color:#105296;
+  }
   </style>
   <script type="text/javascript" src="/js/library/jquery.form.js"></script>
 </head>
@@ -236,8 +240,8 @@
                   <!-- /ko -->
                  
                 </div>
-                <div class="right floated ui positive button _profaddProj">Add more projects</div> 
-                <div class="_profsearProj column right-portion" style="display:none;margin:2rem 0;padding:0;">
+               
+                <div class="_profsearProj column right-portion" style="display:inline-block;margin:2rem 0;padding:0;width:48%">
                   <div class="item" style="">
                      <div class="right floated content">
                       <div class="column left-portion">
@@ -247,14 +251,14 @@
                               <i class="search icon"></i>
                             </div>
                         </div>
-                        <!-- ko if: projects().length==0 -->
+                        
                           <div class="ui info  message">
                             <ul class="list">
-                              <li>No project found.</li>
+                              <li>Search project in <span class="_proCity"><!-- ko text:city() --><!-- /ko --></span></li>
                               
                             </ul>
                           </div>
-                        <!-- /ko -->
+                     
                         <!-- ko foreach: projects -->
                           <div class="ui items">
                             <div class="item">
@@ -308,8 +312,8 @@
                     </div>
                   <!-- /ko -->
                 </div>
-                <div class="right floated ui positive button _profaddProj">Add more Locations</div> 
-                <div class="_profsearProj column right-portion" style="display:none;margin:2rem 0;padding:0;">
+                
+                <div class="_profsearProj column right-portion" style="display:inline-block;margin:2rem 0;padding:0;width:48%">
                   <div class="item" style="">
                      <div class="right floated content">
                       <div class="column left-portion">
@@ -319,14 +323,14 @@
                               <i class="search icon"></i>
                             </div>
                         </div>
-                        <!-- ko if: locations().length==0 -->
+                     
                           <div class="ui info  message">
                             <ul class="list">
-                              <li>No project found.</li>
+                              <li>Search location in <span class="_proCity"><!-- ko text:city() --><!-- /ko --></span></li>
                               
                             </ul>
                           </div>
-                         <!-- /ko -->
+                        
                         <!-- ko foreach: locations -->
                           <div class="ui items">
                             <div class="item">
@@ -352,38 +356,57 @@
             <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">manage leads</h3>
               <div class="ui cards">
+
+                <div style="margin-bottom:20px">
+                  <!--ko if : leadsPageObj.hasMore()==true -->
+                    
+                  <div class="ui button"  data-bind="click:
+                    nextLeads">
+                        Next
+                  </div>
+                    
+                    <!-- /ko -->
+                     <!--ko if : leadsPageObj.showPrevious()==true -->
+                    
+                     <div class="ui button" data-bind="click:
+                    previousLeads">
+                        Previous
+                  </div>
+                    <!-- /ko -->
+                  </div>
                  <!--ko foreach : leads -->
                   <div class="card">
                     <div class="content">
-                      <div class="header" data-bind="text:name"></div>
-                      <div class="meta"><!--ko text : propertyType --><!-- /ko --></div>
-                      <div class="description" >
-
-                      <!--ko text : emailId --><!-- /ko -->
-                        <br/><!--ko text : mobileNo --><!-- /ko -->
+                       <div style="float:right;cursor:pointer" data-bind="click:function(){$root.deleteLead(id)}"><i class="remove icon"></i></div>
+                      <!-- ko if: $data.hasOwnProperty("name") -->
+                        <div class="header leadName" data-bind="text:name"></div>
+                      <!-- /ko -->
+                       <!-- ko if: $data.hasOwnProperty("propertyType") -->
+                        <div class="meta leadType" data-bind="text:propertyType"></div>
+                      <!-- /ko -->
+                      <div>
+                      <!-- ko if: $data.hasOwnProperty("emailId") -->
+                        <!--ko text : emailId --><!-- /ko -->
+                      <!-- /ko -->
+                        <br/>
+                        <!-- ko if: $data.hasOwnProperty("mobileNo") -->
+                          <!--ko text : mobileNo --><!-- /ko -->
+                        <!-- /ko -->
                       </div>
-                      <span style="color:black!important;">ProjectName :</span><a style="color:#4C4C4C !important" data-bind="attr:{href:'/project/'+projectId}"><!--ko text : projectName --><!-- /ko --></a>
+                      <div style="margin-top:10px">
+                      <i class="building outline icon"></i>
+                        <!-- ko if: $data.hasOwnProperty("projectId") -->
+                            <a style="color:#4C4C4C !important" data-bind="attr:{href:'/project/'+projectId}" target="_blank">
+                              <!-- ko if: $data.hasOwnProperty("projectName") -->
+                                  <!--ko text : projectName --><!-- /ko -->
+                              <!-- /ko -->
+                            </a>
+                        <!-- /ko -->
+                      </div>
                     </div>
                   </div>
                   <!-- /ko -->
-                  <!--ko if : leadsPageObj.hasMore()==true -->
-                  <div class="ui animated button" data-bind="click:
-                  nextLeads">
-                    <div class="visible content">Next</div>
-                    <div class="hidden content">
-                      <i class="right arrow icon"></i>
-                    </div>
-                  </div>
-                  <!-- /ko -->
-                   <!--ko if : leadsPageObj.showPrevious()==true -->
-                  <div class="ui animated button" data-bind="click:
-                  previousLeads">
-                    <div class="visible content">Previous</div>
-                    <div class="hidden content">
-                      <i class="left arrow icon"></i>
-                    </div>
-                  </div>
-                  <!-- /ko -->
+                  
                </div>
             </div>
             <div class="ui bottom attached tab segment"  data-tab="fourth">
@@ -531,6 +554,7 @@
       locations : ko.observableArray(),
       lastVisited : ko.observableArray(),
       associatedLocations :ko.observableArray(),
+      city : ko.observable(),
       id: ko.observable('<%= result.id %>'),
       associatedProjects : ko.observableArray(),
       name : ko.observable('<%= result.name %>'),
@@ -586,6 +610,9 @@
        },
       removeLocation : function(index,id){
         classInstance.removeAssociatedLocation(index,id)
+     },
+     deleteLead : function(id){
+      classInstance.deleteLead(id)
      },
      getDistressInfo : function(id){
       var str=""
@@ -662,9 +689,9 @@
     }
     ko.applyBindings(classInstance.viewModel,document.getElementById('adminProfile')) 
     classInstance.listAssociatedProjects();
-    classInstance.listAllProjects();
+   //classInstance.listAllProjects();
     classInstance.listAssociatedLocations();
-    classInstance.listAllLocations();
+   // classInstance.listAllLocations();
     classInstance.listLeads(false);
     
     
@@ -733,13 +760,61 @@
         } 
       })
    }
+
+   AdminProfile.prototype.deleteLead = function(id) {
+   
+      var classInstance = this;
+      var obj = {}
+    
+      httpUtils.get('/lead-delete/'+id,obj,"JSON",function(data){
+         if(httpUtils.checkStatus(data,true,true)){
+           classInstance.viewModel.leads.remove(function(item){
+            return item.id == id;
+          });
+        } 
+      })
+   }
   AdminProfile.prototype.getProjectListingAutocomplete=function(text,request,response){
       var classInstance = this;
-      httpUtils.get("/project-autocomplete",{"text":text},"JSON",function(data){
+      httpUtils.get("/project-autocomplete",
+        {"text":text,"city":classInstance.viewModel.city},"JSON",function(data){
         if(data.status==0){
            var arr = new Array();
           for(var i=0;i<data.result.length;i++){
-              arr.push(data.result[i]._source)
+              var name ="",nameValue='';
+              var item = data.result[i];
+            if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
+               name = item.highlight.name[0]
+               if(name && name != null){
+                  name  = name.replace(/<(?:.|\n)*?>/gm, '');
+               }
+            }else{
+              name = item.fields.name
+            }
+            nameValue=(item.fields.name?item.fields.name[0]:'');
+            var location ={}
+            if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
+              var lCity = item.fields['location.city'];
+              location = lCity[0];
+            }
+           
+           var locationName ={}
+           
+            if(item.fields['location.name'] &&  item.fields['location.name'].length >0){
+              var lName = item.fields['location.name'];
+
+              locationName = lName[0];
+            }
+            var productType =""
+            if(item.fields.productType &&  item.fields.productType.length >0){
+              productType = item.fields.productType[0];
+            }
+             var builderName =""
+            if(item.fields.builderName &&  item.fields.builderName.length >0){
+              builderName = item.fields.builderName[0];
+            }
+            var dataPro = {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,"builderName":builderName};
+            arr.push(dataPro)
           }
         ko.utils.arrayPushAll(classInstance.viewModel.projects,arr)
         }
@@ -747,7 +822,7 @@
     }
      AdminProfile.prototype.getLocationListingAutocomplete=function(text,request,response){
       var classInstance = this;
-      httpUtils.get("/project-autocomplete",{"text":text,"page":classInstance.page},"JSON",function(data){
+      httpUtils.get("/project-autocomplete",{"text":text,"city":classInstance.viewModel.city,"type":"location"},"JSON",function(data){
         if(data.status==0){
            var arr = new Array();
           for(var i=0;i<data.result.length;i++){
@@ -802,9 +877,9 @@
     }
     httpUtils.get('/leads',{page:pagenation},"JSON",function(data){
        if(data.status==0){
-        if(replace){
+        //if(replace){
           classInstance.viewModel.leads([])
-        }
+        //}
         ko.utils.arrayPushAll(classInstance.viewModel.leads,data.result)
         if(classInstance.viewModel.leadsPageObj.start() !=0){
           
@@ -943,6 +1018,14 @@
   $(document).ready(function(){
     var adminProfile = new AdminProfile();
     adminProfile.init();
+    var city = localStorage.getItem("city");
+  if(city){
+    
+    adminProfile.viewModel.city(city)
+  } else{
+    
+    adminProfile.viewModel.city("Gurgaon")
+  }
   })
   </script>
 
