@@ -2,7 +2,7 @@
   function SearchBar(){
     this.page={
       start:0,
-      pageSize:3
+      pageSize:10
     },
     this.type={
       "irx-eproduct":"project",
@@ -581,6 +581,12 @@ $(document).ready(function(){
     sBar.viewModel.showCity("gurgaon")
     sBar.viewModel.showCity("Gurgaon")
   }
-
- 
+  if( $(".mobileCity").length>0){
+    $(".mobileCity").dropdown({
+      onChange: function (val) {
+         sBar.viewModel.showCity(city);
+         sBar.viewModel.city(city);
+      }
+    });
+ }
 })

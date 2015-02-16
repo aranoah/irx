@@ -89,6 +89,11 @@
 		    	<span class="ui teal label"><%= requestObj.name?requestObj.name:'' %> <i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
 		  	</div>
 		  	<% }%>
+	
+		<div class="_hide_" data-bind="visible:agents().length==0" style=" background:#fff;padding: 1rem;color: #7b7b7b;
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;margin-top:5px">
+	    	 No<span style="color:#00B2F3;">  agents </span> found for this search.
+	    </div>
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
 
 
@@ -383,6 +388,7 @@
 			classInstance.viewModel.filters.displayName(filters.name);
 		}
 		if(data && data.result){
+			
 			classInstance.viewModel.agents([])
 			ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
 		}	
@@ -391,7 +397,9 @@
 			classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
         classInstance.viewModel.start(classInstance.page.start) ;
         classInstance.viewModel.pageSize=data.page.pageSize;
+		classInstance.viewModel.total(data.page.total)
 		}
+		
 		
 
 	};
@@ -411,7 +419,7 @@
 	  
 	    agent = new Agent();
 	    agent.init();
-	    $('._hide_').show();
+	    $('._hide_').removeClass('_hide_');
 	  })
 	</script>
   <% include ../partials/footer.html.ejs %>

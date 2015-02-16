@@ -311,7 +311,7 @@
 }
 
 #agentContent>#irx-desktop .ui.cards>.card ,#projectContent .ui.cards>.card{
-	width: 32.8rem;
+	width: 32rem;
 	font-size: 14px;
 	text-align: left;
 	margin: 1.3em;
@@ -456,16 +456,15 @@
 }
 
 .proj-listing h3.ui.header {
-	padding-right: 1.5rem;
-	border-right: 2px solid #eaeaea;
-	color: #607d8b;
-	font-size: 1.3em;
+	padding-right: 1rem;
+	color: #105296;
+	font-size: 1.2em;
 	font-weight: 400;
 	text-transform: capitalize;
+	width: 100%;
 }
-
 .proj-listing h5.ui.header {
-	padding-left: 1.2rem;
+	padding-left: 1rem;
 	opacity: .8;
 }
 
@@ -487,7 +486,7 @@
 	top: 0;
 	left: 15px;
 	content: "";
-	border: 1px solid #f6f6f6;
+	/*border: 1px solid #f6f6f6;*/
 	width: 98%;
 }
 
@@ -571,12 +570,15 @@
 }
 
 .proj-listing ._actButtons>.ui.basic.button:not(:first-child):hover, .proj-listing ._actButtons>.ui.basic.button>a:hover, .proj-listing ._actButtons>.ui.basic.button:hover a {
-	background-color: #09963b !important;
-	color: #fff !important;
 	cursor: pointer;
 	font-weight: bold;
 }
-
+.proj-listing ._actButtons>.ui.basic.button:hover{
+	border: 1px solid !important;
+}
+.proj-listing ._actButtons>.ui.basic.button:first-child:hover{
+	border: 0px solid !important;	
+}
 /** mobile and tablet **/
 
 .mobile.tablet.only._actButtons i.icon {
@@ -604,7 +606,7 @@
 .proj-listing table tr td {
 	text-transform: capitalize;
 	font-size: 1rem;
-	padding: .2em .8em !important;
+	padding: .4em .8em !important;
 }
 .proj-listing table tr td:nth-child(2n) {
 	color: #666;
@@ -695,4 +697,7 @@
 
 ._csn.card.mobile-agent {
 	width: 95% !important;
+}
+.ui.items>.item>.image+div.content{
+	padding:0 1.5em .5em !important;
 }

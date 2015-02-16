@@ -24,10 +24,11 @@
 	  font-size: medium;
 	}
 	.proj-listing h5.ui.header {
-	  padding-left: 1.2rem;
-	  opacity: .8;
-	  font-weight: 400;
-	  color: #747474;
+		padding-left: 1.2rem;
+		opacity: .8;
+		font-weight: 400;
+		color: #747474;
+		font-size: .9em;
 	}
 
 	.tempBtn {
@@ -395,28 +396,42 @@
 		<% if(locals.req.device.type == 'desktop'){ %>
 	    <div class="ui relaxed divided items _hide_ grid"style="margin:0;">
 	    	<input type="hidden" value="project" id="_searchTypeG_">
-	    	<div class="twelve wide column" data-bind="foreach : projects" style="padding:0;">
+	    	<div class="twelve wide column _hide_" data-bind="foreach : projects" style="padding:0;">
 	    		<div class="ui items proj-listing column "><!-- 
   				<a class="ui green ribbon label">Distress</a> -->
-				<div class="column" style="position:relative;">
-					<a data-bind="attr: { href: 'project/'+ id }" target="_blank"><h3 class="ui header" data-bind="text: name"></h3></a>
-					<h5 class="ui header"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
-				</div>	
+  				<div style="width:100%">
+					<div class="_csn column" style="position:relative;width:75%">
+						<a data-bind="attr: { href: 'project/'+ id }" target="_blank"><h3 class="ui header" data-bind="text: name"></h3></a>
+						<h5 class="ui header _rightloc"><i class="marker icon"></i><!--ko text: location.name--><!--/ko-->,<!--ko text: location.city--><!--/ko-->,<!--ko text: location.state--><!--/ko--></h5>
+					</div>	
+					<div class="_csn" style="width: 23%;float: right;padding-top: .5em;text-align: center;">
+						<a class="header" style="padding-top:1rem;"><i class="rupee icon" style="padding-left:0;"></i>
+					        <!-- ko if:Array.isArray(priceText) -->
+					          <!-- ko foreach:priceText -->
+					            <!-- ko if:$index -->-<!-- /ko -->
+					              <!-- ko if:$data != 0 -->
+					                <!-- ko text:$data --><!-- /ko -->
+					              <!-- /ko -->
+					              <!-- ko if:$data == 0 -->
+					                On Request
+					              <!-- /ko -->
+					          <!-- /ko -->
+					        <!-- /ko -->
+					        <!-- ko if:!Array.isArray(priceText) -->
+					          <!-- ko text:priceText --><!-- /ko -->
+					        <!-- /ko -->
+					    </a>
+					</div>
+  				</div>
 				<div class="item" style="margin-bottom:0 !important;">
 				  <div id="_projImg" class="ui small image">
 				       <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
 
 				      <img src="" data-bind="attr:{src: gallery[$root.galleryIndex()]}">
 				       <div class="slider">
-				       		
-					        	<i class="chevron right icon" data-bind="visible:($root.galleryIndex()<gallery.length-1),click:function(){$root.getNextImage()}"></i>
-					      
-					       
+				        	<i class="chevron right icon" data-bind="visible:($root.galleryIndex()<gallery.length-1),click:function(){$root.getNextImage()}"></i>
 					        <span><!--ko text:gallery.length--><!--/ko --> PHOTOS</span>
-					       	
-					     
-					       	 	<i class="chevron left icon" data-bind="visible:($root.galleryIndex()>0),click:function(){$root.getPreviousImage()}"></i>
-					        
+				       	 	<i class="chevron left icon" data-bind="visible:($root.galleryIndex()>0),click:function(){$root.getPreviousImage()}"></i>
 				      </div> 
 				       <!--/ko -->
 
@@ -426,24 +441,9 @@
 				       <!--/ko -->
 				  </div>
 				  <div class="content">
-				    <a class="header" style="padding-top:1rem;"><i class="rupee icon" style="padding-left:0;"></i>
-				        <!-- ko if:Array.isArray(priceText) -->
-				          <!-- ko foreach:priceText -->
-				            <!-- ko if:$index -->-<!-- /ko -->
-				              <!-- ko if:$data != 0 -->
-				                <!-- ko text:$data --><!-- /ko -->
-				              <!-- /ko -->
-				              <!-- ko if:$data == 0 -->
-				                On Request
-				              <!-- /ko -->
-				          <!-- /ko -->
-				        <!-- /ko -->
-				        <!-- ko if:!Array.isArray(priceText) -->
-				          <!-- ko text:priceText --><!-- /ko -->
-				        <!-- /ko -->
-				    </a><br/>	    			
+				    
 				    <div class="ui two column grid" style="margin-top:0">
-				    	<div class="fourteen wide column" style="padding:0;">
+				    	<div class="_csn twelve wide column" style="padding:0;">
 				    		<table class="ui small table pj-items extra column">
 						      <tbody>
 						      		<tr>
@@ -479,9 +479,8 @@
 		  					<input type="hidden" id="__maxPrice" value="<%= requestObj.maxPrice?requestObj.maxPrice:'' %>">
 		  					
 					  	</div>
-					    <div class="two wide column" style="padding:0;margin-top:-2rem;">
-
-					      <div class="ui right floated item _actButtons">
+					    <div class="_csn four wide column" style="padding:0;">
+					      <div class="ui  item _actButtons">
 					     	 <div class="ui basic button" data-bind="html:$parent.fbIntegration($data)"></div>
 					        <div class="ui basic button" onClick="function(){}"><a data-bind="attr: { 'href': '/project/'+ id }" target="_blank">View details</a></div>
 					        <div class="ui basic button leads-in" data-bind="click:function(){$parent.enquireNow($data) }">Enquire</div>
