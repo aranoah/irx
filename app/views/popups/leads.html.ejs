@@ -56,6 +56,7 @@
           
             <input name="mobileNo" placeholder="Mobile Number.." value="" type="text">
           </div>
+          <div class="item field" style="display:none" id="_msg">OK</div>
           <% }%>
           
           <% if(!locals.session.user){%>
@@ -74,12 +75,12 @@
             <input name="mobileNo" value="" placeholder="Mobile Number.." type="text">
           </div>
            <% }%>
-        
+        <div class="item field" style="display:none" id="_msg">OK</div>
         </div>
         
          <input name="projectId" id="_projectIdP_" type="hidden" value="" placeholder="Mobile">
           <input name="agentId" id="_agentIdP_" type="hidden" value="" placeholder="Mobile">
-        
+         
         <div class="three column row">
           <div class="right floated column">
           <input type="submit" style="height:0;width:0;display:none;outline:0" id="_clickable_">

@@ -153,11 +153,14 @@
 
     // disable dropdown
      $('#searchF').on('change','#__searchType__',function(){
-        if($(this).val()=="agent" || $(this).val()=="locality"){
+
+        var sType = $(this).val();
+        _classInstance.setPlaceholder(sType)
+        if(sType=="agent" || sType=="locality"){
           $('#searchF').find('.__bhk__').dropdown('destroy')
           $('#searchF').find('.__bhk__').addClass('_disabled_')
           
-           $('#searchF').find('.__budget__').dropdown('destroy')
+          $('#searchF').find('.__budget__').dropdown('destroy')
           $('#searchF').find('.__budget__').addClass('_disabled_')
         } else{
           $('#searchF').find('.__bhk__').dropdown('enable')
@@ -365,6 +368,15 @@
 
     ko.applyBindings(_classInstance.viewModel,document.getElementById('searchF'));
   }
+  SearchBar.prototype.setPlaceholder = function(sType){
+    if(sType=="agent"){
+      $('#searchF').find('#__searchAuto').attr('placeholder','Search by name, location, project name..')
+    }else if(sType=="locality"){
+      $('#searchF').find('#__searchAuto').attr('placeholder','Search locality..')
+    }else if(sType=="project"){
+      $('#searchF').find('#__searchAuto').attr('placeholder','Search by name or locality..')
+    }
+  }
   SearchBar.prototype.getPriceText = function(amount) {
     var text = "";
     if(amount.length==4 || amount.length==5){
@@ -550,8 +562,14 @@
     var sBar = null;
 $(document).ready(function(){
 
-   sBar = new SearchBar();
-  sBar.init();
+    sBar = new SearchBar();
+    sBar.init();
+    var searchType = $('#_searchTypeG_').val();
+    if(!searchType && searchType!=""){
+      searchType = "project"
+    }
+
+   sBar.setPlaceholder(searchType)
    $("._ld_DCTY_DTA").find('.item').remove();
 
  $("._ld_DCTY_DTA").append($city);

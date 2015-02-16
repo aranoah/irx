@@ -42,9 +42,10 @@
 	  		<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
 	  		<div class="ui grid rib-head">
 		    	<h4 class="ui header" style="margin:1rem;font-weight:normal;">Showing results for
-
-	    		<a data-bind="text:filters.displayName"></a>
 	    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></h2>
+		    	<!-- <div class="ui grid">  
+				  <div class="row centered aligned">
+
 		    	<div class="ui grid">  
 				  <div class="row" style="text-align:left;">
 				    <div class="header right menu">
@@ -63,12 +64,7 @@
 
 	  	<% if(locals.req.device.type == 'desktop'){ %>
 	  	<div class="ui grid two column rib-head">
-			<h2 class="ui header column" style="margin-top:1.2em">AGENTS</h2>	  		
-    		<!--<h2 class="ui header "> Showing results -->  <!-- for
-
-    		<a data-bind="text:filters.displayName"></a>
-    	
-    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></a> </h2>-->
+			<h2 class="ui header column" style="margin-top:1.2em">AGENTS</h2>
 	    	<div class="header column right menu">
 	    		<!-- <div class="ui checkbox">
 			      <input type="checkbox">
@@ -85,7 +81,7 @@
 		  	</div>
 		  	<% }%>
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
-
+	    	
 			<% if(locals.req.device.type != 'desktop'){ %>
 			  <div class="_csn card mobile-agent">
 
