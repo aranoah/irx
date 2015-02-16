@@ -175,7 +175,7 @@
               <a class="ui dropdown item right floated column">
                 <i class="settings icon"></i>settings
                 <div class="menu">
-                  <div class="item">Suspend Account</div>
+               
                   <div class="divider"></div>
                   <div class="item" style="cursor:pointer" id="_reset_btn">Reset Password</div>
                 </div>
@@ -197,7 +197,7 @@
                         <li>Click add new</li>
                       </ul>
                     </div>
-                   <!-- /ko -->
+                  <!-- /ko -->
                  <!-- ko foreach: associatedProjects -->
                     <div class="ui items">
                       <div class="item">
@@ -254,7 +254,7 @@
                               
                             </ul>
                           </div>
-                         <!-- /ko -->
+                        <!-- /ko -->
                         <!-- ko foreach: projects -->
                           <div class="ui items">
                             <div class="item">
@@ -270,13 +270,10 @@
                             </div>
                           </div>
                         <!-- /ko -->
-                      
-                        
                       </div>
                     </div>
                   </div>
                 </div>
-               
               </div>
             </div>
             <div class="ui bottom attached tab segment" data-tab="second">
@@ -310,7 +307,6 @@
                       </div>
                     </div>
                   <!-- /ko -->
-                 
                 </div>
                 <div class="right floated ui positive button _profaddProj">Add more Locations</div> 
                 <div class="_profsearProj column right-portion" style="display:none;margin:2rem 0;padding:0;">
@@ -641,26 +637,26 @@
         var bhk = pro.bhk;
         var checkedDistressData = classInstance.viewModel.checkedDistress();
         var checkedDistressObj =  checkedDistressData[pro.id];
-       
-       for (var i=0 ; i<bhk.length;i++){
-        
+        if(bhk){
+           for (var i=0 ; i<bhk.length;i++){
+          
           if(checkedDistressObj){
-            
+            var distressPro = {"bhk":bhk[i],"price":0,"checked":false};
             for(var k=0;k<checkedDistressObj.length;k++){
-             
+            
               if(checkedDistressObj[k] && checkedDistressObj[k].bhk == bhk[i]){
-
-                classInstance.viewModel.distress.push({"bhk":checkedDistressObj[k].bhk,"price":checkedDistressObj[k].price,"checked":true})      
-                break;
-              } else {
-                classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
-                break;
-              }
+               distressPro.checked = true;
+                distressPro.price = checkedDistressObj[k].price;  
+                //break;
+              } 
             }
+             classInstance.viewModel.distress.push(distressPro) 
           } else{
             classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
         }
       }
+        }
+      
       }
      
     }
@@ -739,7 +735,7 @@
    }
   AdminProfile.prototype.getProjectListingAutocomplete=function(text,request,response){
       var classInstance = this;
-      httpUtils.get("/project-autocomplete",{"text":text,"page":classInstance.page},"JSON",function(data){
+      httpUtils.get("/project-autocomplete",{"text":text},"JSON",function(data){
         if(data.status==0){
            var arr = new Array();
           for(var i=0;i<data.result.length;i++){
@@ -784,14 +780,17 @@
   }
 
   AdminProfile.prototype.markDistressF = function(distress,projectId) {
+    var classInstance = this;
     var distressData={};
     distressData[projectId]=distress;
-    console.log(distressData)
     var classInstance = this;
          httpUtils.post("/mark-distress/"+projectId,
                         distressData,
                         {},"JSON",function(result){
-                          if(httpUtils.checkStatus(result,true,true)){}
+                          if(httpUtils.checkStatus(result,true,true)){
+                            
+                            classInstance.viewModel.currContext("")
+                          }
                         })
   };
 

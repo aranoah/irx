@@ -741,7 +741,7 @@ UserService.prototype.review = function(data) {
     
     
 /*
-	Register a user and send verification mail
+	fbRegisterUser
 
 **/
 UserService.prototype.fbRegisterUser = function(user) {
