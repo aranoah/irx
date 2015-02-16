@@ -91,7 +91,9 @@
 	.ui.dropdown.field.__budget__>.menu>.header>input {
 		width:100px;text-align:center;border: 1px solid #ddd;padding:.7em 1.1em .7em 0;
 	}
-	
+	._city_ {
+		text-transform: capitalize;
+	}
 </style>
 <body id="home">
   <% include ../partials/header.html.ejs %>
@@ -479,7 +481,12 @@
 	                	var data={"text":request.term,"city":_classInstance.viewModel.city()}
 	                  _classInstance.agentAutocomplete(data,request,response)
 	                
-	                }
+	                }else if(_classInstance.viewModel.searchType()=='locality'){
+			var data={"text":request.term,"city":_classInstance.viewModel.city()}
+
+                       data["type"]="location";
+                  _classInstance.projectAutocomplete(data,request,response)
+                }
 	              },
 	              minLength: 2,
 	              dataType: "json",

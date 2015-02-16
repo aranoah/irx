@@ -429,9 +429,9 @@
 
 				      <img src="" data-bind="attr:{src: gallery[$root.galleryIndex()]}">
 				       <div class="slider">
-				        	<i class="chevron right icon" data-bind="visible:($root.galleryIndex()<gallery.length-1),click:function(){$root.getNextImage()}"></i>
-					        <span><!--ko text:gallery.length--><!--/ko --> PHOTOS</span>
-				       	 	<i class="chevron left icon" data-bind="visible:($root.galleryIndex()>0),click:function(){$root.getPreviousImage()}"></i>
+				        	<i class="chevron right icon" data-bind="visible:false,click:function(){$root.getNextImage()}"></i>
+					        <span>1 PHOTO</span>
+				       	 	<i class="chevron left icon" data-bind="visible:false,click:function(){$root.getPreviousImage()}"></i>
 				      </div> 
 				       <!--/ko -->
 
