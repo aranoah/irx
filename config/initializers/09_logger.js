@@ -35,3 +35,22 @@ module.exports = function(done) {
 	}
 	done();
 }
+module.exports = function(done) {
+ var winston = require('winston');
+    var logger= new (winston.Logger)({
+    transports: [
+      new (winston.transports.Console)(),
+      new (winston.transports.File)({ filename: 'irx.log', handleExceptions: true})
+    ]
+    });
+ try{
+//          logger.transports.console.level = 'debug';
+//          logger.transports.file.level = 'verbose';
+       _app_context.logger = logger;
+
+ }
+ catch(e){
+  console.log(e);
+ }
+ done();
+}

@@ -249,7 +249,7 @@ UserService.prototype.updateUser = function(user) {
 			)
 			 return;
 	}
-	
+	console.log("HEyy !!",id,updateObject,user.name)
 	User.update({"irxId":id},
 							{
 								$set:updateObject
