@@ -45,7 +45,7 @@ AgentListingService.prototype.listAgents = function(data){
 		page=defPage;	
 	}
 	if(filters && filters.city != null &&  filters.city != "") {
-		//query["location.city"]=filters.city;
+		query["location.city"]=filters.city;
 	}
 	if(filters && filters.type != null &&  filters.type != "") {
 		query["type"]=filters.type;

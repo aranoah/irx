@@ -73,7 +73,7 @@
           <div class="content">
             <div class="header _name_ profEdit" contenteditable="false">
             <!-- ko if:name=="" -->
-              <!--ko text : Enter Name --><!-- /ko -->
+              Enter Name
             <!-- /ko -->
             <!-- ko if:name !="" -->
               <!--ko text : name --><!-- /ko -->
@@ -86,7 +86,14 @@
             </div>
           </div>
           <div class="content">
-            <div class="item _compname_ profEdit" style="padding:0;" contenteditable="false" >  <!--ko text : companyName --><!-- /ko -->
+            <div class="item _compname_ profEdit text" style="padding:0;" contenteditable="false" >
+              <!-- ko if:(companyName=="") -->
+               Enter Company Name
+              <!-- /ko -->
+               <!-- ko if:companyName !="" -->
+                <!--ko text : companyName --><!-- /ko -->
+            <!-- /ko -->
+              
             <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i>
             </div>
             <div class="ui buttons">
@@ -99,24 +106,32 @@
           </div>
 
          <div class="lib-specs">
-            <div class="header">Specialities :</div>
-            <select class="ui dropdown">
-              <option value="">Choose</option>
-              <option value="1">Rent</option>
-              <option value="0">Sale</option>
-              <option value="0">Sale</option>
-            </select>
-             <% if(result.specialities) {%>
+            <div class="header" style="position:relative">Specialities :      <div class="ui icon buttons" style="display: block;position: initial;">
+              <div class="ui top left pointing dropdown button _dDown">
+                <i class="user icon"></i>
+                <div class="menu">
+                  <div class="item">Rent</div>
+                  <div class="item">Sale</div>
+                  <div class="item">Property</div>
+                  <div class="item">Plot</div>
+                </div>
+              </div>
+            </div></div>
+            
+      
             <div class="libs-items">
-              <% for(var i=0; i<result.specialities.length; i++) {%>
+              <!-- ko foreach:specialities -->
                
                 
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i><%= result.specialities[i] %>
-              </div>
-            <% } %>
+                <div class="item" style="text-transform:capitalize">
+                  <i class="top aligned right triangle icon" style="color:#9A9A9A"></i>
+                    <!-- ko text:$data --><!-- /ko -->
+                  <i class="remove icon" style="cursor:pointer" data-bind="click:function(){$root.removeSpecialtiy($data)}"></i>
+                </div>
+            <!-- /ko -->
              
             </div>
-            <% } %>
+        
           </div>
           
            <div class="ui divided list lib-xtras" style="text-align:left">
@@ -647,6 +662,10 @@
      deleteLead : function(id){
       classInstance.deleteLead(id)
      },
+     removeSpecialtiy : function(data){
+      classInstance.viewModel.specialities.remove(data)
+      classInstance.updateUserProfile("specialities","",data,false)
+     },
      getDistressInfo : function(id){
       var str=""
         var checkedDistressData = classInstance.viewModel.checkedDistress();
@@ -720,6 +739,10 @@
       }
      
     }
+
+    <%for(var i=0;i<result.specialities.length;i++){ %>
+      classInstance.viewModel.specialities.push('<%= result.specialities[i] %>');
+    <%} %>
     ko.applyBindings(classInstance.viewModel,document.getElementById('adminProfile')) 
     classInstance.listAssociatedProjects();
    //classInstance.listAllProjects();
@@ -727,7 +750,14 @@
    // classInstance.listAllLocations();
     classInstance.listLeads(false);
     
-    
+    $('._dDown')
+      .dropdown({
+        onChange: function(value, text, $selectedItem) {
+         classInstance.viewModel.specialities.push(value)
+         classInstance.updateUserProfile("specialities","",value,true)
+        }
+      });
+    $(document).off('click','._bhk_')
     $(document).on('click','._bhk_',function(){
 
       $(this).parent().find('._dis_').toggleClass('_hidden_')
@@ -1017,18 +1047,29 @@
         }
     })
   }
-  AdminProfile.prototype.updateUserProfile = function(item,self) {
-     var classInstance = this;
+  AdminProfile.prototype.updateUserProfile = function(item,self,value,add) {
+    
+    var classInstance = this;
     var obj = {};
     if(item=='location'){
       obj.location = {"name":classInstance.viewModel.location.name,
                        "city":classInstance.viewModel.location.city,
                        "state":classInstance.viewModel.location.state };
-    }else{
+    } else if(item=='specialities'){
+      obj[item] = value;
+      if(add){
+        obj["add"]=true
+      }else{
+        obj["add"]=false
+      }
+    } else{
       obj[item] = classInstance.viewModel[item]();
     }
       httpUtils.post("/update-user",obj,{},"JSON",function(data){
         if(data.status==0){
+           if(item=='specialities'){
+            return;
+          }
           if(item=='location'){
             locationClose(self);
           } else if(item=='phoneNum'){
@@ -1041,7 +1082,7 @@
                   position: 'bottom left'
                 })
               ;
-          } else {
+          } else{
             profileClose(self);
           }
         }

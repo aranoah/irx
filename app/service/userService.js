@@ -175,7 +175,7 @@ UserService.prototype.updateUser = function(user) {
 	*/
 
 	var updateObject = {};
-	
+	var updateQuery ={$set:updateObject}
 	if(user.location != null) {
 		updateObject["location"]=user.location;
 	}
@@ -192,7 +192,13 @@ UserService.prototype.updateUser = function(user) {
 		updateObject["id"]=user.id;
 	}
 	if(user.specialities != null) {
-		updateObject["specialities"]=user.specialities;
+		if(user.add && (user.add=='true'||user.add==true)){
+			updateQuery={"$addToSet":{"specialities":user.specialities}};
+		}else{
+			updateQuery={"$pull":{"specialities":user.specialities}};
+		}
+		console.log("qwewrety",updateQuery)
+		
 	}
 	if(user.file && user.file != null) {
 		var file = user.file;
@@ -230,11 +236,9 @@ UserService.prototype.updateUser = function(user) {
 			)
 			 return;
 	}
-	console.log("HEyy !!",id,updateObject,user.name)
+
 	User.update({"irxId":id},
-							{
-								$set:updateObject
-							},
+							updateQuery,
 							function(err, numberAffected, raw){
 								console.log(numberAffected)
 								if(err){

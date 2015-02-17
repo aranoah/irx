@@ -118,8 +118,9 @@
 		    <div class="content">
 
 		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name"></div></a>
-		      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);"></a>
-
+		      <!-- ko if:$data.hasOwnProperty('companyUrl') -->
+		     	 <a class="group" data-bind="text : companyName()" style="color:rgba(0,0,0,0.6);"></a>
+		      <!-- /ko -->
 		      <div class="content addr-ess">
     			<i class="map marker icon"></i><span data-bind="text : location.city"></span>
     		  </div>
