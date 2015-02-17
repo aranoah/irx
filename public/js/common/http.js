@@ -43,24 +43,35 @@ HTTPUtils.prototype.post = function(uri,data,headers,dataType,successCallback,er
         })
 };
 
-HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail) {
+HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail,successObj,failureObj) {
      if(data.status == 0 || data.status==200){
 
           if(showPopUpSuccess){
-               $('#_serverSuccess_').modal('show');
-               $('#_serverSuccess_').find('.successMsg').text(data.message)
+              if(!successObj){
+                successObj={
+                  status:data.status,
+                  heading:"Operation Status",
+                  content:data.message
+                };
+              }
+             __overlaySideBar(successObj)
           }
           return true;
     }else{
+          if(data.status==401){
+            $('.log-in').click();
+            return false;
+          }
           if(showPopUpFail){
-            var obj={
+            if(!failureObj){
+             failureObj={
               status:data.status,
-              heading:"Login Failed",
-              content:"Please check your login credentials" 
+              heading:"Operation Status",
+              content:data.message 
             };
-              __overlaySideBar(obj)
-               // $('#_serverError_').modal('show');
-               // $('#_serverError_').find('.errMsg').text(data.message)
+          }
+            __overlaySideBar(failureObj)
+              
           }
         return false;
      }

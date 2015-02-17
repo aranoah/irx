@@ -40,7 +40,13 @@
         <% if(!result.imageUrl || result.imageUrl == null){ %>
           <div class="lib-pic"><img class="ui circular image" src="/images/elliot.jpg"></div>
         <% } %>
-          <div class="item"><div class="header"><%= result.name %></div><%= result.companyName %></div>
+          <div class="item">
+          <div class="header"><%= result.name?result.name:'' %></div>
+           <% if(result.companyName && result.companyName != null){ %>
+              <%= result.companyName %>
+           <% } %>
+         
+          </div>
           <div class="item"><div class="header"><%= result.location != null?result.location.city:'' %></div></div>
           <div class="fb-like left floated" data-bind="html:fbIntegration('<%= result.irxId %>')"></div>
 
