@@ -129,9 +129,13 @@ userController.updateUser = function() {
      _nself.processJson(status,msg,result,page);
     });
       var user = _nself.getCurrentUserInfo(_nself);
-      var userData ={
-        "irxId":user.irxId
+      var userData={};
+
+      if(_nself.req.body){
+        userData = _nself.req.body;
       }
+       userData.irxId=user.irxId
+     
     if(_nself.req.files){
        userData.file=_nself.req.files.image;
     }

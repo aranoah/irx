@@ -100,6 +100,12 @@
 
          <div class="lib-specs">
             <div class="header">Specialities :</div>
+            <select class="ui dropdown">
+              <option value="">Choose</option>
+              <option value="1">Rent</option>
+              <option value="0">Sale</option>
+              <option value="0">Sale</option>
+            </select>
              <% if(result.specialities) {%>
             <div class="libs-items">
               <% for(var i=0; i<result.specialities.length; i++) {%>
