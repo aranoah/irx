@@ -71,7 +71,13 @@
             </div>
           </div>
           <div class="content">
-            <div class="header _name_ profEdit" contenteditable="false"><!--ko text : name --><!-- /ko -->
+            <div class="header _name_ profEdit" contenteditable="false">
+            <!-- ko if:name=="" -->
+              <!--ko text : Enter Name --><!-- /ko -->
+            <!-- /ko -->
+            <!-- ko if:name !="" -->
+              <!--ko text : name --><!-- /ko -->
+            <!-- /ko -->
             <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i>
             </div>
             <div class="ui buttons">
@@ -94,6 +100,12 @@
 
          <div class="lib-specs">
             <div class="header">Specialities :</div>
+            <select class="ui dropdown">
+              <option value="">Choose</option>
+              <option value="1">Rent</option>
+              <option value="0">Sale</option>
+              <option value="0">Sale</option>
+            </select>
              <% if(result.specialities) {%>
             <div class="libs-items">
               <% for(var i=0; i<result.specialities.length; i++) {%>
@@ -112,7 +124,9 @@
               <div class="item _location_ profEdit" contenteditable="false">
                 <i class="map marker icon _csn"></i>
                 <span class="_csn">
-                  <!-- ko text:location.name --><!-- /ko -->,
+                  <!-- ko if:location.name -->
+                    <!-- ko text:location.name --><!-- /ko -->,
+                  <!-- /ko -->
                   <!-- ko text:location.city --><!-- /ko -->,
                   <!-- ko text:location.state --><!-- /ko -->
                 </span>
@@ -148,7 +162,7 @@
                   <div class="ui button _cancel_" data-bind="click:function(){profileClose('_unUserName_')}">Cancel</div>
                 </div>
             </div>
-            <div class="item"><i class="mail outline icon"></i><%= result.userId%></div>
+            <div class="item"><i class="mail outline icon"></i><%= result.contactEmailAddress?result.contactEmailAddress:result.userId%></div>
             <div class="content">
               <div class="item _phoneNum_ profEdit" contenteditable="false">
                 <i class="call icon"></i><!--ko text : phoneNum --><!-- /ko -->
@@ -568,7 +582,6 @@
 
   AdminProfile.prototype.init = function() {
     var classInstance = this;
-    
     classInstance.viewModel={
       projects: ko.observableArray(),
       locations : ko.observableArray(),
@@ -577,14 +590,14 @@
       city : ko.observable(),
       id: ko.observable('<%= result.id %>'),
       associatedProjects : ko.observableArray(),
-      name : ko.observable('<%= result.name %>'),
-      companyName : ko.observable('<%= result.companyName %>'),
+      name : ko.observable('<%= result.name?result.name:'' %>'),
+      companyName : ko.observable('<%= result.companyName?result.companyName:'' %>'),
       specialities : ko.observableArray(),
-      location : {name:ko.observable("<%= result.location.name %>"),
-                  city:ko.observable("<%= result.location.city %>"),
-                  state:ko.observable("<%= result.location.state %>")
+      location : {name:ko.observable("<%= result.location.name?result.location.name:'' %>"),
+                  city:ko.observable("<%= result.location.city?result.location.city:'' %>"),
+                  state:ko.observable("<%= result.location.state?result.location.state:'' %>")
                 },
-      phoneNum : ko.observable('<%= result.phoneNum %>'),
+      phoneNum : ko.observable('<%= result.phoneNum?result.phoneNum:'' %>'),
       leads : ko.observableArray(),
       currContext : ko.observable(),
       distress : ko.observableArray([

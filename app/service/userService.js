@@ -230,7 +230,7 @@ UserService.prototype.updateUser = function(user) {
 			)
 			 return;
 	}
-	
+	console.log("HEyy !!",id,updateObject,user.name)
 	User.update({"irxId":id},
 							{
 								$set:updateObject
@@ -524,7 +524,7 @@ UserService.prototype.review = function(data) {
 	var _selfInstance  = this;
 	//get review invitation
 	var refCode = data.refCode;
-	console.log("achaaa",{"parentId":data.parentId,"targetId":data.agentId})
+
 	IRXReviewInvitationModel.findOne({"parentId":data.parentId,"targetId":data.agentId},function(err,reviewInvitation){
 		if(err){
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error finding review invitation",err,null);
@@ -620,8 +620,9 @@ UserService.prototype.review = function(data) {
 					})
 	};
 
-	//check whether this username exist or not
+
 	UserService.prototype.saveVerificationCode = function(vData,type,callback) {
+		
 		var _selfInstance  = this;
 			var id = _selfInstance.getCustomMongoId("IVER-")
 			var verCode = _selfInstance.getCustomMongoId("IVC-")
@@ -629,7 +630,7 @@ UserService.prototype.review = function(data) {
 		_selfInstance.once('sendEmail',function(sVerification){
 			var action="";
 			var data={};
-			if(type==VERIFICATION_TYPE.REGISTER){
+			if(type==VERIFICATION_TYPE.ACCOUNT){
 				action = MAIL_TYPE.REGISTER;
 				data = sVerification.userId;
 			} else if(type==VERIFICATION_TYPE.PHONE){
@@ -655,7 +656,7 @@ UserService.prototype.review = function(data) {
 	     	      	callback(STATUS.ERROR.code,"Error putting in queue");
 					return;
 	     	      } else{
-	     	      	console.log("Mail has been ")
+	     	      	console.log("Mail has been successfully queued ")
 	     	      	callback(STATUS.MAIL_SUCCESS.code,STATUS.MAIL_SUCCESS.msg);
 					return;
 	     	      }         
@@ -679,7 +680,7 @@ UserService.prototype.review = function(data) {
 				});
 				verification.save(function(err, sVerification) {
 					if(err){
-						console.error("Error saving verification data :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+						console.error("Error saving verification data :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg,err)
 					     callback(mongoErr.resolveError(err.code).code,"Error updating verification data");
 							return;								
 						} else {
