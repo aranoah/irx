@@ -75,6 +75,14 @@ Common.prototype.init = function(first_argument) {
     },
 		openTab:function(tabID) {
 			classInstance.viewModel.tabID(tabID);
+      classInstance.viewModel.emailId('');
+      classInstance.viewModel.password('');
+      classInstance.viewModel.cnfPassword('');
+      classInstance.viewModel.userId('');
+      classInstance.viewModel.name(''); 
+      classInstance.viewModel.type('user'); 
+      $('.ui.reg_chckbx').find("input").removeAttr("checked");
+      $("._msg").removeClass("_ajActive").removeClass("._ajError").text('');
 			return false;
 		},
 		login : function() {
@@ -93,13 +101,6 @@ Common.prototype.init = function(first_argument) {
         closable:false
       }).modal('show');
       classInstance.viewModel.openTab('login');  
-      classInstance.viewModel.emailId('');
-      classInstance.viewModel.password('');
-      classInstance.viewModel.cnfPassword('');
-      classInstance.viewModel.name(''); 
-      classInstance.viewModel.type('user'); 
-      $('.ui.reg_chckbx').find("input").removeAttr("checked");
-      $("._msg").removeClass("_ajActive").removeClass("._ajError").text('');
       return false;
     });
 
@@ -415,9 +416,7 @@ Common.prototype.register = function() {
      {  },"JSON",function(data){
     if(data.status==0){
        $('.close.icon').click();
-       $('#confirmation-mail-sent').modal({
-          closable:false
-        }).modal('show');
+       $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('toggle');
     }else {
       $('._msg').addClass('_ajActive').addClass('_ajError').text(data.result[0])
     }

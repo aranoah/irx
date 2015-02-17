@@ -69,6 +69,19 @@ span.ui.teal.label {
     color: #38b7ea;
     font-size: 2rem;
   }
+div.overlay.sidebar {
+    background: #F8F8F8 !important;
+}
+.header._vrfy_hdr {
+    font-weight: 400;  color: #7E7E7E;  text-transform: capitalize;
+    padding: 1em;
+    font-size: 1.3rem;
+    background: #fff;
+}
+.overlay .content {
+    padding: 1em;
+    font-size: 1.10em;
+}
 /*
 #header {
   border-radius: 0;
