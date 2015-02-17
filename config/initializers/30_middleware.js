@@ -24,7 +24,7 @@ var cors=require("cors");
 var messages = require(_path_env+'/message');
 var device = require('express-device');
 var userService = require(_path_model+"/../service/userService.js");
- 
+var logger = _app_context.logger; 
 
 module.exports = function() {
   // Use middleware.  Standard [Connect](http://www.senchalabs.org/connect/)
@@ -36,17 +36,19 @@ module.exports = function() {
   }
   var cs = require('cansecurity'), cansec = cs.init({
     validate: function(login,password,callback){
-        console.log( "hey i am validate function",login,password);
+        logger.log("info","validating user:"+login);
         var User = IRXUserProfileModel;
         var hashPassword = hashAlgo.SHA1(password);
 
         User.findOne({"userId":login,"password":hashPassword.toString()},function(err,user){
           if(err){
+            logger.log("error","Invalid Credentials:"+login);
             callback(false,null,"Invalid Credentials");  
           }else{
             if(user && user != null){
                 callback(true,user,user.name);
             }else{
+                logger.log("error","Invalid session please login:"+login);
                 callback(false,null,"Invalid session please login");
             }
             
@@ -56,32 +58,30 @@ module.exports = function() {
     },
     fbValidate:function(login,password,callback,res){
            var us = new userService();
-           us.once("done",
-                            function(code,msg,user,errValue){
+           logger.log("info","FB:"+login,res);
+           us.once("done",function(code,msg,user,errValue){
                          if(code==0){
                               callback(true,user,user.name);
                          }else{
+                              logger.log("error","FB: unable to login via fb"+login);
                               callback(false,null,"Unable to login via fb, try later"); 
                          }
           });
            us.fbRegisterUser(res);
      },
      sessionKey:"agf67dchkQ!",
-     authCallback:function(req,res,status,msg,funName){
-             console.log("funName:",funName,status)
+     authCallback:function(req,res,status,msg,funName,isUi){
              var message=messages[funName];
               if(!message || message == null){
                   message = msg;
               }
-              if(req.isUi && status == 401){
-                console.log("here")
-                res.redirect("/loginPage")
+              if(isUi && status == 401){
+                logger.log("info","authorization error , please login",msg);
+                res.redirect("/loginPage");
               }else if(status==200){
-
-              }
-              else{
+              }else{
                 res.send(200,{status:status,message:(message)});
-               }
+              }
             
         },debug:true    
     }
@@ -119,12 +119,12 @@ module.exports = function() {
   this.use(this.router);
   this.use(function(err, req, res, next){
       if (req.xhr) {
-        console.log("Server Errr: ",err)
+        logger.log("error","Server error",err);
         res.status(500).send({ error: 'Something blew up!' });
       } else {
-        console.log(err);
+        logger.log("error",err);
       } 
   });
-//  this.use(express.errorHandler());
+
   
 }

@@ -41,7 +41,7 @@ var baseService = require(_path_service+"/base/baseService");
 var logger = _app_context.logger;
 var mongoose = require('mongoose');
 function UserService(){    
-	baseService.call(this);
+	baseService.call(this);  
 }
 UserService.prototype.__proto__=baseService.prototype ;
 

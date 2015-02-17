@@ -20,7 +20,7 @@ app.phase(locomotive.boot.httpServer(80, '0.0.0.0'));
 // sequentially, resulting in a fully initialized server that is listening
 // for requests.
 app.boot(function(err) {
-  if (err) {
+  if (err) {  
   	
     console.error(err.message);
     console.error(err.stack);
