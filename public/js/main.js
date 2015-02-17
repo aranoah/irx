@@ -109,14 +109,6 @@ $(document).ready(function () {
     }).modal('show');
   });
 
-  
-  $(document).off('click','.log-in');
-  $(document).on('click','.log-in',function() {
-		$('#login').modal({
-      closable:false
-    }).modal('show');
-	});
-
   $(document).off('click','.sell-in');
   $(document).on('click','.sell-in',function() {
     

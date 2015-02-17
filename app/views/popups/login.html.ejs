@@ -1,5 +1,5 @@
 <!-- Login popup -->
-<script type="text/javascript" src="/js/common/http.js"></script>
+
 <!-- For mobile screens -->
 
 <div id="login" class="ui modal pop-up grid">
@@ -78,13 +78,14 @@
           </div>
           <div class="required field">
             <div class="ui input">
-              <input type="password" placeholder="Confirm password">
+              <input type="password" data-bind='value:cnfPassword' placeholder="Confirm password">
             </div>
           </div>
+          <div class="_msg field" style="width:100%"></div>
         </div>
       </div>
       <div class="ui checkbox">
-        <input type="checkbox" name="hot-deals">
+        <input type="checkbox" name="tos">
         <label>I agree to the <a href="#">Terms of Service</a>.</label>
       </div>
       <div class="action-button"><div class="ui button" data-bind="click: register">register</div></div>      
@@ -175,16 +176,17 @@
           </div>
           <div class="required field">
             <div class="ui input">
-              <input type="password" placeholder="Confirm password">
+              <input type="password" data-bind='value:cnfPassword' placeholder="Confirm password">
             </div>
           </div>
+          <div class="_msg field" style="width:100%"></div>
         </div>
       </div>
-      <div class="ui checkbox">
-        <input type="checkbox" name="hot-deals">
+      <div class="ui reg_chckbx">
+        <input type="checkbox" name="tos">
         <label>I agree to the <a href="#">Terms of Service</a>.</label>
       </div>
-      <div class="action-button"><div class="ui button" data-bind="click: register">register</div></div>      
+      <div class="action-button"><div class="ui submit" data-bind="click: register">register</div></div>      
       <div class="ui vertical divider">Or</div>
     </div>
     <div class="four wide column fb-login" id="fb-signin">

@@ -1,7 +1,4 @@
 <!-- Sell-ur-property popup -->
-<script type="text/javascript" src="/js/common/http.js"></script>
-
-
 <div id="_postA_" class="ui modal pop-up sell-post">  
 <form class="ui form" action="javascript: common.captureLeads('_postA_')">
   <div class="content">
@@ -128,9 +125,9 @@
         </div>
        
         <div >
-        <h4 class="ui dividing header">Contact Information :</h4>
-        <div class="ui inverted menu contact">
-         <div class="ui form">
+        <div class="ui inverted menu contact" style="padding:0">
+          <h4 class="ui dividing header">Contact Information :</h4>
+          <div class="ui form">
               <!--<h5 for="user" style="margin-top:0;">you are a:</h5>-->
               <div class="_csn field">
                 <div class="ui radio checkbox">
@@ -144,14 +141,16 @@
                   <label>Dealer</label>
                 </div>
               </div>
-          </div>      
+          </div>
+        </div>
+        <div class="ui inverted menu contact">      
           <div class="item field">
             <input type="text" name="name" placeholder="Name" data-bind="value:data.name,css:{'required-field':'must'}">
           </div>
           <div class="item field">
             <input type="text"  name="emailId" placeholder="Email" data-bind="value:data.emailId">
           </div>            
-          <div class="item field">
+          <div class="item field" style="margin:0">
             <input type="text" placeholder="Mobile" name="mobileNo" data-bind="value:data.mobileNo">
           </div>
           <div class="item field" style="display:none" id="_msg">OK</div>
