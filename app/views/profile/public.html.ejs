@@ -46,7 +46,7 @@
 
           <div class="lib-actions">
             <div class="ui basic button reqdet" data-bind="click:function(){enquire()}">Request details</div><br/>
-            <div class="ui basic button" data-bind="click:function(){addAgent('<%= result.name %>','<%= result.irxId %>','<%= result.companyName %>')}">Contact</div>
+            <div class="ui basic button" data-bind="click:function(){addAgent('<%= result.name %>','<%= result.irxId %>','<%= result.companyName %>','<%= result.imageUrl %>')}">Contact</div>
           </div>
 
           <div class="lib-count">
@@ -160,8 +160,9 @@
         
               <div class="meta loc-item">
                 <h4 class="header projectName" ><i class="marker icon"></i><!--ko text:name--><!--/ko --></h4>
+                <!-- ko if: $data.hasOwnPropperty(location) -->
                 <p class="cinema projectDetail" data-bind="text: location.city"></p>
-                
+                <!-- /ko -->
                 <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;"><a class="item" data-bind="attr:{href : '/agent-listing?projectId='+$data.id+'&isLocality=true&searchType=agent&name='+$data.name} ">Agent</a></span></span>
                 
                 <span class="header"style="color:#83AAB8;"><a class="item" data-bind="attr:{href : '/project-listing?projectId='+$data.id+'&isLocality=true&searchType=project&name='+$data.name} ">Project</a></span>
@@ -342,8 +343,8 @@
           }
         })
       },
-      addAgent:function(name,id,companyName){
-        var agent={"name":name,"id":id,"companyName":companyName,"irxId":id}
+      addAgent:function(name,id,companyName,imageUrl){
+        var agent={"name":name,"id":id,"companyName":companyName,"irxId":id,imageUrl:imageUrl}
         var arr=[];
         arr.push(agent)
         _classInstance.aPostReqViewModel.data.agentId([])
@@ -361,15 +362,13 @@
           _classInstance.listReviews(false);
 
         }
-       }
+      }
      
-   ko.applyBindings(_classInstance.viewModel,document.getElementById(_classInstance.parentContainer));
-   _classInstance.listProjects();
-   _classInstance.listUserLocations();
-   _classInstance.addToLastVisited();
-   var ratingPlugin = $('.rate')
-    .rating()
-  ;
+    ko.applyBindings(_classInstance.viewModel,document.getElementById(_classInstance.parentContainer));
+    _classInstance.listProjects();
+    _classInstance.listUserLocations();
+    _classInstance.addToLastVisited();
+    var ratingPlugin = $('.rate').rating();
   
   };
   PublicProfile.prototype.resetPage = function() {

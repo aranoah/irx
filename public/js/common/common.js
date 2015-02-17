@@ -75,6 +75,14 @@ Common.prototype.init = function(first_argument) {
     },
 		openTab:function(tabID) {
 			classInstance.viewModel.tabID(tabID);
+      classInstance.viewModel.emailId('');
+      classInstance.viewModel.password('');
+      classInstance.viewModel.cnfPassword('');
+      classInstance.viewModel.userId('');
+      classInstance.viewModel.name(''); 
+      classInstance.viewModel.type('user'); 
+      $('.ui.reg_chckbx').find("input").removeAttr("checked");
+      $("._msg").removeClass("_ajActive").removeClass("._ajError").text('');
 			return false;
 		},
 		login : function() {
@@ -93,13 +101,6 @@ Common.prototype.init = function(first_argument) {
         closable:false
       }).modal('show');
       classInstance.viewModel.openTab('login');  
-      classInstance.viewModel.emailId('');
-      classInstance.viewModel.password('');
-      classInstance.viewModel.cnfPassword('');
-      classInstance.viewModel.name(''); 
-      classInstance.viewModel.type('user'); 
-      $('.ui.reg_chckbx').find("input").removeAttr("checked");
-      $("._msg").removeClass("_ajActive").removeClass("._ajError").text('');
       return false;
     });
 
@@ -413,17 +414,33 @@ Common.prototype.register = function() {
       type:classInstance.viewModel.type
     },
      {  },"JSON",function(data){
+     var obj={
+       status:data.status 
+     };
     if(data.status==0){
-       $('.close.icon').click();
-       $('#confirmation-mail-sent').modal({
-          closable:false
-        }).modal('show');
+      $('.close.icon').click();
+      obj.heading="Confirmation Mail Sent";
+      obj.content="Please check your email account and verify your status.";
     }else {
-      $('._msg').addClass('_ajActive').addClass('_ajError').text(data.result[0])
+      obj.heading="Error";
+      obj.content=data.result[0];
     }
+    __overlaySideBar(obj);
   })
 };  
 
+function __overlaySideBar(obj){
+  $('#confirmation-mail-sent').find("._vrfy_hdr").text(obj.heading);
+  if(obj.status==0){
+    $('#confirmation-mail-sent').find("._vrfy_msg").removeClass("_ajError").addClass("successMsg").text(obj.content);
+  }else{
+    $('#confirmation-mail-sent').find("._vrfy_msg").removeClass("successMsg").addClass("_ajError").text(obj.content);
+  }
+  $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('toggle');
+  setTimeout(function(){
+    $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('toggle');
+  },5000);
+}
 Common.prototype.requestUserDetails = function(form) {
 
 var name = $("#"+form).find('input[name="name"]').val();

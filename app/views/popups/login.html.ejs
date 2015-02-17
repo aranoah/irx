@@ -88,7 +88,7 @@
         <input type="checkbox" name="tos">
         <label>I agree to the <a href="#">Terms of Service</a>.</label>
       </div>
-      <div class="action-button"><div class="ui button" data-bind="click: register">register</div></div>      
+      <div class="action-button"><div class="ui submit" data-bind="click: register">register</div></div>      
       <div class="ui horizontal divider">Or</div>
     </div>
     <div class="content fb-login" id="fb-signin">
@@ -197,6 +197,7 @@
 </div>
 <% } %>
 </div>
+
 <script>
 function validatRegister(_this){
     $(_this).parents('form').form({
