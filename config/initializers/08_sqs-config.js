@@ -67,6 +67,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
         var messageData = JSON.parse(message.Body);
         if(messageData.action == MAIL_TYPE.REGISTER){
           var type =  VERIFICATION_TYPE.ACCOUNT;
+          console.log("Send Register Mail")
            IRXVerificationModel.findOne({ 'userId': messageData.data,"type":type }, function (err, sVerification) {
             if (err){
                console.log(err)
