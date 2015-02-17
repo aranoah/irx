@@ -38,7 +38,7 @@ var mongoose = require('mongoose');
 
 var properties = require(_path_env+"/properties.js");
 var baseService = require(_path_service+"/base/baseService");
-
+var logger = _app_context.logger;
 var mongoose = require('mongoose');
 function UserService(){    
 	baseService.call(this);
@@ -50,50 +50,69 @@ UserService.prototype.__proto__=baseService.prototype ;
 
 **/
 UserService.prototype.registerUser = function(user) {
-	console.log("In registerUser")
+	logger.log("info","In registerUser")
 	// Make a database entry
-	var id = this.getCustomMongoId("IUSER-")
-
-	var hashPassword = hashAlgo.SHA1(user.password);
-	var userData = new IRXUserProfileModel({
-			"id":id
-  			,"name": user.name
-			,"password": hashPassword.toString()
-			,"userId": user.emailId
-			,"irxId" : id
-			,"location":user.location
-			,"type" : user.type
-			,"companyName" :user.companyName
-			,"specialities": user.specialities
-			,"status": CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION
-	});
-	var _selfInstance = this;
-
-	userData.save(function(err, userData) {
-		if (err) {
-			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
-		} else{
-			// save verification code
-			var id = _selfInstance.getCustomMongoId("IVER-");
-			var type =  VERIFICATION_TYPE.ACCOUNT;
-			var vData = {
-				"data":userData.irxId,
-				"irxId" : userData.irxId,
-				"emailId" : userData.userId,
-				"phoneNum" : userData.phoneNum
-			}
-			 _selfInstance.saveVerificationCode(vData,type,function(code,msg){
-			 	
-			 	if(code == STATUS.OK.code){
-					_selfInstance.emit("done",code,msg,userData,null);
-				} else{
-					_selfInstance.emit("done",code,msg,null,null);
-				}
-			 }
-			)
-		}
-		
-	});
+	var id = this.getCustomMongoId("IUSER-");
+    var _selfInstance = this;
+    //callback register
+    var registerUserCallback = function(){
+        var hashPassword = hashAlgo.SHA1(user.password);
+        var userData = new IRXUserProfileModel({
+                "id":id
+                ,"name": user.name
+                ,"password": hashPassword.toString()
+                ,"userId": user.emailId
+                ,"irxId" : id
+                ,"location":user.location
+                ,"type" : user.type
+                ,"companyName" :user.companyName
+                ,"specialities": user.specialities
+                ,"status": CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION
+                ,contactEmailId:user.emailId
+        });
+        
+        
+        userData.save(function(err, userData) {
+            if (err) {
+                _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+            } else{
+                // save verification code
+                var id = _selfInstance.getCustomMongoId("IVER-");
+                var type =  VERIFICATION_TYPE.ACCOUNT;
+                var vData = {
+                    "data":userData.irxId,
+                    "irxId" : userData.irxId,
+                    "emailId" : userData.userId,
+                    "phoneNum" : userData.phoneNum
+                }
+                 _selfInstance.saveVerificationCode(vData,type,function(code,msg){
+                    
+                    if(code == STATUS.OK.code){
+                        _selfInstance.emit("done",code,msg,userData,null);
+                    } else{
+                        _selfInstance.emit("done",code,msg,null,null);
+                    }
+                 }
+                )
+            }
+            
+        });
+    };
+     
+   //check user exist or not then register
+    IRXUserProfileModel.findOne({userId:user.emailId}).exec(function(err,result){
+        logger.log("info",err);
+        if (err) {
+            _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Internal Server Error",err,null);
+          }
+        else if(result==null || !result.irxId){
+            registerUserCallback();
+        }else{
+            _selfInstance.emit("done",400,"user already exists",["email id already registered"],null);
+        }
+    });
+    
+   
 };
 
 
@@ -524,7 +543,7 @@ UserService.prototype.review = function(data) {
 	var _selfInstance  = this;
 	//get review invitation
 	var refCode = data.refCode;
-
+	console.log("achaaa",{"parentId":data.parentId,"targetId":data.agentId})
 	IRXReviewInvitationModel.findOne({"parentId":data.parentId,"targetId":data.agentId},function(err,reviewInvitation){
 		if(err){
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error finding review invitation",err,null);
@@ -620,14 +639,13 @@ UserService.prototype.review = function(data) {
 					})
 	};
 
-
+	//check whether this username exist or not
 	UserService.prototype.saveVerificationCode = function(vData,type,callback) {
-		
 		var _selfInstance  = this;
 			var id = _selfInstance.getCustomMongoId("IVER-")
 			var verCode = _selfInstance.getCustomMongoId("IVC-")
 		// send email
-		_selfInstance.once('sendEmail',function(sVerification){
+		    _selfInstance.once('sendEmail',function(sVerification){
 			var action="";
 			var data={};
 			if(type==VERIFICATION_TYPE.ACCOUNT){
@@ -656,7 +674,7 @@ UserService.prototype.review = function(data) {
 	     	      	callback(STATUS.ERROR.code,"Error putting in queue");
 					return;
 	     	      } else{
-	     	      	console.log("Mail has been successfully queued ")
+	     	      	console.log("Mail has been ")
 	     	      	callback(STATUS.MAIL_SUCCESS.code,STATUS.MAIL_SUCCESS.msg);
 					return;
 	     	      }         
@@ -680,7 +698,7 @@ UserService.prototype.review = function(data) {
 				});
 				verification.save(function(err, sVerification) {
 					if(err){
-						console.error("Error saving verification data :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg,err)
+						console.error("Error saving verification data :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
 					     callback(mongoErr.resolveError(err.code).code,"Error updating verification data");
 							return;								
 						} else {
