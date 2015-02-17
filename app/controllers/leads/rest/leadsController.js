@@ -66,7 +66,7 @@ leadsController.captureLeads = function() {
 }
 
 /*
-*   Verify leads 
+*   Verify leads Not in use
 **/
 leadsController.reviewLeadVerify = function() {
  var lService = new leadService();
@@ -92,8 +92,9 @@ leadsController.leadDelete = function() {
     lService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
+     var user = _nself.getCurrentUserInfo(_nself);
     var data = {
-      "userId":_nself.req.session['X-CS-Auth'].userId,
+      "userId":user.irxId,
       "leadId":_nself.req.params.leadId
     }
     lService.leadDelete(data);
@@ -110,8 +111,9 @@ leadsController.listLeads = function() {
   lService.on("done", function(code,msg,err,errValue){
    _nself.processJson(code,msg,err,errValue);
   });
+     var user = _nself.getCurrentUserInfo(_nself);
   var data = {
-    "userId":_nself.req.session['X-CS-Auth'].userId,
+    "userId":user.irxId,
     page:_nself.req.query.page,
   }
   lService.listLeads(data);

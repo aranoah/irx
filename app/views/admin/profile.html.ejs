@@ -206,11 +206,19 @@
                     <div class="ui items">
                       <div class="item">
                          <div class="content">
-                          <a class="ui header" data-bind="text:name"></a>
-                          
+                         <!-- ko if: $data.hasOwnProperty("name") -->
+                            <a class="ui header" data-bind="text:name"></a>
+                          <!-- /ko -->
                           <div class="description" style="margin:0;color:#999;">
+                          <!-- ko if: $data.hasOwnProperty("builderName") -->
                             <div class="time" data-bind="text:builderName"></div>
-                            <div class="category" data-bind="text:location.locality"></div>
+                          <!-- /ko -->
+                            <div style="display:inline-block">
+                              <i class="marker icon _csn"></i>
+                              <!-- ko if: $data.hasOwnProperty("location") -->
+                                <div class="category _csn" data-bind="text:location.name"></div>
+                               <!-- /ko -->
+                            </div>
                           </div>
                          </div>
                          <div class="content right floated">
@@ -263,10 +271,20 @@
                           <div class="ui items">
                             <div class="item">
                               <div class="content">
-                                <a class="ui header" data-bind="text:name"></a>
+                                <!-- ko if: $data.hasOwnProperty("name") -->
+                                   <a class="ui header" data-bind="text:name"></a>
+                                <!-- /ko -->
                                 <div class="description" style="margin:0;color:#999;">
-                                  <div class="time" data-bind="text:builderName"></div>
-                                  <div class="category" data-bind="text:location.locality"></div>
+                                   <!-- ko if: $data.hasOwnProperty("builderName") -->
+                                    <div class="time" data-bind="text:builderName"></div>
+                                  <!-- /ko -->
+                                  <div style="inline-block">
+                                   
+                                    <!-- ko if: $data.hasOwnProperty("location") -->
+                                       <i class="marker icon _csn"></i>
+                                      <div class="category _csn" data-bind="text:location.name"></div>
+                                    <!-- /ko -->
+                                  </div>
                                 </div>
                               </div>
                               <div class="right floated content" data-bind="click:function () { $parent.addProject(id)}"><div class="ui mini button">Add</div></div>
@@ -289,11 +307,11 @@
                       <h4 class="header">My Locations</h4>
                     </div>
                   </div>
+
                   <!-- ko if: associatedLocations().length==0 -->
                     <div class="ui info message">
                       <ul class="list">
-                        <li>No projects associated to your profile currently.</li>
-                        <li>Click add new</li>
+                        <li>No locality associated to your profile currently.</li>
                       </ul>
                     </div>
                    <!-- /ko -->
@@ -301,8 +319,9 @@
                     <div class="ui items">
                       <div class="item">
                          <div class="content">
-                          <a class="ui header" data-bind="text:name"></a>
-                          
+                         <!-- ko if: $data.hasOwnProperty("name") -->
+                            <a class="ui header" data-bind="text:name"></a>
+                          <!-- /ko -->
                          </div>
                          <div class="content right floated">
                            <i class="remove circle outline icon" data-bind="click:function () { $parent.removeLocation($index,id)}"></i>
@@ -335,8 +354,9 @@
                           <div class="ui items">
                             <div class="item">
                               <div class="content">
+                              <!-- ko if: $data.hasOwnProperty("name") -->
                                 <a class="ui header" data-bind="text:name"></a>
-                                
+                              <!-- /ko -->
                               </div>
                               <div class="right floated content" data-bind="click:function () { $parent.addLocation(id)}"><div class="ui mini button">Add</div></div>
                               <div class="content"></div>
@@ -381,7 +401,7 @@
                       <!-- ko if: $data.hasOwnProperty("name") -->
                         <div class="header leadName" data-bind="text:name"></div>
                       <!-- /ko -->
-                       <!-- ko if: $data.hasOwnProperty("propertyType") -->
+                      <!-- ko if: $data.hasOwnProperty("propertyType") -->
                         <div class="meta leadType" data-bind="text:propertyType"></div>
                       <!-- /ko -->
                       <div>
