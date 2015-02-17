@@ -18,8 +18,13 @@
           <div class="">
 
             <span data-bind="foreach:data.agentId">
-            <div class="ui image tiny _pImage_ _pImageLead_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
-             </div>
+            <!-- ko if:imageUrl!=null-->
+              <div class="ui image tiny _pImage_ _pImageLead_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}"></div>
+            <!-- /ko -->
+            <!-- ko if:imageUrl==null-->
+              <div class="ui image tiny _pImage_ _pImageLead_" style="background-image:url('/images/elliot.jpg')"></div>
+            <!-- /ko --> 
+             
               <h4 class="_csn" style="  font-size: 1.5rem;font-weight: normal;color: rgb(76, 76, 76);"><!-- ko text:name --><!-- /ko -->&nbsp;&nbsp;<!-- ko text:companyName --><!-- /ko -->
               </h4>
             </span>
@@ -27,7 +32,7 @@
            <h4 class="ui dividing header" style="color:#1E5D76">Step 1 : Please select property location</h4>
           <div class="item">
               <div class="ui selection dropdown">
-                <input type="hidden" name="city" data-bind="textInput:data.city">
+                <input type="hidden" name="city" data-bind="textInput:data.city()">
                 <div class="default text" style="min-width:14rem;margin-right:0 !important;">Select City</div>
                 <i class="angle down icon"></i>
                 <div class="menu" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
@@ -126,23 +131,24 @@
        
         <div >
         <div class="ui inverted menu contact" style="padding:0">
-          <h4 class="ui dividing header">Contact Information :</h4>
           <div class="ui form">
-              <!--<h5 for="user" style="margin-top:0;">you are a:</h5>-->
-              <div class="_csn field">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="user" value="user" data-bind="checked:data.type" checked="checked">
-                  <label>Individual</label>
-                </div>
+            <h4 class="ui dividing header">Contact Information :</h4>
+             
+            <div class="_csn field">
+              <div class="ui radio checkbox">
+                <input type="radio" name="user" value="user" data-bind="checked:data.type" checked="checked">
+                <label>Individual</label>
               </div>
-              <div class="_csn field" style="margin-left:15px;">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="user" value="dealer" data-bind="checked:data.type" >
-                  <label>Dealer</label>
-                </div>
+            </div>
+            <div class="_csn field" style="margin-left:15px;">
+              <div class="ui radio checkbox">
+                <input type="radio" name="user" value="dealer" data-bind="checked:data.type" >
+                <label>Dealer</label>
               </div>
+            </div>
           </div>
-        </div>
+      </div>
+      <div class="ui inverted menu contact" style="padding:0">
         <div class="ui inverted menu contact">      
           <div class="item field">
             <input type="text" name="name" placeholder="Name" data-bind="value:data.name,css:{'required-field':'must'}">

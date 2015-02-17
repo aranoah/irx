@@ -51,9 +51,7 @@ $(document).ready(function () {
 
   });
 
-  $('.ui.accordion')
-  .accordion()
-;
+  $('.ui.accordion').accordion();
 
  
 
@@ -71,8 +69,7 @@ $(document).ready(function () {
 
   $('.menu .item').tab();
 
-  $('.compact.button')
-  .popup({
+  $('.compact.button') .popup({
     inline: true,
     on    : 'click',
     position: 'bottom left'
@@ -200,6 +197,6 @@ $(document)
     //   _parent.find('.toggleBox').hide();
     //   _parent.find('.'+_self.attr("attr-tab")).css('display','inline-block');
     // });
-    $("._ld_DCTY_DTA").append($city);
+     $("._ld_DCTY_DTA").append($city);
 
   });

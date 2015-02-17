@@ -53,9 +53,14 @@ HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail) 
           return true;
     }else{
           if(showPopUpFail){
-            
-               $('#_serverError_').modal('show');
-               $('#_serverError_').find('.errMsg').text(data.message)
+            var obj={
+              status:data.status,
+              heading:"Login Failed",
+              content:"Please check your login credentials" 
+            };
+              __overlaySideBar(obj)
+               // $('#_serverError_').modal('show');
+               // $('#_serverError_').find('.errMsg').text(data.message)
           }
         return false;
      }

@@ -32,6 +32,9 @@ span.ui.teal.label {
     padding-top: 0;
     margin-top: 0;
 }
+p.successMsg {
+    color: #009991 !important;
+}
 .ui.scrolling.modal{
   margin: 1rem auto!important;
 }
@@ -521,7 +524,7 @@ margin-right: 1rem;
 /** footer **/
 
 .ui.inverted.footer.vertical.segment {
-  margin-top: 0rem;
+  margin-top: 4rem;
 }
 
 .ui.inverted.footer.vertical.segment .ui.inverted.menu {

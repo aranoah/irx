@@ -42,22 +42,17 @@
       <i class="column right floated remove circle close icon"></i>
     </div>
   </div>
-  
-    
+
     <!-- Request details starts here -->
-        
-          <div class="ui info message" style="margin:2rem;text-align:center;">
-            <div class="header">
-             We are coming with locality page very soon.
-             Showing agents of this locality
-            </div>  
-             <div class="ui button" data-bind="click: searchF">OK</div>          
-          </div>
-      
-       
-      
+      <div class="ui info message" style="margin:2rem;text-align:center;">
+        <div class="header">
+         We are coming with locality page very soon.
+         Showing agents of this locality
+        </div>  
+         <div class="ui button" data-bind="click: searchF">OK</div>          
+      </div>
     <!-- Ends here -->  
-  
+
 </div>
 <form data-bind="submit: searchF" id="searchForm">
   <div id="searchbar" class="ui inverted menu">
@@ -70,7 +65,7 @@
           <input type="hidden" name="isLocality" placeholder="Search..." data-bind="value: sLocAgents">
           <div class="ui action  left icon input" style="width:100%">
             <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name" style="width:100%">
-               <i class="map icon" id="search-filter" style="width:3em"></i>
+            <i class="map icon" id="search-filter" style="width:3em"></i>
             <div class="ui teal mini button" data-bind="click:function(){this.searchType('<%=locals.searchtype?locals.searchtype:"project"%>');this.searchF($('#searchForm'))}">GO</div>
           </div>         
         </div>
@@ -83,7 +78,7 @@
       <div class="item">
          <div class="ui selection dropdown">
           <input id="_city_" type="hidden" name="city" data-bind="textInput:city">
-          <div class="default text city"><!--ko text: showCity--><!--/ko--></div>
+          <div class="default text city" style="line-height: 15px;"><!--ko text: showCity--><!--/ko--></div>
           <i class="angle down icon"></i>
           <div class="menu _ld_DCTY_DTA" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
             <div class="ui icon search input">
@@ -115,7 +110,7 @@
               <div class="item" data-value="locality">Locality</div>
             </div>
           </div>
-          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name" class="_csn" style="margin-left: -.2em;"/> 
+          <input type="text" id="__searchAuto" name="name" placeholder="Search..." data-bind="value: name" class="_csn" style="margin-left: -.2em;line-height: 17px;"/> 
         </div>
       </div>
       <!-- ends here -->
@@ -123,7 +118,7 @@
       <div class="item">
         <div class="ui selection dropdown __bhk__">
           <input type="hidden" data-bind="value: bhk" name="bhk">
-          <div class="default text">BHK</div>
+          <div class="default text" style="line-height: 17px;">BHK</div>
           <i class="angle down icon"></i>
           <div class="menu">
             <div class="item" data-value="1">1bhk</div>
