@@ -645,10 +645,10 @@ UserService.prototype.review = function(data) {
 			var id = _selfInstance.getCustomMongoId("IVER-")
 			var verCode = _selfInstance.getCustomMongoId("IVC-")
 		// send email
-		_selfInstance.once('sendEmail',function(sVerification){
+		    _selfInstance.once('sendEmail',function(sVerification){
 			var action="";
 			var data={};
-			if(type==VERIFICATION_TYPE.REGISTER){
+			if(type==VERIFICATION_TYPE.ACCOUNT){
 				action = MAIL_TYPE.REGISTER;
 				data = sVerification.userId;
 			} else if(type==VERIFICATION_TYPE.PHONE){
