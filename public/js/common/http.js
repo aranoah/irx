@@ -68,6 +68,13 @@ HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail,s
     }else{
           if(data.status==401){
             if(data.ignoreLogin){
+              if(!failureObj){
+             failureObj={
+              status:data.status,
+              heading:"Operation Status",
+              content:data.message 
+            };
+          }
               __overlaySideBar(failureObj)
             }else{
               $('.log-in').click();
@@ -82,17 +89,17 @@ HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail,s
               content:data.message 
             };
           }else if(failureObj ){
-                if(!failureObj.status){
-                  failureObj.status=data.status
-                }
-                if(!failureObj.content){
-                  failureObj.content=data.message
-                }
+            if(!failureObj.status){
+              failureObj.status=data.status
+            }
+            if(!failureObj.content){
+              failureObj.content=data.message
+            }
 
-              }
-            __overlaySideBar(failureObj)
-              
           }
+        __overlaySideBar(failureObj)
+          
+      }
         return false;
      }
 };
