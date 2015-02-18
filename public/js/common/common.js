@@ -495,13 +495,21 @@ if (agentid && agentid != "") {
   httpUtils.post("/capture-lead",
     data,
      { },"JSON",function(data){
-    if(data.status==0){
-    if(httpUtils.checkStatus(data,false,false)){
+      var leadsObj={
+        status:0,
+        heading:"Lead Captured",
+        content:"Your information has been sent to project agent. They will ping you in short while."
+      }
+      if(data.status!=0){
+        leadsObj.status=data.status;
+        leadsObj.content="Please check information you have sent."
+      }else{
+        $(".close").click();
+      }  
+      if(httpUtils.checkStatus(data,false,true,leadsObj,leadsObj)){
        
       }
-    }else {
-      
-    }
+    
   })
 }
 
