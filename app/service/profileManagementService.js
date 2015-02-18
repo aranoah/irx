@@ -311,7 +311,7 @@ PMService.prototype.markDistress = function(data) {
 	var userId = data.irxId;
 	var distress =data.distress
 	var update = {};
-	console.log("yo yo !!",distress)
+	
 	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId,"project":projectId},
  		[],
