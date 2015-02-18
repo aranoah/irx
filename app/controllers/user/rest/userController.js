@@ -210,7 +210,7 @@ userController.login = function() {
   _app_context.cansec.validate(_nself.req,_nself.res,function(){
       if(_nself.req.session){
           var user = _nself.req.session['X-CS-Auth'].user;
-          if(user.isnew && _nself.req.param("action") == "login" ){
+          if(user.isnew && _nself.req.param("action") == "register" ){
               userSvc.on("done", function(){
                    _nself.processJson(0,"OK",_nself.req.session['X-CS-Auth'].user,null);
               });
