@@ -31,6 +31,7 @@ Common.prototype.getViewModel = function(type) {
       	type:ko.observable("user"),
       	proName:ko.observable(""),
       	locality:ko.observable(""),
+        localityId:ko.observable(""),
         propertyType:ko.observable(""),
         action:ko.observable(""),
         origin:ko.observable(type),
@@ -136,6 +137,7 @@ Common.prototype.init = function(first_argument) {
                 classInstance.viewModelSell.data.proName(textName)
                 
                 classInstance.viewModelSell.data.locality(ui.item.locationName)
+                classInstance.viewModelSell.data.localityId(ui.item.locationId)
                 classInstance.viewModelSell.data.projectId(ui.item.id)
                 return false;
               }
@@ -165,6 +167,7 @@ Common.prototype.init = function(first_argument) {
                 var textName = classInstance.removeHtml(ui.item.name)
                 classInstance.aPostReqViewModel.data.proName(textName)
                 classInstance.aPostReqViewModel.data.locality(ui.item.locationName)
+                classInstance.viewModelSell.data.localityId(ui.item.locationId)
                 classInstance.aPostReqViewModel.data.projectId(ui.item.id)
                 return false;
               }
@@ -195,6 +198,7 @@ Common.prototype.init = function(first_argument) {
                 var textName = classInstance.removeHtml(ui.item.name) 
                 classInstance.viewModelPost.data.proName(textName)
                 classInstance.viewModelPost.data.locality(ui.item.locationName)
+                classInstance.viewModelSell.data.localityId(ui.item.locationId)
                 classInstance.viewModelPost.data.projectId(ui.item.id)
                 return false;
               }
@@ -527,6 +531,9 @@ Common.prototype.captureLeads = function(type) {
 	var parent = "";
   var successObj={};
   var failureObj={};
+  
+
+  
   if(type == classInstance.postReqLeads){
 		viewModel = classInstance.viewModelPost;
     successObj={
@@ -571,10 +578,10 @@ Common.prototype.captureLeads = function(type) {
     }
     
   }
-
- 
-
-	httpUtils.post("/capture-lead",
+  var createLogin = $('#'+type).find('.__createLogin').find('.ui.checkbox').hasClass('checked');
+	alert(createLogin)
+  viewModel.data.createLogin(createLogin);
+  httpUtils.post("/capture-lead",
 		viewModel.data,
 		 { },"JSON",function(data){
 
@@ -614,11 +621,18 @@ function getAutocmpleteResult(reqData,request,response){
                     var lName = item.fields['location.name'];
                     locationName = lName[0];
                 }
+
+                var locationId ={}
+                if(item.fields['location.locality'] &&  item.fields['location.locality'].length >0){
+                    var lId = item.fields['location.locality'];
+                    locationId = lId[0];
+                }
+
                 var productType =""
                 if(item.fields.productType &&  item.fields.productType.length >0){
                     productType = item.fields.productType[0];
                 }
-                return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue};
+                return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId};
             }));
         }
     });

@@ -667,8 +667,12 @@
       classInstance.updateUserProfile("specialities","",data,false)
      },
      getDistressInfo : function(id){
+      alert(1)
       var str=""
         var checkedDistressData = classInstance.viewModel.checkedDistress();
+        if(!checkedDistressData){
+          return str;
+        }
         var checkedDistressObj =  checkedDistressData[id];
       if(checkedDistressObj){
         for(var k=0;k<checkedDistressObj.length;k++){
@@ -714,8 +718,12 @@
         classInstance.viewModel.currContext(pro.id)
         classInstance.viewModel.distress([])
         var bhk = pro.bhk;
+        
         var checkedDistressData = classInstance.viewModel.checkedDistress();
-        var checkedDistressObj =  checkedDistressData[pro.id];
+        var checkedDistressObj =  new Array();
+        if(checkedDistressData){
+          checkedDistressObj =  checkedDistressData[pro.id]
+        }
         if(bhk){
            for (var i=0 ; i<bhk.length;i++){
           
@@ -734,6 +742,8 @@
             classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
         }
       }
+        }else{
+          classInstance.viewModel.currContext("")
         }
       
       }
@@ -974,6 +984,7 @@
     httpUtils.get("/list-user-projects/"+classInstance.userId,{},"JSON",function(data){
        if(data.status==0){
         if(data.result != null){
+          console.log(data.result.distress)
          classInstance.viewModel.checkedDistress(data.result.distress);
           ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result.projects)
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);

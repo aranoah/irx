@@ -91,8 +91,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
            })
 
              
-        }
-        if(messageData.action == MAIL_TYPE.FORGET_PASSWORD){
+        }else if(messageData.action == MAIL_TYPE.FORGET_PASSWORD){
           var type =  VERIFICATION_TYPE.PASSWORD;
            IRXVerificationModel.findOne({ 'emailId': messageData.data,"type":type }, function (err, sVerification) {
             if (err){
