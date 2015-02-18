@@ -28,6 +28,12 @@ span.ui.teal.label {
  position: relative;
  padding-left: 15px;
 }
+.ui.modal .ui.dropdown .default.text {
+    min-width:11em!important
+}
+.ui.modal .ui.dropdown  {
+    min-width:12em!important
+}
 #_postA_ .ui.inverted.menu {
     padding-top: 0;
     margin-top: 0;

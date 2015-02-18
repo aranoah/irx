@@ -38,6 +38,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
 	sqs = new AWS.SQS();
   _app_context.sqs=sqs;
   _app_context.qUrl=sqsQueueUrl;
+  var logger=_app_context.logger ;
   //console.log("hello",sqs)
   function queueReciever(){
     sqs.receiveMessage({
@@ -117,8 +118,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
            })
 
              
-        }
-        if(messageData.action == MAIL_TYPE.PROJECT_DETAILS){
+        }else if(messageData.action == MAIL_TYPE.PROJECT_DETAILS){
           var url = properties.pro_det_url+messageData.data.projectId
           var locals = {
                 "url": url,
@@ -132,11 +132,9 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                   console.log(success)
                 }
               });
-        }
-        if(messageData.action == MAIL_TYPE.VERIFICATION){
+        }else if(messageData.action == MAIL_TYPE.VERIFICATION){
           new smsUtils().sendSms({"msg":properties.phone_sms,"phoneNo":messageData.phoneNum});
-        }
-        if(messageData.action == MAIL_TYPE.USER_DETAILS){
+        }else if(messageData.action == MAIL_TYPE.USER_DETAILS){
         
           IRXUserProfileModel.findOne({"irxId":messageData.irxId},{"name":1,"userId":1,"phoneNum":1},
           function(err,agent){
@@ -164,12 +162,12 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                }
             })
            
-        }
-        if(messageData.action == MAIL_TYPE.LEAD){
+        }else if(messageData.action == MAIL_TYPE.LEAD){
             // Send Email and sms to user 
             IRXLeadModel.findOne({ 'id': messageData.data }, function (err, lead) {
-              if (err){
+              if (err || !lead){
                console.log(err)
+               logger.log("error",err);
               } else{
                     var locals = {
                     "name": lead.name,
@@ -234,8 +232,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
               }
             })
           
-        }
-        if(messageData.action == MAIL_TYPE.INVITATION){
+        }else if(messageData.action == MAIL_TYPE.INVITATION){
           
             var locals =messageData.data;
             locals.userId=messageData.data.targetId;
@@ -246,8 +243,7 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                   console.log(success)
                 }
               });
-        }
-        if(messageData.action == MAIL_TYPE.CLAIM_PROFILE){
+        }else if(messageData.action == MAIL_TYPE.CLAIM_PROFILE){
           
             var locals ={
               "subject":properties.claim_profile_subject,
