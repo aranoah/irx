@@ -508,6 +508,22 @@ if (agentid && agentid != "") {
   })
 }
 
+Common.prototype.initializeFromLocalStorage = function(viewModel) {
+  var city = localStorage.getItem("city");
+    var action = localStorage.getItem("action");
+    if(city){
+        viewModel.data.city(city)
+        viewModel.data.showCity(city)
+    } 
+    if(action){
+        viewModel.data.action(action)
+    }
+}
+
+Common.prototype.resetForm = function(form) {
+  //form.form('clear')
+}
+
 Common.prototype.captureLeads = function(type) {
 
 	var classInstance = this;

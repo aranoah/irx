@@ -1,116 +1,25 @@
 
 <html>
   <head>
-    <head>
-    <% include ../partials/head.html.ejs %>
 
-    <!--   Css files -->
-    <link rel="stylesheet" type="text/css" href="/css/irxmisc/forgot.css">
+    <% include ../partials/head.html.ejs %>
+  
     <style type="text/css">
     
     </style>
   </head>
   <body>
-    <% locals.uiContext.menu=false %>
+    <% locals.uiContext.menu=true %>
     <% include ../partials/header.html.ejs %>
    
-    <div class="irx-misc ui very relaxed stackable page grid"  style="padding-top:10rem;">
-       <div class="ui centered page grid">
-    <script type="text/javascript" src="/js/common/http.js"></script>
-<!-- For mobile screens -->
-
-<div id="login" class="ui modal pop-up grid">
-
-</div>
-  </body>
-<script>
-function validatRegister(_this){
-    $(_this).parents('form').form({
-    userId: {
-      identifier : 'userId',
-      rules: [
-        {
-          type   : 'email',
-          prompt : 'Please enter a valid e-mail'
-        }
-      ]
-    },
-    password: {
-      identifier : 'password',
-      rules: [
-        {
-          type   : 'empty',
-          prompt : 'Please enter a valid password'
-        }
-      ]
-    },
-  });
-    $(_this).parents('form').submit();
-}
-    
-    
-</script>
- 
-  <script>
-      
-
-  $(document).on('click','#fb-signin',function () {
-        callFB();
-  });
-      initfb();
-  function callFB(callback){
-     FB.login(function(response){
-             statusChangeCallback(response,callback);
-     },{scope: 'public_profile'});
-  }
-  function statusChangeCallback(response,callback) {
-    if (response.status === 'connected') {
-      openFbLogin(response.authResponse.userID,response.authResponse.accessToken,callback);
-    } else if (response.status === 'not_authorized') {
-     
-    } else {
-     
-    }
-}
-function initfb(){
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '453584098038579', // App ID
-        channelUrl : '//indianrealtyexchange.com', // Channel File
-        cookie     : true,  // enable cookies to allow the server to access // the session
-        xfbml      : true,  // parse social plugins on this page
-        version    : 'v2.1' // use version 2.1
-      });
-     };
-
-}
- function openFbLogin(uid,accessToken,callback) {
-    FB.api('/me', function(response) {
-    //  loginToServer("facebook",response.id,response.name,uid,accessToken,callback);
-        var classInstance = this;
-      httpUtils.post("/login",
-    {userId:response.id,password:accessToken},
-     { 'authorization': 'FB' },"JSON",function(data){
-    if(data.status==0){
-            
-            ///reload or refresh....
-              $('.close.icon').click();
-    }else {
-      /// error login with fb......
-    }
-  })
-        console.log(response);
-    });
-}    
- </script>
-
-
- <!DOCTYPE html>
-      
-      </div>
-    </div>
-    <% include ../partials/footer.html.ejs %>
-
   
+    <script type="text/javascript" src="/js/common/http.js"></script>
 
+    <% include ../partials/footer.html.ejs %>
+  </body>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.log-in').click();
+    })
+  </script>
 </html>

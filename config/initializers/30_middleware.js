@@ -67,13 +67,13 @@ module.exports = function() {
            us.fbRegisterUser(res);
      },
      sessionKey:"agf67dchkQ!",
-     authCallback:function(req,res,status,msg,funName){
+     authCallback:function(req,res,status,msg,funName,isUi){
              console.log("funName:",funName,status)
              var message=messages[funName];
               if(!message || message == null){
                   message = msg;
               }
-              if(req.isUi && status == 401){
+              if(isUi && status == 401){
                 console.log("here")
                 res.redirect("/loginPage")
               }else if(status==200){

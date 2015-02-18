@@ -85,24 +85,24 @@
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_name_')}">Cancel</div>
             </div>
           </div>
-          <div class="content">
-            <div class="item _compname_ profEdit text" style="padding:0;" contenteditable="false" >
-              <!-- ko if:(companyName=="") -->
-               Enter Company Name
+          <div class="content" style="position:relative">
+           
+            <div class="item _compname_ profEdit text" style="padding:0;min-height:20px" contenteditable="false" >
+             
+              <!-- ko if:companyName !="" -->
+                  <!--ko text : companyName --><!-- /ko -->
               <!-- /ko -->
-               <!-- ko if:companyName !="" -->
-                <!--ko text : companyName --><!-- /ko -->
-            <!-- /ko -->
-              
-            <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i>
+                
+              <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i>
             </div>
+             
             <div class="ui buttons">
               <div class="ui positive button" data-bind="click:function(){updateUser('_compname_')}">Save</div>
               <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
             </div>
           </div>
           <div class="lib-count" style="border-top: 2px solid #f4f4f4;margin-top:1rem;">
-            <div class="item left floated"><div class="header"><%= result.projects && result.projects!= null?result.projects.length:0 %></div>Projects</div><div class="item right floated"><div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>Locations</div>
+            <div class="item left floated"><div class="header"><!-- ko text:projects.length --><!-- /ko --> </div>Projects</div><div class="item right floated"><div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>Locations</div>
           </div>
 
          <div class="lib-specs">
@@ -749,7 +749,7 @@
     classInstance.listAssociatedLocations();
    // classInstance.listAllLocations();
     classInstance.listLeads(false);
-    
+
     $('._dDown')
       .dropdown({
         onChange: function(value, text, $selectedItem) {
@@ -901,6 +901,10 @@
     var obj = {}
     
     httpUtils.get('/associate-project/'+id,obj,"JSON",function(data){
+        var obj={ status:data.status,
+              heading:"Login Failed",
+              content:"Please check your login credentials" 
+            }
        if(httpUtils.checkStatus(data,true,true)){
           classInstance.viewModel.associatedProjects.push(data.result);
        } 
