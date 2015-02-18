@@ -330,7 +330,8 @@
       },
       enquire : function(){
         $('#_userIdC_').val($('#'+_classInstance.parentContainer).find('#__irxId').val())
-         $('#cInfo').modal({
+        $("#cInfo input[name='name'],#cInfo input[name='emailId'],#cInfo input[name='mobileNo']").val('');
+        $('#cInfo').modal({
           closable:false
         }).modal('show');
        

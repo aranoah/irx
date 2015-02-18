@@ -520,11 +520,16 @@
 
               locationName = lName[0];
             }
+             var locationId ={}
+                if(item.fields['location.locality'] &&  item.fields['location.locality'].length >0){
+                    var lId = item.fields['location.locality'];
+                    locationId = lId[0];
+                }
             var productType =""
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue};
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId};
           }));
         }
     })

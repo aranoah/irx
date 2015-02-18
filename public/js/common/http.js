@@ -53,13 +53,25 @@ HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail,s
                   heading:"Operation Status",
                   content:data.message
                 };
+              }else if(successObj ){
+                if(!successObj.status){
+                  successObj.status=data.status
+                }
+                if(!successObj.content){
+                  successObj.content=data.message
+                }
+
               }
              __overlaySideBar(successObj)
           }
           return true;
     }else{
           if(data.status==401){
-            $('.log-in').click();
+            if(data.ignoreLogin){
+              __overlaySideBar(failureObj)
+            }else{
+              $('.log-in').click();
+            }
             return false;
           }
           if(showPopUpFail){
@@ -69,7 +81,15 @@ HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail,s
               heading:"Operation Status",
               content:data.message 
             };
-          }
+          }else if(failureObj ){
+                if(!failureObj.status){
+                  failureObj.status=data.status
+                }
+                if(!failureObj.content){
+                  failureObj.content=data.message
+                }
+
+              }
             __overlaySideBar(failureObj)
               
           }

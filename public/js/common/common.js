@@ -19,7 +19,7 @@ Common.prototype.getViewModel = function(type) {
       sessEmailId=$('#__sess_emailId').val();
   }
 
-	  var viewModel = {
+    var viewModel = {
       data:{
       	emailId:ko.observable(sessEmailId),
       	projectId:ko.observable(""),
@@ -31,6 +31,7 @@ Common.prototype.getViewModel = function(type) {
       	type:ko.observable("user"),
       	proName:ko.observable(""),
       	locality:ko.observable(""),
+        localityId:ko.observable(""),
         propertyType:ko.observable(""),
         action:ko.observable(""),
         origin:ko.observable(type),
@@ -86,8 +87,8 @@ Common.prototype.init = function(first_argument) {
 			return false;
 		},
 		login : function() {
-           classInstance.login();
-        }
+       classInstance.login();
+    }
 
 	};
 	
@@ -109,7 +110,7 @@ Common.prototype.init = function(first_argument) {
       city = city.replace(/&nbsp;/gi,'')
       city = city.trim();
       classInstance.viewModelSell.data.city(city)
-      localStorage.setItem("city", city);
+      
     });
      $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
@@ -136,6 +137,7 @@ Common.prototype.init = function(first_argument) {
                 classInstance.viewModelSell.data.proName(textName)
                 
                 classInstance.viewModelSell.data.locality(ui.item.locationName)
+                classInstance.viewModelSell.data.localityId(ui.item.locationId)
                 classInstance.viewModelSell.data.projectId(ui.item.id)
                 return false;
               }
@@ -165,6 +167,7 @@ Common.prototype.init = function(first_argument) {
                 var textName = classInstance.removeHtml(ui.item.name)
                 classInstance.aPostReqViewModel.data.proName(textName)
                 classInstance.aPostReqViewModel.data.locality(ui.item.locationName)
+                classInstance.viewModelSell.data.localityId(ui.item.locationId)
                 classInstance.aPostReqViewModel.data.projectId(ui.item.id)
                 return false;
               }
@@ -183,7 +186,7 @@ Common.prototype.init = function(first_argument) {
                 }
                   if(typeof sBar !='undefined')
                     sBar.projectAutocomplete(data,request,response);
-                else
+                  else
                     getAutocmpleteResult(data,request,response);
                 
               },
@@ -195,6 +198,7 @@ Common.prototype.init = function(first_argument) {
                 var textName = classInstance.removeHtml(ui.item.name) 
                 classInstance.viewModelPost.data.proName(textName)
                 classInstance.viewModelPost.data.locality(ui.item.locationName)
+                classInstance.viewModelSell.data.localityId(ui.item.locationId)
                 classInstance.viewModelPost.data.projectId(ui.item.id)
                 return false;
               }
@@ -216,8 +220,6 @@ Common.prototype.init = function(first_argument) {
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
  	  ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
 	  ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
- // ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
-
 
 };
 Common.prototype.removeHtml = function(name) {
@@ -233,6 +235,7 @@ Common.prototype.login = function() {
 	httpUtils.post("/login",
 		{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
 		 { 'authorization': 'POST' },"JSON",function(data){
+      data.ignoreLogin=true;
 		if(httpUtils.checkStatus(data,false,true)){
        location.reload();
 		}
@@ -292,7 +295,7 @@ Common.prototype.validateLead = function(_button) {
  $(_button).parents('form').submit();
 }
 Common.prototype.validateContactInfo = function(_button) {
-     $(_button).parents('form').form({
+    $(_button).parents('form').form({
       emailId: {
         identifier : 'emailId',
         rules: [
@@ -334,7 +337,7 @@ Common.prototype.validateContactInfo = function(_button) {
         ]
       }
     });
- $(_button).parents('form').submit();
+  $(_button).parents('form').submit();
 };
 Common.prototype.validateForm = function(_button) {
      
@@ -436,32 +439,38 @@ function __overlaySideBar(obj){
   }else{
     $('#confirmation-mail-sent').find("._vrfy_msg").removeClass("successMsg").addClass("_ajError").text(obj.content);
   }
-  $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('toggle');
+  $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('show');
   setTimeout(function(){
-    $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('toggle');
+    $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('hide');
   },5000);
 }
 Common.prototype.requestUserDetails = function(form) {
 
-var name = $("#"+form).find('input[name="name"]').val();
-var emailId = $("#"+form).find('input[name="emailId"]').val();
-var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
-var userId = $("#"+form).find('#_userIdC_').val();
+  var name = $("#"+form).find('input[name="name"]').val();
+  var emailId = $("#"+form).find('input[name="emailId"]').val();
+  var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
+  var userId = $("#"+form).find('#_userIdC_').val();
 
-var data = {
-  "name":name,
-  "emailId":emailId,
-  "mobileNo":mobileNo
-}
+  var data = {
+    "name":name,
+    "emailId":emailId,
+    "mobileNo":mobileNo
+  }
   httpUtils.get("/send-user-details/"+userId,
     data,"JSON",function(data){
+    var Obj={
+      status:0,
+      heading:"Contact Details Sent",
+      content:"Your details has been sent to Agent. Agent will contact you in short while."
+    }  
     if(data.status==0){
-      alert(1)
-        
+      $(".close").click();
     }else {
-      
+      Obj.status=data.status;
+      Obj.content="please check your information. Your information is incorrect."
     }
-  })
+    __overlaySideBar(Obj);
+  });
 }
 
 Common.prototype.captureLeadsProject = function(form) {
@@ -488,19 +497,7 @@ if (agentid && agentid != "") {
      { },"JSON",function(data){
     if(data.status==0){
     if(httpUtils.checkStatus(data,false,false)){
-        if(httpUtils.checkStatus(data,false)){
-
-              $('#'+type).find('#_msg').text("Successfully Submitted");
-              $('#'+type).find('#_msg').addClass('_ajActive');
-              $('#'+type).find('#_msg').removeClass('_ajError');
-              $('#'+type).find('#_msg').addClass('_ajSuccess');
-              $('#'+type).find('.ui.buttons').hide();
-             }else{
-              $('#'+type).find('#_msg').text(data.message);
-              $('#'+type).find('#_msg').addClass('_ajActive');
-              $('#'+type).find('#_msg').removeClass('_ajSuccess');
-              $('#'+type).find('#_msg').addClass('_ajError');
-             }
+       
       }
     }else {
       
@@ -509,6 +506,7 @@ if (agentid && agentid != "") {
 }
 
 Common.prototype.initializeFromLocalStorage = function(viewModel) {
+
   var city = localStorage.getItem("city");
     var action = localStorage.getItem("action");
     if(city){
@@ -520,8 +518,17 @@ Common.prototype.initializeFromLocalStorage = function(viewModel) {
     }
 }
 
-Common.prototype.resetForm = function(form) {
-  //form.form('clear')
+Common.prototype.resetForm = function(viewModel,form) {
+  viewModel.data.proName("");
+
+  viewModel.data.projectId("");
+  viewModel.data.agentId("");
+  viewModel.data.bhk("");
+  viewModel.data.type("user");
+  viewModel.data.locality("");
+  viewModel.data.propertyType("");
+  form.find('.ui.dropdown').dropdown('restore defaults');
+      
 }
 
 Common.prototype.captureLeads = function(type) {
@@ -529,13 +536,47 @@ Common.prototype.captureLeads = function(type) {
 	var classInstance = this;
 	var viewModel = null;
 	var parent = "";
+  var successObj={};
+  var failureObj={};
+  
+
+  
   if(type == classInstance.postReqLeads){
 		viewModel = classInstance.viewModelPost;
+    successObj={
+   
+      heading:"Post Requirement"
     
+    };
+    failureObj={
+    
+      heading:"Post Requirement"
+     
+    };
 	} else if(type == classInstance.sellPostLeads){
+    successObj={
+      
+      heading:"Sell Property"
+     
+    };
+     failureObj={
+      
+      heading:"Sell Property"
+     
+    };
 		viewModel = classInstance.viewModelSell;
    
 	} else {
+     successObj={
+    
+      heading:"Post Requirement"
+    
+    };
+    failureObj={
+     
+      heading:"Post Requirement"
+    
+    };
     viewModel = classInstance.aPostReqViewModel;
 
     var agentId = viewModel.data.agentId();
@@ -544,31 +585,17 @@ Common.prototype.captureLeads = function(type) {
     }
     
   }
-
- 
-
-	httpUtils.post("/capture-lead",
+  var createLogin = $('#'+type).find('.__createLogin').find('.ui.checkbox').hasClass('checked');
+	alert(createLogin)
+  viewModel.data.createLogin(createLogin);
+  httpUtils.post("/capture-lead",
 		viewModel.data,
 		 { },"JSON",function(data){
-		if(data.status==0){
-      if(httpUtils.checkStatus(data,false,false)){
-	      if(httpUtils.checkStatus(data,false)){
 
-              $('#'+type).find('#_msg').text("Successfully Submitted");
-              $('#'+type).find('#_msg').addClass('_ajActive');
-              $('#'+type).find('#_msg').removeClass('_ajError');
-              $('#'+type).find('#_msg').addClass('_ajSuccess');
-              $('#'+type).find('.ui.buttons').hide();
-             }else{
-              $('#'+type).find('#_msg').text(data.message);
-              $('#'+type).find('#_msg').addClass('_ajActive');
-              $('#'+type).find('#_msg').removeClass('_ajSuccess');
-              $('#'+type).find('#_msg').addClass('_ajError');
-             }
+      if(httpUtils.checkStatus(data,true,true,successObj,failureObj)){
+	       $('.close.icon').click();
       }
-		}else {
-			
-		}
+		
 	})
 };	
 var common =null;
@@ -601,11 +628,18 @@ function getAutocmpleteResult(reqData,request,response){
                     var lName = item.fields['location.name'];
                     locationName = lName[0];
                 }
+
+                var locationId ={}
+                if(item.fields['location.locality'] &&  item.fields['location.locality'].length >0){
+                    var lId = item.fields['location.locality'];
+                    locationId = lId[0];
+                }
+
                 var productType =""
                 if(item.fields.productType &&  item.fields.productType.length >0){
                     productType = item.fields.productType[0];
                 }
-                return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue};
+                return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId};
             }));
         }
     });

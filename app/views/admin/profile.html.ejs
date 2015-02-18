@@ -142,8 +142,12 @@
                   <!-- ko if:location.name -->
                     <!-- ko text:location.name --><!-- /ko -->,
                   <!-- /ko -->
-                  <!-- ko text:location.city --><!-- /ko -->,
-                  <!-- ko text:location.state --><!-- /ko -->
+                  <!-- ko if:location.city -->
+                    <!-- ko text:location.city --><!-- /ko -->,
+                  <!-- /ko -->
+                   <!-- ko if:location.state -->
+                    <!-- ko text:location.state --><!-- /ko -->,
+                   <!-- /ko  -->
                 </span>
                 <i data-bind="click:function(){locationEdit('_location_')}" class="write icon"></i>
               </div>
@@ -251,12 +255,10 @@
                           </div>
                          </div>
                          <div class="content right floated">
-                           <i class="add circle icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i><i class="remove circle outline icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
+                          <i class="remove circle outline icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
                           <div class="content" style="padding-top:15px">
-                            <div class="" data-bind="html:$parent.getDistressInfo(id)">
-                              
-                            </div>
+                            
                             
                            <ul class="_dis_ " data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
@@ -367,7 +369,7 @@
                       <div class="column left-portion">
                         <div class="item">
                             <div class="ui transparent left icon input">
-                              <input type="text" id="__searchPro" placeholder="Search projects...">
+                              <input type="text" id="__searchLoc" placeholder="Search locations...">
                               <i class="search icon"></i>
                             </div>
                         </div>
@@ -405,7 +407,13 @@
             <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">manage leads</h3>
               <div class="ui cards">
-
+              <!-- ko if: leads().length==0 -->
+                    <div class="ui info message">
+                      <ul class="list">
+                        <li>No leads found.</li>
+                      </ul>
+                    </div>
+                   <!-- /ko -->
                 <div style="margin-bottom:20px">
                   <!--ko if : leadsPageObj.hasMore()==true -->
                     
@@ -669,12 +677,15 @@
      getDistressInfo : function(id){
       var str=""
         var checkedDistressData = classInstance.viewModel.checkedDistress();
-        var checkedDistressObj =  checkedDistressData[id];
-      if(checkedDistressObj){
-        for(var k=0;k<checkedDistressObj.length;k++){
-          str=str+'<a class="ui horizontal label">'+checkedDistressObj[k].bhk+'BHK</a>'
+        if(!checkedDistressData){
+          return str;
         }
-      }
+        var checkedDistressObj =  checkedDistressData[id];
+        if(checkedDistressObj){
+          for(var k=0;k<checkedDistressObj.length;k++){
+            str=str+'<a class="ui horizontal label">'+checkedDistressObj[k].bhk+'BHK</a>'
+          }
+        }
        return str;
      },   
       leadsPageObj :{
@@ -714,8 +725,12 @@
         classInstance.viewModel.currContext(pro.id)
         classInstance.viewModel.distress([])
         var bhk = pro.bhk;
+        console.log("here...",bhk)
         var checkedDistressData = classInstance.viewModel.checkedDistress();
-        var checkedDistressObj =  checkedDistressData[pro.id];
+        var checkedDistressObj =  new Array();
+        if(checkedDistressData){
+          checkedDistressObj =  checkedDistressData[pro.id]
+        }
         if(bhk){
            for (var i=0 ; i<bhk.length;i++){
           
@@ -734,6 +749,8 @@
             classInstance.viewModel.distress.push({"bhk":bhk[i],"price":"","checked":false})
         }
       }
+        }else{
+          classInstance.viewModel.currContext("")
         }
       
       }
@@ -889,10 +906,45 @@
         if(data.status==0){
            var arr = new Array();
           for(var i=0;i<data.result.length;i++){
-              arr.push(data.result[i]._source)
+              var name ="",nameValue='';
+              var item = data.result[i];
+            if(item.highlight && item.highlight.name && item.highlight.name.length > 0){
+               name = item.highlight.name[0]
+               if(name && name != null){
+                  name  = name.replace(/<(?:.|\n)*?>/gm, '');
+               }
+            }else{
+              name = item.fields.name
+            }
+            nameValue=(item.fields.name?item.fields.name[0]:'');
+            var location ={}
+            if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
+              var lCity = item.fields['location.city'];
+              location = lCity[0];
+            }
+           
+           var locationName ={}
+           
+            if(item.fields['location.name'] &&  item.fields['location.name'].length >0){
+              var lName = item.fields['location.name'];
+
+              locationName = lName[0];
+            }
+            var productType =""
+            if(item.fields.productType &&  item.fields.productType.length >0){
+              productType = item.fields.productType[0];
+            }
+             var builderName =""
+            if(item.fields.builderName &&  item.fields.builderName.length >0){
+              builderName = item.fields.builderName[0];
+            }
+            var dataPro = {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,"builderName":builderName};
+            arr.push(dataPro)
           }
         ko.utils.arrayPushAll(classInstance.viewModel.locations,arr)
         }
+       
+        
     })
     }
 
@@ -974,6 +1026,7 @@
     httpUtils.get("/list-user-projects/"+classInstance.userId,{},"JSON",function(data){
        if(data.status==0){
         if(data.result != null){
+          console.log(data.result.distress)
          classInstance.viewModel.checkedDistress(data.result.distress);
           ko.utils.arrayPushAll(classInstance.viewModel.associatedProjects,data.result.projects)
          classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
