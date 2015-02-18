@@ -32,7 +32,10 @@
               <a class="item"><%= locals.session.user.name %></a>
               <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
               <div class="menu">
-                <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
+                  
+                <% if(locals.session.user.type=="agent"){ %>
+                    <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
+                 <% } %>
                 <div class="item"><i class="sign out icon"></i>Logout</div>
               </div>
               <input id="__sess_name" value="<%= locals.session.user.name %>" type="hidden">
@@ -70,7 +73,9 @@
           <div class="item"><%= locals.session.user.name %></div>
           <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
           <div class="menu">
+               <% if(locals.session.user.type=="agent"){ %>
             <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
+              <%}%>
             <a class="item" href="/irx/reset"><i class="undo icon"></i>Reset Password</a>
             <div class="item" id="_logout_"><i class="sign out icon"></i>Logout</div>
           </div>

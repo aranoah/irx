@@ -93,7 +93,7 @@
     </div>
     <div class="content fb-login" id="fb-signin">
       <i class="facebook huge icon square"></i><br/><br/>
-      <div class="item" show-faces="false"  max-rows="1">Login with facebook</div>
+      <div class="item" show-faces="false"  max-rows="1">Register with facebook</div>
     </div>
   </div>
 </div>
@@ -191,9 +191,9 @@
       <div class="action-button"><div class="ui submit" data-bind="click: register">register</div></div>      
       <div class="ui vertical divider">Or</div>
     </div>
-    <div class="four wide column fb-login" id="fb-signin">
+    <div class="four wide column fb-login" id="fb-signin" tab="register" data-bind="attr:{usertype: type,tab:tabID}">
       <i class="facebook huge icon square"></i><br/><br/>
-           <div class="item" show-faces="false"  max-rows="1">Login with facebook</div>
+           <div class="item" show-faces="false"  max-rows="1" style="text-transform:capitalized"><!--ko text:tabID()--><!--/ko--> with facebook</div>
     </div>
   </div>
 </div>
@@ -241,6 +241,7 @@
       initfb();
   function callFB(callback){
      FB.login(function(response){
+             
              statusChangeCallback(response,callback);
      },{scope: 'public_profile'});
   }
@@ -271,12 +272,11 @@ function initfb(){
     //  loginToServer("facebook",response.id,response.name,uid,accessToken,callback);
         var classInstance = this;
       httpUtils.post("/login",
-    {userId:response.id,password:accessToken},
+    {userId:response.id,password:accessToken,userType:$("#fb-signin").attr("usertype"),action:$("#fb-signin").attr("tab")},
      { 'authorization': 'FB' },"JSON",function(data){
-    if(data.status==0){
-            
+    if(data.status==0){   
             location.reload();
-              $('.close.icon').click();
+            $('.close.icon').click();
     }else {
       /// error login with fb......
     }

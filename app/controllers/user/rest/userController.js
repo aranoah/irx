@@ -21,7 +21,7 @@ var STATUS = CONSTANTS.him_status;
 var hashAlgo = require(_path_util+"/sha1.js")
 var commonValidator = require(_path_util+"/commonValidator")
 
-
+var logger = _app_context.logger;
 var userService = require(_path_service+"/userService.js" )
 var userController = new Controller();
 /*
@@ -205,17 +205,23 @@ userController.verifyUser = function() {
 **/
 
 userController.login = function() {
-  console.log("In Login Method")
   var _nself =this;
-   _app_context.cansec.validate(_nself.req,_nself.res,function(){
+  var userSvc = new userService();
+  _app_context.cansec.validate(_nself.req,_nself.res,function(){
       if(_nself.req.session){
-         _nself.processJson(0,"OK",_nself.req.session['X-CS-Auth'].user,null)
-      }else {
+          var user = _nself.req.session['X-CS-Auth'].user;
+          if(user.isnew && _nself.req.param("action") == "register" ){
+              userSvc.on("done", function(){
+                   _nself.processJson(0,"OK",_nself.req.session['X-CS-Auth'].user,null);
+              });
+              userSvc.updateUserType(user.userId, _nself.req.param("userType"));
+           }else{
+               _nself.processJson(0,"OK",_nself.req.session['X-CS-Auth'].user,null);   
+           }
+      }else{
          _nself.processJson(0,"Error","Error",null)
-      }
-     
-    });
-  
+      }    
+    }); 
 }
 /*
 *   Logout user 
@@ -223,10 +229,9 @@ userController.login = function() {
 **/
 
 userController.logout = function() {
-  console.log("In Login Method")
-  
-   _app_context.cansec.clear(this.req,this.res);
-    this.processJson(200,"OK",null,null)
+  console.log("In Login Method") 
+  _app_context.cansec.clear(this.req,this.res);
+  this.processJson(200,"OK",null,null)
 }
 
 /*
@@ -401,12 +406,11 @@ userController.checkUserName = function(){
 **/
 userController.changePassword = function() {
   var userSvc = new userService();
-  console.log("huuiuuiu")
-    var _nself = this;
-    userSvc.on("done", function(code,msg,err,errValue){
+  var _nself = this;
+  userSvc.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
-    var data={
+  var data={
       "userId":_nself.req.query.userId,
       "code":_nself.req.query.code,
       "password":_nself.req.query.password,
