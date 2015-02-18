@@ -33,6 +33,10 @@ var userService = require(_path_service+"/userService.js" )
 
 function LeadService(){    
 	baseService.call(this);
+	 this.leadType={
+		post:"post",
+		sell:"sell"
+	}
 }
 LeadService.prototype.__proto__=baseService.prototype ;
 
@@ -73,6 +77,14 @@ LeadService.prototype.captureLeads = function(data) {
 			} else {
 				if(savedData){
 					var password =  _selfInstance.getCustomMongoId("P");
+					var message = "";
+					
+					if(savedData.origin==_selfInstance.leadType.post){
+						message="Your post requirement has been successfully submitted"
+					}else if(savedData.origin==_selfInstance.leadType.sell){
+						message="Your selling requirement has been successfully submitted"
+					}
+					
 					var qObj = {
 						"action":MAIL_TYPE.LEAD,
 						"data" : savedData.id,
@@ -89,12 +101,17 @@ LeadService.prototype.captureLeads = function(data) {
                 		var userSvc = new userService();
                 		
                 		userSvc.registerUser({"emailId":data.emailId,"name":data.name,"password":password,type:data.type});
-                		return;
+                		 userSvc.on("done", function(code,msg,err,errValue){
+					    	message = message+msg;
+					    	_selfInstance.emit("done",STATUS.OK.code,message,null,null);
+					    });
+                	} else{
+                		_selfInstance.emit("done",STATUS.OK.code,message,null,null);
                 	}
                 	
-					_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,savedData,null);
+					
 				} else{
-					_selfInstance.emit("done",STATUS.SERVER_ERROR.code,"Error saving verification",err,null);
+					_selfInstance.emit("done",STATUS.SERVER_ERROR.code,"Error capturing your requirement",err,null);
 				}
 			}
 		})

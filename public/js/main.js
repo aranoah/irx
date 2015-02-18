@@ -108,9 +108,8 @@ $(document).ready(function () {
 
   $(document).off('click','.sell-in');
   $(document).on('click','.sell-in',function() {
-
+    common.resetForm(common.viewModelSell,$('#sell').find('form'));
     common.initializeFromLocalStorage(common.viewModelSell);
-    common.resetForm($('#sell').find('form'));
     
     $('#sell').modal({
       closable:false,
@@ -120,15 +119,9 @@ $(document).ready(function () {
 
   $(document).off('click','.post-in');
   $(document).on('click','.post-in',function() {
-    var city = localStorage.getItem("city");
-        var action = localStorage.getItem("action");
-        if(city){
-            common.viewModelSell.data.city(city)
-            common.viewModelSell.data.showCity(city)
-        } 
-        if(action){
-            common.viewModelSell.data.action(action)
-        }
+     common.resetForm(common.viewModelPost,$('#post').find('form'));
+    common.initializeFromLocalStorage(common.viewModelPost);
+   
     $('#post').modal({
       closable:false
     }).modal('show');

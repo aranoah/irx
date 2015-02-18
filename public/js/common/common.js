@@ -109,7 +109,7 @@ Common.prototype.init = function(first_argument) {
       city = city.replace(/&nbsp;/gi,'')
       city = city.trim();
       classInstance.viewModelSell.data.city(city)
-      localStorage.setItem("city", city);
+      
     });
      $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
@@ -183,7 +183,7 @@ Common.prototype.init = function(first_argument) {
                 }
                   if(typeof sBar !='undefined')
                     sBar.projectAutocomplete(data,request,response);
-                else
+                  else
                     getAutocmpleteResult(data,request,response);
                 
               },
@@ -216,8 +216,6 @@ Common.prototype.init = function(first_argument) {
     ko.applyBindings(classInstance.viewModelPost,document.getElementById(classInstance.postReqLeads))
  	  ko.applyBindings(classInstance.viewModelSell,document.getElementById(classInstance.sellPostLeads))
 	  ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
- // ko.applyBindings(classInstance.viewModel,document.getElementById("login"));
-
 
 };
 Common.prototype.removeHtml = function(name) {
@@ -488,19 +486,7 @@ if (agentid && agentid != "") {
      { },"JSON",function(data){
     if(data.status==0){
     if(httpUtils.checkStatus(data,false,false)){
-        if(httpUtils.checkStatus(data,false)){
-
-              $('#'+type).find('#_msg').text("Successfully Submitted");
-              $('#'+type).find('#_msg').addClass('_ajActive');
-              $('#'+type).find('#_msg').removeClass('_ajError');
-              $('#'+type).find('#_msg').addClass('_ajSuccess');
-              $('#'+type).find('.ui.buttons').hide();
-             }else{
-              $('#'+type).find('#_msg').text(data.message);
-              $('#'+type).find('#_msg').addClass('_ajActive');
-              $('#'+type).find('#_msg').removeClass('_ajSuccess');
-              $('#'+type).find('#_msg').addClass('_ajError');
-             }
+       
       }
     }else {
       
@@ -509,6 +495,7 @@ if (agentid && agentid != "") {
 }
 
 Common.prototype.initializeFromLocalStorage = function(viewModel) {
+
   var city = localStorage.getItem("city");
     var action = localStorage.getItem("action");
     if(city){
@@ -520,8 +507,17 @@ Common.prototype.initializeFromLocalStorage = function(viewModel) {
     }
 }
 
-Common.prototype.resetForm = function(form) {
-  //form.form('clear')
+Common.prototype.resetForm = function(viewModel,form) {
+  viewModel.data.proName("");
+
+  viewModel.data.projectId("");
+  viewModel.data.agentId("");
+  viewModel.data.bhk("");
+  viewModel.data.type("user");
+  viewModel.data.locality("");
+  viewModel.data.propertyType("");
+  form.find('.ui.dropdown').dropdown('restore defaults');
+      
 }
 
 Common.prototype.captureLeads = function(type) {
@@ -529,13 +525,44 @@ Common.prototype.captureLeads = function(type) {
 	var classInstance = this;
 	var viewModel = null;
 	var parent = "";
+  var successObj={};
+  var failureObj={};
   if(type == classInstance.postReqLeads){
 		viewModel = classInstance.viewModelPost;
+    successObj={
+   
+      heading:"Post Requirement"
     
+    };
+    failureObj={
+    
+      heading:"Post Requirement"
+     
+    };
 	} else if(type == classInstance.sellPostLeads){
+    successObj={
+      
+      heading:"Sell Property"
+     
+    };
+     failureObj={
+      
+      heading:"Sell Property"
+     
+    };
 		viewModel = classInstance.viewModelSell;
    
 	} else {
+     successObj={
+    
+      heading:"Post Requirement"
+    
+    };
+    failureObj={
+     
+      heading:"Post Requirement"
+    
+    };
     viewModel = classInstance.aPostReqViewModel;
 
     var agentId = viewModel.data.agentId();
@@ -550,25 +577,11 @@ Common.prototype.captureLeads = function(type) {
 	httpUtils.post("/capture-lead",
 		viewModel.data,
 		 { },"JSON",function(data){
-		if(data.status==0){
-      if(httpUtils.checkStatus(data,false,false)){
-	      if(httpUtils.checkStatus(data,false)){
 
-              $('#'+type).find('#_msg').text("Successfully Submitted");
-              $('#'+type).find('#_msg').addClass('_ajActive');
-              $('#'+type).find('#_msg').removeClass('_ajError');
-              $('#'+type).find('#_msg').addClass('_ajSuccess');
-              $('#'+type).find('.ui.buttons').hide();
-             }else{
-              $('#'+type).find('#_msg').text(data.message);
-              $('#'+type).find('#_msg').addClass('_ajActive');
-              $('#'+type).find('#_msg').removeClass('_ajSuccess');
-              $('#'+type).find('#_msg').addClass('_ajError');
-             }
+      if(httpUtils.checkStatus(data,true,true,successObj,failureObj)){
+	       $('.close.icon').click();
       }
-		}else {
-			
-		}
+		
 	})
 };	
 var common =null;
