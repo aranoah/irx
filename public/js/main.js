@@ -108,6 +108,9 @@ $(document).ready(function () {
 
   $(document).off('click','.sell-in');
   $(document).on('click','.sell-in',function() {
+
+    common.initializeFromLocalStorage(common.viewModelSell);
+    common.resetForm($('#sell').find('form'));
     
     $('#sell').modal({
       closable:false,
@@ -117,6 +120,15 @@ $(document).ready(function () {
 
   $(document).off('click','.post-in');
   $(document).on('click','.post-in',function() {
+    var city = localStorage.getItem("city");
+        var action = localStorage.getItem("action");
+        if(city){
+            common.viewModelSell.data.city(city)
+            common.viewModelSell.data.showCity(city)
+        } 
+        if(action){
+            common.viewModelSell.data.action(action)
+        }
     $('#post').modal({
       closable:false
     }).modal('show');

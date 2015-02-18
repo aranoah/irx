@@ -111,97 +111,97 @@ Common.prototype.init = function(first_argument) {
       classInstance.viewModelSell.data.city(city)
       localStorage.setItem("city", city);
     });
-    //  $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
+     $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
-    //         source: function(request, response){
+            source: function(request, response){
               
-    //             var _self = this;
-    //            var data={
-    //               "text":request.term,
-    //               "city":classInstance.viewModelSell.data.city()
-    //             }
-    //             if(typeof sBar !='undefined')
-    //                 sBar.projectAutocomplete(data,request,response);
-    //             else
-    //                 getAutocmpleteResult(data,request,response);
-    //           },
-    //           minLength: 2,
-    //           dataType: "json",
-    //           cache: false,
-    //           appendTo:'#autoDivSell',
-    //           select: function( event, ui ) {
+                var _self = this;
+               var data={
+                  "text":request.term,
+                  "city":classInstance.viewModelSell.data.city()
+                }
+                if(typeof sBar !='undefined')
+                    sBar.projectAutocomplete(data,request,response);
+                else
+                    getAutocmpleteResult(data,request,response);
+              },
+              minLength: 2,
+              dataType: "json",
+              cache: false,
+              appendTo:'#autoDivSell',
+              select: function( event, ui ) {
                
                  
-    //             var textName = classInstance.removeHtml(ui.item.name)
-    //             classInstance.viewModelSell.data.proName(textName)
+                var textName = classInstance.removeHtml(ui.item.name)
+                classInstance.viewModelSell.data.proName(textName)
                 
-    //             classInstance.viewModelSell.data.locality(ui.item.locationName)
-    //             classInstance.viewModelSell.data.projectId(ui.item.id)
-    //             return false;
-    //           }
-    // }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-    //     $(".ui-widget-content .ui-state-focus");
-    //      return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>').appendTo(ul);
-    //   }; 
-    //    $("#"+classInstance.postReqLeadsA).find("#__postReqSearch").autocomplete({
+                classInstance.viewModelSell.data.locality(ui.item.locationName)
+                classInstance.viewModelSell.data.projectId(ui.item.id)
+                return false;
+              }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        $(".ui-widget-content .ui-state-focus");
+         return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>').appendTo(ul);
+      }; 
+       $("#"+classInstance.postReqLeadsA).find("#__postReqSearch").autocomplete({
 
-    //         source: function(request, response){
-    //             var _self = this;
-    //            var data={
-    //               "text":request.term,
-    //               "city":classInstance.aPostReqViewModel.data.city()
-    //             }
-    //             if(typeof sBar !='undefined')
-    //                 sBar.projectAutocomplete(data,request,response);
-    //             else
-    //                 getAutocmpleteResult(data,request,response);
+            source: function(request, response){
+                var _self = this;
+               var data={
+                  "text":request.term,
+                  "city":classInstance.aPostReqViewModel.data.city()
+                }
+                if(typeof sBar !='undefined')
+                    sBar.projectAutocomplete(data,request,response);
+                else
+                    getAutocmpleteResult(data,request,response);
                 
-    //           },
-    //           minLength: 2,
-    //           dataType: "json",
-    //           cache: false,
-    //           appendTo:'#autoDivPostA',
-    //           select: function( event, ui ) {
-    //             var textName = classInstance.removeHtml(ui.item.name)
-    //             classInstance.aPostReqViewModel.data.proName(textName)
-    //             classInstance.aPostReqViewModel.data.locality(ui.item.locationName)
-    //             classInstance.aPostReqViewModel.data.projectId(ui.item.id)
-    //             return false;
-    //           }
-    // }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-    //      $(".ui-widget-content .ui-state-focus");
-    //      return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
-    //   };  
+              },
+              minLength: 2,
+              dataType: "json",
+              cache: false,
+              appendTo:'#autoDivPostA',
+              select: function( event, ui ) {
+                var textName = classInstance.removeHtml(ui.item.name)
+                classInstance.aPostReqViewModel.data.proName(textName)
+                classInstance.aPostReqViewModel.data.locality(ui.item.locationName)
+                classInstance.aPostReqViewModel.data.projectId(ui.item.id)
+                return false;
+              }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+         $(".ui-widget-content .ui-state-focus");
+         return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
+      };  
    
-    // $("#"+classInstance.postReqLeads).find("#__postReqSearch").autocomplete({
+    $("#"+classInstance.postReqLeads).find("#__postReqSearch").autocomplete({
 
-    //         source: function(request, response){
-    //             var _self = this;
-    //               var data={
-    //               "text":request.term,
-    //               "city":classInstance.viewModelPost.data.city()
-    //             }
-    //               if(typeof sBar !='undefined')
-    //                 sBar.projectAutocomplete(data,request,response);
-    //             else
-    //                 getAutocmpleteResult(data,request,response);
+            source: function(request, response){
+                var _self = this;
+                  var data={
+                  "text":request.term,
+                  "city":classInstance.viewModelPost.data.city()
+                }
+                  if(typeof sBar !='undefined')
+                    sBar.projectAutocomplete(data,request,response);
+                else
+                    getAutocmpleteResult(data,request,response);
                 
-    //           },
-    //           minLength: 2,
-    //           dataType: "json",
-    //           cache: false,
-    //           appendTo:'#autoDivPost',
-    //           select: function( event, ui ) {
-    //             var textName = classInstance.removeHtml(ui.item.name) 
-    //             classInstance.viewModelPost.data.proName(textName)
-    //             classInstance.viewModelPost.data.locality(ui.item.locationName)
-    //             classInstance.viewModelPost.data.projectId(ui.item.id)
-    //             return false;
-    //           }
-    // }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-    //     $(".ui-widget-content .ui-state-focus");
-    //      return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
-    //   };  
+              },
+              minLength: 2,
+              dataType: "json",
+              cache: false,
+              appendTo:'#autoDivPost',
+              select: function( event, ui ) {
+                var textName = classInstance.removeHtml(ui.item.name) 
+                classInstance.viewModelPost.data.proName(textName)
+                classInstance.viewModelPost.data.locality(ui.item.locationName)
+                classInstance.viewModelPost.data.projectId(ui.item.id)
+                return false;
+              }
+    }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+        $(".ui-widget-content .ui-state-focus");
+         return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>' ).appendTo(ul);
+      };  
 
 
         $(document).off('click','#_logout_');
@@ -506,6 +506,22 @@ if (agentid && agentid != "") {
       
     }
   })
+}
+
+Common.prototype.initializeFromLocalStorage = function(viewModel) {
+  var city = localStorage.getItem("city");
+    var action = localStorage.getItem("action");
+    if(city){
+        viewModel.data.city(city)
+        viewModel.data.showCity(city)
+    } 
+    if(action){
+        viewModel.data.action(action)
+    }
+}
+
+Common.prototype.resetForm = function(form) {
+  //form.form('clear')
 }
 
 Common.prototype.captureLeads = function(type) {
