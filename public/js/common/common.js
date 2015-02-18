@@ -19,7 +19,7 @@ Common.prototype.getViewModel = function(type) {
       sessEmailId=$('#__sess_emailId').val();
   }
 
-	  var viewModel = {
+    var viewModel = {
       data:{
       	emailId:ko.observable(sessEmailId),
       	projectId:ko.observable(""),
@@ -87,8 +87,8 @@ Common.prototype.init = function(first_argument) {
 			return false;
 		},
 		login : function() {
-           classInstance.login();
-        }
+       classInstance.login();
+    }
 
 	};
 	
@@ -295,7 +295,7 @@ Common.prototype.validateLead = function(_button) {
  $(_button).parents('form').submit();
 }
 Common.prototype.validateContactInfo = function(_button) {
-     $(_button).parents('form').form({
+    $(_button).parents('form').form({
       emailId: {
         identifier : 'emailId',
         rules: [
@@ -337,7 +337,7 @@ Common.prototype.validateContactInfo = function(_button) {
         ]
       }
     });
- $(_button).parents('form').submit();
+  $(_button).parents('form').submit();
 };
 Common.prototype.validateForm = function(_button) {
      
@@ -446,25 +446,31 @@ function __overlaySideBar(obj){
 }
 Common.prototype.requestUserDetails = function(form) {
 
-var name = $("#"+form).find('input[name="name"]').val();
-var emailId = $("#"+form).find('input[name="emailId"]').val();
-var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
-var userId = $("#"+form).find('#_userIdC_').val();
+  var name = $("#"+form).find('input[name="name"]').val();
+  var emailId = $("#"+form).find('input[name="emailId"]').val();
+  var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
+  var userId = $("#"+form).find('#_userIdC_').val();
 
-var data = {
-  "name":name,
-  "emailId":emailId,
-  "mobileNo":mobileNo
-}
+  var data = {
+    "name":name,
+    "emailId":emailId,
+    "mobileNo":mobileNo
+  }
   httpUtils.get("/send-user-details/"+userId,
     data,"JSON",function(data){
+    var Obj={
+      status:0,
+      heading:"Contact Details Sent",
+      content:"Your details has been sent to Agent. Agent will contact you in short while."
+    }  
     if(data.status==0){
-      alert(1)
-        
+      $(".close").click();
     }else {
-      
+      Obj.status=data.status;
+      Obj.content="please check your information. Your information is incorrect."
     }
-  })
+    __overlaySideBar(Obj);
+  });
 }
 
 Common.prototype.captureLeadsProject = function(form) {
