@@ -67,7 +67,9 @@ LeadService.prototype.captureLeads = function(data) {
 	   			"type": data.type,
 	   			"createdOn": new Date(),
 	   			"projectName":data.proName,
-	   			"status":CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION
+	   			"status":CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION,
+	   			"localityId":data.localityId,
+	   			"locality":data.locality
 		});
 		leadData.save(function(err, savedData) {
 		if (err) {
@@ -102,7 +104,7 @@ LeadService.prototype.captureLeads = function(data) {
                 		
                 		userSvc.registerUser({"emailId":data.emailId,"name":data.name,"password":password,type:data.type});
                 		 userSvc.on("done", function(code,msg,err,errValue){
-					    	message = message+msg;
+					    	message = message+" "+msg;
 					    	_selfInstance.emit("done",STATUS.OK.code,message,null,null);
 					    });
                 	} else{
