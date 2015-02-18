@@ -68,7 +68,7 @@ UserService.prototype.registerUser = function(user) {
                 ,"companyName" :user.companyName
                 ,"specialities": user.specialities
                 ,"status": CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION
-                ,contactEmailId:user.emailId
+                ,"contactEmailId":user.emailId
         });
         
         
