@@ -106,7 +106,7 @@
           </div>
 
          <div class="lib-specs">
-            <div class="header" style="position:relative">Specialities :      <div class="ui icon buttons" style="display: block;position: initial;">
+            <div class="header" style="position:relative">Specialities : <div class="ui icon buttons _csn" style="display: block;position: initial;">
               <div class="ui top left pointing dropdown button _dDown">
                 <i class="user icon"></i>
                 <div class="menu">
@@ -121,8 +121,6 @@
       
             <div class="libs-items">
               <!-- ko foreach:specialities -->
-               
-                
                 <div class="item" style="text-transform:capitalize">
                   <i class="top aligned right triangle icon" style="color:#9A9A9A"></i>
                     <!-- ko text:$data --><!-- /ko -->
@@ -153,7 +151,7 @@
               </div>
             <% } %>
             
-            <form class="ui form" style="display:none">
+            <form class="ui form" style="display:none;padding: 1em 0;">
               
               <div class="field">
                 <input type="text" name="locality" data-bind="textInput :location.name" placeholder="locality">

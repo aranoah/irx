@@ -282,6 +282,10 @@ Common.prototype.validateLead = function(_button) {
             prompt : 'Please enter a valid mobile number'
           },
           {
+            type   : 'length[9]',
+            prompt : 'Please enter a valid mobile number'
+          },
+          {
             type   : 'empty',
             prompt : 'Please enter a mobile number'
           },
@@ -506,7 +510,7 @@ if (agentid && agentid != "") {
       }else{
         $(".close").click();
       }  
-      if(httpUtils.checkStatus(data,false,true,leadsObj,leadsObj)){
+      if(httpUtils.checkStatus(data,true,true,leadsObj,leadsObj)){
        
       }
     
