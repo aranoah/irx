@@ -793,7 +793,7 @@ UserService.prototype.fbRegisterUser = function(user) {
          }else if(res==null){
            _selfInstance.emit("done",0,"unable to create user, try later.",null,null,null);
          }else{
-            _selfInstance.emit("done",0,"OK",userData,null); 
+            _selfInstance.emit("done",0,"OK",{id:res.id,name:res.name,userId:res.userId,type:res.type,isnew:true},null); 
           }
         });
     });
@@ -803,11 +803,25 @@ UserService.prototype.fbRegisterUser = function(user) {
        }else if(res==null){
            _selfInstance.emit("registerNewUser");
        }else{
-            _selfInstance.emit("done",0,"OK",res,null); 
+            _selfInstance.emit("done",0,"OK",{id:res.id,name:res.name,userId:res.userId,type:res.type,isnew:false},null); 
        }
    });
 	
 };
+
+UserService.prototype.updateUserType = function(userId, usertype) {
+    var _selfInstance = this;
+    IRXUserProfileModel.update({"userId":userId},
+							   {"type":usertype},
+							   function(err, numberAffected, raw){
+                                   if(err){
+                                     _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+                                   }else{
+                                     _selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,null,null);
+                                   }
+                            });
+}
+
 UserService.prototype.forgetPassword = function(userId){ 
 		var _selfInstance = this;
 		IRXUserProfileModel.findOne({"userId":userId},{id:1},function(err,res){
@@ -978,10 +992,8 @@ UserService.prototype.claimProfile = function(data){
 				"claimerId" : sClaimData.claimerId,
 				"claimerName": data.name,
 				"profileId": data.profileId
-
-				}
-			var strQObj = JSON.stringify(qObj)
-			
+            };
+            var strQObj = JSON.stringify(qObj);
 			_app_context.sqs.sendMessage({
 	        	"QueueUrl" : _app_context.qUrl,
 	        	"MessageBody" : strQObj
@@ -995,8 +1007,8 @@ UserService.prototype.claimProfile = function(data){
 	     	      	_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,null,null);
 					return;
 	     	      }   
-	})
+	           });
 		}
-	})
+	}); 
 }
 module.exports = UserService;
