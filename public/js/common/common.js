@@ -231,6 +231,7 @@ Common.prototype.login = function() {
 	httpUtils.post("/login",
 		{userId:classInstance.viewModel.userId,password:classInstance.viewModel.password},
 		 { 'authorization': 'POST' },"JSON",function(data){
+      data.ignoreLogin=true;
 		if(httpUtils.checkStatus(data,false,true)){
        location.reload();
 		}
@@ -434,9 +435,9 @@ function __overlaySideBar(obj){
   }else{
     $('#confirmation-mail-sent').find("._vrfy_msg").removeClass("successMsg").addClass("_ajError").text(obj.content);
   }
-  $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('toggle');
+  $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('show');
   setTimeout(function(){
-    $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('toggle');
+    $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('hide');
   },5000);
 }
 Common.prototype.requestUserDetails = function(form) {

@@ -227,7 +227,7 @@
                     <div class="ui info message">
                       <ul class="list">
                         <li>No projects associated to your profile currently.</li>
-                        <li>Click add new</li>
+                        <!--<li>Click add new</li>-->
                       </ul>
                     </div>
                   <!-- /ko -->
@@ -260,7 +260,7 @@
                             
                            <ul class="_dis_ " data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
-                             <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
+                             <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :<!--ko text:$root.currContext()==id --><!-- /ko -->
                               <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$data.checked">
                               Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">
                              
@@ -282,6 +282,12 @@
                   <div class="item" style="">
                      <div class="right floated content">
                       <div class="column left-portion">
+                        <div class="ui info  message">
+                          <ul class="list">
+                            <li>Search project in <span class="_proCity"><!-- ko text:city() --><!-- /ko --></span></li>
+                            
+                          </ul>
+                        </div>
                         <div class="item">
                             <div class="ui transparent left icon input">
                               <input type="text" id="__searchPro" placeholder="Search projects...">
@@ -289,12 +295,6 @@
                             </div>
                         </div>
                         
-                          <div class="ui info  message">
-                            <ul class="list">
-                              <li>Search project in <span class="_proCity"><!-- ko text:city() --><!-- /ko --></span></li>
-                              
-                            </ul>
-                          </div>
                      
                         <!-- ko foreach: projects -->
                           <div class="ui items">
@@ -710,7 +710,7 @@
         classInstance.listLastVisited();
       },
       editBhk : function(pro){
-        
+        alert(pro.id)
         classInstance.viewModel.currContext(pro.id)
         classInstance.viewModel.distress([])
         var bhk = pro.bhk;
@@ -988,6 +988,7 @@
 
     httpUtils.get("/last-visited",{},"JSON",function(data){
        if(data.status==0){
+        classInstance.viewModel.lastVisited([]);
         if(data.result != null){
           ko.utils.arrayPushAll(classInstance.viewModel.lastVisited,data.result)
         }

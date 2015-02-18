@@ -517,6 +517,11 @@
 	Project.prototype.init = function() {
 
 		var _classInstance = this;
+		
+		_classInstance.aPostReqViewModel = common.getViewModel('postAgent');
+		common.aPostReqViewModel = _classInstance.aPostReqViewModel;
+		ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
+  		
   		$(document).on('click','._hasDistress_',function(){
   			_classInstance.resetPage();
   			var self = $(this);
@@ -651,6 +656,7 @@
 		 if(typeof(maxP) == "undefined" || maxP == null ){
 		 	maxP = "";
 		 }
+
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
@@ -669,6 +675,21 @@
 			    minPrice:ko.observable(minP),
 			    maxPrice:ko.observable(maxP)
 			},
+			addAgent:function(name,id,companyName,imageUrl){
+				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id,"imageUrl":imageUrl}
+
+				var arr=[];
+				arr.push(agent)
+				_classInstance.aPostReqViewModel.data.agentId([])
+				//for future it has been kept araay and push all so that we can select multuiple agents
+				// and send them leads
+				ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
+				//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
+			 
+				$('#_postA_').modal({
+			   	   	closable:false
+		    	}).modal('show');
+		    },
 			addSome : function(){
 				
 				//_classInstance.listProjects(true);
@@ -709,6 +730,7 @@
 			getPreviousImage : function(){
 				_classInstance.viewModel.galleryIndex(_classInstance.viewModel.galleryIndex()-1)
 			},
+			
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
 		}

@@ -67,7 +67,11 @@ HTTPUtils.prototype.checkStatus = function(data,showPopUpSuccess,showPopUpFail,s
           return true;
     }else{
           if(data.status==401){
-            $('.log-in').click();
+            if(data.ignoreLogin){
+              __overlaySideBar(failureObj)
+            }else{
+              $('.log-in').click();
+            }
             return false;
           }
           if(showPopUpFail){
