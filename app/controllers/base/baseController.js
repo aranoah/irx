@@ -59,13 +59,26 @@ BaseController.prototype.handleValidationErr = function(isUi){
     }
     return true;
 };
-
 BaseController.prototype.processJson=function(status,msg,result,page){
     this.res.json({"status":status,message:msg,result:result,page:page});   
 };
 BaseController.prototype.processTableJson=function(status,msg,result,total){
     this.res.json({"status":status,"message":msg,records:result,"total":total});   
 };
+
+BaseController.prototype.ensureAuthenticated=function(isUi) {
+    var user = this.getCurrentUserInfo(this);
+    if(user && user!=null && user!=""){
+        return true; 
+    }else{
+        if(isUi){
+             this.res.redirect('/loginPage');  
+        }else{
+            this.res.json({"status":401,"message":"Please login",records:null,"total":null});  
+        }
+        return false;
+    } 
+}
 BaseController.prototype.getCurrentUser=function(_nself){
   var irxId = "";
   if(_nself.req.session['X-CS-Auth']){

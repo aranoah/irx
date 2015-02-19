@@ -36,15 +36,16 @@ module.exports = function() {
   }
   var cs = require('cansecurity'), cansec = cs.init({
     validate: function(login,password,callback){
-        console.log( "hey i am validate function",login,password);
         var User = IRXUserProfileModel;
         var hashPassword = hashAlgo.SHA1(password);
-
         User.findOne({"userId":login,"password":hashPassword.toString()},function(err,user){
           if(err){
             callback(false,null,"Invalid Credentials");  
           }else{
-            if(user && user != null){
+            if(user && user.status!="verified"){
+                 callback(false,null,"please check mail to activate your account");  
+            }
+            else if(user && user != null){
                 callback(true,user,user.name);
             }else{
                 callback(false,null,"Invalid session please login");
@@ -68,15 +69,17 @@ module.exports = function() {
      },
      sessionKey:"agf67dchkQ!",
      authCallback:function(req,res,status,msg,funName,isUi){
-             console.log("funName:",funName,status)
+             console.log("funName:",funName,status,msg)
              var message=messages[funName];
               if(!message || message == null){
                   message = msg;
               }
               if(isUi && status == 401){
-                console.log("here")
                 res.redirect("/loginPage")
-              }else if(status==200){
+              }else if(status ==401){
+                  res.send(200,{status:status,message:(msg?msg:message)});
+              }
+              else if(status==200){
 
               }
               else{
@@ -92,7 +95,6 @@ module.exports = function() {
   this.use(express.static(__dirname + '/../../public'));
   this.use(cors());
   global._app_context.cansec = cansec;
-  
   this.use(express.cookieParser());
   this.use(express.session({secret: 'aniyus'}));
   this.use(express.bodyParser());

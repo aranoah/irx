@@ -121,7 +121,7 @@ UserService.prototype.registerUser = function(user) {
 
 **/
 UserService.prototype.verifyUser = function(data) {
-	console.log("In verifyUser")
+	logger.log("debug","In verifyUser")
 	// Make a database entry
 	var mongoose = require('mongoose');
 	var verificationModel = IRXVerificationModel;
@@ -131,14 +131,14 @@ UserService.prototype.verifyUser = function(data) {
 
 	verificationModel.findOne({ 'vfData': data.userId, "vfCode":data.vfCode }, function (err, verification) {
  		if (err){
- 			console.error(err)
+ 			logger.log("error",err)
  			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,null);
  			
  		} else{
 
  			if(verification && verification != null){
- 				console.log('Verification code verified');
- 				console.log("Updating user",data.userId);
+ 				logger.log("debug",'Verification code verified');
+ 				logger.log("debug","Updating user",data.userId);
  				if(data.phoneNum && data.phoneNum == true){
 					updateObj={$set:{"phoneNum":verification.phoneNum}};
 				}
@@ -171,7 +171,7 @@ UserService.prototype.verifyUser = function(data) {
 							})
  				
  			} else{
- 				console.log("Verification data not matched")
+ 				 logger.log("error","Verification data not matched-"+data.userId)
 				_selfInstance.emit("done",500,"Verification data not matched","Verification data not matched",null);
  			}
  			
@@ -480,20 +480,17 @@ UserService.prototype.listUserLocations = function(user) {
 UserService.prototype.createLocation = function(first_argument) {
 	
 	var userData = new IRXLocationModel({
-  			
-
-    "_id" : "gurgaon",
-    "location" : {
+  	  "_id" : "gurgaon",
+      "location" : {
         "city" : "gurgaon",
         "country" : "India",
         "locality" : "ashok vihar phase ii",
         "pincode" : 122001,
         "state" : "haryana",
         "taluka" : ""
-    },
-    "name" : "gurgaon"
-}
-	);
+      },
+      "name" : "gurgaon"
+    });
 	var _selfInstance = this;
 
 	userData.save(function(err, userData) {
@@ -513,8 +510,7 @@ UserService.prototype.inviteForReview = function(data) {
 	if(data.parentId == ""){
 		_selfInstance.emit("done",STATUS.FORBIDDEN.code,"Please login",null,null);
 		return;
-	}
-	
+	}	
 	var reviewInvitationModel = new IRXReviewInvitationModel({
 		"id":id,
 		"parentId":data.parentId,
@@ -854,47 +850,47 @@ UserService.prototype.forgetPassword = function(userId){
 
 	UserService.prototype.changePassword = function(data){ 
 		
-		var _selfInstance = this;
-		var userId = data.userId;
-		var code = data.code;
-		var password = data.password;
-		var hashPassword = hashAlgo.SHA1(password);
-
-		IRXVerificationModel.findOne({"vfData":userId,"vfCode":code},{id:1},function(err,res){
-       if(err){
-             _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
-       }else if(res==null){
-         _selfInstance.emit("done",404,"Token expired","Token expired",null);
-       }else{
-       		IRXUserProfileModel.update({"userId":data.userId},
-							{"password":hashPassword.toString()},
-							function(err, numberAffected, raw){
-								
-								if(err){
-									console.error(err)
-									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
-								}else{
-									if(numberAffected >0){
-										console.log("User updated successfully");
-										
-						 				IRXVerificationModel.remove({"id":res.id}, function (err) {
-											if (err) {
-												console.error(err)
-												_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
-											}else{
-												console.log("Verfication data cleared");
-												_selfInstance.emit("done",STATUS.OK.code,"Password updated successfully",err,null);
-											} 
-										});
-										
-									}else{
-										console.log("User not updated")
-										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
-									}
-								}	
-							})
-       }
-   });
+                var _selfInstance = this;
+                var userId = data.userId;
+                var code = data.code;
+                var password = data.password;
+                var hashPassword = hashAlgo.SHA1(password);
+        
+                IRXVerificationModel.findOne({"vfData":userId,"vfCode":code},{id:1},function(err,res){
+               if(err){
+                     _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
+               }else if(res==null){
+                 _selfInstance.emit("done",404,"Token expired","Token expired",null);
+               }else{
+                    IRXUserProfileModel.update({"userId":data.userId},
+                                    {"password":hashPassword.toString(),"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED},
+                                    function(err, numberAffected, raw){
+                                        
+                                        if(err){
+                                            console.error(err)
+                                            _selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+                                        }else{
+                                            if(numberAffected >0){
+                                                console.log("User updated successfully");
+                                                
+                                                IRXVerificationModel.remove({"id":res.id}, function (err) {
+                                                    if (err) {
+                                                        console.error(err)
+                                                        _selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+                                                    }else{
+                                                        console.log("Verfication data cleared");
+                                                        _selfInstance.emit("done",STATUS.OK.code,"Password updated successfully",err,null);
+                                                    } 
+                                                });
+                                                
+                                            }else{
+                                                console.log("User not updated")
+                                                _selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+                                            }
+                                        }	
+                                    })
+               }
+           });
 			
 	}
 
