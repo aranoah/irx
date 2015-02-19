@@ -12,7 +12,7 @@
     <!-- Leads capture starts here -->
 
         <div class="ui inverted menu contact">
-        <span class="_showAgent_">
+        <span class="_showAgent_" style="display:none;">
            
                <div class="ui image tiny _pImage_ _pImageLead_" style="padding:0 .5em 0 0 !important;height: 65px;background-size: 100%;background-repeat: no-repeat;margin-right:5px;background-position:center" >
              </div>
@@ -45,7 +45,7 @@
             <input name="name" placeholder="Name" value="<%= locals.session.user.name %>" type="text">
           </div>
           
-          <div class="item field">
+          <div class="item field"  style='margin-left:15px;'>
           
             <input name="emailId" placeholder="Email.." value="<%= locals.session.user.userId %>" type="text">
           </div>            
@@ -63,7 +63,7 @@
             <input name="name" value="" placeholder="Name" type="text">
           </div>
           
-          <div class="item field">
+          <div class="item field"  style='margin-left:15px;'>
           
             <input name="emailId" value="" placeholder="Email.." type="text">
           </div>            

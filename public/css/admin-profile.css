@@ -52,7 +52,7 @@
 
 ._editable_ .ui.buttons {
 	position: absolute;
-	top: -2rem;
+	bottom: -2rem;
 	right: 1rem;
 	margin-right: 0 !important;
 	display: none;

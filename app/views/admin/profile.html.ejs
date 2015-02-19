@@ -71,7 +71,7 @@
             </div>
           </div>
           <div class="content">
-            <div class="header _name_ profEdit" contenteditable="false">
+            <div class="header _name_ profEdit" contenteditable="false" style="width: 87%;margin: .5em 1em;line-height: 1.6em;">
             <!-- ko if:name=="" -->
               Enter Name
             <!-- /ko -->
@@ -87,8 +87,8 @@
           </div>
           <div class="content" style="position:relative">
            
-            <div class="item _compname_ profEdit text" style="padding:0;min-height:20px" contenteditable="false" >
-             
+            <div class="item _compname_ profEdit text" style="width: 90%;overflow: hidden;box-sizing: border-box;padding: 0;margin: .5em 1em;line-height: 1.3em;word-break: break-all;" contenteditable="false" >
+             <i class="icon building" title="company name"></i>
               <!-- ko if:companyName !="" -->
                   <!--ko text : companyName --><!-- /ko -->
               <!-- /ko -->
@@ -106,7 +106,7 @@
           </div>
 
          <div class="lib-specs">
-            <div class="header" style="position:relative">Specialities :      <div class="ui icon buttons" style="display: block;position: initial;">
+            <div class="header" style="position:relative">Specialities : <div class="ui icon buttons _csn" style="display: block;position: initial;">
               <div class="ui top left pointing dropdown button _dDown">
                 <i class="user icon"></i>
                 <div class="menu">
@@ -121,8 +121,6 @@
       
             <div class="libs-items">
               <!-- ko foreach:specialities -->
-               
-                
                 <div class="item" style="text-transform:capitalize">
                   <i class="top aligned right triangle icon" style="color:#9A9A9A"></i>
                     <!-- ko text:$data --><!-- /ko -->
@@ -133,12 +131,25 @@
             </div>
         
           </div>
-          
+          <div class="ui divided list lib-xtras" style="text-align:left;margin: 0;border-bottom: 2px solid #F4F4F4;">
+            <div class="content">
+            
+                <div class="item _unUserName_ profEdit" contenteditable="false" data-bind="attr:{title:'www.indianrealtyexchange.com/'+id()}">
+                   <!--ko text : id --><!-- /ko -->
+                   <i data-bind="click:function(){profileEdit('_unUserName_')}" class="write icon" style="padding: 0;right: -15px;"></i>
+                    
+                </div>
+                <div class="ui buttons">
+                  <div class="ui positive button" data-bind="click:function(){updateUser('_unUserName_')}" >Save</div>
+                  <div class="ui button _cancel_" data-bind="click:function(){profileClose('_unUserName_')}">Cancel</div>
+                </div>
+            </div>
+          </div>
            <div class="ui divided list lib-xtras" style="text-align:left">
             <% if(result.location && result.location != null) {%>
               <div class="item _location_ profEdit" contenteditable="false">
                 <i class="map marker icon _csn"></i>
-                <span class="_csn">
+                <span class="_csn" style="width:85%;">
                   <!-- ko if:location.name -->
                     <!-- ko text:location.name --><!-- /ko -->,
                   <!-- /ko -->
@@ -153,7 +164,7 @@
               </div>
             <% } %>
             
-            <form class="ui form" style="display:none">
+            <form class="ui form" style="display:none;padding: 1em 0;">
               
               <div class="field">
                 <input type="text" name="locality" data-bind="textInput :location.name" placeholder="locality">
@@ -169,18 +180,7 @@
               <div class="ui positive button" data-bind="click:function(){updateUser('_location_')}">Save</div>
               <div class="ui button _cancel_" data-bind="click:function(){locationClose('_location_')}">Cancel</div>
             </form>
-            <div class="content">
             
-                <div class="item _unUserName_ profEdit" contenteditable="false" data-bind="attr:{title:'www.indianrealtyexchange.com/'+id()}">
-                   <i class="linkify icon"></i> <!--ko text : id --><!-- /ko -->
-                   <i data-bind="click:function(){profileEdit('_unUserName_')}" class="write icon"></i>
-                    
-                </div>
-                <div class="ui buttons">
-                  <div class="ui positive button" data-bind="click:function(){updateUser('_unUserName_')}" >Save</div>
-                  <div class="ui button _cancel_" data-bind="click:function(){profileClose('_unUserName_')}">Cancel</div>
-                </div>
-            </div>
             <div class="item"><i class="mail outline icon"></i><%= result.contactEmailAddress?result.contactEmailAddress:result.userId%></div>
             <div class="content">
               <div class="item _phoneNum_ profEdit" contenteditable="false">
@@ -221,7 +221,7 @@
             <div class="ui bottom attached active tab segment" data-tab="first">
               <h3 class="ui heading">manage products</h3>
               <div class="ui stackable two column grid">
-              <div class="column left-portion">
+              <div class="column left-portion" style="width:100%">
                   <div class="item">                   
                     <div class="content">
                       <h4 class="header">My Projects</h4>
@@ -280,7 +280,7 @@
                  
                 </div>
                
-                <div class="_profsearProj column right-portion" style="display:inline-block;margin:2rem 0;padding:0;width:48%">
+                <div class="_profsearProj column right-portion" style="display:inline-block;margin:2rem 0;padding:0;width:48%;display:none;">
                   <div class="item" style="">
                      <div class="right floated content">
                       <div class="column left-portion">
@@ -479,7 +479,7 @@
                   <!-- /ko-->
                   <div class="content">
                     <div class="header"><!-- ko text:name --><!-- /ko --></div>
-                    <a data-bind="attr:{href:url}">Visit</a>
+                    <a data-bind="attr:{href:url}" style="cursor: pointer;float: right;font-size: .7em;font-weight: bold;">Visit</a>
                   </div>
                 </div>
               <!-- /ko-->
@@ -614,7 +614,7 @@
       id: ko.observable('<%= result.id %>'),
       associatedProjects : ko.observableArray(),
       name : ko.observable('<%= result.name?result.name:'' %>'),
-      companyName : ko.observable('<%= result.companyName?result.companyName:'' %>'),
+      companyName : ko.observable('<%= result.companyName?result.companyName:"Enter Company Name" %>'),
       specialities : ko.observableArray(),
       location : {name:ko.observable("<%= result.location.name?result.location.name:'' %>"),
                   city:ko.observable("<%= result.location.city?result.location.city:'' %>"),
@@ -1042,6 +1042,7 @@
     httpUtils.get("/last-visited",{},"JSON",function(data){
        if(data.status==0){
         if(data.result != null){
+          classInstance.viewModel.lastVisited([])
           ko.utils.arrayPushAll(classInstance.viewModel.lastVisited,data.result)
         }
         
@@ -1074,12 +1075,18 @@
    var classInstance = this;
    var text = classInstance.viewModel.id();
    httpUtils.get('/check-userName/'+text,{},"JSON",function(data){
+        var updateUserNameObj={
+          status:data.status,
+          heading:"Username updated"
+        }
        if(data.status==0){
-        alert(data.status)
-       } else {
-        alert(data.status)
+          profileClose('_unUserName_');
+          updateUserNameObj.content="Congratualtions!!! Your username has been successfully updated.";
+       }else{
+          updateUserNameObj.content="This name is already occupied by another user. Please choose another Username.";
        } 
-    })
+       httpUtils.checkStatus(data,true,true,updateUserNameObj,updateUserNameObj);
+    });
   }
   
    AdminProfile.prototype.listAllProjects = function() {

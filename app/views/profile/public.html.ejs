@@ -61,17 +61,13 @@
 
           <div class="lib-specs">
             <div class="header">Specialities :</div>
-             <% if(result.specialities) {%>
-            <div class="libs-items">
-              <% for(var i=0; i<result.specialities.length; i++) {%>
-               
-                
-                <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i><%= result.specialities[i] %>
-              </div>
-            <% } %>
-             
-            </div>
-            <% } %>
+              <% if(result.specialities) {%>
+                <div class="libs-items">
+                  <% for(var i=0; i<result.specialities.length; i++) {%>
+                   <div class="item"><i class="top aligned right triangle icon" style="color:#9A9A9A"></i><%= result.specialities[i] %> </div>
+                  <% } %>
+                </div>
+              <% } %>
           </div>
           <div class="item">
             <div class="header"> Public Url </div>

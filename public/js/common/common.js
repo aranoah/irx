@@ -282,6 +282,10 @@ Common.prototype.validateLead = function(_button) {
             prompt : 'Please enter a valid mobile number'
           },
           {
+            type   : 'length[9]',
+            prompt : 'Please enter a valid mobile number'
+          },
+          {
             type   : 'empty',
             prompt : 'Please enter a mobile number'
           },
@@ -495,13 +499,21 @@ if (agentid && agentid != "") {
   httpUtils.post("/capture-lead",
     data,
      { },"JSON",function(data){
-    if(data.status==0){
-    if(httpUtils.checkStatus(data,false,false)){
+      var leadsObj={
+        status:0,
+        heading:"Lead Captured",
+        content:"Your information has been sent to project agent. They will ping you in short while."
+      }
+      if(data.status!=0){
+        leadsObj.status=data.status;
+        leadsObj.content="Please check information you have sent."
+      }else{
+        $(".close").click();
+      }  
+      if(httpUtils.checkStatus(data,true,true,leadsObj,leadsObj)){
        
       }
-    }else {
-      
-    }
+    
   })
 }
 
