@@ -462,13 +462,15 @@ margin-right: 1rem;
   border: 0;
   font-weight: 400;
 }
-
+.ui.dropdown .menu>.input{
+  min-width: 100px;
+}
 .sell-post .ui.inverted.menu>.item {
   padding: 0;
 }
 
 .sell-post .ui.selection.dropdown {
-  min-width: 255px !important;
+  min-width: 215px !important;
 }
 
 .sell-post .ui.selection.dropdown>.default.text {

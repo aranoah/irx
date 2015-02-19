@@ -52,7 +52,7 @@
 
           <div class="lib-actions">
             <div class="ui basic button reqdet" data-bind="click:function(){enquire()}">Request details</div><br/>
-            <div class="ui basic button" data-bind="click:function(){addAgent('<%= result.name %>','<%= result.irxId %>','<%= result.companyName %>','<%= result.imageUrl %>')}">Contact</div>
+            <div class="ui basic button" data-bind="click:function(){addAgent('<%= result.name %>','<%= result.irxId %>','<%= result.companyName?result.companyName:'' %>','<%= result.imageUrl %>')}">Contact</div>
           </div>
 
           <div class="lib-count">
@@ -162,7 +162,7 @@
         
               <div class="meta loc-item">
                 <h4 class="header projectName" ><i class="marker icon"></i><!--ko text:name--><!--/ko --></h4>
-                <!-- ko if: $data.hasOwnPropperty(location) -->
+                <!-- ko if: location -->
                 <p class="cinema projectDetail" data-bind="text: location.city"></p>
                 <!-- /ko -->
                 <span class="header"><span class="agnt"style="color:#00bcd4;margin-left: -1rem;"><a class="item" data-bind="attr:{href : '/agent-listing?projectId='+$data.id+'&isLocality=true&searchType=agent&name='+$data.name} ">Agent</a></span></span>
@@ -350,9 +350,11 @@
         var agent={"name":name,"id":id,"companyName":companyName,"irxId":id,imageUrl:imageUrl}
         var arr=[];
         arr.push(agent)
+        common.resetForm(_classInstance.aPostReqViewModel,$('#_postA_').find('form'));
         _classInstance.aPostReqViewModel.data.agentId([])
         //for future it has been kept araay and push all so that we can select multuiple agents
         // and send them leads
+        common.initializeFromLocalStorage(_classInstance.aPostReqViewModel);
         ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
         //console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
        

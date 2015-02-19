@@ -179,7 +179,12 @@
 		    <div class="extra content">
 		    	<div class="fb-like left floated" data-bind="html:$parent.fbIntegration($data)"></div>
 				<div class="right floated created">
+				<!-- ko if:$data.hasOwnProperty('companyName') -->
 					<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId,companyName,imageUrl)}">Enquiry</div>
+				<!--  /ko -->
+				<!-- ko if:!($data.hasOwnProperty('companyName')) -->
+					<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent(name,irxId,'',imageUrl)}">Enquiry</div>
+				<!--  /ko -->
 				</div>
 		      <!--<a class="friends">
 		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
@@ -212,7 +217,7 @@
 	}
 	Agent.prototype.init = function(city) {
 		var _classInstance = this;
-		_classInstance.aPostReqViewModel = common.getViewModel('postAgent');
+		_classInstance.aPostReqViewModel = common.getViewModel('_postA_');
 		common.aPostReqViewModel = _classInstance.aPostReqViewModel;
 		ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
 		
@@ -321,18 +326,19 @@
 			},
 			addAgent:function(name,id,companyName,imageUrl){
 				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id,"imageUrl":imageUrl}
-
+				common.resetForm(_classInstance.aPostReqViewModel,$('#_postA_').find('form'));
 				var arr=[];
 				arr.push(agent)
 				_classInstance.aPostReqViewModel.data.agentId([])
 				//for future it has been kept araay and push all so that we can select multuiple agents
 				// and send them leads
+				common.initializeFromLocalStorage(_classInstance.aPostReqViewModel);
 				ko.utils.arrayPushAll(_classInstance.aPostReqViewModel.data.agentId,arr);
 				//console.log("yo !!",_classInstance.aPostReqViewModel.data.agentId())
 			 
 				$('#_postA_').modal({
 			   	   	closable:false
-			    	}).modal('show');
+		    	}).modal('show');
 		    }
 		}
 		$(document).off('click','#_subReq_')

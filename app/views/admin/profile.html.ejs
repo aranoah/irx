@@ -490,21 +490,22 @@
                  <!--ko foreach : leads -->
                   <div class="card">
                     <div class="content">
-                       <div style="float:right;cursor:pointer" data-bind="click:function(){$root.deleteLead(id)}"><i class="remove icon"></i></div>
-                      <!-- ko if: $data.hasOwnProperty("name") -->
-                        <div class="header leadName" data-bind="text:name"></div>
-                      <!-- /ko -->
-                      <!-- ko if: $data.hasOwnProperty("propertyType") -->
-                        <div class="meta leadType" data-bind="text:propertyType"></div>
-                      <!-- /ko -->
-                      <div style="line-height: 22px;">
-                      <!-- ko if: $data.hasOwnProperty("emailId") -->
-                        <!--ko text : emailId --><!-- /ko -->
-                      <!-- /ko -->
-                        <br/>
-                        <!-- ko if: $data.hasOwnProperty("mobileNo") -->
-                          <!--ko text : mobileNo --><!-- /ko -->
+                        <div style="float:right;cursor:pointer" data-bind="click:function(){$root.deleteLead(id)}"><i class="remove icon"></i></div>
+                        <!-- ko if: $data.hasOwnProperty("name") -->
+                            <div class="header leadName" data-bind="text:name"></div>
                         <!-- /ko -->
+                        <!-- ko if: $data.hasOwnProperty("propertyType") -->
+                            <div class="meta leadType" data-bind="text:propertyType"></div>
+                        <!-- /ko -->
+                        <div style="line-height: 22px;">
+
+                            <!-- ko if: $data.hasOwnProperty("emailId") -->
+                                <!--ko text : emailId --><!-- /ko -->
+                            <!-- /ko -->
+                        
+                            <!-- ko if: $data.hasOwnProperty("mobileNo") -->
+                                <!--ko text : mobileNo --><!-- /ko -->
+                            <!-- /ko -->
                       </div>
                       <div style="margin-top:10px">
                       <i class="building outline icon"></i>
