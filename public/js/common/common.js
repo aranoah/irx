@@ -446,7 +446,7 @@ function __overlaySideBar(obj){
   $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('show');
   setTimeout(function(){
     $('#confirmation-mail-sent').sidebar( 'overlay').sidebar('hide');
-  },5000);
+  },3000);
 }
 Common.prototype.requestUserDetails = function(form) {
 

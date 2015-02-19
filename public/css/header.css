@@ -4,6 +4,12 @@
  src: url(/css/fonts/Roboto-Light.ttf) format('ttf');
 }
 
+._ellipsis {
+    width: 100% !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+}
 #header._desktop_,#desktop-searchbar{
   min-width: 1024px !important;
 }

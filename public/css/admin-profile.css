@@ -24,7 +24,9 @@
 	opacity: .8;
 	color: #607d8b;
 }
-
+.ui.fade.reveal:hover>.hidden{
+	display: block;
+}
 ._editable_ .profEdit[contenteditable="true"] {
 	box-shadow: 0 0 2px rgba(0,0,0,0.3);
 	border-radius: 3px;
@@ -105,21 +107,52 @@
 .ui.bottom.attached.tab.segment {
 	width: auto !important;
 }
-
+.li-box .header{
+	color: #5995A9;
+}
+.li-box .item{
+	color: #666;
+}
 .ui.bottom.attached.tab.segment>h3 {
 	color: #38b7ea;
 	text-transform: uppercase;
 	margin: 1rem 0;
 	font-weight: normal;
+	width: 60%;
+	float: left;
 }
-
+.ui.button {
+    padding: .5em .75em;
+}
+._profsearProj.column.right-portion>.item {
+	border: 1px solid #CCC;
+}
+.ui.info.message._csn._srch_loc .ui.button.search {
+    color: inherit;
+    background: inherit;
+}
+.ui.info.message._csn._srch_loc {
+	float: right;
+	margin: 0;
+	background: #FBFBFB;
+	text-transform: capitalize;
+	box-shadow: 0px 0 0 !important;
+	color: #525151;
+	font-weight: bold;
+	font-size: .9em;
+	padding: .3em 1.5em .3em .95em;
+	border: 1px solid #818181;
+}
+.lib-count>.item{
+	width: 49%;
+}
 .left-portion>.item, .right-portion>.item {
 	border-bottom: 3px solid #efefef;
 }
 .ui.stackable.two.column.grid h4 {
-	font-weight: normal;
 	text-transform: uppercase;
-	color: #909090;
+	color: #5995A9;
+	font-size: 1.2em;
 }
 .left-portion .compact.ui.button {
 	margin-top: -.4rem;
@@ -132,19 +165,29 @@
 	padding-bottom: 1rem;
 }
 .left-portion>.ui.items a.header {
-	color: #808080 !important;
+	color: #666 !important;
 	font-weight: normal !important;
+	text-transform: capitalize;
+	font-size: 1.2em;	
 }
 .left-portion>.ui.items .meta>div {
 	color: #b3b3b3;
+}
+._prj_lst span:first-child {
+    color: #B2B2B2;
+    margin-right: 10px;
+}
+._prj_lst span {
+    color: #555;
 }
 .left-portion>.ui.items .right.floated>.icon {
 	font-size: 1.5em;
 	opacity: .4;
 }
-.left-portion>.ui.items .right.floated>.icon:hover {
+.left-portion>.ui.items .right.floated>.icon {
 	cursor: pointer;
-	color: #f00;
+	color: #5995A9;
+	opacity: .9;
 }
 .ui.transparent.left.icon.input>input {
 	padding-top: .5em;

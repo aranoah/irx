@@ -62,53 +62,75 @@
       <div class="four wide column _editable_">
         <div class="column li-box">
           <div class="lib-pic">
-            <img id="pic" class="ui circular image" 
-            src="<%= result.imageUrl?result.imageUrl+'?date='+new Date():'/img/pic.png'%>">
-            <div class="Editpic" style="cursor:pointer !important">
-              <form id="_profilePicForm" enctype="multipart/form-data">
-                <input id="_profilePic" name="image" type="file" ><i class="icon photo"></i>
-              </form>
+                <img id="pic" class="ui circular image" src="<%= result.imageUrl?result.imageUrl+'?date='+new Date():'/img/pic.png'%>">
+                <div class="Editpic" style="cursor:pointer !important">
+                    <form id="_profilePicForm" enctype="multipart/form-data">
+                        <input id="_profilePic" name="image" type="file" ><i class="icon photo"></i>
+                    </form>
+                </div>
             </div>
-          </div>
-          <div class="content">
-            <div class="header _name_ profEdit" contenteditable="false" style="width: 87%;margin: .5em 1em;line-height: 1.6em;">
-            <!-- ko if:name=="" -->
-              Enter Name
-            <!-- /ko -->
-            <!-- ko if:name !="" -->
-              <!--ko text : name --><!-- /ko -->
-            <!-- /ko -->
-            <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i>
+            <div class="content">
+            
+                <div class="header _name_ profEdit" contenteditable="false" style="width: 87%;margin: .5em 1em;line-height: 1.6em;">
+                    <!-- ko if:name=="" -->
+                      Enter Name
+                    <!-- /ko -->
+                    <!-- ko if:name !="" -->
+                      <!--ko text : name --><!-- /ko -->
+                    <!-- /ko -->
+                    <i data-bind="click:function(){profileEdit('_name_')}" class="write icon"></i>
+                </div>
+                <div class="ui buttons">
+                    <div class="ui positive button" data-bind="click:function(){updateUser('_name_')}" >Save</div>
+                    <div class="ui button _cancel_" data-bind="click:function(){profileClose('_name_')}">Cancel</div>
+                </div>
             </div>
-            <div class="ui buttons">
-              <div class="ui positive button" data-bind="click:function(){updateUser('_name_')}" >Save</div>
-              <div class="ui button _cancel_" data-bind="click:function(){profileClose('_name_')}">Cancel</div>
-            </div>
-          </div>
-          <div class="content" style="position:relative">
-           
-            <div class="item _compname_ profEdit text" style="width: 90%;overflow: hidden;box-sizing: border-box;padding: 0;margin: .5em 1em;line-height: 1.3em;word-break: break-all;" contenteditable="false" >
-             <i class="icon building" title="company name"></i>
-              <!-- ko if:companyName !="" -->
-                  <!--ko text : companyName --><!-- /ko -->
-              <!-- /ko -->
+            <div class="ui divided list lib-xtras" style="text-align:left;margin-bottom: 0;padding-bottom: 0 !important;">
+                <div class="header" style="font-weight: bold;font-size: 1em;">Company Name : </div>
+                <div class="item _compname_ profEdit" contenteditable="false">
+                    <span class="_csn" style="width:95%;">
+                        <!-- ko if:companyName -->
+                            <!-- ko text:companyName --><!-- /ko -->,
+                        <!-- /ko -->
+                    </span>
+                    <i data-bind="click:function(){locationEdit('_compname_')}" class="write icon"></i>
+                </div>
                 
-              <i data-bind="click:function(){profileEdit('_compname_')}" class="write icon"></i>
-            </div>
-             
-            <div class="ui buttons">
-              <div class="ui positive button" data-bind="click:function(){updateUser('_compname_')}">Save</div>
-              <div class="ui button _cancel_" data-bind="click:function(){profileClose('_compname_')}">Cancel</div>
-            </div>
-          </div>
-          <div class="lib-count" style="border-top: 2px solid #f4f4f4;margin-top:1rem;">
-            <div class="item left floated"><div class="header"><!-- ko text:projects.length --><!-- /ko --> </div>Projects</div><div class="item right floated"><div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>Locations</div>
+                <form class="ui form" style="display:none;padding: 1em 0;">
+                    <div class="field">
+                        <input type="text" name="locality" data-bind="textInput :companyName" placeholder="Company Name">
+                    </div>
+                    <div class="ui positive button" data-bind="click:function(){updateUser('_compname_')}">Save</div>
+                    <div class="ui button _cancel_" data-bind="click:function(){locationClose('_compname_')}">Cancel</div>
+                </form>
+            </div>    
+            <div class="ui divided list lib-xtras" style="text-align:left;margin: 0 !important;padding-top: 0 !important;">
+                <div class="item _invite_ profEdit" contenteditable="false">
+                    <span class="_csn" style="width:89%;color: #5995A9;">
+                        Invite Your Associate
+                    </span>
+                    <i data-bind="click:function(){locationEdit('_invite_')}" class="add square icon _csn" style="font-size: 125%;margin: 0 !important;padding: 0;color: #5995A9;opacity: 1;cursor: pointer;" ></i>
+                </div>
+                
+                <form class="ui form" style="display:none;padding: 1em 0;">
+                    <div class="field">
+                        <input type="text" name="locality" placeholder="Company Name">
+                    </div>
+                    <div class="ui positive button" data-bind="click:function(){updateUser('_invite_')}">Invite</div>
+                </form>
+            </div>           
+            <div class="lib-count" style="border-top: 2px solid #f4f4f4;margin-top:1rem;">
+                <div class="item left floated"><div class="header" data-bind="text:associatedProjects().length"></div>Projects</div>
+                <div class="item right floated">
+                    <div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>
+                    Locations
+                </div>
           </div>
 
          <div class="lib-specs">
-            <div class="header" style="position:relative">Specialities : <div class="ui icon buttons _csn" style="display: block;position: initial;">
-              <div class="ui top left pointing dropdown button _dDown">
-                <i class="user icon"></i>
+            <div class="header" style="position:relative;font-weight: bold;font-size: 1em;">Specialities : <div class="ui icon buttons _csn" style="display: block;position: initial;">
+              <div class="ui top left pointing dropdown button _dDown" style="background: #FFF;color: #5995A9;font-weight: bold;padding: 0 .2em !important;">
+                <i class="add square icon" style="font-size: 125%;"></i>
                 <div class="menu">
                   <div class="item">Rent</div>
                   <div class="item">Sale</div>
@@ -132,6 +154,7 @@
         
           </div>
           <div class="ui divided list lib-xtras" style="text-align:left;margin: 0;border-bottom: 2px solid #F4F4F4;">
+            <div class="header" style="position:relative;font-weight: bold;font-size: 1em;">Public Url :</div>
             <div class="content">
             
                 <div class="item _unUserName_ profEdit" contenteditable="false" data-bind="attr:{title:'www.indianrealtyexchange.com/'+id()}">
@@ -145,7 +168,9 @@
                 </div>
             </div>
           </div>
-           <div class="ui divided list lib-xtras" style="text-align:left">
+          <div class="ui divided list lib-xtras" style="text-align:left;margin-bottom: 0;padding-bottom: 0 !important;">
+            <div class="header" style="position:relative;font-weight: bold;font-size: 1em;">Contact Info :</div>
+
             <% if(result.location && result.location != null) {%>
               <div class="item _location_ profEdit" contenteditable="false">
                 <i class="map marker icon _csn"></i>
@@ -182,19 +207,46 @@
             </form>
             
             <div class="item"><i class="mail outline icon"></i><%= result.contactEmailAddress?result.contactEmailAddress:result.userId%></div>
-            <div class="content">
+            <!-- <div class="content">
               <div class="item _phoneNum_ profEdit" contenteditable="false">
                 <i class="call icon"></i><!--ko text : phoneNum --><!-- /ko -->
-                <i data-bind="click:function(){profileEdit('_phoneNum_')}" class="write icon"></i>
-              </div>
+                <!-- <i data-bind="click:function(){profileEdit('_phoneNum_')}" class="write icon"></i> -->
+            <!--   </div>
               <div class="ui buttons">
-                  <div class="ui positive button" data-bind="click:function(){updateUser('_phoneNum_')}" >Save</div>
-                  <div class="ui button _cancel_" data-bind="click:function(){profileClose('_phoneNum_')}">Cancel</div>
-                </div>
-            </div>
-            <!--<a class="lib-url">Get a personalized URL?</a>-->
+                <div class="ui positive button" data-bind="click:function(){updateUser('_phoneNum_')}" >Save</div>
+                <div class="ui button _cancel_" data-bind="click:function(){profileClose('_phoneNum_')}">Cancel</div>
+              </div>
+            </div> -->
+            
           </div>
-
+          <div class="ui divided list lib-xtras" style="text-align:left;margin: 0 !important;padding-top: 0 !important;">
+            <div class="item _phoneNum_ profEdit" contenteditable="false">
+              <i class="call _csn icon"></i>
+              <span class="_csn" style="width:85%;">
+                <!--ko text : phoneNum --><!-- /ko -->
+              </span>
+              <i data-bind="click:function(){locationEdit('_phoneNum_')}" class="write icon"></i>
+            </div>
+          
+            <form class="ui form" style="display:none;padding: 1em 0;">
+              
+              <div class="field">
+                <input type="text" name="locality" data-bind="textInput :phoneNum" placeholder="Phone Number">
+              </div>
+              <div class="ui positive button" data-bind="click:function(){updateUser('_phoneNum_')}">Save</div>
+              <div class="ui button _cancel_" data-bind="click:function(){locationClose('_phoneNum_')}">Cancel</div>
+            </form>
+            <!-- ko if:isVisibleOtp-->
+                <form class="ui form" style="padding: 1em 0;">
+              
+                  <div class="field">
+                    <input type="text" name="locality" placeholder="Enter OTP">
+                  </div>
+                  <div class="ui positive button" data-bind="click:function(){updateUser('otp')}">Save</div>
+                  <div class="ui button _cancel_" data-bind="click:function(){locationClose('otp')}">Cancel</div>
+                </form>
+            <!-- /ko-->
+          </div>
         </div>
       </div>
       <!-- Left panel ends here -->
@@ -212,50 +264,59 @@
               <a class="ui dropdown item right floated column">
                 <i class="settings icon"></i>settings
                 <div class="menu">
-               
-                  <div class="divider"></div>
-                  <div class="item" style="cursor:pointer" id="_reset_btn">Reset Password</div>
+                  <div class="item" style="cursor:pointer" id="_reset_btn">
+                  <i class="refresh icon"></i>
+                  Reset Password
+                  </div>
                 </div>
               </a>
             </div>
             <div class="ui bottom attached active tab segment" data-tab="first">
-              <h3 class="ui heading">manage products</h3>
-              <div class="ui stackable two column grid">
-              <div class="column left-portion" style="width:100%">
-                  <div class="item">                   
-                    <div class="content">
-                      <h4 class="header">My Projects</h4>
+              <h3 class="ui heading _csn" style="float:left;">manage products</h3>
+               <div class="ui info  message _csn _srch_loc">
+                    <i class="search icon"></i>
+                    Location 
+                    <div class="ui floating dropdown labeled search icon button">
+                        <span class="text" data-bind="text:city"></span>
+                        <div class="menu _ld_DCTY_DTA ">
+                        </div>
                     </div>
-                  </div>
+                </div>
+                <div class="ui stackable two column grid">
+                    <div class="column left-portion">
+                        <div class="item">                   
+                            <div class="content">
+                                <h4 class="header">My Projects</h4>
+                            </div>
+                        </div>
                   <!-- ko if: associatedProjects().length==0 -->
                     <div class="ui info message">
                       <ul class="list">
-                        <li>No projects associated to your profile currently.</li>
-                        <li>Click add new</li>
+                        <li>No projects associated to your profile.</li>
                       </ul>
                     </div>
                   <!-- /ko -->
                  <!-- ko foreach: associatedProjects -->
                     <div class="ui items">
                       <div class="item">
-                         <div class="content">
+                         <div class="content _prj_lst">
                          <!-- ko if: $data.hasOwnProperty("name") -->
-                            <a class="ui header" data-bind="text:name"></a>
+                            <a class="ui header _ellipsis" data-bind="text:name"></a>
                           <!-- /ko -->
                           <div class="description" style="margin:0;color:#999;">
                           <!-- ko if: $data.hasOwnProperty("builderName") -->
-                            <div class="time" data-bind="text:builderName"></div>
+                            <div class="time"><span>Builder</span> <span data-bind="text:builderName"></span></div>
                           <!-- /ko -->
                             <div style="display:inline-block">
-                              <i class="marker icon _csn"></i>
+                             <!--  <i class="marker icon _csn"></i> -->
                               <!-- ko if: $data.hasOwnProperty("location") -->
-                                <div class="category _csn" data-bind="text:location.name"></div>
+                                <div class="category _csn"><span>Location</span> <span data-bind="text:location.name"></span></div>
                                <!-- /ko -->
                             </div>
                           </div>
                          </div>
                          <div class="content right floated">
-                          <i class="remove circle outline icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
+                          <i class="remove circle icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
                           <div class="content" style="padding-top:15px">
                             
@@ -280,7 +341,7 @@
                  
                 </div>
                
-                <div class="_profsearProj column right-portion" style="display:inline-block;margin:2rem 0;padding:0;width:48%;display:none;">
+                <div class="_profsearProj column right-portion" style="display:inline-block;margin:2rem 0;padding:0;width:48%;">
                   <div class="item" style="">
                      <div class="right floated content">
                       <div class="column left-portion">
@@ -291,13 +352,6 @@
                             </div>
                         </div>
                         
-                          <div class="ui info  message">
-                            <ul class="list">
-                              <li>Search project in <span class="_proCity"><!-- ko text:city() --><!-- /ko --></span></li>
-                              
-                            </ul>
-                          </div>
-                     
                         <!-- ko foreach: projects -->
                           <div class="ui items">
                             <div class="item">
@@ -331,6 +385,15 @@
             </div>
             <div class="ui bottom attached tab segment" data-tab="second">
               <h3 class="ui heading">Manage locations</h3>
+              <div class="ui info  message _csn _srch_loc">
+                    <i class="search icon"></i>
+                    Location 
+                    <div class="ui floating dropdown labeled search icon button">
+                        <input class="search" tabindex="0"><span class="text" data-bind="text:city">mumbai</span>
+                        <div class="menu _ld_DCTY_DTA transition hidden" tabindex="-1">
+                        </div>
+                    </div>
+                </div>
               <div class="ui stackable two column grid">
               <div class="column left-portion">
                   <div class="item">                   
@@ -374,13 +437,6 @@
                             </div>
                         </div>
                      
-                          <div class="ui info  message">
-                            <ul class="list">
-                              <li>Search location in <span class="_proCity"><!-- ko text:city() --><!-- /ko --></span></li>
-                              
-                            </ul>
-                          </div>
-                        
                         <!-- ko foreach: locations -->
                           <div class="ui items">
                             <div class="item">
@@ -441,7 +497,7 @@
                       <!-- ko if: $data.hasOwnProperty("propertyType") -->
                         <div class="meta leadType" data-bind="text:propertyType"></div>
                       <!-- /ko -->
-                      <div>
+                      <div style="line-height: 22px;">
                       <!-- ko if: $data.hasOwnProperty("emailId") -->
                         <!--ko text : emailId --><!-- /ko -->
                       <!-- /ko -->
@@ -621,6 +677,7 @@
                   state:ko.observable("<%= result.location.state?result.location.state:'' %>")
                 },
       phoneNum : ko.observable('<%= result.phoneNum?result.phoneNum:'' %>'),
+      isVisibleOtp:ko.observable(false),
       leads : ko.observableArray(),
       currContext : ko.observable(),
       distress : ko.observableArray([
@@ -636,7 +693,7 @@
         var item =""
         if(self == '_compname_'){
           item = "companyName"
-          classInstance.viewModel.companyName(_self.text().trim())
+          //classInstance.viewModel.companyName(_self.text().trim())
         } else if(self == '_name_'){
           item = "name"
           classInstance.viewModel.name(_self.text().trim())
@@ -767,13 +824,23 @@
    // classInstance.listAllLocations();
     classInstance.listLeads(false);
 
-    $('._dDown')
-      .dropdown({
+    $('._dDown').dropdown({
         onChange: function(value, text, $selectedItem) {
-         classInstance.viewModel.specialities.push(value)
-         classInstance.updateUserProfile("specialities","",value,true)
+            var _false= false;
+            if(classInstance.viewModel.specialities().indexOf(value)==-1){
+                classInstance.viewModel.specialities.push(value)
+                classInstance.updateUserProfile("specialities","",value,true)
+            }else{
+                var obj={
+                    status:1,
+                    heading:"Specialities",
+                    content:value+" specialities already exists",
+                    result:[]
+                }
+                httpUtils.checkStatus(obj,false,true,null,obj);
+            }
         }
-      });
+    });
     $(document).off('click','._bhk_')
     $(document).on('click','._bhk_',function(){
 
@@ -792,7 +859,7 @@
                 classInstance.viewModel.projects([])
               classInstance.getProjectListingAutocomplete(request.term,request,response)
               },
-              minLength: 0,
+              minLength: 2,
               dataType: "json",
               cache: false,
               select: function( event, ui ) {
@@ -806,7 +873,7 @@
                 classInstance.viewModel.projects([])
               classInstance.getLocationListingAutocomplete(request.term,request,response)
               },
-              minLength: 0,
+              minLength: 2,
               dataType: "json",
               cache: false,
               select: function( event, ui ) {
@@ -856,8 +923,10 @@
    }
   AdminProfile.prototype.getProjectListingAutocomplete=function(text,request,response){
       var classInstance = this;
+
       httpUtils.get("/project-autocomplete",
         {"text":text,"city":classInstance.viewModel.city},"JSON",function(data){
+            classInstance.viewModel.projects([]);
         if(data.status==0){
            var arr = new Array();
           for(var i=0;i<data.result.length;i++){
@@ -875,7 +944,7 @@
             var location ={}
             if(item.fields['location.city'] &&  item.fields['location.city'].length >0){
               var lCity = item.fields['location.city'];
-              location = lCity[0];
+              location.city = lCity[0];
             }
            
            var locationName ={}
@@ -884,6 +953,7 @@
               var lName = item.fields['location.name'];
 
               locationName = lName[0];
+              location.name=lName[0];
             }
             var productType =""
             if(item.fields.productType &&  item.fields.productType.length >0){
@@ -943,12 +1013,11 @@
           }
         ko.utils.arrayPushAll(classInstance.viewModel.locations,arr)
         }
-       
-        
-    })
-    }
+     
+    });
+};
 
-  AdminProfile.prototype.associateProject = function(id) {
+AdminProfile.prototype.associateProject = function(id) {
     var classInstance = this;
     var obj = {}
     
@@ -1134,8 +1203,12 @@
            if(item=='specialities'){
             return;
           }
-          if(item=='location'){
+
+          if(item=='location' || item=='companyName'|| item=='phoneNum'){
             locationClose(self);
+            if(item=='phoneNum'){
+                classInstance.viewModel.isVisibleOtp(true);
+            }
           } else if(item=='phoneNum'){
             profileClose(self)
 
