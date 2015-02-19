@@ -316,23 +316,27 @@
                           </div>
                          </div>
                          <div class="content right floated">
-                          <i class="remove circle icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
+                          <i class="add circle icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i><i class="remove circle icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
                           <div class="content" style="padding-top:15px">
-                            
+                            <div class="" data-bind="html:$parent.getDistressInfo(id)">
+                              
+                            </div>
                             
                            <ul class="_dis_ " data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
                              <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
                               <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$data.checked">
-                              Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">
+                              Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">`
                              
                            <!-- /ko --></li>
+                           <div style="text-align:right;padding:5px">
                             <li class="ui buttons tiny">
                               <div class="ui button _scancel_">Cancel</div>
                               <div class="or"></div>
                               <div class="ui positive button _sDistress_" data-bind="click:function(){$parent.markDistress(id)}">save</div>
-                             </li>
+                            </li>
+                            </div>
                            </ul>
                          </div>
                       </div>
@@ -782,7 +786,7 @@
         classInstance.viewModel.currContext(pro.id)
         classInstance.viewModel.distress([])
         var bhk = pro.bhk;
-        console.log("here...",bhk)
+        console.log("here...",pro)
         var checkedDistressData = classInstance.viewModel.checkedDistress();
         var checkedDistressObj =  new Array();
         if(checkedDistressData){

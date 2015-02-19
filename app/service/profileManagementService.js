@@ -311,11 +311,15 @@ PMService.prototype.markDistress = function(data) {
 	var userId = data.irxId;
 	var distress =data.distress
 	var update = {};
-	
+	var disCriteria ={};
+	 disCriteria["distress."+projectId]=distress[projectId];
+
+	console.log("cri",disCriteria);
+	console.log(distress[projectId]);
 	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId,"project":projectId},
  		[],
-		{$set:{"distress":distress}},
+		{$set:disCriteria},
 		{"new":true },
 		function(err, mapping){
 			if(err){
@@ -518,7 +522,7 @@ PMService.prototype.deleteLocation = function(data) {
 					if(update){
 						//update user
 						IRXUserProfileModel.update({"irxId":userId,"locationCounter":{$gt:1}},
-							{$inc:{"locationCounter":-1},$pull:{"locationProjects":project.name}},
+							{$inc:{"locationCounter":-1},$pull:{"locationProjects":project.name,"locationMapper":{"id":projectId}}},
 							function(err,numberAffected,raw){
 								if(err){
 									console.error("locationCount in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
