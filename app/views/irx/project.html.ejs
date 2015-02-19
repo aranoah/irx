@@ -247,7 +247,13 @@
 	  		BHK :
 	  		<!--ko text: filters.bhk--><!--/ko-->
     			<!--ko if: filters.bhk() != "" --><i style="margin-right: 0;" data-bind=" event: {  click:function(){removeFilters('bhk')} }" class="remove icon"></i><!--/ko-->
-			</span>	    		
+			</span>	    	
+			<!-- ko :if(filters.city() ) -->
+			    	<span class="ui teal label">
+			    		City:
+			    		<!-- ko text :filters.city() --><!-- /ko -->
+			    	</span>
+		    	<!-- /ko -->	
     		<span class="ui teal label" data-bind="visible:filters.type() != ''">
     		Property Type :
     		<!--ko text: filters.type--><!--/ko-->
@@ -322,11 +328,14 @@
 	  		
 	  	<!-- ends here -->
 	    <!-- Project Listing goes here -->
-	    <div class="" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1rem;color: #7b7b7b;
+	    <div class="_pnf" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;">
-	    	No Search Results for this search. <span style="color:#00B2F3;"> Showing agents in your city</span>
+	    	No Search Results for this search. <span style="color:#00B2F3;text-transform:capitalize"> Showing agents in  <!-- ko text:filters.city()--><!-- /ko --></span>
 	    </div>
-
+	    <div class="" data-bind="visible:(agents().length==0 && projects().length==0)" style=" background:#fff;padding: 1rem;color: #7b7b7b;
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;">
+	    	No Search Results for this search. <span style="color:#00B2F3;text-transform:capitalize"> 
+	    </div>
 	    <div class="ui cards sc grid _hide_ " data-bind="foreach : agents" style="margin:0;">
 	    	
 			<div class="card">
@@ -336,8 +345,9 @@
 			    <div class="content">
 
 			      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name"></div></a>
-			      <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);"></a>
-
+			      <!-- ko if($data.hasOwnProperty('companyName')) -->
+			      	<a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);"></a>
+			      <!-- /ko -->
 			      <div class="content addr-ess">
 	    			<i class="map marker icon"></i><span data-bind="text : location.city"> </span>
 	    		  </div>
@@ -514,7 +524,7 @@
 				pageSize : 10
 			}
 		}
-	Project.prototype.init = function() {
+	Project.prototype.init = function(city) {
 
 		var _classInstance = this;
 		
@@ -673,7 +683,8 @@
 			    locationFlag :ko.observable(locationFlag1),
 			    projectId:ko.observable(projectIdFilter),
 			    minPrice:ko.observable(minP),
-			    maxPrice:ko.observable(maxP)
+			    maxPrice:ko.observable(maxP),
+			    city:ko.observable(city)
 			},
 			addAgent:function(name,id,companyName,imageUrl){
 				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id,"imageUrl":imageUrl}
@@ -858,8 +869,6 @@
 
 
 	Project.prototype.renderResult = function(data,filters) {
-
-
 		var classInstance = this;  
 		classInstance.viewModel.projects([]);
 		classInstance.viewModel.filters.name(filters.name);
@@ -891,12 +900,22 @@
 	
 	Project.prototype.listLocationAgent = function() {
 		var classInstance = this;
-		httpUtils.post("/list-agents",{filters:{"city":""},page:{"start":0,"pageSize":5}},{},"JSON",function(data){
+
+		httpUtils.post("/list-agents",{
+			filters:
+				{"city":classInstance.viewModel.filters.city},
+			page:
+				{"start":0,"pageSize":5}
+			},{},"JSON",function(data){
+
 	    		if(data.result != null && data.result.length !=0 ){
 	    			classInstance.viewModel.agents([])
+
 	    			 ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
-	    			 console.log(classInstance.viewModel.agents())
-	    		}	
+	    			 
+	    		}else{
+	    			$('._pnf').hide();
+	    		}
 	      })
 	}
 
@@ -944,9 +963,10 @@
 		$(document).ready(function(){
 	  	
 		    project = new Project();
-		    project.init();
-
-	    	$('._hide_').show()
+		    var city = localStorage.getItem("city");
+	    	project.init(city);
+	     
+		  $('._hide_').show()
 	  	})
 	</script>
   <% include ../partials/footer.html.ejs %>

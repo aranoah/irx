@@ -547,7 +547,7 @@ UserService.prototype.review = function(data) {
 	var _selfInstance  = this;
 	//get review invitation
 	var refCode = data.refCode;
-	console.log("achaaa",{"parentId":data.parentId,"targetId":data.agentId})
+
 	IRXReviewInvitationModel.findOne({"parentId":data.parentId,"targetId":data.agentId},function(err,reviewInvitation){
 		if(err){
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error finding review invitation",err,null);
@@ -643,7 +643,7 @@ UserService.prototype.review = function(data) {
 					})
 	};
 
-	//check whether this username exist or not
+	//save verification code
 	UserService.prototype.saveVerificationCode = function(vData,type,callback) {
 		var _selfInstance  = this;
 			var id = _selfInstance.getCustomMongoId("IVER-")

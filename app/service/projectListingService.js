@@ -46,10 +46,10 @@ ProjectListingService.prototype.listProjects = function(data){
 		
 	}
 	if(filters && filters.city != null &&  filters.city != "") {
+		console.log("asdfg",filters.city)
 		query["location.city"]=filters.city;
 	}
 	if(filters && filters.localityId != null &&  filters.localityId != "") {
-		console.log("filters",filters.localityId)
 		query["location.locality"]=filters.localityId;
 	}
 	if(filters && filters.type != null &&  filters.type != "") {
@@ -67,6 +67,7 @@ ProjectListingService.prototype.listProjects = function(data){
 	if(filters && filters.distress != null &&  filters.distress != "") {
 		query["distress"] ={$gt:0};
 	}
+	query["productType"]="project"
 
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;

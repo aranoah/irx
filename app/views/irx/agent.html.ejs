@@ -83,12 +83,27 @@
 	    	</div>
 	    </div>
 	    <% } %>
-	    <% if (requestObj.name!=null && requestObj.name!='') {%>
+	    
 		    <div class="_filters_">
 
-		    	<span class="ui teal label"><%= requestObj.name?requestObj.name:'' %> <i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
+		    	<!-- ko :if(filters.location() == "true" && filters.locationCity() !="") -->
+			    	<span class="ui teal label">
+			    		City:
+			    		<!-- ko text :filters.locationCity() --><!-- /ko -->
+			    	</span>
+		    	<!-- /ko -->
+		    	<!-- ko :if(filters.location() != "true" && filters.locationCity()=="") -->
+			    	<span class="ui teal label">
+			    		City:
+			    		<!-- ko text :filters.city() --><!-- /ko -->
+			    	</span>
+		    	<!-- /ko -->
+		    	<!-- ko :if(filters.name()) -->	
+		    		<span class="ui teal label">Showing agents for: <!-- ko text :filters.name() --><!-- /ko --><i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
+		    	<!-- /ko -->
+		    
 		  	</div>
-		  	<% }%>
+		  	
 	
 		<div class="_hide_" data-bind="visible:agents().length==0" style=" background:#fff;padding: 1rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;margin-top:5px">
@@ -195,7 +210,7 @@
 		}
 		this.agentIds = [];
 	}
-	Agent.prototype.init = function() {
+	Agent.prototype.init = function(city) {
 		var _classInstance = this;
 		_classInstance.aPostReqViewModel = common.getViewModel('postAgent');
 		common.aPostReqViewModel = _classInstance.aPostReqViewModel;
@@ -292,7 +307,8 @@
 				displayName: ko.observable("All"),
 				projectId: ko.observable(projectIdFilter),
 				location: ko.observable(locationFlag),
-				city:ko.observable("")
+				city:ko.observable(city),
+				locationCity : ko.observable()
 			},
 			start: ko.observable(),
 			total: ko.observable(),
@@ -347,16 +363,21 @@
 	Agent.prototype.listAgents = function(replace, setUpdate) {
     	var classInstance = this;
     	if(classInstance.viewModel.filters.projectId() != ""){
-    		 
            httpUtils.get("/prefered-agents/"+classInstance.viewModel.filters.projectId(),
             {"location":classInstance.viewModel.filters.location(),"city":classInstance.viewModel.filters.city()}
             ,"JSON"
             ,function(result){
+            	if(result.extra){
+            		classInstance.viewModel.filters.locationCity(result.extra.city);
+            	}
+            	
          		 classInstance.processResult(result,replace,setUpdate)
           })
     	}else {
+    		
     		httpUtils.post("/list-agents",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
-	    		classInstance.processResult(data,replace,setUpdate)
+    			classInstance.viewModel.filters.locationCity("");
+	    		classInstance.processResult(data,replace,setUpdate);
 	      })
     	}
 	    
@@ -384,10 +405,14 @@
 		
 		var classInstance = this;  
 		classInstance.viewModel.agents([]);
+
 		if(filters){
 			classInstance.viewModel.filters.name(filters.name);
 			classInstance.viewModel.filters.projectId(filters.projectId);
 			classInstance.viewModel.filters.displayName(filters.name);
+			classInstance.viewModel.filters.city(filters.city);
+			classInstance.viewModel.filters.location(""+filters.location);
+			classInstance.viewModel.filters.locationCity(filters.locationCity);
 		}
 		if(data && data.result){
 			
@@ -420,15 +445,16 @@
 	$(document).ready(function(){
 	  
 	    agent = new Agent();
-	    agent.init();
+	    var city = localStorage.getItem("city");
+	    agent.init(city);
+	     
+		  if(city){
+		   
+		    agent.viewModel.filters.city(city)
+		  }
+	    
 	    $('._hide_').removeClass('_hide_');
 
-	     var city = localStorage.getItem("city");
-
-		  if(city){
-		     alert(city)
-		    agent.viewModel.filters.city(city)
-		  } 
 	  })
 	</script>
   <% include ../partials/footer.html.ejs %>

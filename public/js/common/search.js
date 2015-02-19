@@ -431,6 +431,7 @@
               project.renderResult(result,filters)
             }else{
             var arr = new Array();
+
               project.renderResult(arr,filters)
             }
         })
@@ -466,7 +467,7 @@
       var classInstance = this;
         classInstance.resetAutocompleteFilters();
           var params= {}
-          if(location ){
+          if(location){
             params = {"location":location}
           }
 
@@ -474,7 +475,11 @@
             params
             ,"JSON"
             ,function(result){
-          
+              if(result.extra){
+
+                data.locationCity = result.extra.city
+                data.location = location
+              }
               if(result.status==0){
                 agent.renderResult(result,data)
               }else{

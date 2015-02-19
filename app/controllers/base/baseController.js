@@ -60,8 +60,8 @@ BaseController.prototype.handleValidationErr = function(isUi){
     return true;
 };
 
-BaseController.prototype.processJson=function(status,msg,result,page){
-    this.res.json({"status":status,message:msg,result:result,page:page});   
+BaseController.prototype.processJson=function(status,msg,result,page,extra){
+    this.res.json({"status":status,message:msg,result:result,page:page,extra:extra});   
 };
 BaseController.prototype.processTableJson=function(status,msg,result,total){
     this.res.json({"status":status,"message":msg,records:result,"total":total});   

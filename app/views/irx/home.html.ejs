@@ -482,7 +482,7 @@
 	                  _classInstance.agentAutocomplete(data,request,response)
 	                
 	                }else if(_classInstance.viewModel.searchType()=='locality'){
-			var data={"text":request.term,"city":_classInstance.viewModel.city()}
+						var data={"text":request.term,"city":_classInstance.viewModel.city()}
 
                        data["type"]="location";
                   _classInstance.projectAutocomplete(data,request,response)
@@ -505,7 +505,10 @@
 	                    if(_classInstance.type[ui.item.type]=='project'){
 	                      
 	                      $('#__projectId').val(ui.item.id);
-	                       location.href="/project/"+ui.item.id;
+	                      if(ui.item.productType=="location"){
+				              	$("#__isLocality").val("true")
+				              }
+	                      
 	                    } else if(_classInstance.type[ui.item.type]=='user'){
 	                    
 	                    	  location.href="/"+ui.item.irxId;
@@ -637,6 +640,7 @@
             var productType="";
             if(item.fields && item.fields.productType && item.fields.productType.length >0){
               productType = item.fields.productType[0]
+
             }
             var id="";
             if(item.fields && item.fields.id && item.fields.id.length >0){
@@ -646,6 +650,7 @@
             if(item.fields && item.fields.irxId && item.fields.irxId.length >0){
               irxId = item.fields.irxId[0]
             } 
+
             return {id:id,name:name,type:item._type,productType:productType,irxId:irxId};
           }));
         }
