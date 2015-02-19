@@ -221,7 +221,7 @@
             <div class="ui bottom attached active tab segment" data-tab="first">
               <h3 class="ui heading">manage products</h3>
               <div class="ui stackable two column grid">
-              <div class="column left-portion">
+              <div class="column left-portion" style="width:100%">
                   <div class="item">                   
                     <div class="content">
                       <h4 class="header">My Projects</h4>
@@ -280,7 +280,7 @@
                  
                 </div>
                
-                <div class="_profsearProj column right-portion" style="display:inline-block;margin:2rem 0;padding:0;width:48%">
+                <div class="_profsearProj column right-portion" style="display:inline-block;margin:2rem 0;padding:0;width:48%;display:none;">
                   <div class="item" style="">
                      <div class="right floated content">
                       <div class="column left-portion">
@@ -614,7 +614,7 @@
       id: ko.observable('<%= result.id %>'),
       associatedProjects : ko.observableArray(),
       name : ko.observable('<%= result.name?result.name:'' %>'),
-      companyName : ko.observable('<%= result.companyName?result.companyName:'' %>'),
+      companyName : ko.observable('<%= result.companyName?result.companyName:"Enter Company Name" %>'),
       specialities : ko.observableArray(),
       location : {name:ko.observable("<%= result.location.name?result.location.name:'' %>"),
                   city:ko.observable("<%= result.location.city?result.location.city:'' %>"),
