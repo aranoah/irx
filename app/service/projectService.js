@@ -78,7 +78,7 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 	var Mapping = IRXAgentMProductModel;
 	var id = projectId;
 	var city =data.city;
-	this.once("listPrefStage1",function(agentIds){
+	this.once("listPrefStage1",function(agentIds,retCity){
  	
 	 	IRXUserProfileModel.find({"irxId":{$in:agentIds}},{'name': 1,'companyName':1,'location':1,"projects":1,"locationProjects":1,"imageUrl":1,"irxId":1},function(err,agents){
 	 		
@@ -87,7 +87,34 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 			}else {
 				if(agents && agents != null){
-					_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,agents,null);
+					if(retCity){
+
+						IRXProductLineModel.findOne({"id":id},{"location":1},
+								function(err,pData){
+									if (err){
+							 			console.error(err)
+							 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+							 			
+							 		} else{
+							 			
+							 			if(pData && pData != null){
+							 				var extra ={};
+								 			if(pData.location){
+								 			  extra.city = pData.location.city
+								 			}
+							 			
+							 			_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,agents,null,extra);
+							 				
+							 			} else{
+							 				_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,agents,null);
+							 			}
+							 			
+							  		}
+								})
+						}else{
+							_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,agents,null);
+						}
+					
 				} else {
 					console.error("No agents found")
 		 			_selfInstance.emit("done",404,"No agents found",null,null);
@@ -98,8 +125,10 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 		
 	}) 
 	var query ={"project":id};
+	var retCity = false;
 	if(data.location && data.location == 'true'){
 		query={"location":id}
+		retCity =true;
 	}
 	Mapping.find(query,{"agentId":1},{skip:0,limit:4 },
 					function(err,mapping){
@@ -108,14 +137,14 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 						
 						} else{
-							console.log("yo",id)
+						
 							if(mapping && mapping != null && mapping.length>0){
-								console.log(mapping.length)
+								
 								var agentIds = new Array();
 								for(var i=0;i<mapping.length;i++){
 									agentIds.push(mapping[i].agentId);
 								}
-								_selfInstance.emit('listPrefStage1',agentIds);		
+								_selfInstance.emit('listPrefStage1',agentIds,retCity);		
 							} else {
 								console.log("No prefered agent found")
 								_selfInstance.emit("done",404,"No prefered agent found","No prefered agent found",null);

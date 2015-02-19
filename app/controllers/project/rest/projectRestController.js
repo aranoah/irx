@@ -28,8 +28,8 @@ projectRestController.listPreferedAgents = function() {
 	var projService = new projectService();
 	
     var _nself = this;
-    projService.on("done", function(code,msg,err,errValue){
-     _nself.processJson(code,msg,err,errValue);
+    projService.on("done", function(code,msg,err,errValue,extra){
+     _nself.processJson(code,msg,err,errValue,extra);
     });
    
     var data = {

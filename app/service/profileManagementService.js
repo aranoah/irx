@@ -385,20 +385,34 @@ PMService.prototype.associateLocation = function(data) {
 					_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 				} else {
 					var update = false;
-					if(mapping ==null ){
+					
+					if(mapping == null ){
+						
 						update = true;
-					} else if(mapping !=null && mapping.project.indexOf(projectId)==-1){
-						update = true;
+					} else if(mapping !=null ){
+						if(!mapping.location){
+							update = true;
+						}else if(mapping.location.indexOf(projectId)==-1){
+							update = true;
+						} else{
+							_selfInstance.emit("done","Already Exists",STATUS.NO_UPDATION.msg,err,null);
+						}
+						
 					} else{
 						_selfInstance.emit("done","Already Exists",STATUS.NO_UPDATION.msg,err,null);
 					}
 					if(update){
 						//update user
+						
 						IRXUserProfileModel.update({"irxId":userId},
-							{$inc:{"locationCounter":1},$addToSet:{"locationProjects":project.name}},
+							{
+							$inc:{"locationCounter":1},
+							$addToSet:{"locationProjects":project.name,
+									  "locationMapper":{"id":project.id,"name":project.name,"city":project.location.city}}
+							},
 							function(err,numberAffected,raw){
 								if(err){
-									console.error("locationCounter in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
+									console.error(+"locationCounter in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
 								} else {
 									if(numberAffected>0){
 										console.log("locationCounter has been udated");
@@ -436,7 +450,7 @@ PMService.prototype.associateLocation = function(data) {
  	/*
  	* Check Valid project
  	*/
- 	IRXProductLineModel.findOne({"id":projectId},{"id":1,"name":1,"location":1,"builderName":1,"description":1},function(err,project){
+ 	IRXProductLineModel.findOne({"id":projectId,"productType":"location"},{"id":1,"name":1,"location":1,"builderName":1,"description":1},function(err,project){
  		if(err){
  			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -566,6 +580,7 @@ PMService.prototype.deleteLocation = function(data) {
 /*
 * Check valid agent
 */
+
 IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED,"type":"agent"},
 	function(err,data){
 		if(err){
