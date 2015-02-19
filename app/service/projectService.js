@@ -77,7 +77,7 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 	var _selfInstance = this;
 	var Mapping = IRXAgentMProductModel;
 	var id = projectId;
-	
+	var city =data.city;
 	this.once("listPrefStage1",function(agentIds){
  	
 	 	IRXUserProfileModel.find({"irxId":{$in:agentIds}},{'name': 1,'companyName':1,'location':1,"projects":1,"locationProjects":1,"imageUrl":1,"irxId":1},function(err,agents){

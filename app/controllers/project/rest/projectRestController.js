@@ -34,7 +34,8 @@ projectRestController.listPreferedAgents = function() {
    
     var data = {
         "projectId":_nself.req.params.projectId,
-        "location":_nself.req.query.location
+        "location":_nself.req.query.location,
+        "city":_nself.req.query.city
     }
     projService.listPreferedAgents(data);
 };

@@ -41,7 +41,8 @@ var IRXUserProfileSchema =new mongoose.Schema({
    projectCounter :{type:Number},
    locationCounter :{type:Number},
    hasDistress : {type:Boolean},
-   contactEmailId:{type:String}
+   contactEmailId:{type:String},
+   locationMapper:[{id:String,name:String,city:String}]
 });
 
 IRXUserProfileModel = mongoose.model('irxuser', IRXUserProfileSchema);

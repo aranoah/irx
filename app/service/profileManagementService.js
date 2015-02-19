@@ -371,7 +371,7 @@ PMService.prototype.associateLocation = function(data) {
  var _selfInstance = this;
  var userId = data.userId;
  var projectId = data.projectId;
- console.log(userId)
+
  this.once("stage2",function(project){
  	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId},

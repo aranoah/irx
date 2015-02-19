@@ -442,7 +442,6 @@
       classInstance.viewModel.sProAgents(false);
       classInstance.viewModel.sProAgents(false);
       
-      
            httpUtils.post("/list-agents",
             {filters:data,page:classInstance.page}
             ,{}

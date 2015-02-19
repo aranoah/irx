@@ -125,16 +125,16 @@
     			<i class="map marker icon"></i><span data-bind="text : location.city"></span>
     		  </div>
 		      <div class="description">
-		        Projects : 
-		        <span class="_cmpnyName" data-bind="foreach : projects" style="margin-right:0;">
+		        <span style="float:left">Projects : </span>
+		        <span class="_cmpnyName" data-bind="foreach : projects" style="margin-right: 0;width: 72% !important;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;float: left;">
 			        <!-- ko if:$index()<=2 -->
 			        	<!-- ko if:$index()!=0 -->
-			        	 	<span class="header">,</span>
+			        	 	,
 			        	 <!-- /ko -->
-			        	<span class="header" data-bind="text : $data"></span>
+			        	 <!-- ko text:$data --><!-- /ko -->
 			        <!-- /ko -->
 			    </span>
-		        <span data-bind="if:projects.length>3">
+		        <span data-bind="if:projects.length>3" style="float:left;">
 		        (+
 		        	<span class="header" data-bind="text : projects.length-3"></span>)
 		        </span>
@@ -291,7 +291,8 @@
 				bhk: ko.observable(filterBhk),
 				displayName: ko.observable("All"),
 				projectId: ko.observable(projectIdFilter),
-				location: ko.observable(locationFlag) 
+				location: ko.observable(locationFlag),
+				city:ko.observable("")
 			},
 			start: ko.observable(),
 			total: ko.observable(),
@@ -348,7 +349,7 @@
     	if(classInstance.viewModel.filters.projectId() != ""){
     		 
            httpUtils.get("/prefered-agents/"+classInstance.viewModel.filters.projectId(),
-            {"location":classInstance.viewModel.filters.location()}
+            {"location":classInstance.viewModel.filters.location(),"city":classInstance.viewModel.filters.city()}
             ,"JSON"
             ,function(result){
          		 classInstance.processResult(result,replace,setUpdate)
@@ -421,6 +422,13 @@
 	    agent = new Agent();
 	    agent.init();
 	    $('._hide_').removeClass('_hide_');
+
+	     var city = localStorage.getItem("city");
+
+		  if(city){
+		     alert(city)
+		    agent.viewModel.filters.city(city)
+		  } 
 	  })
 	</script>
   <% include ../partials/footer.html.ejs %>
