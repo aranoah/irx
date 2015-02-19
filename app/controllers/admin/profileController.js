@@ -31,19 +31,15 @@ var userService = require(_path_service+"/userService.js" )
 
 profileController.main = function() {
   
-  console.log("Main")
+   if(!this.ensureAuthenticated(true)){
+       return; 
+   }
    var userSvc = new userService();
- 
-    var _nself = this;
-   
-    userSvc.on("done", function(code,msg,result,errValue){
-     
-    	_nself.title = "Admin-Profile page";
-    	_nself.result=result;
-     	
-  		_nself.render("admin/profile"); 
-    	
-  		
+   var _nself = this;
+   userSvc.on("done", function(code,msg,result,errValue){
+     _nself.title = "Admin-Profile page";
+     _nself.result=result;
+     _nself.render("admin/profile"); 
     });
     var user = _nself.getCurrentUserInfo(_nself);
     var data ={

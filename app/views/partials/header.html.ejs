@@ -12,7 +12,7 @@
 
   <!-- For mobile screens only -->
 
-  <% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+  <% if(locals.req.device && locals.req.device.type != 'desktop'){ %>
 
       <div id="header" class="ui inverted menu">
         <a class="header item _logo_" href="/irx/home">IRX</a>
@@ -27,6 +27,7 @@
         </div>       
         <div class="right menu">
          
+<!--
           <% if(locals.session.user) {%>
             <div class="ui dropdown">
               <a class="item"><%= locals.session.user.name %></a>
@@ -43,6 +44,7 @@
               <input id="__sess_irxId" value="<%= locals.session.user.name %>" type="hidden">
             </div>
             <% }%>
+-->
             <% if(!locals.session.user){ %>
                  <a class="item log-in"><i class="user icon"></i></a>
             <% }%>
@@ -54,7 +56,7 @@
 
   <!-- For desktop only -->
 
-<% if(locals.req.device && locals.req.device.type == 'desktop'){ %>
+<% if(!locals.req.device || locals.req.device.type == 'desktop'){ %>
 
   <div id="header" class="ui inverted menu _desktop_">
     <a class="header item _logo_" href="/irx/home">IRX</a>
