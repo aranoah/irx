@@ -17,11 +17,11 @@
               <h4 class="ui dividing header _csn" style="color:#1E5D76">Please select property location</h4>
               <div class="ui selection dropdown city _csn" style="margin-left:15px;">
                 <input type="hidden" name="city" data-bind="textInput:data.city">
-                <div class="default text" data-bind="text:data.city()" style="min-width:14rem;margin-right:0 !important;text-transform:capitalize">Select City</div>
+                <div class="default text" data-bind="text:data.city()" style="min-width:11rem;margin-right:0 !important;text-transform:capitalize">Select City</div>
                 <i class="angle down icon"></i>
                 <div class="menu _ld_DCTY_DTA" style="overflow-x: hidden;overflow-y: scroll;max-height: 500px;">
                   <div class="ui icon search input">
-                    <i class="search icon"></i>
+                    
                     <input type="text" name="search" placeholder="Search city...">
                   </div>
                   <div class="divider"></div>
@@ -36,7 +36,7 @@
           <div>
           <h4 class="ui dividing header">Property Information :</h4>
 
-            <div class="item field" style="width:368px;padding-bottom:.7rem;">
+            <div class="item field" style="<% if(locals.req.device.type == 'desktop'){ %> width:25em; <% } %>padding-bottom:.7rem;">
               <div class="ui icon input">
                 <input type="text" name="projectId" id="__sellPostSearch" placeholder=" Search project.." data-bind="value:data.proName"style="padding:.7rem;">
                 <i class="search icon"></i>
@@ -44,7 +44,7 @@
               <div id="autoDivSell"></div>
             </div>
 
-            <div class="item field" style="width:368px;padding-bottom:.7rem;padding-top:.7rem;">
+            <div class="item field" style="<% if(locals.req.device.type == 'desktop'){ %> width:25em; <% } %>padding-bottom:.7rem;padding-top:.7rem;">
               <div class="ui icon input">
               <input type="text" placeholder="Location" data-bind="value:data.locality"style="padding:.7rem;">
                 <i class="marker icon"></i>
@@ -110,7 +110,7 @@
             <div class="item field">
               <input type="text" placeholder="Name" name="name" data-bind="value:data.name">
             </div>
-            <div class="item field" style="margin-left: 15px;">
+            <div class="item field" <% if(locals.req.device.type == 'desktop'){ %>  style="margin-left:15px;" <% } %>>
               <input type="text" placeholder="Email" name="emailId" data-bind="value:data.emailId">
             </div>            
             <div class="item field" style="margin:0">
@@ -123,12 +123,14 @@
           <div class="right floated column">
             <div class="ui submitAction"  onClick="common.validateForm(this)">Submit</div>
           </div>
-          <div class="left floated column __createLogin">
-            <div class="ui checkbox">
-              <input type="checkbox" data-binding="checked:createLogin">
-              <label>Also create a login</label>
+         <% if(!locals.session.user){%>
+            <div class="left floated column">
+              <div class="ui checkbox">
+                <input type="checkbox">
+                <label>Also create a login</label>
+              </div>
             </div>
-          </div>
+          <% }%>
 
         </div>
        </div>

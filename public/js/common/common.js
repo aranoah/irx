@@ -105,13 +105,31 @@ Common.prototype.init = function(first_argument) {
       return false;
     });
 
-   $('.sell-post').on('change','input[name="city"]',function(){
+   $('#sell').on('change','input[name="city"]',function(){
       var city = $(this).val();
       city = city.replace(/&nbsp;/gi,'')
       city = city.trim();
+
       classInstance.viewModelSell.data.city(city)
       
     });
+   $('#post').on('change','input[name="city"]',function(){
+      var city = $(this).val();
+      city = city.replace(/&nbsp;/gi,'')
+      city = city.trim();
+
+      classInstance.viewModelPost.data.city(city)
+      
+    });
+   $('#_postA_').on('change','input[name="city"]',function(){
+      var city = $(this).val();
+      city = city.replace(/&nbsp;/gi,'')
+      city = city.trim();
+
+      classInstance.aPostReqViewModel.data.city(city)
+      
+    });
+   
      $("#"+classInstance.sellPostLeads).find("#__sellPostSearch").autocomplete({
 
             source: function(request, response){
@@ -598,7 +616,7 @@ Common.prototype.captureLeads = function(type) {
     
   }
   var createLogin = $('#'+type).find('.__createLogin').find('.ui.checkbox').hasClass('checked');
-	alert(createLogin)
+	
   viewModel.data.createLogin(createLogin);
   httpUtils.post("/capture-lead",
 		viewModel.data,
@@ -677,33 +695,32 @@ $(document).ready(function(){
     //             var _self = this;
     //             var reqData={
     //                 "text":request.term,
-    //                 "city":selector.parents(".ui.modal").find("input[type='city']").val()
+    //                 "city":selector.parents(".ui.inverted.menu").find("input[name='city']").val()
     //             }
                 
-                
-        //    },
-        //     minLength: 2,
-        //     dataType: "json",
-        //     cache: false,
-        //     focus:function(event, ui){
-        //         $(this).val(ui.item.real);
-        //         return false;
-        //     },
-        //     select: function( event, ui ) {
-        //         // var textName = classInstance.removeHtml(ui.item.name)
-        //         // classInstance.viewModelSell.data.proName(textName)
+    //        },
+    //         minLength: 2,
+    //         dataType: "json",
+    //         cache: false,
+    //         focus:function(event, ui){
+    //             $(this).val(ui.item.real);
+    //             return false;
+    //         },
+    //         select: function( event, ui ) {
+    //             // var textName = classInstance.removeHtml(ui.item.name)
+    //             // classInstance.viewModelSell.data.proName(textName)
 
-        //         // classInstance.viewModelSell.data.locality(ui.item.locationName)
-        //         // classInstance.viewModelSell.data.projectId(ui.item.id)
-        //         return false;
-        //     }
-        // });
+    //             // classInstance.viewModelSell.data.locality(ui.item.locationName)
+    //             // classInstance.viewModelSell.data.projectId(ui.item.id)
+    //             return false;
+    //         }
+    //     });
     
-        // selector.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-        //     $(".ui-widget-content .ui-state-focus");
-        //      return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>').appendTo(ul);
-        // };
+    //     selector.data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+    //         $(".ui-widget-content .ui-state-focus");
+    //          return $( "<li>" ).append( '<a class="item" style="padding:0;"><div class="content"><div class="itLabel header" style="padding:0;">'+item.name+'</div></div></a>').appendTo(ul);
+    //     };
     // }
-    // _autocomplete($("#projectId"));
+    // _autocomplete($("#__postReqSearch"));
     // _autocomplete($("#__sellPostSearch"));
 });
