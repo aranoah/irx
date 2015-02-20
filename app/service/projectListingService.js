@@ -116,7 +116,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	}
 	var match = {
 			"match":{
-				"productTyoe":"project"
+				"productType":"project"
 			}
 		}
 		query.push(match);
