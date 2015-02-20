@@ -122,14 +122,14 @@ UserService.prototype.registerUser = function(user) {
 **/
 UserService.prototype.verifyUser = function(data) {
 	logger.log("debug","In verifyUser")
+	console.log()
 	// Make a database entry
 	var mongoose = require('mongoose');
 	var verificationModel = IRXVerificationModel;
 	var User = IRXUserProfileModel;
 	var _selfInstance = this;
 	var updateObj = {$set:{"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED}};
-
-	verificationModel.findOne({ 'vfData': data.userId, "vfCode":data.vfCode }, function (err, verification) {
+	verificationModel.findOne({ 'vfData': data.vfData, "vfCode":data.vfCode }, function (err, verification) {
  		if (err){
  			logger.log("error",err)
  			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,null);
@@ -142,6 +142,7 @@ UserService.prototype.verifyUser = function(data) {
  				if(data.phoneNum && data.phoneNum == true){
 					updateObj={$set:{"phoneNum":verification.phoneNum}};
 				}
+				
 				User.update({"irxId":data.userId},
 							updateObj,
 							function(err, numberAffected, raw){
@@ -216,8 +217,6 @@ UserService.prototype.updateUser = function(user) {
 		}else{
 			updateQuery={"$pull":{"specialities":user.specialities}};
 		}
-		console.log("qwewrety",updateQuery)
-		
 	}
 	if(user.file && user.file != null) {
 		var file = user.file;
@@ -257,23 +256,23 @@ UserService.prototype.updateUser = function(user) {
 	}
 
 	User.update({"irxId":id},
-							updateQuery,
-							function(err, numberAffected, raw){
-								console.log(numberAffected)
-								if(err){
-									console.error(err)
-									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
-								} else{
-									if(numberAffected >0){
-										console.log("User updated successfully");
-										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
-						 				
-									}else{
-										console.log("User not updated")
-										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
-									}
-								}	
-							})
+		updateQuery,
+		function(err, numberAffected, raw){
+			console.log(numberAffected)
+			if(err){
+				console.error(err)
+				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+			} else{
+				if(numberAffected >0){
+					console.log("User updated successfully");
+					_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
+	 				
+				}else{
+					console.log("User not updated")
+					_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+				}
+			}	
+		})
 	
 }
 
@@ -674,7 +673,7 @@ UserService.prototype.review = function(data) {
 	     	      	callback(STATUS.ERROR.code,"Error putting in queue");
 					return;
 	     	      } else{
-	     	      	console.log("Mail has been ")
+	     	      	console.log("Mail has been sent successfully")
 	     	      	callback(STATUS.MAIL_SUCCESS.code,STATUS.MAIL_SUCCESS.msg);
 					return;
 	     	      }         
@@ -902,15 +901,11 @@ UserService.prototype.hasInvitationForReview = function(data, pupulateData){
 		if(err){
              _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
        }else if(data==null){
-       		console.log("4")
        		pupulateData(false)
        		return ;
-            //_selfInstance.emit("done",0,"OK",false,null); 
        }else{
-       		console.log("5")
        		pupulateData(true)
        		return ;
-            //_selfInstance.emit("done",0,"OK",true,null); 
        }
 	})
 }
