@@ -107,7 +107,7 @@ PMService.prototype.associateProject = function(data) {
  	/*
  	* Check Valid project
  	*/
- 	IRXProductLineModel.findOne({"id":projectId},{"id":1,"name":1,"location":1,"builderName":1,"description":1},function(err,project){
+ 	IRXProductLineModel.findOne({"id":projectId},{"id":1,"name":1,"location":1,"builderName":1,"description":1,"bhk":1},function(err,project){
  		if(err){
  			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -153,11 +153,13 @@ PMService.prototype.deleteProject = function(data) {
  var _selfInstance = this;
  var userId = data.userId;
  var projectId = data.projectId;
+ var disCriteria ={};
+  disCriteria["distress."+projectId]=1;
  this.once("delProStage2",function(project){
  	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId},
  		[],
-		{$pull:{"project":projectId}},
+		{$pull:{"project":projectId},$unset:disCriteria},
 		{"new":true },
 			function(err, mapping){
 				
@@ -314,8 +316,6 @@ PMService.prototype.markDistress = function(data) {
 	var disCriteria ={};
 	 disCriteria["distress."+projectId]=distress[projectId];
 
-	console.log("cri",disCriteria);
-	console.log(distress[projectId]);
 	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId,"project":projectId},
  		[],

@@ -130,10 +130,13 @@ userController.createUser = function() {
 
 userController.updateUser = function() {
   var userSvc = new userService();
-  if(this.req.errors.hasError()){
+  if(this.req.body.phoneNum && this.req.body.phoneNum != ""){
+    if(this.req.errors.hasError()){
        this.processJson(400,"validation error",this.req.errors.getErrors());
        return;
     }
+  }
+  
     var _nself = this;
     userSvc.on("done", function(status,msg,result,page){
      _nself.processJson(status,msg,result,page);
