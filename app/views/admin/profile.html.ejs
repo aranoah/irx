@@ -69,7 +69,7 @@
       <div class="four wide column _editable_">
         <div class="column li-box">
           <div class="lib-pic">
-                <img id="pic" class="ui circular image" src="<%= result.imageUrl?result.imageUrl+'?date='+new Date():'/img/pic.png'%>">
+                <img id="pic" class="ui circular image" src="<%= result.imageUrl?result.imageUrl+'?date='+new Date():'/images/elliot.jpg'%>">
                 <div class="Editpic" style="cursor:pointer !important">
                     <form id="_profilePicForm" enctype="multipart/form-data">
                         <input id="_profilePic" name="image" type="file" ><i class="icon photo"></i>
@@ -364,7 +364,13 @@
                               <i class="search icon"></i>
                             </div>
                         </div>
-                        
+                        <!-- ko if: projects().length==0 -->
+                          <div class="ui info message">
+                            <ul class="list">
+                              <li>search and associate projects to your profile.</li>
+                            </ul>
+                          </div>
+                        <!-- /ko -->
                         <!-- ko foreach: projects -->
                           <div class="ui items">
                             <div class="item">
@@ -449,7 +455,11 @@
                               <i class="search icon"></i>
                             </div>
                         </div>
-                     
+                        <!-- ko if: locations().length==0 -->
+                          <div class="ui info message">
+                            Search locality and associate it with your profile.
+                          </div>
+                        <!-- /ko -->
                         <!-- ko foreach: locations -->
                           <div class="ui items">
                             <div class="item">
@@ -475,59 +485,78 @@
             
             <div class="ui bottom attached tab segment" data-tab="third">
               <h3 class="ui heading">manage leads</h3>
-              <div class="ui cards">
-              <!-- ko if: leads().length==0 -->
-                    <div class="ui info message">
-                      <ul class="list">
-                        <li>No leads found.</li>
-                      </ul>
-                    </div>
-                   <!-- /ko -->
-                <div style="margin-bottom:20px">
+              <div style="margin-bottom:20px;float:right;">
                   <!--ko if : leadsPageObj.hasMore()==true -->
-                    
-                  <div class="ui button"  data-bind="click:
-                    nextLeads">
-                        Next
-                  </div>
-                    
-                    <!-- /ko -->
                      <!--ko if : leadsPageObj.showPrevious()==true -->
-                    
-                     <div class="ui button" data-bind="click:
-                    previousLeads">
+                      <div class="ui button" data-bind="click:previousLeads">
                         Previous
-                  </div>
+                      </div>
                     <!-- /ko -->
+                    <div class="ui button"  data-bind="click:nextLeads">
+                      Next
+                    </div>
+                    
+                    <!-- /ko -->
+                </div>
+              <div class="ui cards">
+                <!-- ko if: leads().length==0 -->
+                  <div class="ui info message" style="width: 35%;margin-top: 2em;">
+                    <div>No leads found.</div>
                   </div>
+                <!-- /ko -->
+                
                  <!--ko foreach : leads -->
                   <div class="card">
                     <div class="content">
                         <div style="float:right;cursor:pointer" data-bind="click:function(){$root.deleteLead(id)}"><i class="remove icon"></i></div>
                         <!-- ko if: $data.hasOwnProperty("name") -->
-                            <div class="header leadName" data-bind="text:name"></div>
+                            <div class="header leadName" data-bind="text:name" style="font-size: 1.25em !important;"></div>
                         <!-- /ko -->
-                        <!-- ko if: $data.hasOwnProperty("propertyType") -->
-                            <div class="meta leadType" data-bind="text:propertyType"></div>
-                        <!-- /ko -->
-                        <div style="line-height: 22px;">
-
+                            <div class="meta leadType" style="font-size: 1.05em !important;">
+                              <!-- ko if: $data.hasOwnProperty("action") -->
+                                <span data-bind="text:action"></span>
+                              <!-- /ko -->
+                              <!-- ko if: $data.hasOwnProperty("propertyType") -->
+                                - <span data-bind="text:propertyType"></span>
+                              <!-- /ko -->
+                              <!-- ko if: $data.hasOwnProperty("bhk") -->
+                                - <span ><!--ko text:bhk--><!-- /ko--> BHK</span>
+                              <!-- /ko -->
+                              <!-- ko if: $data.hasOwnProperty("createdOn") -->
+                                <span style="float:right" ><!--ko text:$parent.formateDate(createdOn)--><!-- /ko--></span>
+                              <!-- /ko -->
+                            </div>
+                        <div style="background: #e9faff;border: 1px solid #B3CAD0;margin-top: .5em;padding:5px;">
+                        <span class="_csn" style="line-height: 25px;word-break: break-all;width:100%;">
                             <!-- ko if: $data.hasOwnProperty("emailId") -->
                                 <!--ko text : emailId --><!-- /ko -->
                             <!-- /ko -->
-                        
+                        </span>
+                        <span class="_csn" style="line-height: 25px;width:100%;word-break: break-all;text-transform:uppercase;">
                             <!-- ko if: $data.hasOwnProperty("mobileNo") -->
                                 <!--ko text : mobileNo --><!-- /ko -->
                             <!-- /ko -->
+                            <span style="float:right">
+                              <!-- ko if: $data.hasOwnProperty("type") -->
+                                  <!--ko text : type --><!-- /ko -->
+                              <!-- /ko -->
+                            </span>
+                        </span>
                       </div>
-                      <div style="margin-top:10px">
-                      <i class="building outline icon"></i>
-                        <!-- ko if: $data.hasOwnProperty("projectId") -->
-                            <a style="color:#4C4C4C !important" data-bind="attr:{href:'/project/'+projectId}" target="_blank">
+                      <div style="margin-top:15px">
+                        <i class="building outline icon"></i>
+                          <!-- ko if: $data.hasOwnProperty("projectId") -->
+                            <a style="color:#27AFB5 !important;font-size: 1.15em !important;" data-bind="attr:{href:'/project/'+projectId}" target="_blank">
                               <!-- ko if: $data.hasOwnProperty("projectName") -->
                                   <!--ko text : projectName --><!-- /ko -->
                               <!-- /ko -->
                             </a>
+                        <!-- /ko -->
+                      </div>
+                      <div style="font-size: .9em;margin-top: 5px;color: #8E8E8E;">
+                        <i class="marker icon"></i>
+                          <!-- ko if: $data.hasOwnProperty("locality") -->
+                            <!--ko text : locality --><!-- /ko -->
                         <!-- /ko -->
                       </div>
                     </div>
@@ -696,6 +725,7 @@
       leads : ko.observableArray(),
       currContext : ko.observable(),
       iEmailId : ko.observable(),
+
       distress : ko.observableArray([
         {
           "bhk" : ko.observable(),
@@ -771,6 +801,7 @@
         }
       }) 
      },
+     
      verifyPhone : function(){
         var phoneNum = true;
         httpUtils.get("/verify-phone?vfCode="+classInstance.viewModel.otp()+"&vfData="+classInstance.viewModel.phoneNum()+"&phoneNum="+phoneNum,{},"JSON",function(data){
@@ -806,18 +837,21 @@
             str=str+'<a class="ui horizontal label">'+checkedDistressObj[k].bhk+'BHK</a>'
           }
         }
-        console.log(str)
        return str;
      },   
       leadsPageObj :{
         start:ko.observable("0"),
-        pageSize:ko.observable("9"),
+        pageSize:ko.observable("10"),
         hasMore:ko.observable("false"),
         showPrevious:ko.observable("false")
       },
       nextLeads : function(){
          classInstance.listLeads(true);
       },
+      formateDate:function(date){
+          var then = new Date(date);
+          return then.getDate()+" - "+(then.getMonth()+1)+" - " +then.getFullYear();
+       },
       previousLeads : function(){
         
         if(this.leadsPageObj.start() >= this.leadsPageObj.pageSize()){
@@ -1041,6 +1075,7 @@
     AdminProfile.prototype.getLocationListingAutocomplete=function(text,request,response){
       var classInstance = this;
       httpUtils.get("/project-autocomplete",{"text":text,"city":classInstance.viewModel.city,"type":"location"},"JSON",function(data){
+        classInstance.viewModel.locations([]);
         if(data.status==0){
            var arr = new Array();
           for(var i=0;i<data.result.length;i++){

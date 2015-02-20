@@ -47,7 +47,7 @@
            <% } %>
          
           </div>
-          <div class="item"><div class="header"><%= result.location != null?result.location.city:'' %></div></div>
+          <div class="item"><div class="header"><%= result.location != null && result.location.city != null?result.location.city:'' %></div></div>
           <div class="fb-like left floated" data-bind="html:fbIntegration('<%= result.irxId %>')"></div>
 
           <div class="lib-actions">
@@ -60,7 +60,7 @@
           </div>
 
           <div class="lib-specs">
-            <div class="header">Specialities :</div>
+            <div class="header" style="font-weight: bold;font-size: 1em;">Specialities :</div>
               <% if(result.specialities) {%>
                 <div class="libs-items">
                   <% for(var i=0; i<result.specialities.length; i++) {%>
@@ -68,14 +68,15 @@
                   <% } %>
                 </div>
               <% } %>
+              <% if(result.specialities==null  ||result.specialities.length==0 ) {%>
+                No Specialities found
+              <% } %>
           </div>
           <div class="item">
             <div class="header"> Public Url </div>
             <a href="/<%= result.id %>">irx.com/<%= result.id %></a>
           </div>
           <input id="__irxId" type="hidden" value="<%= result.irxId %>">
-          
-
         </div>
       </div>
       <!-- Left panel ends here -->
@@ -118,17 +119,19 @@
           <div class="ui bottom attached active tab segment" data-tab="first">
             <div class="column ri-box">
             <div data-bind="visible:projects().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
-                 No Project found.
+               <div class="ui info message">
+                  No Project found.
+                </div>  
             </div>
 
               <div class="rib-items ui three column grid stackable pro-ject"  data-bind="foreach: projects">
                 
                   <div class="column item">
-                      <img src="/img/proj.png">
+                      <img src="" data-bind="attr:{src:profileImage}">
                       <div class="meta">
                       <a data-bind="attr:{href:'/project/'+id}">
-                        <h4 class="header projectName proName" data-bind="text: name"></h4></a>
-                        <p class="cinema projectDetail" data-bind="text: builderName"style="text-align:center;margin-top: .5rem;"></p>
+                        <h4 class="header projectName proName _ellipsis" data-bind="text: name"></h4></a>
+                        <p class="cinema projectDetail _ellipsis" data-bind="text: builderName"style="text-align:center;margin-top: .5rem;"></p>
                         <p class="cinema projectDetail" data-bind="text: location.city"style="text-align:center;"></p>
                       </div>
                   </div>
@@ -143,7 +146,9 @@
         <div class="ui bottom attached tab segment" data-tab="second">
           <div class="column ri-box loca-tion">
           <div data-bind="visible:locations().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
-                 No Locality found.
+            <div class="ui info message">
+                No Locality found.
+            </div>  
           </div>
 
           <% if(locals.req.device.type == 'desktop'){ %>
@@ -203,8 +208,10 @@
                   <div class="ui button reply" data-bind="click:function(){addReply()}">Add Reply</div>
                 </form>
                 <% }%>
-                <div data-bind="visible:reviews().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;">
-                   No Reviews found.
+                <div data-bind="visible:reviews().length==0" style=" background:#fff;color: #7b7b7b;">
+                   <div class="ui info message">
+                      No Review found.
+                    </div>  
               </div>
                 <!-- ko foreach:reviews -->
                 <div class="item">

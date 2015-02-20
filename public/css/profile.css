@@ -67,9 +67,10 @@
 }
 
 .li-box .header {
-  font-size: 1.2em;
+  font-size: 1.5em;
   color: #7E7E7E;
   font-weight: 400;
+  text-transform: capitalize;
 }
 
 .lib-actions {
@@ -212,8 +213,10 @@
 
 .meta .header {
   text-transform: uppercase;
-  font-weight: 500;
-  font-size: small;
+  font-weight: 600;
+  margin: 6px 0;
+  font-size: 1.2em;
+  color: #4B7AA1 !important;
 }
 
 /* Locations*/
