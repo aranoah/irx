@@ -114,7 +114,12 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 		page = defPage;
 		
 	}
-
+	var match = {
+			"match":{
+				"productTyoe":"project"
+			}
+		}
+		query.push(match);
 	if(filters && filters.city != null &&  filters.city != "") {
 		console.log("city",filters.city)
 		//query.push(location={city:filters.city};

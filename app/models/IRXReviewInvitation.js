@@ -19,7 +19,7 @@ var mongoose = require('mongoose');
 
 var IRXReviewInvitationSchema =new mongoose.Schema({
    id:{type:String,required:true},
-   msg:{type:String,required:true},
+   msg:{type:String},
    parentId:{type:String,required:true},// Who is sending invitation
    targetId: {type:String,required:true},// To whom invitation is being sent
    name:{type:String},

@@ -110,13 +110,15 @@
                         Invite Your Associate
                     </span>
                     <i data-bind="click:function(){locationEdit('_invite_')}" class="add square icon _csn" style="font-size: 125%;margin: 0 !important;padding: 0;color: #5995A9;opacity: 1;cursor: pointer;" ></i>
+
                 </div>
                 
                 <form class="ui form" style="display:none;padding: 1em 0;">
                     <div class="field">
-                        <input type="text" name="locality" placeholder="Company Name">
+                        <input type="text" data-bind="value:iEmailId" placeholder="Enter email id">
                     </div>
-                    <div class="ui positive button" data-bind="click:function(){updateUser('_invite_')}">Invite</div>
+                    <div class="ui positive button" data-bind="click:function(){inviteUser()}">Invite</div>
+                     <div class="ui button _cancel_" data-bind="click:function(){locationClose('_invite_')}">Cancel</div>
                 </form>
             </div>           
             <div class="lib-count" style="border-top: 2px solid #f4f4f4;margin-top:1rem;">
@@ -685,6 +687,7 @@
       isVisibleOtp:ko.observable(false),
       leads : ko.observableArray(),
       currContext : ko.observable(),
+      iEmailId : ko.observable(),
       distress : ko.observableArray([
         {
           "bhk" : ko.observable(),
@@ -731,6 +734,14 @@
      },
      deleteLead : function(id){
       classInstance.deleteLead(id)
+     },
+     inviteUser : function(){
+        httpUtils.get("/invite-for-review/"+classInstance.viewModel.iEmailId(),{},"JSON",function(data){
+          if(httpUtils.checkStatus(data,true,true)){
+            profileClose("_invite_");
+            classInstance.viewModel.iEmailId("");
+        }
+      }) 
      },
      removeSpecialtiy : function(data){
       classInstance.viewModel.specialities.remove(data)
