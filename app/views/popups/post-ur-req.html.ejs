@@ -62,7 +62,7 @@
             <% } %>
 
               <div class="ui icon input">
-                <input type="text" placeholder="Location" data-bind="value:data.locality"style="padding:.7rem;">
+                <input type="text" placeholder="Location" data-bind="value:data.locality"style="padding:.7rem;" readonly>
                 <i class="marker icon"></i>
               </div>
             </div>
@@ -73,10 +73,9 @@
                 <div class="default text"style="min-width:11rem;margin-right:0 !important;">Type</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
-                  <div class="item" data-value="Rent">Apartment</div>
-                  <div class="item" data-value="sale">Villa</div>
-                  <div class="item" data-value="land">Land</div>
-                  <div class="item" data-value="proj">Flat</div>
+                  <!-- ko foreach : data.typeArr() -->
+                    <div class="item" style="text-transform:capitalize" data-bind="attr:{'data-value':$data}"><!-- ko text:$data--><!-- /ko --></div>
+                  <!-- /ko -->
                 </div>
               </div>
             </div>
@@ -99,10 +98,9 @@
                 <div class="default text" style="min-width:11rem;margin-right:0 !important;">BHK</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
-                  <div class="item" data-value="1">1bhk</div>
-                  <div class="item" data-value="2">2bhk</div>
-                  <div class="item" data-value="3">3bhk</div>
-                  <div class="item" data-value="4">4bhk</div>
+                  <!-- ko foreach : data.bhkArr() -->
+                    <div class="item" data-bind="attr:{'data-value':$data}"><!-- ko text:$data--><!-- /ko --> BHK</div>
+                  <!-- /ko -->
                 </div>
               </div>
             </div>
@@ -115,21 +113,34 @@
         <div >
         <div class="ui inverted menu contact" style="padding:0">
           <h4 class="ui dividing header">Contact Information :</h4>
-          <div class="ui form">
-              <!--<h5 for="user">you are a:</h5>-->
-              <div class="field">
-                <div class="ui radio checkbox _type_" data-val="user">
-                  <input type="radio" name="user" value="user" data-bind="checked:data.type" checked="checked">
-                  <label>Individual</label>
-                </div>
+          <% if(!locals.session.user) {%>
+            <div class="ui form">
+                <!--<h5 for="user">you are a:</h5>-->
+                <div class="_csn field" style="margin-left:15px;">
+                  <div>
+                    <input type="radio" name="user" value="user" data-bind="checked:data.type" checked="checked">
+                    <label for="user">Individual</label>
+                  </div>
               </div>
-              <div class="field">
-                <div class="ui radio checkbox _type_" data-val="agent"">
-                  <input type="radio" name="user" value="dealer" data-bind="checked:data.type" >
-                  <label>Dealer</label>
-                </div>
+              <div class="_csn field" style="margin-left:15px;">
+                  <div>
+                    <input type="radio" name="user" value="agent" data-bind="checked:data.type" >
+                    <label for="agent">Dealer</label>
+                  </div>
               </div>
-          </div>
+            </div>
+          <% } %>
+          <% if(locals.session.user) {%>
+           <div class="ui form">
+                <h5 for="user">you are a:</h5>
+                <div class="_csn field" style="margin-left:15px;">
+                  <div>
+                    <input type="radio" name="type" value="<%= locals.session.user.type %>" checked>
+                    <label for="user"><%= locals.session.user.type=="agent"?'dealer':'agent' %></label>
+                  </div>
+              </div>
+            </div>
+          <% } %>
         </div>  
         <div class="ui inverted menu contact">      
           <div class="item field">

@@ -57,10 +57,9 @@
                 <div class="default text"style="min-width:11rem;margin-right:0 !important;">Type</div>
                 <i class="angle down icon"></i>
                 <div class="menu pro">
-                  <div class="item" data-value="Rent">Apartment</div>
-                  <div class="item" data-value="sale">Villa</div>
-                  <div class="item" data-value="land">Land</div>
-                  <div class="item" data-value="proj">Flat</div>
+                  <!-- ko foreach : data.typeArr() -->
+                    <div class="item" style="text-transform:capitalize" data-bind="attr:{'data-value':$data}"><!-- ko text:$data--><!-- /ko --></div>
+                  <!-- /ko -->
                 </div>
               </div>
             </div> 
@@ -77,20 +76,21 @@
               </div>
             </div>
 
-            <div class="item _mxn" style="margin:0;padding-top:0;">
-              <div class="ui selection dropdown" >
-                <input type="hidden" name="bhk" data-bind="value:data.bhk">
-                <div class="default text" style="min-width:11rem;margin-right:0 !important;">BHK</div>
-                <i class="angle down icon"></i>
-                <div class="menu">
-                  <div class="item" data-value="1">1bhk</div>
-                  <div class="item" data-value="2">2bhk</div>
-                  <div class="item" data-value="3">3bhk</div>
-                  <div class="item" data-value="4">4bhk</div>
+         
+              <div class="item _mxn bhkArr" style="margin:0;padding-top:0;">
+                <div class="ui selection dropdown bhkArr" >
+                  <input type="hidden" name="bhk" data-bind="value:data.bhk">
+                  <div class="default text" style="min-width:11rem;margin-right:0 !important;">BHK</div>
+                  <i class="angle down icon"></i>
+                  <div class="menu" >
+                  <!-- ko foreach : data.bhkArr() -->
+                    <div class="item" data-bind="attr:{'data-value':$data}"><!-- ko text:$data--><!-- /ko --> BHK</div>
+                  <!-- /ko -->
+                  </div>
                 </div>
               </div>
-            </div>
-
+           
+            
             <div class="item" style="margin:0;padding-top:0;">
               <div class="right floated column">
                 <div class="ui checkbox">

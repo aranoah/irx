@@ -462,7 +462,7 @@
 						      		</tr>
 									<tr>
 									  <td class="_unit_">Property Type</td>
-									  <td><!--ko text: type--><!--/ko--></td>
+									  <td><!--ko foreach: type--><!-- ko text:$data --><!-- /ko --><!--/ko--></td>
 									</tr>
 									<tr>
 									  <td class="_unit_">Unit</td>
@@ -688,7 +688,7 @@
 			},
 			addAgent:function(name,id,companyName,imageUrl){
 				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id,"imageUrl":imageUrl}
-
+				
 				var arr=[];
 				arr.push(agent)
 				_classInstance.aPostReqViewModel.data.agentId([])

@@ -23,7 +23,7 @@ var IRXProductLineSchema =new mongoose.Schema({
    id:{type:String,required:true},
    name:{type:String,required:true},
    location:{name:String,city:String,state:String,country:String,locality:String,pincode:String,latitude:Number,longitude:Number},
-   type:{type:String,required:true},//villa,plot etc
+   type:{type:Array,required:true},//villa,plot etc
    description: {type:String},
    profileImage:{type:String},
    bhk:{type:Array},

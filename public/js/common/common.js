@@ -7,28 +7,34 @@ function Common() {
   this.viewModelPost=null;
   this.aPostReqViewModel = null;
   this.viewModelSell = null;
+  this.sessName = "";
+  this.sessEmailId = "";
+  this.sessType ="";
+  if($('#__sess_name').html() != undefined){
+      this.sessName=$('#__sess_name').val();
+  }
+  if($('#__sess_emailId').html() != undefined){
+      this.sessEmailId=$('#__sess_emailId').val();
+  }
+  if($('#__sess_type').html() != undefined){
+      this.sessType=$('#__sess_type').val();
+  }
+
 }
 Common.prototype.getViewModel = function(type) {
 	var classInstance = this;
-  var sessName = "";
-  var sessEmailId = "";
-  if($('#__sess_name').html() != undefined){
-      sessName=$('#__sess_name').val();
-  }
-  if($('#__sess_emailId').html() != undefined){
-      sessEmailId=$('#__sess_emailId').val();
-  }
+  
 
     var viewModel = {
       data:{
-      	emailId:ko.observable(sessEmailId),
+      	emailId:ko.observable(classInstance.sessEmailId),
       	projectId:ko.observable(""),
       	agentId:ko.observableArray(),
-      	name:ko.observable(sessName).extend({ required: true}),
+      	name:ko.observable(classInstance.sessName).extend({ required: true}),
       	mobileNo:ko.observable(""),
       	city:ko.observable(""),
       	bhk:ko.observable(""),
-      	type:ko.observable("user"),
+      	type:ko.observable(classInstance.sessType),
       	proName:ko.observable(""),
       	locality:ko.observable(""),
         localityId:ko.observable(""),
@@ -36,7 +42,9 @@ Common.prototype.getViewModel = function(type) {
         action:ko.observable(""),
         origin:ko.observable(type),
         showCity:ko.observable(""),
-        createLogin:ko.observable(false)
+        createLogin:ko.observable(false),
+        bhkArr:ko.observableArray(),
+        typeArr:ko.observableArray()
         //projectName:ko.observable("")
       },
       captureLeads:function(){
@@ -157,6 +165,7 @@ Common.prototype.init = function(first_argument) {
                 classInstance.viewModelSell.data.locality(ui.item.locationName)
                 classInstance.viewModelSell.data.localityId(ui.item.locationId)
                 classInstance.viewModelSell.data.projectId(ui.item.id)
+                classInstance.setpropertiesOfForm(ui,classInstance.viewModelSell)
                 return false;
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
@@ -185,8 +194,9 @@ Common.prototype.init = function(first_argument) {
                 var textName = classInstance.removeHtml(ui.item.name)
                 classInstance.aPostReqViewModel.data.proName(textName)
                 classInstance.aPostReqViewModel.data.locality(ui.item.locationName)
-                classInstance.viewModelSell.data.localityId(ui.item.locationId)
+                classInstance.aPostReqViewModel.data.localityId(ui.item.locationId)
                 classInstance.aPostReqViewModel.data.projectId(ui.item.id)
+                classInstance.setpropertiesOfForm(ui,classInstance.aPostReqViewModel)
                 return false;
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
@@ -216,8 +226,9 @@ Common.prototype.init = function(first_argument) {
                 var textName = classInstance.removeHtml(ui.item.name) 
                 classInstance.viewModelPost.data.proName(textName)
                 classInstance.viewModelPost.data.locality(ui.item.locationName)
-                classInstance.viewModelSell.data.localityId(ui.item.locationId)
+                classInstance.viewModelPost.data.localityId(ui.item.locationId)
                 classInstance.viewModelPost.data.projectId(ui.item.id)
+                classInstance.setpropertiesOfForm(ui,classInstance.viewModelPost)
                 return false;
               }
     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
@@ -494,24 +505,39 @@ Common.prototype.requestUserDetails = function(form) {
     __overlaySideBar(Obj);
   });
 }
-
+Common.prototype.setpropertiesOfForm = function(ui,viewModel) {
+  viewModel.data.bhkArr([])
+  viewModel.data.typeArr([])
+  ko.utils.arrayPushAll(viewModel.data.bhkArr,ui.item.bhk);
+   ko.utils.arrayPushAll(viewModel.data.typeArr,ui.item.type);
+//viewModel.data.bhk(ui.item.id)
+};
 Common.prototype.captureLeadsProject = function(form) {
 
 var name = $("#"+form).find('input[name="name"]').val();
 var emailId = $("#"+form).find('input[name="emailId"]').val();
 var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
+var bhk = $("#"+form).find('input[name="bhk"]').val();
+var action = $("#"+form).find('input[name="action"]').val();
+var propertyType = $("#"+form).find('input[name="propertyType"]').val();
 var projectId = $("#"+form).find('#_projectIdP_').val();
-var type = "user"
+var proName = $("#"+form).find('input[name="proName"]').val();
+var type = $("#"+form).find('input[name="type"]:checked').val();
+
 var data = {
   "name":name,
   "emailId":emailId,
   "mobileNo":mobileNo,
   "projectId":projectId,
-  "type":type
+  "type":type,
+  "bhk":bhk,
+  "action":action,
+  "propertyType":propertyType,
+  "proName":proName
 }
 var agentid = $('#'+form).find('#_agentIdP_').val();
 if (agentid && agentid != "") {
-  data["agentId"]=agentid;
+  data["dealerId"]=agentid;
 };
   var type = "leads";
   httpUtils.post("/capture-lead",
@@ -549,13 +575,14 @@ Common.prototype.initializeFromLocalStorage = function(viewModel) {
 }
 
 Common.prototype.resetForm = function(viewModel,form) {
+  var classInstance = this
   viewModel.data.proName("");
 
   viewModel.data.projectId("");
   viewModel.data.agentId("");
   viewModel.data.bhk("");
-  viewModel.data.type("user");
-  viewModel.data.locality("");
+  viewModel.data.type(classInstance.sessType);
+  
   viewModel.data.propertyType("");
   form.find('.ui.dropdown').dropdown('restore defaults');
       
@@ -616,7 +643,7 @@ Common.prototype.captureLeads = function(type) {
     
   }
   var createLogin = $('#'+type).find('.__createLogin').find('.ui.checkbox').hasClass('checked');
-	
+	alert(viewModel.data.type())
   viewModel.data.createLogin(createLogin);
   httpUtils.post("/capture-lead",
 		viewModel.data,
@@ -664,12 +691,21 @@ function getAutocmpleteResult(reqData,request,response){
                     var lId = item.fields['location.locality'];
                     locationId = lId[0];
                 }
-
+                  var bhk =[]
+              if(item.fields['bhk'] &&  item.fields['bhk'].length >0){
+                  bhk = item.fields['bhk'];
+              
+              }
+              var type =[]
+              if(item.fields['type'] &&  item.fields['type'].length >0){
+                  type = item.fields['type'];
+              
+              }
                 var productType =""
                 if(item.fields.productType &&  item.fields.productType.length >0){
                     productType = item.fields.productType[0];
                 }
-                return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId};
+                return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId,bhk:bhk,type:type};
             }));
         }
     });

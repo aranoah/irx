@@ -141,6 +141,9 @@
     		  </div>
 		      <div class="description">
 		        <span style="float:left">Projects : </span>
+		         <span class="_locProj" data-bind="visible : projects.length==0" style="margin-right:0;">
+			 		<span class="header">Not Available</span>
+			    </span>
 		        <span class="_cmpnyName" data-bind="foreach : projects" style="margin-right: 0;width: 72% !important;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;float: left;">
 			        <!-- ko if:$index()<=2 -->
 			        	<!-- ko if:$index()!=0 -->
@@ -156,6 +159,9 @@
 		       </div>
 		       <div class="description">
 		        Operating Localities : 
+		        <span class="_locProj" data-bind="visible : locationProjects.length==0" style="margin-right:0;">
+			 		<span class="header">Not Available</span>
+			    </span>
 		        <span class="_locProj" data-bind="foreach : locationProjects" style="margin-right:0;">
 			        <!-- ko if:$index()<=2 -->
 			        	<!-- ko if:$index()!=0 -->
@@ -328,6 +334,12 @@
 					companyName='';
 				}
 				var agent={"name":name,"id":id,"companyName":companyName,"irxId":id,"imageUrl":imageUrl}
+				var proId = _classInstance.viewModel.filters.projectId();
+				if(proId){
+					_classInstance.aPostReqViewModel.data.projectId(proId)
+					agent.proName = _classInstance.viewModel.filters.name();
+				}
+				
 				common.resetForm(_classInstance.aPostReqViewModel,$('#_postA_').find('form'));
 				var arr=[];
 				arr.push(agent)

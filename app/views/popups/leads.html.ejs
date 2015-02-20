@@ -22,23 +22,72 @@
               <span class="agentName"></span> <span class="companyName"></span>
               </h4>
         </span>
+          <input name="proName" value="<%= result.name %>" type="hidden">
+          <h4 class="ui dividing header">Property Information :</h4>
+            <div class="item field _mxn" style="margin:0;padding-top:0;">
+              <div class="ui selection dropdown">
+                <input type="hidden" name="propertyType" data-bind="value:data.propertyType">
+                <div class="default text" style="min-width:11rem;margin-right:0 !important;">Property Type</div>
+                <i class="angle down icon"></i>
+                <div class="menu">
+                  <% for(var i=0;i<result.type.length;i++){ %>
+                    <div class="item" style="text-transform:capitalize" data-value="<%=result.type[i] %>"><%= result.type[i] %></div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+            <div class="item field _mxn" style="margin:0;padding-top:0;">
+              <div class="ui selection dropdown">
+                <input type="hidden" name="bhk" data-bind="value:data.propertyType">
+                <div class="default text" style="min-width:11rem;margin-right:0 !important;">BHK</div>
+                <i class="angle down icon"></i>
+                <div class="menu">
+                  <% for(var i=0;i<result.bhk.length;i++){ %>
+                    <div class="item" style="text-transform:capitalize" data-value="<%=result.bhk[i] %>"><%= result.bhk[i] %> BHK</div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+            <div class="item field _mxn" style="margin:0;padding-top:0;">
+              <div class="ui selection dropdown">
+                <input type="hidden" name="action" data-bind="value:data.action">
+                <div class="default text" style="min-width:11rem;margin-right:0 !important;">Action</div>
+                <i class="angle down icon"></i>
+                <div class="menu">
+                  <div class="item" data-value="rent">Rent</div>
+                  <div class="item" data-value="buy">Buy</div>
+                </div>
+              </div>
+            </div>
           <h4 class="ui dividing header">Contact Information :</h4>
-          
-          <div class="ui form">
-              <h5 for="user">you are a:</h5>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="type" value="user" checked="checked">
-                  <label>Individual</label>
-                </div>
+          <% if(!locals.session.user) {%>
+            <div class="ui form">
+                <h5 for="user">you are a:</h5>
+                <div class="_csn field" style="margin-left:15px;">
+                  <div>
+                    <input type="radio" name="type" value="user" >
+                    <label for="user">Individual</label>
+                  </div>
               </div>
-              <div class="field">
-                <div class="ui radio checkbox">
-                  <input type="radio" name="type" value="agent">
-                  <label>Dealer</label>
-                </div>
+              <div class="_csn field" style="margin-left:15px;">
+                  <div>
+                    <input type="radio" name="type" value="agent" >
+                    <label for="agent">Dealer</label>
+                  </div>
               </div>
-          </div>      
+            </div>    
+          <% } %>  
+          <% if(locals.session.user) {%>
+           <div class="ui form">
+                <h5 for="user">you are a:</h5>
+                <div class="_csn field" style="margin-left:15px;">
+                  <div>
+                    <input type="radio" name="type" value="<%= locals.session.user.type %>" checked>
+                    <label for="user"><%= locals.session.user.type=="agent"?'dealer':'agent' %></label>
+                  </div>
+              </div>
+            </div>
+          <% } %>
           <% if(locals.session.user) {%>
           <div class="item field">
           

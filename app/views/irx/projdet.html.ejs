@@ -26,6 +26,7 @@
 </style>
 <body>
   <% include ../partials/header.html.ejs %>
+  <% include ../popups/leads.html.ejs %>
 
   <!-- Proj Detailing starts here -->
 <div id="__proDet__">
@@ -442,13 +443,11 @@
 
       Project.prototype.enquireNow = function(projectId) {
       	$('._showAgent_').hide();
-      	 $("#_agentIdP_").val("");
-      	 $("#_projectIdP_").val(projectId);
-      	 $('#leads').modal({
+      	$("#_agentIdP_").val("");
+      	$("#_projectIdP_").val(projectId);
+      	$('#leads').modal({
 		      closable:false
 		    }).modal('show');
-      	 //alert(1)
-      	 
       };
 
       Project.prototype.getPriceText = function(amount) {

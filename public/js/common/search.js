@@ -529,11 +529,22 @@
                     var lId = item.fields['location.locality'];
                     locationId = lId[0];
                 }
+             var bhk =[]
+              if(item.fields['bhk'] &&  item.fields['bhk'].length >0){
+                  bhk = item.fields['bhk'];
+              
+              }
+              var type =[]
+              if(item.fields['type'] &&  item.fields['type'].length >0){
+                  type = item.fields['type'];
+              
+              }
+
             var productType =""
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId};
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId,bhk:bhk,type:type};
           }));
         }
     })
