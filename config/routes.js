@@ -79,6 +79,7 @@ module.exports = function routes() {
   this.match('update-user',{ controller: 'user/rest/user', action: 'updateUser' , via: 'POST' });
   this.match('user-details/:userId',{ controller: 'user/rest/user', action: 'getUserDetails' , via: 'GET' });
   this.match('verify-user',{ controller: 'user/rest/user', action: 'verifyUser' , via: 'GET' });
+  this.match('verify-phone',{ controller: 'user/rest/user', action: 'verifyPhone' , via: 'GET' });
   this.match('list-user-projects/:userId',{ controller: 'user/rest/user', action: 'listUserProjects' , via: 'GET' });
   this.match('list-user-locations/:userId',{ controller: 'user/rest/user', action: 'listUserLocations' , via: 'GET' });
   this.match('check-userName/:text',{ controller: 'user/rest/user', action: 'checkUserName' , via: 'GET' });

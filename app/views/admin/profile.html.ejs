@@ -43,6 +43,13 @@
     text-transform: capitalize;
     color:#105296;
   }
+  .error {
+    background:#fff0f0 !important;
+    border-color: #dbb1b1 !important;
+    color: #d95c5c !important;
+    border-radius: 0 .2857rem .2857rem 0 !important;
+    box-shadow: 2px 0 0 0 #d95c5c inset !important;
+  }
   </style>
   <script type="text/javascript" src="/js/library/jquery.form.js"></script>
 </head>
@@ -115,7 +122,7 @@
                 
                 <form class="ui form" style="display:none;padding: 1em 0;">
                     <div class="field">
-                        <input type="text" data-bind="value:iEmailId" placeholder="Enter email id">
+                        <input type="text" class="emailI" data-bind="value:iEmailId" placeholder="Enter email id">
                     </div>
                     <div class="ui positive button" data-bind="click:function(){inviteUser()}">Invite</div>
                      <div class="ui button _cancel_" data-bind="click:function(){locationClose('_invite_')}">Cancel</div>
@@ -233,7 +240,7 @@
             <form class="ui form" style="display:none;padding: 1em 0;">
               
               <div class="field">
-                <input type="text" name="locality" data-bind="textInput :phoneNum" placeholder="Phone Number">
+                <input type="text" class="phoneNumI" name="locality" data-bind="textInput :phoneNum" placeholder="Phone Number">
               </div>
               <div class="ui positive button" data-bind="click:function(){updateUser('_phoneNum_')}">Save</div>
               <div class="ui button _cancel_" data-bind="click:function(){locationClose('_phoneNum_')}">Cancel</div>
@@ -242,10 +249,10 @@
                 <form class="ui form" style="padding: 1em 0;">
               
                   <div class="field">
-                    <input type="text" name="locality" placeholder="Enter OTP">
+                    <input type="text" data-bind="value:otp" placeholder="Enter OTP">
                   </div>
-                  <div class="ui positive button" data-bind="click:function(){updateUser('otp')}">Save</div>
-                  <div class="ui button _cancel_" data-bind="click:function(){locationClose('otp')}">Cancel</div>
+                  <div class="ui positive button" data-bind="click:function(){verifyPhone('otp')}">Save</div>
+                  <div class="ui button _cancel_" data-bind="click:function(){closeOtp()}">Cancel</div>
                 </form>
             <!-- /ko-->
           </div>
@@ -320,16 +327,16 @@
                          <div class="content right floated">
                           <i class="add circle icon _bhk_" data-bind="click:function (){$root.editBhk($data)}"></i><i class="remove circle icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
-                          <div class="content" style="padding-top:15px">
-                            <div class="" data-bind="html:$parent.getDistressInfo(id)">
+                          <div class="content" data-bind="attr:{'data-id':id}" style="padding-top:15px">
+                            <div class="_dInfo_" data-bind="html:$parent.getDistressInfo(id)">
                               
                             </div>
                             
                            <ul class="_dis_ " data-bind="visible:$root.currContext()==id">
                            <!-- ko foreach: $root.distress -->
                              <li> <!--ko text:$data.bhk --><!-- /ko -->BHK :
-                              <input name="bhk" type="checkbox" data-bind="value:bhk,checked:$data.checked">
-                              Price: <input type="text" name="price" data-bind="value:price" placeholder="Enter price..">`
+                              <input name="bhk" class="_dBhk" type="checkbox" data-bind="value:bhk,checked:$data.checked">
+                              Price: <input type="text" class="_dPrice" name="price" data-bind="value:price" placeholder="Enter price..">
                              
                            <!-- /ko --></li>
                            <div style="text-align:right;padding:5px">
@@ -685,6 +692,7 @@
                 },
       phoneNum : ko.observable('<%= result.phoneNum?result.phoneNum:'' %>'),
       isVisibleOtp:ko.observable(false),
+      otp:ko.observable(),
       leads : ko.observableArray(),
       currContext : ko.observable(),
       iEmailId : ko.observable(),
@@ -710,6 +718,18 @@
          
         } else if(self == '_phoneNum_'){
           item = "phoneNum"
+           $('.phoneNumI').removeClass("error")
+          var pNo = _self.text().trim();
+       
+          if(pNo.length>10){
+            $('.phoneNumI').addClass("error")
+            return;
+          }
+          if(isNaN(pNo)){
+          
+            $('.phoneNumI').addClass("error")
+            return;
+          }
           classInstance.viewModel.phoneNum(_self.text().trim())
         } else if(self == '_unUserName_'){
           item = "id"
@@ -736,29 +756,57 @@
       classInstance.deleteLead(id)
      },
      inviteUser : function(){
+        $('.emailI').removeClass('error')
+        
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        alert(re.test(classInstance.viewModel.iEmailId()))
+        if(!re.test(classInstance.viewModel.iEmailId())){
+          $('.emailI').addClass('error')
+          return
+        }
         httpUtils.get("/invite-for-review/"+classInstance.viewModel.iEmailId(),{},"JSON",function(data){
           if(httpUtils.checkStatus(data,true,true)){
-            profileClose("_invite_");
+            locationClose("_invite_");
             classInstance.viewModel.iEmailId("");
         }
       }) 
      },
+     verifyPhone : function(){
+        var phoneNum = true;
+        httpUtils.get("/verify-phone?vfCode="+classInstance.viewModel.otp()+"&vfData="+classInstance.viewModel.phoneNum()+"&phoneNum="+phoneNum,{},"JSON",function(data){
+          if(httpUtils.checkStatus(data,true,true)){
+             classInstance.viewModel.isVisibleOtp(false);
+            classInstance.viewModel.otp("");
+        }
+      })
+     },
+     closeOtp: function(){
+      classInstance.viewModel.isVisibleOtp(false);
+    },
      removeSpecialtiy : function(data){
       classInstance.viewModel.specialities.remove(data)
       classInstance.updateUserProfile("specialities","",data,false)
      },
-     getDistressInfo : function(id){
+     getDistressInfo : function(id,distress){
       var str=""
         var checkedDistressData = classInstance.viewModel.checkedDistress();
+        
+        if(distress){
+        
+          checkedDistressData = distress;
+        }
+        
         if(!checkedDistressData){
           return str;
         }
         var checkedDistressObj =  checkedDistressData[id];
+
         if(checkedDistressObj){
           for(var k=0;k<checkedDistressObj.length;k++){
             str=str+'<a class="ui horizontal label">'+checkedDistressObj[k].bhk+'BHK</a>'
           }
         }
+        console.log(str)
        return str;
      },   
       leadsPageObj :{
@@ -798,7 +846,6 @@
         classInstance.viewModel.currContext(pro.id)
         classInstance.viewModel.distress([])
         var bhk = pro.bhk;
-        console.log("here...",pro)
         var checkedDistressData = classInstance.viewModel.checkedDistress();
         var checkedDistressObj =  new Array();
         if(checkedDistressData){
@@ -839,6 +886,11 @@
     classInstance.listAssociatedLocations();
    // classInstance.listAllLocations();
     classInstance.listLeads(false);
+
+    $(document).off('change','._dBhk')
+    $(document).on('change','._dBhk',function(){
+      $(this).siblings('._dPrice').val('');
+    })
 
     $('._dDown').dropdown({
         onChange: function(value, text, $selectedItem) {
@@ -986,7 +1038,7 @@
         }
     })
     }
-     AdminProfile.prototype.getLocationListingAutocomplete=function(text,request,response){
+    AdminProfile.prototype.getLocationListingAutocomplete=function(text,request,response){
       var classInstance = this;
       httpUtils.get("/project-autocomplete",{"text":text,"city":classInstance.viewModel.city,"type":"location"},"JSON",function(data){
         if(data.status==0){
@@ -1031,9 +1083,9 @@
         }
      
     });
-};
+  };
 
-AdminProfile.prototype.associateProject = function(id) {
+  AdminProfile.prototype.associateProject = function(id) {
     var classInstance = this;
     var obj = {}
     
@@ -1062,15 +1114,22 @@ AdminProfile.prototype.associateProject = function(id) {
     var classInstance = this;
     var distressData={};
     distressData[projectId]=distress;
+
     var classInstance = this;
-         httpUtils.post("/mark-distress/"+projectId,
-                        distressData,
-                        {},"JSON",function(result){
-                          if(httpUtils.checkStatus(result,true,true)){
-                            
-                            classInstance.viewModel.currContext("")
-                          }
-                        })
+     httpUtils.post("/mark-distress/"+projectId,
+      distressData,
+      {},"JSON",function(result){
+        if(httpUtils.checkStatus(result,true,true)){
+
+          var str= classInstance.viewModel.getDistressInfo(projectId,distressData);
+         
+          classInstance.viewModel.checkedDistress()[projectId]=distress
+          
+          $('.content[data-id='+'"'+projectId+'"'+']').find('._dInfo_').html(str)
+          classInstance.viewModel.currContext("")
+
+        }
+      })
   };
 
   AdminProfile.prototype.listLeads = function(replace,previous) {

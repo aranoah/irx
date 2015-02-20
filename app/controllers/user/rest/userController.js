@@ -74,24 +74,35 @@ userController.validate_sendUserDetails=function(){
     var validateName = ["required"];
     myvalidator.validate("name",validateName,this.req.query.name);
 
-    var validatePhone = ["required"];
+    var validatePhone = ["isNumeric"];
     myvalidator.validate("phoneNum",validatePhone,this.req.query.phoneNum);
 
     console.log(myvalidator.getErrors())
 }
 /*
-* Validate function for user registration
+* Validate function for valid email while sending invitation
 */
-// userController.validate_updateUser=function(){
-//       var myvalidator = new commonValidator(this.req);
-//     /// this.req = request object, this.res = response object.
-//     console.log("inside validate",this.req.body.emailId);
+userController.validate_inviteForReview=function(){
+      var myvalidator = new commonValidator(this.req);
     
-//     var validateEmail = ["required","isEmail"];
-//     myvalidator.validate("emailId",validateEmail,this.req.body.emailId);
+    var validateEmail = ["required","isEmail"];
+    myvalidator.validate("emailId",validateEmail,this.req.params.userid);
+
+    console.log(myvalidator.getErrors())
+}
+/*
+* Validate function for user update
+*/
+userController.validate_updateUser=function(){
+      var myvalidator = new commonValidator(this.req);
+    /// this.req = request object, this.res = response object.
+    console.log("inside validate",this.req.body.emailId);
     
-//     console.log(myvalidator.getErrors())
-// }
+    var validatePhone = ["isNumeric"];
+    myvalidator.validate("phoneNum",validatePhone,this.req.body.phoneNum);
+    
+    console.log(myvalidator.getErrors())
+}
 
 /*
 * 	Create User and send verification url
@@ -102,7 +113,7 @@ userController.createUser = function() {
 	var userSvc = new userService();
 	//Validation
     if(this.req.errors.hasError()){
-       this.processJson(403,"validation error",this.req.errors.getErrors());
+       this.processJson(400,"validation error",this.req.errors.getErrors());
        return;
     }
     var _nself = this;
@@ -119,11 +130,10 @@ userController.createUser = function() {
 
 userController.updateUser = function() {
   var userSvc = new userService();
-  //Validation
-    // if(this.req.errors.hasError()){
-    //    this.processJson(403,"validation error",this.req.errors.getErrors());
-    //    return;
-    // }
+  if(this.req.errors.hasError()){
+       this.processJson(400,"validation error",this.req.errors.getErrors());
+       return;
+    }
     var _nself = this;
     userSvc.on("done", function(status,msg,result,page){
      _nself.processJson(status,msg,result,page);
@@ -188,14 +198,44 @@ userController.verifyUser = function() {
     });
     var userId = _nself.req.param("userId");
     var vfCode = _nself.req.param("vfCode");
+    var vfData = _nself.req.param("userId");
     var phoneNum = false;
     if(_nself.req.query.phoneNum && _nself.req.query.phoneNum !=" "){
       phoneNum = true;
+      vfData = _nself.req.param("vfData");
     }
     var data = {
     	"userId":userId,
     	"vfCode":vfCode,
-      "phoneNum":phoneNum
+      "phoneNum":phoneNum,
+      "vfData":vfData
+    }
+    userSvc.verifyUser(data);
+}
+/*
+*   Verify Phone 
+* @TODO : Controller level validation
+**/
+
+userController.verifyPhone = function() {
+  var userSvc = new userService();
+    var _nself = this;
+    userSvc.on("done", function(code,msg,err,errValue){
+     _nself.processJson(code,msg,err,errValue);
+    });
+    var user = _nself.getCurrentUserInfo(_nself);
+    var vfCode = _nself.req.param("vfCode");
+    var vfData = _nself.req.param("userId");
+    var phoneNum = false;
+    if(_nself.req.query.phoneNum && _nself.req.query.phoneNum !=" "){
+      phoneNum = true;
+      vfData = _nself.req.param("vfData");
+    }
+    var data = {
+      "userId":user.irxId,
+      "vfCode":vfCode,
+      "phoneNum":phoneNum,
+      "vfData":vfData
     }
     userSvc.verifyUser(data);
 }
@@ -302,6 +342,10 @@ userController.inviteForReview = function(){
   var parentId = _nself.getCurrentUser(_nself);
   var msg = _nself.req.query.msg;
   var userSvc = new userService();
+  if(this.req.errors.hasError()){
+       this.processJson(400,"validation error",this.req.errors.getErrors());
+       return;
+    }
   userSvc.on("done", function(code,msg,result,errValue){
     _nself.processJson(code,msg,result,errValue);
   });
@@ -407,6 +451,10 @@ userController.checkUserName = function(){
 userController.changePassword = function() {
   var userSvc = new userService();
   var _nself = this;
+  if(this.req.errors.hasError()){
+       this.processJson(400,"validation error",this.req.errors.getErrors());
+       return;
+    }
   userSvc.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
@@ -479,7 +527,10 @@ userController.sendUserDetails = function() {
   var emailId = _nself.req.query.emailId;
   var name = _nself.req.query.name;
   var phoneNum = _nself.req.query.mobileNo;
-
+  if(this.req.errors.hasError()){
+       this.processJson(400,"validation error",this.req.errors.getErrors());
+       return;
+    }
   var userSvc = new userService();
 
    var data= {
