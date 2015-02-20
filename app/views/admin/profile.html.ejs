@@ -285,7 +285,7 @@
                <div class="ui info  message _csn _srch_loc">
                     <i class="search icon"></i>
                     Location 
-                    <div class="ui floating dropdown labeled search icon button">
+                    <div class="ui floating dropdown labeled search icon button _city_">
                         <span class="text" data-bind="text:city"></span>
                         <div class="menu _ld_DCTY_DTA ">
                         </div>
@@ -407,7 +407,7 @@
               <div class="ui info  message _csn _srch_loc">
                     <i class="search icon"></i>
                     Location 
-                    <div class="ui floating dropdown labeled search icon button">
+                    <div class="ui floating dropdown labeled search icon button _city_">
                         <input class="search" tabindex="0"><span class="text" data-bind="text:city">mumbai</span>
                         <div class="menu _ld_DCTY_DTA transition hidden" tabindex="-1">
                         </div>
@@ -925,7 +925,11 @@
     $(document).on('change','._dBhk',function(){
       $(this).siblings('._dPrice').val('');
     })
-
+    $('._city_').dropdown({
+      onChange:function(value, text, $choice){
+        classInstance.viewModel.city(value)
+      }
+    })
     $('._dDown').dropdown({
         onChange: function(value, text, $selectedItem) {
             var _false= false;
