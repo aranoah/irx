@@ -84,12 +84,14 @@
           <input type="submit" style="height:0;width:0;display:none;outline:0" id="_clickable_">
             <div class="ui submitAction"  onClick="common.validateLead(this)">Submit</div>
           </div>
-          <div class="left floated column">
-            <div class="ui checkbox _createLoginP_">
-              <input type="checkbox">
-              <label>Also create a login</label>
+          <% if(!locals.session.user){%>
+            <div class="left floated column">
+              <div class="ui checkbox _createLoginP_">
+                <input type="checkbox">
+                <label>Also create a login</label>
+              </div>
             </div>
-          </div>
+          <% }%>  
         </div>
 
     <!-- Ends here -->  

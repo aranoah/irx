@@ -63,6 +63,9 @@ p.successMsg {
  left: 0 !important;
 
 }
+.ui.divided.grid:not([class*="vertically divided"])>.column:not(.row), .ui.divided.grid:not([class*="vertically divided"])>.row>.column{
+  box-shadow: 0 0 0;
+}
 ._csn{
   display: inline-block !important;
   vertical-align: middle;

@@ -68,7 +68,12 @@
 	margin: 1.2rem 1.2rem 0 0;
 	opacity: .6;
 }
-
+#irx-mobile #search-box .ui.icon.input._main_ {
+    text-align: left;
+}
+#irx-mobile #search-box{
+	width: 18em !important;
+}
 #search-box .ui.icon.input._main_>i:hover {
 	opacity: 1;
 }
@@ -171,6 +176,7 @@
 #irx-mobile #search-box .ui.icon.input._main_>input {
 	font-size: 1.2rem !important;
 	padding: 1em !important;
+	width: 100%;
 }
 
 #irx-mobile .ui.page.grid {

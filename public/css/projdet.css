@@ -12,7 +12,9 @@ Projdetailing
 	margin: 0 1rem;
 	padding: 1rem;
 }
-
+.ui.items>.item>.content>.header:not(.ui) {
+    text-transform: capitalize;
+}
 #mobile-projDet>.ui.inverted.title {
 	padding-bottom: 0 !important;
 	padding-top: 1.5rem !important;
