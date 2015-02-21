@@ -75,7 +75,7 @@ userController.validate_sendUserDetails=function(){
     myvalidator.validate("name",validateName,this.req.query.name);
 
     var validatePhone = ["isNumeric"];
-    myvalidator.validate("phoneNum",validatePhone,this.req.query.phoneNum);
+    myvalidator.validate("mobileNo",validatePhone,this.req.query.mobileNo);
 
     console.log(myvalidator.getErrors())
 }
