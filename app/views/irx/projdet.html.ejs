@@ -433,7 +433,7 @@
 
 	Project.prototype.requestDetails = function(projectId) {
 		httpUtils.get('/request-details/'+projectId,{},"JSON",function(data){
-       		if(data.status==0){
+       		if(httpUtils.checkStatus(data,false,true)){
 	       		$('#req-details').modal({
 	      			closable:false
 	    		}).modal('show');
