@@ -125,6 +125,7 @@ module.exports = function routes() {
   
   this.match("/prefered-agents/:projectId",{controller: 'project/rest/projectRest', action:'listPreferedAgents', via:'GET'});
   this.match("/request-details/:projectId",{controller: 'project/rest/projectRest', action:'requestDetails', via:'GET'});
+  this.match("/project-details/:projectId",{controller: 'project/rest/projectRest', action:'getProjectDetails', via:'GET'});
   
   /*
   * Last visited

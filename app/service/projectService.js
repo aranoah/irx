@@ -39,13 +39,16 @@ ProjectService.prototype.__proto__=baseService.prototype ;
 *	Get Project Details
 *
 **/
-ProjectService.prototype.getProjectDetails = function(projectId) {
+ProjectService.prototype.getProjectDetails = function(projectId,limited) {
 	console.log("In getProjectDetails")
 	var _selfInstance = this;
 	var Project = IRXProductLineModel;
 	var id = projectId;
-	
-	Project.findOne({"id":id},
+	var projection={}
+	if(limited){
+		projection={"id":1,"name":1,"bhk":1,"type":1,"productType":1,"location":1}
+	}
+	Project.findOne({"id":id},projection,
 				function(err,data){
 					if (err){
 			 			console.error(err)

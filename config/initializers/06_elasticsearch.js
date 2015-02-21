@@ -21,7 +21,7 @@ module.exports = function(done) {
 	try{
 		_app_context.esClient = new this.elasticsearch.Client({
 
-			host: 'indianrealtyexchange.com:9200',
+			host: 'localhost:9200',
 			log: 'trace'
 		});
 	}
