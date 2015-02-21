@@ -63,8 +63,7 @@ Common.prototype.init = function(first_argument) {
 	
 	classInstance.viewModelPost = classInstance.getViewModel(classInstance.postReqLeads);
 	classInstance.viewModelSell = classInstance.getViewModel(classInstance.sellPostLeads);
-  	
-
+  
 	classInstance.viewModel = {
 		userId: ko.observableArray(),
 		tabID : ko.observable('login'),
@@ -513,7 +512,6 @@ Common.prototype.setpropertiesOfForm = function(ui,viewModel) {
 //viewModel.data.bhk(ui.item.id)
 };
 Common.prototype.captureLeadsProject = function(form) {
-
 var name = $("#"+form).find('input[name="name"]').val();
 var emailId = $("#"+form).find('input[name="emailId"]').val();
 var mobileNo = $("#"+form).find('input[name="mobileNo"]').val();
@@ -523,6 +521,7 @@ var propertyType = $("#"+form).find('input[name="propertyType"]').val();
 var projectId = $("#"+form).find('#_projectIdP_').val();
 var proName = $("#"+form).find('input[name="proName"]').val();
 var type = $("#"+form).find('input[name="type"]:checked').val();
+var createLogin = $("#"+form).find('._createLoginP_').hasClass('checked');
 
 var data = {
   "name":name,
@@ -533,7 +532,8 @@ var data = {
   "bhk":bhk,
   "action":action,
   "propertyType":propertyType,
-  "proName":proName
+  "proName":proName,
+  "createLogin":createLogin
 }
 var agentid = $('#'+form).find('#_agentIdP_').val();
 if (agentid && agentid != "") {
@@ -546,7 +546,7 @@ if (agentid && agentid != "") {
       var leadsObj={
         status:0,
         heading:"Lead Captured",
-        content:"Your information has been sent to project agent. They will ping you in short while."
+        content:"Your information has been sent to project agent. They will ping you in a short while."
       }
       if(data.status!=0){
         leadsObj.status=data.status;
@@ -611,6 +611,7 @@ Common.prototype.captureLeads = function(type) {
      
     };
 	} else if(type == classInstance.sellPostLeads){
+
     successObj={
       
       heading:"Sell Property"
@@ -622,7 +623,8 @@ Common.prototype.captureLeads = function(type) {
      
     };
 		viewModel = classInstance.viewModelSell;
-   
+    viewModel.data.type("user");
+
 	} else {
      successObj={
     
@@ -643,7 +645,6 @@ Common.prototype.captureLeads = function(type) {
     
   }
   var createLogin = $('#'+type).find('.__createLogin').find('.ui.checkbox').hasClass('checked');
-	alert(viewModel.data.type())
   viewModel.data.createLogin(createLogin);
   httpUtils.post("/capture-lead",
 		viewModel.data,
