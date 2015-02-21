@@ -98,7 +98,7 @@
     <% locals.searchtype='project' %>
 	<% locals.uiContext.menu=true %>
   	<% include ../partials/header.html.ejs %>
-
+  	<% include ../popups/leadsFilter.html.ejs %>
 <div id="projListing">
   	<div id="projectContent">
   		<% if(locals.req.device.type == 'desktop'){ %>
@@ -523,6 +523,34 @@
 				start : 0,
 				pageSize : 10
 			}
+			 this.filterName = $('#__filterName').val()
+		 if(typeof(this.filterName) == "undefined" || this.filterName == null ){
+		 	this.filterName = "";
+		 }
+		 this.filterBhk = $('#__filterBhk').val()
+		 if(typeof(this.filterBhk) == "undefined" || this.filterBhk == null ){
+		 	this.filterBhk = "";
+		 }
+		 this.filterType = $('#__filterType').val()
+		 if(typeof(this.filterType) == "undefined" || this.filterType == null ){
+		 	this.filterType = "";
+		 }
+		 this.locationFlag1 = $('#__locationFlag').val()
+		 if(typeof(this.locationFlag1) == "undefined" || this.locationFlag1 == null ){
+		 	this.locationFlag1 = false;
+		 }
+		 this.projectIdFilter = $('#__projectIdFilter').val()
+		 if(typeof(this.projectIdFilter) == "undefined" || this.projectIdFilter == null ){
+		 	this.projectIdFilter = false;
+		 }
+		 this.minP = $('#__minPrice').val()
+		 if(typeof(this.minP) == "undefined" || this.minP == null ){
+		 	this.minP = "";
+		 }
+		  this.maxP = $('#__maxPrice').val()
+		 if(typeof(this.maxP) == "undefined" || this.maxP == null ){
+		 	this.maxP = "";
+		 }
 		}
 	Project.prototype.init = function(city) {
 
@@ -543,36 +571,6 @@
   			}
   			
   			_classInstance.listProjects(true)
-  		})
-  		$(document).on('click','#_leadP_', function(){
-  			var projectId = $("#_projectIdP_").val();
-  			var name = $(this).parents('#leads').find("input[name='name']").val();
-  			var emailId = $(this).parents('#leads').find("input[name='emailId']").val();
-  			var mobileNo = $(this).parents('#leads').find("input[name='mobileNo']").val();
-  			var type = $(this).parents('#leads').find("input[name='type']:checked").val();
-  			var ceateLogin =false;
-  			if($(this).parents('#leads').find("._createLoginP_.checked")){
-  				createLogin = true;
-  			}
-  			var data={
-  				"projectId": projectId,
-  				"name":name,
-  				"emailId":emailId,
-  				"mobileNo":mobileNo,
-  				"type":type,
-  				"createLogin":createLogin
-  			}
-  			
-  			httpUtils.post("/capture-lead",
-				data,
-				 { },"JSON",function(data){
-				if(data.status==0){
-			       alert(1)
-				} else {
-					
-				}
-			})
-  			
   		})
 		// _classInstance.scroller = ko.bindingHandlers.scroll = {
 
@@ -638,35 +636,14 @@
 		//     }
 		//   }
 		//  };
-		 var filterName = $('#__filterName').val()
-		 if(typeof(filterName) == "undefined" || filterName == null ){
-		 	filterName = "";
-		 }
-		 var filterBhk = $('#__filterBhk').val()
-		 if(typeof(filterBhk) == "undefined" || filterBhk == null ){
-		 	filterBhk = "";
-		 }
-		  var filterType = $('#__filterType').val()
-		 if(typeof(filterType) == "undefined" || filterType == null ){
-		 	filterType = "";
-		 }
-		 var locationFlag1 = $('#__locationFlag').val()
-		 if(typeof(locationFlag1) == "undefined" || locationFlag1 == null ){
-		 	locationFlag1 = false;
-		 }
-		  var projectIdFilter = $('#__projectIdFilter').val()
-		 if(typeof(projectIdFilter) == "undefined" || projectIdFilter == null ){
-		 	projectIdFilter = false;
-		 }
-		  var minP = $('#__minPrice').val()
-		 if(typeof(minP) == "undefined" || minP == null ){
-		 	minP = "";
-		 }
-		  var maxP = $('#__maxPrice').val()
-		 if(typeof(maxP) == "undefined" || maxP == null ){
-		 	maxP = "";
-		 }
-
+		_classInstance.enViewModel = {
+			bhkArr: ko.observableArray(),
+			typeArr: ko.observableArray(),
+			bhk:ko.observable(),
+			type: ko.observable(),
+			projectId:ko.observable(),
+			projectName:ko.observable()
+		},
 		_classInstance.viewModel = {
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
@@ -674,16 +651,16 @@
 			galleryIndex : ko.observable(0),
 			filters: {
 				displayName:ko.observable("All"),
-				name:ko.observable(filterName),
-				bhk:ko.observable(filterBhk),
-				type:ko.observable(filterType),
+				name:ko.observable(_classInstance.filterName),
+				bhk:ko.observable(_classInstance.filterBhk),
+				type:ko.observable(_classInstance.filterType),
 				order:ko.observable("asc"),
 				distress:ko.observable(false),
 				status:ko.observable(""),
-			    locationFlag :ko.observable(locationFlag1),
-			    projectId:ko.observable(projectIdFilter),
-			    minPrice:ko.observable(minP),
-			    maxPrice:ko.observable(maxP),
+			    locationFlag :ko.observable(_classInstance.locationFlag1),
+			    projectId:ko.observable(_classInstance.projectIdFilter),
+			    minPrice:ko.observable(_classInstance.minP),
+			    maxPrice:ko.observable(_classInstance.maxP),
 			    city:ko.observable(city)
 			},
 			addAgent:function(name,id,companyName,imageUrl){
@@ -731,8 +708,8 @@
 				return '<div class="fb-like" data-href="<%=locals.hosturl%>/'+data.id+'" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>';
 			},
 			enquireNow : function(data){
-
-				_classInstance.enquireNow(data.id);
+				
+				_classInstance.enquireNow(data);
 			},
 			getNextImage : function(){
 				_classInstance.viewModel.galleryIndex(_classInstance.viewModel.galleryIndex()+1)
@@ -745,9 +722,10 @@
 			pageSize: ko.observable(_classInstance.page.pageSize),
 			start: ko.observable()
 		}
-				
+		ko.applyBindings(_classInstance.enViewModel,document.getElementById('leadsF'))	
 		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
-		 
+
+	
 		 if(_classInstance.viewModel.filters.locationFlag()=='true'){
 		 	
 		 	_classInstance.listProjectsOfLocation(true);
@@ -860,11 +838,25 @@
         })
       };
       
-      Project.prototype.enquireNow = function(projectId) {
-      	 $('#leads').modal({
-		      closable:false
-		    }).modal('show');
-      	 $("#_projectIdP_").val(projectId);
+      Project.prototype.enquireNow = function(project) {
+      	var classInstance = this;
+      	var bhkStr = '';
+      	classInstance.enViewModel.bhkArr([]);
+  		classInstance.enViewModel.typeArr([]);
+  		classInstance.enViewModel.bhk(classInstance.viewModel.filters.bhk());
+
+  		classInstance.enViewModel.type(classInstance.viewModel.filters.type());
+      	ko.utils.arrayPushAll(classInstance.enViewModel.bhkArr,project.bhk);
+      	var pType = project.type;
+      	if(typeof pType !="array"){
+      		pType = new Array(pType)
+      	}
+      	ko.utils.arrayPushAll(classInstance.enViewModel.typeArr,pType);
+      	classInstance.enViewModel.projectName(project.name)
+      	$('#leadsF').modal({
+		    closable:false
+		}).modal('show');
+      	$("#_projectIdP_").val(project.id);
       };
 
 
@@ -969,6 +961,7 @@
 		  $('._hide_').show()
 	  	})
 	</script>
+
   <% include ../partials/footer.html.ejs %>
   </body>
 </html>

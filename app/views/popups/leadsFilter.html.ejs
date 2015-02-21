@@ -1,6 +1,6 @@
 <!-- Leads-Capture popup -->
-<div id="leads" class="ui modal pop-up sell-post">  
-<form id="_leadFormF_" class="ui form" action="javascript: common.captureLeadsProject('_leadFormF_')">
+<div id="leadsF" class="ui modal pop-up sell-post">  
+<form id="_leadForm_" class="ui form" action="javascript: common.captureLeadsProject('_leadForm_')">
   <div class="content">
     <div class="ui grid">
       <h2 class="ui header eight wide column">Leads Capturing</h2>
@@ -8,7 +8,9 @@
     </div>
   </div>
   <div id="lower-content" class="actions ui grid">
-    
+    <h4 class="_csn" style="  font-size: 1.5rem;font-weight: normal;color: rgb(76, 76, 76);">
+      <span class="agentName"><!-- ko text:projectName --><!-- /ko --></span>
+    </h4>
     <!-- Leads capture starts here -->
 
         <div class="ui inverted menu contact">
@@ -17,40 +19,54 @@
                <div class="ui image tiny _pImage_ _pImageLead_" style="padding:0 .5em 0 0 !important;height: 65px;background-size: 100%;background-repeat: no-repeat;margin-right:5px;background-position:center" >
              </div>
       
-        
+              
               <h4 class="_csn" style="  font-size: 1.5rem;font-weight: normal;color: rgb(76, 76, 76);">
               <span class="agentName"></span> <span class="companyName"></span>
               </h4>
         </span>
-          <input name="proName" value="<%= result.name %>" type="hidden">
+          <input name="proName" data-bind="value:projectName" type="hidden">
           <h4 class="ui dividing header">Property Information :</h4>
             <div class="item field _mxn" style="margin:0;padding-top:0;">
               <div class="ui selection dropdown">
-                <input type="hidden" name="propertyType" data-bind="value:data.propertyType">
-                <div class="default text" style="min-width:11rem;margin-right:0 !important;">Property Type</div>
+                <input type="hidden" name="propertyType" data-bind="value:type()">
+                <div class="default text" style="min-width:11rem;margin-right:0 !important;text-transform:capitalize">
+                  
+                  <!-- ko if:type()=="" -->
+                    Property Type
+                  <!-- /ko -->
+                  <!-- ko if:type()!="" -->
+                    <!-- ko text: type --><!-- /ko -->
+                  <!-- /ko -->
+                </div>
                 <i class="angle down icon"></i>
                 <div class="menu">
-                  <% for(var i=0;i<result.type.length;i++){ %>
-                    <div class="item" style="text-transform:capitalize" data-value="<%=result.type[i] %>"><%= result.type[i] %></div>
-                  <% } %>
+                 
+                  <!-- ko foreach : typeArr -->
+                    <div class="item" style="text-transform:capitalize" data-bind="text:$data">
+                      
+                    </div>
+                  <!-- /ko -->
+                
                 </div>
               </div>
             </div>
             <div class="item field _mxn" style="margin:0;padding-top:0;">
               <div class="ui selection dropdown">
-                <input type="hidden" name="bhk" data-bind="value:data.propertyType">
-                <div class="default text" style="min-width:11rem;margin-right:0 !important;">BHK</div>
+                <input type="hidden" name="bhk" data-bind="value:bhk">
+                <div class="default text" style="min-width:11rem;margin-right:0 !important;"><!-- ko text: bhk--><!-- /ko --> BHK</div>
                 <i class="angle down icon"></i>
-                <div class="menu">
-                  <% for(var i=0;i<result.bhk.length;i++){ %>
-                    <div class="item" style="text-transform:capitalize" data-value="<%=result.bhk[i] %>"><%= result.bhk[i] %> BHK</div>
-                  <% } %>
+                <div class="menu" id="_bhkItems">
+                  
+                     <!-- ko foreach : bhkArr -->
+                    <div class="item" data-bind="attr:{'data-value':$data}"><!-- ko text:$data--><!-- /ko --> BHK</div>
+                  <!-- /ko -->
+                
                 </div>
               </div>
             </div>
             <div class="item field _mxn" style="margin:0;padding-top:0;">
               <div class="ui selection dropdown">
-                <input type="hidden" name="action" data-bind="value:data.action">
+                <input type="hidden" name="action">
                 <div class="default text" style="min-width:11rem;margin-right:0 !important;">Action</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
