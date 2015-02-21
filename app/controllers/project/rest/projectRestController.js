@@ -46,7 +46,7 @@ projectRestController.getProjectDetails = function() {
     projService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
-    projService.getProjectDetails(_nself.req.params.projectId);
+    projService.getProjectDetails(_nself.req.params.projectId,true);
 };
 
 projectRestController.requestDetails = function() {
