@@ -1,13 +1,17 @@
-    <div id="sidebar" class="ui right demo vertical inverted labeled icon sidebar menu">
-         <% if(locals.req.device && locals.req.device.type != 'desktop'){ %>
-      <% if(locals.session.user) {%>
-             <div class="item" href="/irx/home">
-                   <i class="user icon"></i>
-                     <%= locals.session.user.name %>
-             </div>
+<% if(locals.req.device && locals.req.device.type != 'desktop'){ %>
+    <div id="sidebar" class="ui left demo vertical inverted labeled icon sidebar menu">
+        <% if(locals.session.user) {%>
+            <div class="item" href="/irx/home">
+                <i class="user icon"></i>
+                <%= locals.session.user.name %>
+            </div>
             <div class="item"><i class="sign out icon"></i>Logout</div>
         <% }%>
-        <%}%>
+    <%}%>
+    <% if(!locals.req.device || locals.req.device.type == 'desktop'){ %>     
+        <div id="sidebar" class="ui right demo vertical inverted labeled icon sidebar menu">
+    <%}%>
+
       <a class="item" href="/irx/home">
         <i class="home icon"></i>
         Home

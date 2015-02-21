@@ -529,24 +529,24 @@
 	              }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 	                $(".ui-widget-content .ui-state-focus");
 	                var type="";
-		                var icon ="";
-		                if(item.type){
-		                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
-		                }
+	                var icon ="";
+	                if(item.type){
+	                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+	                }
 
-		                if(item.type=='irx-euser') {
-		                  icon = "<i class='icon user right floated'></i>"
-		                }else {
-		                  icon ="<i class='icon building outline right floated'></i>"
-		                }
-		                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
-		                if(item.id == -1){
-		                 
-		                    data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
-		                }
-		                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+	                if(item.type=='irx-euser') {
+	                  icon = "<i class='icon user right floated'></i>"
+	                }else {
+	                  icon ="<i class='icon building outline right floated'></i>"
+	                }
+	                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
+	                if(item.id == -1){
 	                 
-	              };  
+	                    data = "<a class='item'><div class='itLabel header _enter_'>Seaching for <b>"+item.name+"</b></div></a>"
+	                }
+	                 return $( "<li class='ui divided list'>" ).append(data).appendTo(ul);
+	                 
+	            };  
 	  
 	   
 			    // $(document).on('change','.__searchType',function(){

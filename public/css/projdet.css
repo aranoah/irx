@@ -92,11 +92,10 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 	padding: 0 !important;
 }
 
-#desktop-projDet .nine.wide.column {
-	padding-right: 1% !important;
-}#desktop-projDet .seven.wide.column {
-	padding-left: 1% !important;
+#desktop-projDet .wide.column {
+	padding:0 1% !important;
 }
+
 #desktop-projDet .ui.items>.item>.content>div.description {
     font-size: .85em;    color: #617E8C;
 }

@@ -9,17 +9,22 @@
 </style>
 <% locals.hosturl = "https://facebook.com/" %>
 <div id="home" class="ui top fixed menu">
-
+<% if(locals.session.user) {%>
+<input id="__sess_name" value="<%= locals.session.user.name %>" type="hidden">
+<input id="__sess_emailId" value="<%= locals.session.user.userId %>" type="hidden">
+<input id="__sess_irxId" value="<%= locals.session.user.name %>" type="hidden">
+<input id="__sess_type" value="<%= locals.session.user.type %>" type="hidden">
+<%}%>
   <!-- For mobile screens only -->
 
   <% if(locals.req.device && locals.req.device.type != 'desktop'){ %>
 
       <div id="header" class="ui inverted menu">
-        <a class="header item _logo_" href="/irx/home">IRX</a>
+        <div class="header item _logo_ content icon toggle button" href="/irx/home">IRX</div>
         <div class="ui dropdown">         
           <div class="item"><%=(locals.searchType && locals.searchType=='agent')?'Agents':'Projects'%></div>
           <i class="dropdown icon item" style="padding: 0 !important;"></i>
-          <div class="menu">
+          <div class="menu" style="left: -40px;">
             <a class="item _link" href="/project-listing">Projects</a>
             <a class="item _link" href="/agent-listing">Agents</a>
             <a class="item _link" href="">Locations</a>
@@ -27,29 +32,9 @@
         </div>       
         <div class="right menu">
          
-<!--
-          <% if(locals.session.user) {%>
-            <div class="ui dropdown">
-              <a class="item"><%= locals.session.user.name %></a>
-              <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
-              <div class="menu">
-                  
-                <% if(locals.session.user.type=="agent"){ %>
-                    <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
-                 <% } %>
-                <div class="item"><i class="sign out icon"></i>Logout</div>
-              </div>
-              <input id="__sess_name" value="<%= locals.session.user.name %>" type="hidden">
-              <input id="__sess_emailId" value="<%= locals.session.user.userId %>" type="hidden">
-              <input id="__sess_irxId" value="<%= locals.session.user.name %>" type="hidden">
-              <input id="__sess_type" value="<%= locals.session.user.name %>" type="hidden">
-            </div>
-            <% }%>
--->
             <% if(!locals.session.user){ %>
                  <a class="item log-in"><i class="user icon"></i></a>
             <% }%>
-            <a class="item"><i class="content icon toggle button"></i></a>
         </div>
       </div>
 
@@ -82,10 +67,7 @@
             <a class="item" href="/irx/reset"><i class="undo icon"></i>Reset Password</a>
             <div class="item" id="_logout_"><i class="sign out icon"></i>Logout</div>
           </div>
-          <input id="__sess_name" value="<%= locals.session.user.name %>" type="hidden">
-          <input id="__sess_emailId" value="<%= locals.session.user.userId %>" type="hidden">
-          <input id="__sess_irxId" value="<%= locals.session.user.name %>" type="hidden">
-          <input id="__sess_type" value="<%= locals.session.user.type %>" type="hidden">
+         
         </div>
         <% }%>
         <% if(!locals.session.user){%>

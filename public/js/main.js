@@ -63,7 +63,7 @@ $(document).ready(function () {
 
 	$('.ui.dropdown').dropdown();
 
-	$('.right.demo.sidebar').sidebar('attach events', '.toggle.button', 'show');
+	$('.demo.sidebar').sidebar('attach events', '.toggle.button', 'show');
 
 	$('.toggle.button').removeClass('disabled');
 

@@ -599,14 +599,14 @@ $(document).ready(function(){
     sBar.viewModel.city(city)
   } else{
     sBar.viewModel.showCity("gurgaon")
-    sBar.viewModel.showCity("Gurgaon")
+    sBar.viewModel.city("Gurgaon")
   }
-  if( $(".mobileCity").length>0){
-    $(".mobileCity").dropdown({
-      onChange: function (val) {
-         sBar.viewModel.showCity(city);
-         sBar.viewModel.city(city);
-      }
-    });
- }
+ //  if( $(".mobileCity").length>0){
+ //    $(".mobileCity").dropdown({
+ //      onChange: function (val) {
+ //         sBar.viewModel.showCity(city);
+ //         sBar.viewModel.city(city);
+ //      }
+ //    });
+ // }
 })

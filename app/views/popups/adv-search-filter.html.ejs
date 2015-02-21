@@ -27,9 +27,14 @@
 .ui.mobile.two.column.page.grid:focus {
 outline: 0 !important;
 }
+.mobileCity{
+    padding: 1em .8em !important;left: 15%;
+    background: #fff;
+    width: 100%;
+    color: rgba(0, 0, 0, 0.8);
+    border: 1px solid #cfcfcf;   
+}
 </style>
-
-<form class="ui form" >
 <div id="adv-search-filter" class="ui modal pop-up">  
   <div class="content">
     <div class="ui grid">
@@ -42,38 +47,21 @@ outline: 0 !important;
     
     <!--advanced search filter starts here -->
         <input type="hidden" data-bind="value:data.origin" value="post-req">  
-
-        <% if(locals.req.device.type != 'desktop'){ %>
-        
           <div id="mobile" class="ui inverted menu" style="background:inherit;">
-
-        <% } %>
-
-        <% if(locals.req.device.type == 'desktop'){ %>
-        
-          <div id="desktop" class="ui inverted menu"  style="background:inherit;">
-
-        <% } %>
-
           <h4 class="ui dividing header"  style="border-bottom:0;">Select your filter :</h4>
-
-            <div class="item fields" style="position:relative; width:240px !important; height:35px;">
-              <div class="ui floating label search dropdown icon mobileCity" style="
-    padding: 1em .8em !important;left:15%;
-">
+              	<div class="item fields" style="position:relative; width:240px !important; height:35px;">
+            	<div class="ui floating label search dropdown search icon mobileCity" style="padding: .9em !important;left: 20px;">
                 <input type="hidden" name="city">
-                <span class="text">Select City</span>
+                <span class="text citytext">Select City</span>
                 <div class="menu _ld_DCTY_DTA" >
-                  
                 </div>
               </div>
             </div>
-            
 
-            <div class="item">
+            <div class="item mobile-bhk" style="padding-left: 0;">
               <div class="ui selection dropdown" >
-                <input type="hidden" name="bhk" data-bind="value:data.bhk">
-                <div class="default text">BHK</div>
+                <input type="hidden" name="bhk" >
+                <div class="default text bhktext">BHK</div>
                 <i class="angle down icon"></i>
                 <div class="menu">
                   <div class="item" data-value="1">1bhk</div>
@@ -84,8 +72,9 @@ outline: 0 !important;
               </div>
             </div>
 
+
             <div class="item right floated" style="padding-top:1rem;margin-right:5.5rem;">
-               <div class="ui blue button buttonClass" data-bind="click: captureLeads">Submit</div>
+               <div class="ui approve blue button buttonClass" >Apply</div>
             </div>
         </div>
 
@@ -94,5 +83,34 @@ outline: 0 !important;
     <!-- Ends here -->  
   </div>
 </div>
-    </div>
-</form>
+<script>
+  	$(document).ready(function(){       
+        if( $(".mobileCity").length>0){
+         	var selectorBhk =$("#adv-search-filter").find(".mobile-bhk");
+          	selectorBhk.find(".bhktext").text(sBar.viewModel.bhk()?sBar.viewModel.bhk():"BHK");
+          	selectorBhk.find("input[name='bhk']").val(sBar.viewModel.bhk()?sBar.viewModel.bhk():"");
+			var selectorCity =$("#adv-search-filter").find(".mobileCity");
+			selectorCity.find(".citytext").text(sBar.viewModel.city());
+			selectorCity.find("input[name='city']").val(sBar.viewModel.city());
+            
+         	$(".mobileCity").dropdown({
+           		onChange: function (val) {
+             		sBar.viewModel.showCity(val);
+					sBar.viewModel.city(val);
+					localStorage.setItem("city", val);
+           		}
+       		});
+             
+         	$(".mobile-bhk>.dropdown").dropdown({
+          		onChange: function (val) {
+             		sBar.viewModel.bhk(val);
+           		}
+       		});
+     	}
+     $("#adv-search-filter .approve").click(function(){
+     	console.log(sBar.viewModel)
+     	sBar.viewModel.searchF($('#searchForm'));
+     })	;
+
+   });
+</script>

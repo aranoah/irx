@@ -25,6 +25,9 @@ span.ui.teal.label {
   border-left: 2px solid #00B5AD !important;
   margin-right: 10px;
 }
+.content.addr-ess {
+    height: 22px;
+}
 /* Rupee */
  @font-face {
  font-family:rupee; 

@@ -23,10 +23,10 @@
 </head>
 <% locals.uiContext.menu=true %>
 <body class="<%="irx-"+(locals.req.device.type)%>">
-<% locals.searchtype='agent' %>
-  <% include ../partials/header.html.ejs %>
+	<% locals.searchtype='agent' %>
+	<% include ../partials/header.html.ejs %>
 
-  <!-- agents Listing goes here -->
+  	<!-- agents Listing goes here -->
 
   	<div id="agentContent" class="ui centered page grid" style="padding-top:9rem !important;">
 	  	<% if(locals.req.device.type == 'desktop'){ %>
@@ -40,177 +40,161 @@
 
 	  	<!-- For mobile and tablet -->
 	  		<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
-	  		<div class="ui grid rib-head">
-		    	<h4 class="ui header" style="margin:1rem;font-weight:normal;">Showing results for
+		  		<div class="ui grid rib-head">
+			    	<h4 class="ui header" style="margin:1rem;font-weight:normal;">Showing results for
+		    		<a data-bind="text:filters.displayName"></a>
+		    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></h2>
+			    	<!-- <div class="ui grid">  
+					  <div class="row centered aligned">
 
-	    		<a data-bind="text:filters.displayName"></a>
-	    	
+			    	<div class="ui grid">  
+					  <div class="row" style="text-align:left;">
 
-	    		<span data-bind="text :start">20</span> out of <span data-bind="text :total">50</span></h2>
-		    	<!-- <div class="ui grid">  
-				  <div class="row centered aligned">
-
-		    	<div class="ui grid">  
-				  <div class="row" style="text-align:left;">
-
-				    <div class="header right menu">
-			    		<div class="ui checkbox" style="margin:0 2rem;">
-					    	<input type="checkbox">
-					    	<label>Distress</label>
-					    </div>
-						<div class="ui basic button">submit request</div>
-			    	</div>
-				  </div>
-				</div> -->
-		    </div>
+					    <div class="header right menu">
+				    		<div class="ui checkbox" style="margin:0 2rem;">
+						    	<input type="checkbox">
+						    	<label>Distress</label>
+						    </div>
+							<div class="ui basic button">submit request</div>
+				    	</div>
+					  </div>
+					</div> -->
+			    </div>
 		   <% } %>
 	  	<!-- ends here -->
-
-
 	  	<% if(locals.req.device.type == 'desktop'){ %>
-	  	<div class="ui grid two column rib-head">
-
-			<h2 class="ui header column" style="margin-top:1em"><!-- ko text:total --><!--/ko--> AGENTS </h2>	  		
-    		
-
-	    	
-	    	<div class="header column right menu">
-	    		<!-- <div class="ui checkbox">
-			      <input type="checkbox">
-			      <label>Distress</label>
-			    </div> -->
-				<div class="ui basic button" id="_subReq_"> Ask to top 5 agents</div>
-	    	</div>
-	    </div>
+	  		<div class="ui grid two column rib-head">
+				<h2 class="ui header column" style="margin-top:1em"><!-- ko text:total --><!--/ko--> AGENTS </h2>	  		
+		    	<div class="header column right menu">
+		    		<!-- <div class="ui checkbox">
+				      <input type="checkbox">
+				      <label>Distress</label>
+				    </div> -->
+					<div class="ui basic button" id="_subReq_"> Ask to top 5 agents</div>
+		    	</div>
+		    </div>
 	    <% } %>
 	    
-		    <div class="_filters_">
-
-		    	<!-- ko :if(filters.location() == "true" && filters.locationCity() !="") -->
-			    	<span class="ui teal label">
-			    		City:
-			    		<!-- ko text :filters.locationCity() --><!-- /ko -->
-			    	</span>
-		    	<!-- /ko -->
-		    	<!-- ko :if(filters.location() != "true" && filters.locationCity()=="") -->
-			    	<span class="ui teal label">
-			    		City:
-			    		<!-- ko text :filters.city() --><!-- /ko -->
-			    	</span>
-		    	<!-- /ko -->
-		    	<!-- ko :if(filters.name()) -->	
-		    		<span class="ui teal label">Showing agents for: <!-- ko text :filters.name() --><!-- /ko --><i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
-		    	<!-- /ko -->
-		    
-		  	</div>
-		  	
-	
+	    <div class="_filters_">
+	    	<!-- ko :if(filters.location() == "true" && filters.locationCity() !="") -->
+		    	<span class="ui teal label">
+		    		City:
+		    		<!-- ko text :filters.locationCity() --><!-- /ko -->
+		    	</span>
+	    	<!-- /ko -->
+	    	<!-- ko :if(filters.location() != "true" && filters.locationCity()=="") -->
+		    	<span class="ui teal label">
+		    		City:
+		    		<!-- ko text :filters.city() --><!-- /ko -->
+		    	</span>
+	    	<!-- /ko -->
+	    	<!-- ko :if(filters.name()) -->	
+	    		<span class="ui teal label">Showing agents for: <!-- ko text :filters.name() --><!-- /ko --><i style="margin-right: 0;" onclick="agent.resetAgent(this)"; class="remove icon"></i></span>
+	    	<!-- /ko -->
+	    
+	  	</div>
 		<div class="_hide_" data-bind="visible:agents().length==0" style=" background:#fff;padding: 1rem;color: #7b7b7b;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;margin-top:5px">
 	    	 No<span style="color:#00B2F3;">  agents </span> found for this search.
 	    </div>
 	    <div class="ui cards sc _hide_" data-bind="foreach : agents">
-
-
-
 			<% if(locals.req.device.type != 'desktop'){ %>
-			  <div class="_csn card mobile-agent">
-
+			  	<div class="_csn card mobile-agent">
 			<% } %>
 		    <% if(locals.req.device.type == 'desktop'){ %>
-			  <div class="_csn card">
-
+			  	<div class="_csn card">
 			<% } %>
 
-		 	<!-- ko if:($data.imageUrl && $data.imageUrl!=null) -->
-		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
-		   	  	</div>
-		    <!-- /ko -->
-		    <!-- ko if:(!$data.imageUrl || $data.imageUrl==null) -->
-		    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url(/images/elliot.jpg)'}">
-		   	  	</div>
-		    <!-- /ko -->
-		    <div class="content">
+			 	<!-- ko if:($data.imageUrl && $data.imageUrl!=null) -->
+			    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url('+imageUrl+')'}">
+			   	  	</div>
+			    <!-- /ko -->
+			    <!-- ko if:(!$data.imageUrl || $data.imageUrl==null) -->
+			    	<div class="ui image tiny _pImage_" data-bind="style: { backgroundImage: 'url(/images/elliot.jpg)'}">
+			   	  	</div>
+			    <!-- /ko -->
+			    <div class="content">
 
-		      <a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name" style="font-size: 1.25em;"></div></a>
-		      <!-- ko if:$data.hasOwnProperty('companyName') -->
-		     	 <a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);line-height:22px;"></a>
-		      <!-- /ko -->
-		      <!-- ko if:$data.hasOwnProperty('location') -->
-		      
-			      <div class="content addr-ess">
-	    			<i class="map marker icon"></i><span data-bind="text : location.city"></span>
-	    		  </div>
-		      <!-- /ko -->
-		      <div class="description">
-		        <span style="float:left">Projects : </span>
-		         <span class="_locProj" data-bind="visible : projects.length==0" style="margin-right:0;">
-			 		<span class="header">Not Available</span>
-			    </span>
-		        <span class="_cmpnyName" data-bind="foreach : projects" style="margin-right: 0;width: 72% !important;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;float: left;">
-			        <!-- ko if:$index()<=2 -->
-			        	<!-- ko if:$index()!=0 -->
-			        	 	,
-			        	 <!-- /ko -->
-			        	 <!-- ko text:$data --><!-- /ko -->
-			        <!-- /ko -->
-			    </span>
-		        <span data-bind="if:projects.length>3" style="float:left;">
-		        (+
-		        	<span class="header" data-bind="text : projects.length-3"></span>)
-		        </span>
-		       </div>
-		       <div class="description">
-		        Operating Localities : 
-		        <span class="_locProj" data-bind="visible : locationProjects.length==0" style="margin-right:0;">
-			 		<span class="header">Not Available</span>
-			    </span>
-		        <span class="_locProj" data-bind="foreach : locationProjects" style="margin-right:0;">
-			        <!-- ko if:$index()<=2 -->
-			        	<!-- ko if:$index()!=0 -->
-			        	 	<span class="header">,</span>
-			        	<!-- /ko -->
-			        	<span class="header" data-bind="text : $data"></span>
-			        <!-- /ko -->
-			    </span>
-		        <span data-bind="if:locationProjects.length>3">
-		        (+
-		        	<span class="header" data-bind="text : locationProjects.length-3"></span>)
-		        </span>
-		       </div>
-		    </div>
-		    <!-- <div class="inline field" data-bind="click:function(){$parent.addAgent(name,irxId)}">
-			    <div class="ui checkbox">
-			    	<input type="checkbox">
-			    	<label></label>
+			      	<a data-bind="attr: { href:irxId}"><div class="header" data-bind="text : name" style="font-size: 1.25em;"></div></a>
+		      		<div class="content addr-ess">
+				      	<!-- ko if:$data.hasOwnProperty('companyName') -->
+				     	 	<a class="group" data-bind="text : companyName" style="color:rgba(0,0,0,0.6);line-height:22px;"></a>
+				      	<!-- /ko -->
+				    </div>  	
+			      	<div class="content addr-ess">
+				      	<!-- ko if:$data.hasOwnProperty('location') -->
+			    				<i class="map marker icon"></i><span data-bind="text : location.city"></span>
+				      	<!-- /ko -->
+	    		  	</div>
+			      	<div class="description">
+			        	<span style="float:left">Projects : </span>
+			         	<span class="_locProj" data-bind="visible : projects.length==0" style="margin-right:0;">
+					 		<span class="header">Not Available</span>
+					    </span>
+			        	<span class="_cmpnyName" data-bind="foreach : projects" style="margin-right: 0;width: 72% !important;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;float: left;">
+					        <!-- ko if:$index()<=2 -->
+					        	<!-- ko if:$index()!=0 -->
+					        	 	,
+					        	 <!-- /ko -->
+					        	 <!-- ko text:$data --><!-- /ko -->
+					        <!-- /ko -->
+					    </span>
+			        	<span data-bind="if:projects.length>3" style="float:left;">
+			        		(+
+			        		<span class="header" data-bind="text : projects.length-3"></span>)
+			        	</span>
+			       	</div>
+			       	<div class="description">
+			        	Operating Localities : 
+			        	<span class="_locProj" data-bind="visible : locationProjects.length==0" style="margin-right:0;">
+				 			<span class="header">Not Available</span>
+					    </span>
+				        <span class="_locProj" data-bind="foreach : locationProjects" style="margin-right:0;">
+					        <!-- ko if:$index()<=2 -->
+					        	<!-- ko if:$index()!=0 -->
+					        	 	<span class="header">,</span>
+					        	<!-- /ko -->
+					        	<span class="header" data-bind="text : $data"></span>
+					        <!-- /ko -->
+					    </span>
+				        <span data-bind="if:locationProjects.length>3">
+				        	(+
+				        	<span class="header" data-bind="text : locationProjects.length-3"></span>)
+				        </span>
+			       	</div>
 			    </div>
-		    </div> -->
-		    <div class="extra content">
-		    	<div class="fb-like left floated" data-bind="html:$parent.fbIntegration($data)"></div>
-				<div class="right floated created">
-					<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent($data.name,$data.irxId,$data.companyName,$data.imageUrl)}">Enquiry</div>
-
-				</div>
-		      <!--<a class="friends">
-		        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
-		         &nbsp;&nbsp;Projects
-		      </a><a class="friends">
-		        <i class="location arrow icon"></i>
-		        22 Locations
-		      </a>-->
-		    </div>
-		  </div>
-		  <input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
-		  <input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
-		  <input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
-		  <input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
-		  <input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
-		 <input type="hidden" value="agent" id="_searchTypeG_">  
-		</div>	   
-		<div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
-	  </div> 
+			    <!-- <div class="inline field" data-bind="click:function(){$parent.addAgent(name,irxId)}">
+				    <div class="ui checkbox">
+				    	<input type="checkbox">
+				    	<label></label>
+				    </div>
+			    </div> -->
+			    <div class="extra content">
+			    	<div class="fb-like left floated" data-bind="html:$parent.fbIntegration($data)"></div>
+					<div class="right floated created">
+						<div class="ui label _subReqI_" style="cursor:pointer;" data-bind="click:function(){$parent.addAgent($data.name,$data.irxId,$data.companyName,$data.imageUrl)}">Enquiry</div>
+					</div>
+			      <!--<a class="friends">
+			        <i class="building icon" data-bind="text:projectCounter">&nbsp;</i>
+			         &nbsp;&nbsp;Projects
+			      </a><a class="friends">
+			        <i class="location arrow icon"></i>
+			        22 Locations
+			      </a>-->
+			    </div>
+	  		</div>
+	  	</div>	
+		<input type="hidden" id="__filterName" value="<%= requestObj.name?requestObj.name:'' %>">
+		<input type="hidden" id="__filterBhk" value="<%= requestObj.bhk?requestObj.bhk:'' %>">
+		<input type="hidden" id="__filterType" value="<%= requestObj.type?requestObj.type:'' %>">
+		<input type="hidden" id="__projectIdFilter" value="<%= requestObj.projectId?requestObj.projectId:'' %>">
+		<input type="hidden" id="__locationFlag" value="<%= requestObj.isLocality?requestObj.isLocality:'' %>">
+		<input type="hidden" value="agent" id="_searchTypeG_">  
+	</div>	   
+	<div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div>
+	</div> 
 	    
-	</div>
+</div>
 	<div id="fb-root"></div>
 	<script type="text/javascript">
 	function Agent(options){
