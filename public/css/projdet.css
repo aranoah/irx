@@ -83,7 +83,7 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 
 #desktop-projDet.ui.divided.padded.grid {
 	padding: 10rem 0 0 !important;
-	width: 75% !important;
+	width: 80% !important;
 	margin: 0 auto !important;
 }
 
@@ -93,7 +93,7 @@ div#mobile-projDet> .ui.inverted.segment>.ui.header {
 }
 
 #desktop-projDet .wide.column {
-	padding:0 1% !important;
+	padding:1% !important;
 }
 
 #desktop-projDet .ui.items>.item>.content>div.description {

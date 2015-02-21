@@ -44,18 +44,18 @@
 	<% if(locals.req.device.type == 'desktop'){ %>
 	<div id="desktop-projDet" class="ui divided padded grid projDet">
 
-		<div class="nine wide column">
+		<div class="ten wide column">
 	<% } %>
 			<input id="_projectId" value="<%= projectId %>" type="hidden">
 			<input id="__name_" value="<%= result.name%>" type="hidden">
      
 			<div class="content" style="padding:.6rem;background:#fff;box-shadow:0 0 2px rgba(0,0,0,0.2);margin-bottom:2rem;">
 				<div class="ui inverted title grid" style="margin:0;padding:0 !important;">
-					<div class="ten wide column _csn">				
+					<div class="twelve wide column _csn">				
 						<h2 class="ui header"><%= result.name %></h2>
 						<h4 class="ui header"><%= result.builderName %></h4>
 					</div>
-					<div class="six wide column _csn" style="text-align: right;">
+					<div class="four wide column _csn" style="text-align: right;">
 						<h2><i class="rupee icon"></i> <%= result.price[0]/100000.0 %>Lac <%= (result.price.length>1)? "-"+ result.price[1]/100000.0+"Lac": '' %> </h2>
 					</div>
 				</div>
@@ -182,7 +182,7 @@
 
 		<% if(locals.req.device.type == 'desktop'){ %>
 		
-			<div class="seven wide column">
+			<div class="six wide column">
 				
 		<% } %>
 		<% if(locals.req.device.type == 'desktop'){ %>

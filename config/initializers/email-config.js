@@ -18,14 +18,14 @@
 var nodemailer = require("nodemailer");
 
 var smtpTransport = nodemailer.createTransport("SMTP",{
-   service: "aranoah",
-   host : "smtp.aranoah.com",
-   secure :true,
+   service: "gmail",
+   //host : "smtp.aranoah.com",
+   // secure :true,
    
-   port:25,
+   // port:25,
    auth: {
-       user: "him-mail@aranoah.com",
-       pass: "Okn!)rP0"
+       user: "lovetoleo.1986@gmail.com",
+       pass: "lovetoleo"
     }
 });
 _app_context.emailSender= smtpTransport;  

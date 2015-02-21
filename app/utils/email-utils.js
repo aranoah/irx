@@ -37,7 +37,7 @@ EMAIL_UTILS.prototype.sendEmail=function(templateName,data,callback){
 		        console.log(err);
 		      } else {
      			        _app_context.emailSender.sendMail({
-					   	from: "him-mail@aranoah.com", // sender address
+					   	from: "lovetoleo.1986@gmail.com", // sender address
 					   	to: data.userId, // comma separated list of receivers
 					  	subject: data.subject, // Subject line
 					   	//text: "Hello world ✔" ,// plaintext body
