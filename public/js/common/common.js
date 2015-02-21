@@ -73,12 +73,20 @@ Common.prototype.init = function(first_argument) {
     type :ko.observable(''),
     name :ko.observable(''),
     register : function() {
-      
+      var obj={
+        status:400, 
+        heading:"Registration Error",
+        content:"Please check your form have correct information."
+      };
       if(classInstance.viewModel.password() != classInstance.viewModel.cnfPassword()){
         $('._msg').addClass('_ajActive').addClass('_ajError').text("Please check your password.")
+        httpUtils.checkStatus(obj,false,true,null,obj);
         return false;
       }
-      
+      if(!$("#register-box").find(".reg_chckbx").find("input[type='checkbox']").is(":checked")){
+        httpUtils.checkStatus(obj,false,true,null,obj);
+       return false; 
+      }
       classInstance.register();
     },
 		openTab:function(tabID) {

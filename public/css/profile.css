@@ -187,14 +187,23 @@
   padding: .5rem !important;
   margin: 0 !important;
 }
-
+p.header._csn._loc_det {
+  font-size: 1em;
+  border: 1px solid #d3d3d3;
+  background: #FFF;
+  padding: 3px 8px;
+  text-align: center;
+  font-weight: normal;
+}
+/*
 .rib-items.ui.three.column.grid>div {
   text-align: center;
-}
+}*/
 
 .pro-ject .meta>h4, .meta.loc-item>h4 {
   margin: 0;
   color: #020202;
+  font-size: inherit;
 }
 
 .rib-items.ui.three.column.grid p {
@@ -226,8 +235,10 @@
 }
 
 .loca-tion .ui.divided.items.column {
-  margin: 0 !important;
-  text-align: center;
+  margin: .5em !important;
+  border: 1px solid #EEE;
+  background: #F9F9F9;
+  width: 18em;
 }
 
 .rib-items .loc-item.meta span:first-child {
