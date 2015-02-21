@@ -195,8 +195,8 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                   }else{
                     if(user != null){
                       locals.userId = user.userId;
-                     locals.subject = properties.leads_subject;
-                    new emailUtils().sendEmail("leads",locals,function(error,success){
+                      locals.subject = properties.leads_subject;
+                      new emailUtils().sendEmail("leads",locals,function(error,success){
                         if(error != null){
                           console.error(error);
                         }else if(success != null){
@@ -208,7 +208,11 @@ var IRXVerificationModel = require(_path_model+"/IRXVerification");
                   }
                 })
                 }else {
-                  IRXUserProfileModel.find({"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED},{},{limit:5 },function(err,users){
+                  var query ={"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED}
+                  if(lead.projectId){
+                    
+                  }
+                  IRXUserProfileModel.find(query,{},{limit:5 },function(err,users){
                   if(err){
                     console.log(err)
                   }else{

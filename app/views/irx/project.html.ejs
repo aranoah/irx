@@ -523,7 +523,7 @@
 				start : 0,
 				pageSize : 10
 			}
-			 this.filterName = $('#__filterName').val()
+		 this.filterName = $('#__filterName').val()
 		 if(typeof(this.filterName) == "undefined" || this.filterName == null ){
 		 	this.filterName = "";
 		 }
@@ -865,9 +865,16 @@
 		classInstance.viewModel.projects([]);
 		classInstance.viewModel.filters.name(filters.name);
 		classInstance.viewModel.filters.displayName(filters.name);
+		classInstance.viewModel.filters.bhk(filters.bhk);
 
-		classInstance.viewModel.filters.projectId(""+filters.projectId);
-		classInstance.viewModel.filters.locationFlag(""+filters.locationFlag);
+		classInstance.viewModel.filters.city(filters.city)
+		if(filters.projectId){
+			classInstance.viewModel.filters.projectId(""+filters.projectId);
+		}
+		if(filters.locationFlag){
+			classInstance.viewModel.filters.locationFlag(""+filters.locationFlag);
+		}
+		
 		 if(data.page.start==0){
 	        	classInstance.viewModel.totalCount(data.page.total)
 	        }
@@ -915,7 +922,7 @@
 		
 		var classInstance = this;
 		//alert(classInstance.viewModel.filters.type)
-    	classInstance.viewModel.filters.city=localStorage.getItem("city")
+    	classInstance.viewModel.filters.city(localStorage.getItem("city"));
 	    httpUtils.post("/list-projects-elastic",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
 	       if(data.status==0){
 	       	if(typeof(replace) != undefined && replace){

@@ -400,7 +400,6 @@
                         {filters:data,page:classInstance.page},
                         {},"JSON",function(result){
             if(result.status==0){
-
               project.renderResult(result,data)
             }else{
             var arr = new Array();

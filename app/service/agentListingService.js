@@ -63,9 +63,9 @@ AgentListingService.prototype.listAgents = function(data){
 		query["name"]={ $regex: filters.name, $options: 'i' };
 	}
 	query["type"]="agent";
+	query["status"]=CONSTANTS.him_constants.USER_STATUS.VERIFIED
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
-	
 	IRXUserProfileModel.find(query,{},{skip:start,limit:pageSize},function(err , result){
 		if(err){
 			console.error(err)

@@ -430,11 +430,12 @@ UserService.prototype.listUserLocations = function(user) {
 	if(!page){
 		page=defPage
 	}
-	var locations = IRXLocationModel;
+	var locations = IRXProductLineModel;
 	
  	var ObjectId = require('mongodb').ObjectID
 	
 	var LocationMaping = IRXAgentMProductModel;
+	console.log({"agentId":id})
 	LocationMaping.findOne({"agentId":id},
 		function(err,data){
 			if (err){
@@ -444,6 +445,7 @@ UserService.prototype.listUserLocations = function(user) {
 	 		} else {
 	 			
 	 			if(data != null){
+	 				
 	 				var locationList = data.location;
 	 				// var projectIds = new Array();
 	 				 if(typeof(locationList)!='undefined' && locationList!=null) {

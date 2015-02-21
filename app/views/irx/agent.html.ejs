@@ -86,13 +86,13 @@
 	    
 		    <div class="_filters_">
 
-		    	<!-- ko :if(filters.location() == "true" && filters.locationCity() !="") -->
+		    	<!-- ko :if(filters.location() == "true" && filters.locationCity() && filters.locationCity() !="") -->
 			    	<span class="ui teal label">
 			    		City:
 			    		<!-- ko text :filters.locationCity() --><!-- /ko -->
 			    	</span>
 		    	<!-- /ko -->
-		    	<!-- ko :if(filters.location() != "true" && filters.locationCity()=="") -->
+		    	<!-- ko :if(filters.location() != "true" && (!filters.locationCity() || filters.locationCity()=="")) -->
 			    	<span class="ui teal label">
 			    		City:
 			    		<!-- ko text :filters.city() --><!-- /ko -->

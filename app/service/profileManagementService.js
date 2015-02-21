@@ -462,8 +462,8 @@ PMService.prototype.associateLocation = function(data) {
 			if(project && project != null){
 				_selfInstance.emit('stage2',project);	
 			} else {
-				console.error("No project found")
-	 			_selfInstance.emit("done",404,"No project found",null,null);
+				console.error("No Location found")
+	 			_selfInstance.emit("done",404,"No Location found",null,null);
 			}
 			
 		}

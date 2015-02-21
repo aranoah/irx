@@ -9,7 +9,7 @@ function Common() {
   this.viewModelSell = null;
   this.sessName = "";
   this.sessEmailId = "";
-  this.sessType ="";
+  this.sessType ="user";
   if($('#__sess_name').html() != undefined){
       this.sessName=$('#__sess_name').val();
   }
@@ -533,7 +533,8 @@ var data = {
   "action":action,
   "propertyType":propertyType,
   "proName":proName,
-  "createLogin":createLogin
+  "createLogin":createLogin,
+  "origin":"post"
 }
 var agentid = $('#'+form).find('#_agentIdP_').val();
 if (agentid && agentid != "") {
@@ -546,7 +547,7 @@ if (agentid && agentid != "") {
       var leadsObj={
         status:0,
         heading:"Lead Captured",
-        content:"Your information has been sent to project agent. They will ping you in a short while."
+        content:data.message
       }
       if(data.status!=0){
         leadsObj.status=data.status;
@@ -642,9 +643,9 @@ Common.prototype.captureLeads = function(type) {
     if(agentId && agentId.length >0){
       viewModel.data["dealerId"] = agentId[0].irxId  
     }
-    
+    viewModel.data.origin('post')
   }
-  var createLogin = $('#'+type).find('.__createLogin').find('.ui.checkbox').hasClass('checked');
+  var createLogin = $('#'+type).find('.__createLogin').hasClass('checked');
   viewModel.data.createLogin(createLogin);
   httpUtils.post("/capture-lead",
 		viewModel.data,
