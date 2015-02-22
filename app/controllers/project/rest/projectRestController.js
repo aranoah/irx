@@ -40,9 +40,10 @@ projectRestController.listPreferedAgents = function() {
     projService.listPreferedAgents(data);
 };
 projectRestController.getProjectDetails = function() {
+     var _nself = this;
+   
     var projService = new projectService();
     
-    var _nself = this;
     projService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
@@ -50,9 +51,13 @@ projectRestController.getProjectDetails = function() {
 };
 
 projectRestController.requestDetails = function() {
-    var projService = new projectService();
+    
     
     var _nself = this;
+     if(!_nself.ensureAuthenticated(false)){
+        return ;
+    }
+    var projService = new projectService();
     projService.on("done", function(code,msg,err,errValue){
      _nself.processJson(code,msg,err,errValue);
     });
