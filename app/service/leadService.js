@@ -47,11 +47,19 @@ LeadService.prototype.__proto__=baseService.prototype ;
 LeadService.prototype.captureLeads = function(data) {
 	console.log("In captureLeads")
 	var _selfInstance = this;
-	_selfInstance.once("saveLeadEvent",function(){
+	_selfInstance.once("saveLeadEvent",function(project){
  	
 	 // Make a database entry
 	var id = _selfInstance.getCustomMongoId("IL")
-
+		var localityId = ""
+		if(project.location){
+			localityId = project.location.locality;
+		}
+		var locality=""
+		if(project.location){
+			locality = project.location.name;
+		}
+		
 		var leadData = new IRXLeadModel({
 				"id":id,
 	  			"projectId": data.projectId,
@@ -68,8 +76,8 @@ LeadService.prototype.captureLeads = function(data) {
 	   			"createdOn": new Date(),
 	   			"projectName":data.proName,
 	   			"status":CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION,
-	   			"localityId":data.localityId,
-	   			"locality":data.locality
+	   			"localityId":localityId,
+	   			"locality":locality
 		});
 		leadData.save(function(err, savedData) {
 		if (err) {
@@ -118,7 +126,7 @@ LeadService.prototype.captureLeads = function(data) {
 			}
 		})
 	}) 
-	_selfInstance.once("checkUserEvent",function(){
+	_selfInstance.once("checkUserEvent",function(project){
  		
 	 	IRXUserProfileModel.findOne({"irxId":data.dealerId},{"irxId":1},function(err,agents){
 	 		
@@ -127,7 +135,7 @@ LeadService.prototype.captureLeads = function(data) {
 				_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 			}else {
 				if(agents && agents != null){
-					_selfInstance.emit("saveLeadEvent")
+					_selfInstance.emit("saveLeadEvent",project)
 				} else {
 					console.error("No agents found")
 		 			_selfInstance.emit("done",404,"No agents found",null,null);
@@ -139,7 +147,7 @@ LeadService.prototype.captureLeads = function(data) {
 	}) 
 
 	// check for valid Project
-	IRXProductLineModel.findOne({"id":data.projectId},{"id":1},function(err,project){
+	IRXProductLineModel.findOne({"id":data.projectId},{"id":1,"location":1},function(err,project){
 		if(err){
 			console.error(err);
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -148,9 +156,9 @@ LeadService.prototype.captureLeads = function(data) {
 				console.error("No project found")
 		 		_selfInstance.emit("done",404,"No project found",null,null);
 			}else if(data.dealerId && data.dealerId != ""){
-				_selfInstance.emit("checkUserEvent")	
+				_selfInstance.emit("checkUserEvent",project)	
 			}else{
-				_selfInstance.emit("saveLeadEvent")
+				_selfInstance.emit("saveLeadEvent",project)
 			}
 			
 		}
