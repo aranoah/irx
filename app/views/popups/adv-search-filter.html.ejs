@@ -105,7 +105,7 @@
     			//$("#__searchCity").val(sBar.viewModel.city());
           //console.log($city)
           $("#__searchCity").autocomplete({
-            source:$city,
+            source:$cityJson,
             appendTo:"#adv-search-filter",
             select:function(event,ui){
             	localStorage.setItem("city", ui.item.value);

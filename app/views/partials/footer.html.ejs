@@ -68,7 +68,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         <% if(locals.req.device.type == 'desktop'){ %>
-            $("._ld_DCTY_DTA").append($city);
+            $("._ld_DCTY_DTA:not(.loaded)").addClass("loaded").append($city);
         <%}%> 
         
     });

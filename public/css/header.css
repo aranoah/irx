@@ -469,7 +469,7 @@ margin-right: 1rem;
   font-weight: 400;
 }
 .ui.dropdown .menu>.input{
-  min-width: 100px;
+  min-width: 150px;
 }
 .sell-post .ui.inverted.menu>.item {
   padding: 0;
