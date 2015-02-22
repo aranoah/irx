@@ -301,6 +301,33 @@ Common.prototype.validateLead = function(_button) {
           }
         ]
       },
+      propertyType:{
+        identifier : 'propertyType',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please select your Property Type'
+          }
+        ]
+      },
+      bhk:{
+        identifier : 'bhk',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your name'
+          }
+        ]
+      },
+      action:{
+        identifier : 'action',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your name'
+          }
+        ]
+      },
       projectId: {
         identifier : 'projectId',
         rules: [

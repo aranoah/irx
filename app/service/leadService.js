@@ -245,7 +245,7 @@ LeadService.prototype.listLeads = function(data) {
 
 	var pageSize = Number(page.pageSize)+1;
 	
-	IRXLeadModel.find({"agentId":data.userId},{},{skip:start,limit:pageSize},function(err , result){
+	IRXLeadModel.find({"agentId":data.userId},{},{skip:start,limit:pageSize}).sort({"createdOn": -1}).exec(function(err , result){
 		if(err){
 			console.error(err)
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);

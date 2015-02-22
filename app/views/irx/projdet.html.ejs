@@ -388,7 +388,8 @@
 				_classInstance.viewModel.addAgent(data.name,data.irxId,data.companyName,data.imageUrl)
 			},
 			addAgent:function(name,id,companyName,imageUrl){
-					 
+				_classInstance.resetForm($('#leads'))
+				$('#leads').find('.field.error').removeClass('error')
 				$('#leads').modal({
 		     	 closable:false
 		   		 }).modal('show');
@@ -439,9 +440,18 @@
          	}
         });
       };
-
+      Project.prototype.resetForm=function(lead){
+      	 lead.find('input[name="bhk"]').val("");
+		 lead.find('input[name="action"]').val("");
+		 lead.find('input[name="propertyType"]').val("");
+		 lead.find('.ui.selection.dropdown').dropdown('restore defaults');
+      }
       Project.prototype.enquireNow = function(projectId) {
+      	var classInstance = this;
+      	classInstance.resetForm($('#leads'))
+      	$('#leads').find('.field.error').removeClass('error')
       	$('._showAgent_').hide();
+		
       	$("#_agentIdP_").val("");
       	$("#_projectIdP_").val(projectId);
       	$('#leads').modal({
