@@ -142,17 +142,13 @@
 					<img class="ui medium rounded image" src="/images/square-image.png"/>
 				<%}%>
 				<div class="ui images">
-				  <!-- <img class="ui image" src="/images/square-image.png">
-				  <img class="ui image" src="/images/square-image.png">
-				  <img class="ui image" src="/images/square-image.png">
-				  <img class="ui image" src="/images/square-image.png"> -->
-				  <% if(result.gallery!=null){
+				  <% if(result.gallery!=null && result.gallery.length>0){
 						 for(var glry=0 ;glry<result.gallery.length;glry++){		  %>
 							<img class="ui image" src="<%=result.gallery[glry]%>">
 						<%}
 					}%>
 				</div>
-				<%	if(result.gallery==null || result.gallery.length==0) {	%>
+				<%	if( result.profileImage==null && (result.gallery==null || result.gallery.length==0)) {	%>
 					<div style="padding: 1rem; color: rgb(123, 123, 123); border-left-width: 2px; border-left-style: solid; border-left-color: rgb(0, 159, 218); box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 2px; background: rgb(255, 255, 255);margin-bottom:1rem;">
 				    	No Gallery Found. 
 				    </div>
@@ -194,7 +190,7 @@
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
 		    	No preferred agent found for this project. 
 		    </div>
-		     <!-- ko if:agents().length!=0 -->
+		    <!-- ko if:agents().length!=0 -->
 			<div class="ui divided items" data-bind="foreach : agents">
 			  <div class="item">
 			    <div class="content">
@@ -207,10 +203,10 @@
 							
 			      <a data-bind="attr: { href: '/'+irxId},text : name" class="header">Elliot Fu</a>
 			      <div class="meta">
-			      	<!-- ko if:companyName--> 
+			      	<!-- ko if:$data.hasOwnProperty('companyName')--> 
 			        	<div class="price" data-bind="text : companyName" style="padding:.5rem 0;"></div>
 		          	<!-- /ko -->
-		          	<!-- ko if:!companyName--> 
+		          	<!-- ko if:!($data.hasOwnProperty('companyName'))--> 
 			        	<div class="price" style="padding:.5rem 0;">Company not available</div>
 		          	<!-- /ko -->
 			         
@@ -259,9 +255,11 @@
 			    </div>
 			  </div>
 			</div>
-			<div class="ui centered aligned grid" style="padding: 2rem 0;">
-					<div class="ui button" style="background:#fff;border: 1px solid #ddd"><a href="/agent-listing?projectId=<%= result.id %>&name=<%= result.name %>"> View all agents</a></div>
-				</div>
+				<!-- ko if:agents().length > 9 -->
+					<div class="ui centered aligned grid" style="padding: 2rem 0;">
+						<div class="ui button" style="background:#fff;border: 1px solid #ddd"><a href="/agent-listing?projectId=<%= result.id %>&name=<%= result.name %>"> View all agents</a></div>
+					</div>
+				<!-- /ko -->
 			<!-- /ko -->
 				
 			</div>

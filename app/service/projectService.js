@@ -74,7 +74,7 @@ ProjectService.prototype.getProjectDetails = function(projectId,limited) {
 *	List Preferred agents
 *
 **/
-ProjectService.prototype.listPreferedAgents = function(data) {
+ProjectService.prototype.listPreferedAgents = function(data,page) {
 	console.log("In listPreferedAgents")
 	var projectId = data.projectId;
 	var _selfInstance = this;
@@ -124,16 +124,19 @@ ProjectService.prototype.listPreferedAgents = function(data) {
 				}
 				
 			}
-	 	})
+	 	});
 		
-	}) 
+	});
+	if(!page || page==null){
+		page=defPage;		
+	} 
 	var query ={"project":id};
 	var retCity = false;
 	if(data.location && data.location == 'true'){
 		query={"location":id}
 		retCity =true;
 	}
-	Mapping.find(query,{"agentId":1},{skip:0,limit:4 },
+	Mapping.find(query,{"agentId":1},{skip:page.start,limit:page.pageSize },
 					function(err,mapping){
 						if(err){
 							console.log(err)
