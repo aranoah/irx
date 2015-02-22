@@ -462,7 +462,7 @@
 						      		</tr>
 									<tr>
 									  <td class="_unit_">Property Type</td>
-									  <td><!--ko foreach: type--><!-- ko text:$data --><!-- /ko --><!--/ko--></td>
+									  <td><!--ko foreach: type--><!-- ko text:$data --><!-- /ko -->&nbsp;<!--/ko--></td>
 									</tr>
 									<tr>
 									  <td class="_unit_">Unit</td>
@@ -844,11 +844,11 @@
       	classInstance.enViewModel.bhkArr([]);
   		classInstance.enViewModel.typeArr([]);
   		classInstance.enViewModel.bhk(classInstance.viewModel.filters.bhk());
-
+		
   		classInstance.enViewModel.type(classInstance.viewModel.filters.type());
       	ko.utils.arrayPushAll(classInstance.enViewModel.bhkArr,project.bhk);
       	var pType = project.type;
-      	if(typeof pType !="array"){
+      	if(typeof pType =="string"){
       		pType = new Array(pType)
       	}
       	ko.utils.arrayPushAll(classInstance.enViewModel.typeArr,pType);

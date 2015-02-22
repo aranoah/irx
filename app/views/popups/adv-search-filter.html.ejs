@@ -48,14 +48,9 @@ outline: 0 !important;
     <!--advanced search filter starts here -->
         <input type="hidden" data-bind="value:data.origin" value="post-req">  
           <div id="mobile" class="ui inverted menu" style="background:inherit;">
-          <h4 class="ui dividing header"  style="border-bottom:0;">Select your filter :</h4>
-              	<div class="item fields" style="position:relative; width:240px !important; height:35px;">
-            	<div class="ui floating label search dropdown search icon mobileCity" style="padding: .9em !important;left: 20px;">
-                <input type="hidden" name="city">
-                <span class="text citytext">Select City</span>
-                <div class="menu _ld_DCTY_DTA" >
-                </div>
-              </div>
+            <h4 class="ui dividing header"  style="border-bottom:0;">Select your filter :</h4>
+          	<div class="item fields" style="position:relative; width:240px !important; height:35px;">
+            	<input type="text" placeholder="Search Location" id="__searchCity" style="padding:1em" />
             </div>
 
             <div class="item mobile-bhk" style="padding-left: 0;">
@@ -85,19 +80,21 @@ outline: 0 !important;
 </div>
 <script>
   	$(document).ready(function(){       
-        if( $(".mobileCity").length>0){
-         	var selectorBhk =$("#adv-search-filter").find(".mobile-bhk");
-          	selectorBhk.find(".bhktext").text(sBar.viewModel.bhk()?sBar.viewModel.bhk():"BHK");
-          	selectorBhk.find("input[name='bhk']").val(sBar.viewModel.bhk()?sBar.viewModel.bhk():"");
-			var selectorCity =$("#adv-search-filter").find(".mobileCity");
-			selectorCity.find(".citytext").text(sBar.viewModel.city());
-			selectorCity.find("input[name='city']").val(sBar.viewModel.city());
-            
+       	  var selectorBhk =$("#adv-search-filter").find(".mobile-bhk");
+        	selectorBhk.find(".bhktext").text(sBar.viewModel.bhk()?sBar.viewModel.bhk():"BHK");
+        	selectorBhk.find("input[name='bhk']").val(sBar.viewModel.bhk()?sBar.viewModel.bhk():"");
+		
+    			//$("#__searchCity").val(sBar.viewModel.city());
+          console.log($city)
+          $("#__searchCity").autocomplete({
+            source:$city
+          });
+
          	$(".mobileCity").dropdown({
            		onChange: function (val) {
              		sBar.viewModel.showCity(val);
-					sBar.viewModel.city(val);
-					localStorage.setItem("city", val);
+      					sBar.viewModel.city(val);
+      					localStorage.setItem("city", val);
            		}
        		});
              
@@ -106,9 +103,7 @@ outline: 0 !important;
              		sBar.viewModel.bhk(val);
            		}
        		});
-     	}
      $("#adv-search-filter .approve").click(function(){
-     	console.log(sBar.viewModel)
      	sBar.viewModel.searchF($('#searchForm'));
      })	;
 

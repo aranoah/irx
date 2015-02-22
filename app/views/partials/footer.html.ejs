@@ -65,7 +65,14 @@
 <% include ../popups/success.html.ejs %>
 <% include ../popups/adv-search-filter.html.ejs %>
 <% include ../popups/contact-info.html.ejs %>
-
+<script type="text/javascript">
+    $(document).ready(function(){
+        <% if(locals.req.device.type == 'desktop'){ %>
+            $("._ld_DCTY_DTA").append($city);
+        <%}%> 
+        
+    });
+</script>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
