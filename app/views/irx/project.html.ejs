@@ -79,17 +79,17 @@
 	.ui.menu .item:before {
 		background: linear-gradient(rgba(0, 0, 0, 0) 0,rgba(0, 0, 0, 0) 50%,rgba(0, 0, 0, 0) 100%);
 	}
-	span.ui.teal.label{
-		color: #00B5AD!important;
-		border-color: #00B5AD!important;
-		background: #FFF!important;
-		border: 1px solid #EEE !important;
-		font-weight: normal;
-		font-size: 13px;
-		text-transform: capitalize;
-		border-left: 2px solid #00B5AD !important;
-		margin-right: 10px;
-	}
+	span.ui.teal.label {
+color: #00B5AD!important;
+border-color: #00B5AD!important;
+background: #FFF!important;
+border: 1px solid #EEE !important;
+font-weight: normal;
+font-size: 13px;
+text-transform: capitalize;
+border-left: 2px solid #00B5AD !important;
+margin-right: 10px;
+}
 
   </style>
   
@@ -242,6 +242,8 @@
 			</a>
 			</div>
 	  	<% } %>
+                
+                
 	  	<div class="_filters_ _hide_" style="text-align:left;">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''">
 	  		BHK :
@@ -281,7 +283,7 @@
 	  	</div>
 
 	  	
-	  	<% if(!locals.req.device || locals.req.device.type != 'desktop'){ %>
+	  	<% if(locals.req.device && locals.req.device.type != 'desktop'){ %>
 	  			
 	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects" style="margin:0;">
 				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
@@ -314,18 +316,18 @@
 						    <div class="date">
 					           <span data-bind="foreach : bhk"><a class="proContent" href="javascript:void(0)" data-bind="text:$data"></a><a class="proContent" href="javascript:void(0)">BHK&nbsp;&nbsp;</a></span><span data-bind="text : type"></span>
 					        </div>
-					        <div class="date" data-bind="text : builtUpArea">120 sq.ft</div>
+					        <div class="date" data-bind="text : builtUpArea"></div>
 						</div>
 						<div class="meta" style="padding-top:1rem;">
-				            <span data-bind="text : possession">Nov 17,2014</span>
-				            <span data-bind="text : status">Nov 17,2014</span>
+				            <span data-bind="text : possession"></span>
+				            <span data-bind="text : status"></span>
 				        </div>
 				        <a href="" class="item right floated leads-in" data-bind="click:function(){$parent.enquireNow($data) }" style="margin-top:-1.4rem"><i style="font-size:1.5em;" class="blue help circle icon"></i></a>
 					</div>
 				</div></a>
 	  		</div>
 	  	<% } %> 
-	  		
+	  	
 	  	<!-- ends here -->
 	    <!-- Project Listing goes here -->
 	    <div class="_pnf" data-bind="visible:projects().length==0" style=" background:#fff;padding: 1rem;color: #7b7b7b;
@@ -437,11 +439,12 @@
 				  <div id="_projImg" class="ui small image">
 				       <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
 
-				      <img src="" data-bind="attr:{src: gallery[$root.galleryIndex()]}">
+				       <img src="" data-bind="attr:{src: gallery[0],'data-size':gallery.length,'index':$index}" data-curr="0" class='projectImage'>
 				       <div class="slider">
-				        	<i class="chevron right icon" data-bind="visible:false,click:function(){$root.getNextImage()}"></i>
-					        <span>1 PHOTO</span>
-				       	 	<i class="chevron left icon" data-bind="visible:false,click:function(){$root.getPreviousImage()}"></i>
+				        	<i class="chevron right icon pagination" data-bind="visible:$data.gallery.length>1" ></i>
+					        <span><!--ko text:$data.gallery.length --><!--/ko--> PHOTO   </span>
+                         
+				       	 	<i class="chevron left icon pagination" data-bind="visible:$data.gallery.length>1"></i>
 				      </div> 
 				       <!--/ko -->
 
@@ -508,6 +511,7 @@
 				</div>
 			</div>
 	    	</div>
+                 
 	    	 <div class="four wide column" data-bind="visible:projects().length!=0" style=" padding:0 1rem;font-size: 14px;box-shadow: 0 0 0;">
 	    		<!-- <img src="/img/banner.png" style="width:100%;">
 	    		<img src="/img/banner.png" style="width:100%;">
@@ -517,6 +521,22 @@
 			<!-- <div data-bind="scroll: true, scrollOptions: { loadFunc: addSome, offset: 10 }"></div> -->
 		</div>
 		<% } %>
+                
+        <div style="width:100%">
+                 <div  class="ui steps" style="margin:auto" data-bind="visible:hasMore()" onclick="javascript:project.listProjects(false)"> 
+                
+  <div class="link step">
+    <i class="chevron circle down icon"></i>
+    <div class="content">
+      <div class="title">Next Page (<!--ko text:(projects().length)--> <!--/ko-->-<!--ko text:(projects().length+10)--> <!--/ko-->) </div>
+      <div class="description"></div>
+    </div>
+  </div>
+
+                </div>
+            </div>
+                
+        
 	    <!-- Project ends here -->
 	</div>
 	</div>
@@ -526,7 +546,7 @@
 		function Project(options){
 			this.page = {
 				start : 0,
-				pageSize : 10
+				pageSize : 1
 			}
 		 this.filterName = $('#__filterName').val()
 		 if(typeof(this.filterName) == "undefined" || this.filterName == null ){
@@ -564,7 +584,30 @@
 		_classInstance.aPostReqViewModel = common.getViewModel('postAgent');
 		common.aPostReqViewModel = _classInstance.aPostReqViewModel;
 		ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
-  		
+  		$(document).on("click",".pagination",function(){
+            var imgNode= $(this).parents("#_projImg").find(".projectImage");
+            var imgC = Number(imgNode.attr("data-size"));
+            var currImg = Number(imgNode.attr("data-curr"));
+             var $index = Number(imgNode.attr("index"));
+           // src: gallery[0],'data-size':gallery.length,'index':$index
+           
+            var len = _classInstance.viewModel.projects()[$index].gallery.length;
+            if($(this).hasClass("right")){
+                currImg++;
+            }else{
+              currImg--;   
+            }
+            if(currImg<0){
+              currImg=len-1;   
+            }
+            else if(currImg>=len-1){
+                currImg=0;
+            }
+             var img = _classInstance.viewModel.projects()[$index].gallery[currImg];
+           
+             imgNode.attr("src",img);
+             imgNode.attr("data-curr",currImg);
+        });
   		$(document).on('click','._hasDistress_',function(){
   			_classInstance.resetPage();
   			var self = $(this);
@@ -576,71 +619,8 @@
   			}
   			
   			_classInstance.listProjects(true)
-  		})
-		// _classInstance.scroller = ko.bindingHandlers.scroll = {
-
-		//   updating:true,
-		  
-		//   init: function(element, valueAccessor, allBindingsAccessor) {
-		  	
-		//       var self = this
-		//       self.updating =(true);
-		//       ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-		//             $(window).off("scroll.ko.scrollHandler")
-		//             self.updating= (false); 
-		//       });
-		//       $(element).append('<div id="_sc_more" style="height:100px;display:none" hasMore="true"></div>');
-		//       $(element).on('__sc__more', function(e,flag){
-		      		
-		// 		  	 var ele_more = $('#_sc_more');
-		// 		  	 if(typeof(flag) == "undefined"){
-		// 		  	 	return ele_more.attr("hasMore")=='true';
-		// 		  	 }else{
-		// 		  	 	if(flag){
-		// 		  	 		ele_more.show();
-		// 		  	 	}else{
-		// 		  	 		ele_more.hide();
-		// 		  	 	}
-		// 		  	 	ele_more.attr("hasMore",flag);
-		// 		  	 	return flag;
-		// 		  	 }
-		// 		  })
-		//   		},
-
-		//   update: function(element, valueAccessor, allBindingsAccessor){
-
-		//     var props = allBindingsAccessor().scrollOptions
-		//     var offset = props.offset ? props.offset : "0"
-		//     var loadFunc = props.loadFunc
-		//     var load = ko.utils.unwrapObservable(valueAccessor());
-		//     var self = this;
-		    
-		//     if(load){
-		//       element.style.display = "";
-		//       $(window).on("scroll.ko.scrollHandler", function(){
-		      	
-		//         if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
-		//           if(self.updating){
-		          	
-		//           	self.updating =(false);
-
-		//             _classInstance.listProjects(false,function(success){
-		            	
-		//             	self.updating=success;
-		//             	$(element).trigger('__sc__more',success)
-		//             })
-		//           }
-		//         }
-		       
-		//       });
-		//     }
-		//     else{
-		//         element.style.display = "none";
-		//         $(window).off("scroll.ko.scrollHandler")
-		//         self.updating = false
-		//     }
-		//   }
-		//  };
+  		});
+		
 		_classInstance.enViewModel = {
 			bhkArr: ko.observableArray(),
 			typeArr: ko.observableArray(),
@@ -653,7 +633,8 @@
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
 			totalCount : ko.observable(),
-			galleryIndex : ko.observable(0),
+            hasMore:ko.observable(false),
+			galleryIndex : ko.observableArray([]),
 			filters: {
 				displayName:ko.observable("All"),
 				name:ko.observable(_classInstance.filterName),
@@ -716,11 +697,11 @@
 				
 				_classInstance.enquireNow(data);
 			},
-			getNextImage : function(){
+			getNextImage : function($index){
 				_classInstance.viewModel.galleryIndex(_classInstance.viewModel.galleryIndex()+1)
 
 			},
-			getPreviousImage : function(){
+			getPreviousImage : function($index){
 				_classInstance.viewModel.galleryIndex(_classInstance.viewModel.galleryIndex()-1)
 			},
 			
@@ -780,6 +761,7 @@
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;
+            classInstance.viewModel.hasMore(data.page.hasMore);
 	        if(setUpdate){
 	        	
 	       		setUpdate(data.page.hasMore)
@@ -913,9 +895,9 @@
 			page:
 				{"start":0,"pageSize":5}
 			},{},"JSON",function(data){
-
+                 classInstance.viewModel.agents([]);
 	    		if(data.result != null && data.result.length !=0 ){
-	    			classInstance.viewModel.agents([])
+	    			
 
 	    			 ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)	
 	    			 
@@ -929,9 +911,11 @@
 		
 		var classInstance = this;
 		//alert(classInstance.viewModel.filters.type)
+         classInstance.viewModel.hasMore(false);
     	classInstance.viewModel.filters.city(localStorage.getItem("city"));
 	    httpUtils.post("/list-projects-elastic",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
 	       if(data.status==0){
+            classInstance.viewModel.hasMore(data.page.hasMore);
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	}
@@ -956,7 +940,7 @@
 	       classInstance.page.start = Number(data.page.start)+Number(data.page.pageSize);
 	        classInstance.viewModel.start(classInstance.page.start) ;
 	        classInstance.viewModel.pageSize=data.page.pageSize;
-
+            
 	        if(setUpdate){
 	        	
 	       		setUpdate(data.page.hasMore)
