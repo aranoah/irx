@@ -59,12 +59,14 @@
 <% include ../popups/post-ur-req.html.ejs %>
 <% include ../popups/post-ur-req-agent.html.ejs %>
 
-<% include ../popups/request-details.html.ejs %>
+
 <% include ../popups/verification-register.html.ejs %>
 <% include ../popups/error.html.ejs %>
 <% include ../popups/success.html.ejs %>
-<% include ../popups/adv-search-filter.html.ejs %>
-<% include ../popups/contact-info.html.ejs %>
+<% if(locals.req.device.type != 'desktop'){ %>
+    <% include ../popups/adv-search-filter.html.ejs %>
+<%}%> 
+
 <script type="text/javascript">
     $(document).ready(function(){
         <% if(locals.req.device.type == 'desktop'){ %>

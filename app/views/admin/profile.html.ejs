@@ -431,6 +431,11 @@
                          <!-- ko if: $data.hasOwnProperty("name") -->
                             <a class="ui header" data-bind="text:name"></a>
                           <!-- /ko -->
+                          <br>
+                         <!-- ko if: $data.hasOwnProperty("location") -->
+                             <i class="marker icon _csn"></i>
+                            <div class="category _csn" data-bind="text:location.name"></div>
+                          <!-- /ko -->
                          </div>
                          <div class="content right floated">
                            <i class="remove circle outline icon" data-bind="click:function () { $parent.removeLocation($index,id)}"></i>
@@ -463,6 +468,8 @@
                               <!-- ko if: $data.hasOwnProperty("name") -->
                                 <a class="ui header" data-bind="text:name"></a>
                               <!-- /ko -->
+                             
+                              
                               </div>
                               <div class="right floated content" data-bind="click:function () { $parent.addLocation(id)}"><div class="ui mini button">Add</div></div>
                               <div class="content"></div>
