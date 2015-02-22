@@ -414,7 +414,7 @@ PMService.prototype.associateLocation = function(data) {
 								city = city.trim().toLowerCase();
 							}
 						}
-						var city = project.location.city;
+						
 						IRXUserProfileModel.update({"irxId":userId},
 							{
 							$inc:{"locationCounter":1},
