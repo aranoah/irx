@@ -24,13 +24,13 @@
         <div class="two fields">
           <div class="required field">
             <div class="ui left icon input">
-              <input type="text" data-bind="value: userId" placeholder="Username">
+              <input type="text" data-bind="value: userId,valueUpdate: 'afterkeydown'" placeholder="Username">
               <i class="user icon"></i>
             </div>
           </div>
           <div class="required field">
             <div class="ui left icon input">
-              <input type="password" data-bind="value: password" placeholder="Password">
+              <input type="password" data-bind="value: password,valueUpdate: 'afterkeydown'" placeholder="Password">
               <i class="lock icon"></i>
             </div>
           </div>

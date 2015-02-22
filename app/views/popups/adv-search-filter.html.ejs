@@ -25,7 +25,7 @@
     margin: .75rem 0;  padding: 0 1rem;
 }
 .ui.mobile.two.column.page.grid:focus {
-outline: 0 !important;
+	outline: 0 !important;
 }
 .mobileCity{
     padding: 1em .8em !important;left: 15%;
@@ -35,12 +35,19 @@ outline: 0 !important;
     border: 1px solid #cfcfcf;   
 }
 #adv-search-filter .ui-menu-item {
-    padding: 8px;
+    padding: 10px !important;
+	-webkit-padding-start: 0;
+	list-style-type: none;
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+	border-bottom: 1px solid #ededed;
 }
 
 #adv-search-filter .ui-autocomplete {
-    background: #FFF;  border: 1px solid #ededed;
-    width: 240px !important;
+	background: #FFF;
+	border: 1px solid #ededed;
+	width: 240px !important;
+	padding-left: 0 !important;
 }
 </style>
 <div id="adv-search-filter" class="ui modal pop-up">  
@@ -87,34 +94,49 @@ outline: 0 !important;
   </div>
 </div>
 <script>
-  	$(document).ready(function(){       
-       	  var selectorBhk =$("#adv-search-filter").find(".mobile-bhk");
-        	selectorBhk.find(".bhktext").text(sBar.viewModel.bhk()?sBar.viewModel.bhk():"BHK");
-        	selectorBhk.find("input[name='bhk']").val(sBar.viewModel.bhk()?sBar.viewModel.bhk():"");
+  	$(document).ready(function(){
+  		//if (typeof sBar=='undefined'){
+  		//	var sBar='';
+  		//}       
+       	//  var selectorBhk =$("#adv-search-filter").find(".mobile-bhk");
+        //	selectorBhk.find(".bhktext").text(sBar.viewModel.bhk()?sBar.viewModel.bhk():"BHK");
+        //	selectorBhk.find("input[name='bhk']").val(sBar.viewModel.bhk()?sBar.viewModel.bhk():"");
 		
     			//$("#__searchCity").val(sBar.viewModel.city());
-          console.log($city)
+          //console.log($city)
           $("#__searchCity").autocomplete({
             source:$city,
-            appendTo:"#adv-search-filter"
+            appendTo:"#adv-search-filter",
+            select:function(event,ui){
+            	localStorage.setItem("city", ui.item.value);
+            	if(typeof sBar=='undefined')
+		     		var _clss= home;
+		     	else	
+		     		var _clss= sBar;
+
+	     		_clss.viewModel.city(ui.item.value)
+            }
           });
 
-         	$(".mobileCity").dropdown({
-           		onChange: function (val) {
-             		sBar.viewModel.showCity(val);
-      					sBar.viewModel.city(val);
-      					localStorage.setItem("city", val);
-           		}
-       		});
+         	//$(".mobileCity").dropdown({
+           	//	onChange: function (val) {
+             //		sBar.viewModel.showCity(val);
+      		//			sBar.viewModel.city(val);
+      		//			localStorage.setItem("city", val);
+           	//	}
+       		//});
              
          	$(".mobile-bhk>.dropdown").dropdown({
           		onChange: function (val) {
              		sBar.viewModel.bhk(val);
            		}
        		});
-     $("#adv-search-filter .approve").click(function(){
-     	sBar.viewModel.searchF($('#searchForm'));
-     })	;
+		    $("#adv-search-filter .approve").click(function(){
+		    	if(typeof sBar=='undefined')
+		     		home.viewModel.searchFun()
+		     	else	
+		     		sBar.viewModel.searchF($('#searchForm'));
+		    });	
 
    });
 </script>
