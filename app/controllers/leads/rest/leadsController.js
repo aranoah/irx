@@ -41,9 +41,17 @@ leadsController.validate_captureLeads=function(){
     var validateProjectId = ["required"];
     myvalidator.validate("ProjectId",validateProjectId,this.req.body.prjectId);
 
-     var validateMobileNo = ["required"];
+    var validateMobileNo = ["required"];
     myvalidator.validate("mobileNo",validateMobileNo,this.req.body.mobileNo);
     
+    var validateBhk = ["required"];
+    myvalidator.validate("bhk",validateBhk,this.req.body.bhk);
+    
+    var validatePropertyType= ["required"];
+    myvalidator.validate("propertyType",validatePropertyType,this.req.body.propertyType);
+
+    var validateType= ["required"];
+    myvalidator.validate("type",validateType,this.req.body.type);
     console.log(myvalidator.getErrors())
 }
 

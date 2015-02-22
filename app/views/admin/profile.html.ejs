@@ -853,7 +853,9 @@
       },
       formateDate:function(date){
           var then = new Date(date);
-          return then.getDate()+" - "+(then.getMonth()+1)+" - " +then.getFullYear();
+          var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "June",
+              "July", "Aug", "Sep", "Oct", "Nov", "Dec" ];         
+       return then.getDate()+" - "+monthNames[then.getMonth()]+" - " +then.getFullYear();
        },
       previousLeads : function(){
         
