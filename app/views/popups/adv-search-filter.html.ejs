@@ -34,6 +34,14 @@ outline: 0 !important;
     color: rgba(0, 0, 0, 0.8);
     border: 1px solid #cfcfcf;   
 }
+#adv-search-filter .ui-menu-item {
+    padding: 8px;
+}
+
+#adv-search-filter .ui-autocomplete {
+    background: #FFF;  border: 1px solid #ededed;
+    width: 240px !important;
+}
 </style>
 <div id="adv-search-filter" class="ui modal pop-up">  
   <div class="content">
@@ -49,8 +57,8 @@ outline: 0 !important;
         <input type="hidden" data-bind="value:data.origin" value="post-req">  
           <div id="mobile" class="ui inverted menu" style="background:inherit;">
             <h4 class="ui dividing header"  style="border-bottom:0;">Select your filter :</h4>
-          	<div class="item fields" style="position:relative; width:240px !important; height:35px;">
-            	<input type="text" placeholder="Search Location" id="__searchCity" style="padding:1em" />
+          	<div class="item fields" style="position: relative;width: 240px !important;height: 64px;color: #777;box-sizing: border-box;padding: .9em 0;">
+            	<input type="text" placeholder="Search Location" id="__searchCity" style="padding:.8em;width: 100%;border: 1px solid #ddd;" />
             </div>
 
             <div class="item mobile-bhk" style="padding-left: 0;">
@@ -87,7 +95,8 @@ outline: 0 !important;
     			//$("#__searchCity").val(sBar.viewModel.city());
           console.log($city)
           $("#__searchCity").autocomplete({
-            source:$city
+            source:$city,
+            appendTo:"#adv-search-filter"
           });
 
          	$(".mobileCity").dropdown({
