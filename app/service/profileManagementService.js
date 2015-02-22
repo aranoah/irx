@@ -407,12 +407,19 @@ PMService.prototype.associateLocation = function(data) {
 					}
 					if(update){
 						//update user
-						
+						var city = "";
+						if(project.location){
+							city = project.location.city;
+							if(city){
+								city = city.trim().toLowerCase();
+							}
+						}
+						var city = project.location.city;
 						IRXUserProfileModel.update({"irxId":userId},
 							{
 							$inc:{"locationCounter":1},
 							$addToSet:{"locationProjects":project.name,
-									  "locationMapper":{"id":project.id,"name":project.name,"city":project.location.city}}
+									  "locationMapper":{"id":project.id,"name":project.name,"city":city}}
 							},
 							function(err,numberAffected,raw){
 								if(err){
