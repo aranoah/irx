@@ -461,8 +461,13 @@
 						      			<td><!--ko text: builderName--><!--/ko--></td>
 						      		</tr>
 									<tr>
-									  <td class="_unit_">Property Type</td>
-									  <td><!--ko foreach: type--><!-- ko text:$data --><!-- /ko -->&nbsp;<!--/ko--></td>
+									  <td class="_unit_">Property Type <!-- ko text:type.length --><!-- /ko --></td>
+									  <!-- ko if:type.length >1 -->
+									  	<td><!--ko foreach: type--><!-- ko text:$data --><!-- /ko -->&nbsp;<!--/ko--></td>
+									  <!-- /ko -->
+									  <!-- ko if:type.length <=1 -->
+									  	<td><!-- ko text:type --><!-- /ko --></td>
+									  <!-- /ko -->
 									</tr>
 									<tr>
 									  <td class="_unit_">Unit</td>
@@ -843,6 +848,8 @@
       	var bhkStr = '';
       	classInstance.enViewModel.bhkArr([]);
   		classInstance.enViewModel.typeArr([]);
+  		classInstance.enViewModel.bhk();
+  		classInstance.enViewModel.type();
   		classInstance.enViewModel.bhk(classInstance.viewModel.filters.bhk());
 		
   		classInstance.enViewModel.type(classInstance.viewModel.filters.type());

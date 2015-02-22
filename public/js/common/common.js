@@ -586,12 +586,13 @@ Common.prototype.initializeFromLocalStorage = function(viewModel) {
 Common.prototype.resetForm = function(viewModel,form) {
   var classInstance = this
   viewModel.data.proName("");
-
+  viewModel.data.locality("");
   viewModel.data.projectId("");
   viewModel.data.agentId("");
   viewModel.data.bhk("");
   viewModel.data.type(classInstance.sessType);
-  
+  viewModel.data.bhkArr([]);
+  viewModel.data.typeArr([]);
   viewModel.data.propertyType("");
   form.find('.ui.dropdown').dropdown('restore defaults');
       
