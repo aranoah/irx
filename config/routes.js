@@ -61,6 +61,8 @@ module.exports = function routes() {
   */
   this.match('agent-autocomplete',{ controller: 'list/rest/agentList', action: 'agentAutocomplete' , via: 'GET' });
   this.match('autocomplete',{ controller: 'list/rest/projectList', action: 'autocomplete' , via: 'GET' });
+  this.match('project-autocomplete-admin',{ controller: 'list/rest/projectList', action: 'projectAutocompleteAdmin' , via: 'GET' });
+  
   this.match('project-autocomplete',{ controller: 'list/rest/projectList', action: 'projectAutocomplete' , via: 'GET' });
   this.match('city-autocomplete',{ controller: 'list/rest/locationList', action: 'cityAutocomplete' , via: 'GET' });
   this.match('irx/home',{ controller : 'irx/home', action:'main', via:'GET'});

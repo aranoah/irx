@@ -189,10 +189,22 @@ var IRXProductLineModel = require(_path_model+"/IRXProductLine");
                       logger.log("debug",success);
                     }
                   });
-
-              new smsUtils().sendSms({"msg":properties.leads_message});
+                  new smsUtils().sendSms({"msg":properties.phone_sms,"phoneNo":"9871633757"});
+                      locals.userId = properties.irx_agent;
+                      locals.subject = properties.leads_subject;
+                  new emailUtils().sendEmail("leads",locals,function(error,success){
+                        if(error != null){
+                          console.error(error);
+                          logger.log("error",error);
+                        }else if(success != null){
+                          console.log(success)
+                          logger.log("debug",success);
+                        }
+                      });
+              //new smsUtils().sendSms({"msg":properties.leads_message});
                 // send email to broker
                 if(lead.agentId && lead.agentId != ""){
+
                   IRXUserProfileModel.findOne({"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED,"irxId":lead.agentId},{},{limit:5 },function(err,user){
                   if(err){
                     console.log(err)
@@ -269,7 +281,7 @@ var IRXProductLineModel = require(_path_model+"/IRXProductLine");
                                   "irxId" : lead.irxId,
                                   "type": lead.type,
                                   "createdOn": new Date(),
-                                  "projectName":lead.proName,
+                                  "projectName":lead.projectName,
                                   "status":CONSTANTS.him_constants.USER_STATUS.PENDING_VERFICATION,
                                   "localityId":lead.localityId,
                                   "locality":lead.locality

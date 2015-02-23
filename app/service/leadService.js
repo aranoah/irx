@@ -86,7 +86,11 @@ LeadService.prototype.captureLeads = function(data) {
 			
 			} else {
 				if(savedData){
-					var password =  _selfInstance.getCustomMongoId("P");
+
+					var password = "";
+					if(data.createLogin && data.createLogin=="true"){
+					password= _selfInstance.getCustomMongoId("P");
+					}
 					var message = "";
 					
 					if(savedData.origin==_selfInstance.leadType.post){
@@ -98,7 +102,8 @@ LeadService.prototype.captureLeads = function(data) {
 					var qObj = {
 						"action":MAIL_TYPE.LEAD,
 						"data" : savedData.id,
-						"password" :password
+						"password" :password,
+						"phoneNum":savedData.mobileNo
 					}
 					_app_context.sqs.sendMessage({
                 		"QueueUrl" : _app_context.qUrl,

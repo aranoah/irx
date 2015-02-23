@@ -60,14 +60,70 @@ projectController.listProjects = function() {
    
     projectListService.listProjects(userFilters);
 };
-
-projectController.projectAutocomplete = function() {  
+projectController.projectAutocompleteAdmin = function() {  
   var _selfInstance = this;
  var text = this.req.query.text;
  var type = this.req.query.type;
  var city = this.req.query.city;
- if(type && type=='location'){
-  _selfInstance.locationAutocomplete(city);
+ 
+    _app_context.esClient.search({
+    index: 'irx_schema',
+    type:"irx-eproduct",
+    body: {
+        fields : ["id", "name","builderName","bhk","type","productType","location.city","location.name","location.locality","userId"],
+        query: {
+            bool:{
+                must:[{
+                    bool:{
+                        should:[{
+                                prefix: {
+                                    name: text
+                                } 
+                                  },
+                               {
+                                 match:{
+                                     name:text
+                                }
+                              }]
+                        }
+                    },
+                    {
+                      match: {
+                        "location.city": city
+                        
+                      } 
+                    },
+                    {
+                      match :{
+                        productType: "project"
+                      }
+                    }]
+                }
+         
+            },
+            highlight : {
+                pre_tags : ["<b>"],
+                post_tags : ["</b>"],
+                fields : {
+                    name : {}
+                }
+            }
+    }
+  }).then(function (resp) {
+    var hits = resp.hits.hits;
+   _selfInstance.processJson(STATUS.OK.code,STATUS.OK.msg,hits,null);
+}, function (err) {
+   _selfInstance.processJson(STATUS.SERVER_ERROR.code,STATUS.SERVER_ERROR.msg,err,null);
+});
+}
+projectController.projectAutocomplete = function() {  
+  var _selfInstance = this;
+ var text = this.req.query.text;
+ var type1 = this.req.query.type;
+ var city = this.req.query.city;
+  console.log("yhwegfhjerjkgkjdjf",city,text,type1)
+ if(type1 && type1=='location'){
+  _selfInstance.locationAutocomplete(city,text);
   return;
  }
     _app_context.esClient.search({
@@ -115,9 +171,10 @@ projectController.projectAutocomplete = function() {
    _selfInstance.processJson(STATUS.SERVER_ERROR.code,STATUS.SERVER_ERROR.msg,err,null);
 });
 }
-projectController.locationAutocomplete = function(city) {  
+projectController.locationAutocomplete = function(city,text) {  
   var _selfInstance = this;
- var text = this.req.query.text;
+  console.log("================================================================");
+ console.log("yhwegfhjerjkgkjdjf",city,text)
     _app_context.esClient.search({
     index: 'irx_schema',
     type:"irx-eproduct",
@@ -174,6 +231,7 @@ projectController.locationAutocomplete = function(city) {
 
 projectController.autocomplete = function() {  
   var _selfInstance = this;
+  var city = this.req.query.city;
   var text = this.req.query.text;
     _app_context.esClient.search({
     index: 'irx_schema',

@@ -24,8 +24,8 @@ var smtpTransport = nodemailer.createTransport("SMTP",{
    
    // port:25,
    auth: {
-       user: "lovetoleo.1986@gmail.com",
-       pass: "lovetoleo"
+       user: "irxproperty@gmail.com",
+       pass: "passwd123"
     }
 });
 _app_context.emailSender= smtpTransport;  

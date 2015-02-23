@@ -29,12 +29,12 @@ var properties = {
 	"leads_subject":"A new lead for you",
 	"leads_message" :"yo yo !!",
 	"leads_success_subject" : "Your requirement has been successfully published",
-	"phone_sms" : "Your requirement has been successfully published",
+	"phone_sms" : "Dear Karan please enter this verification code 4567 to verify your mobile no in hereiamconnect.",
 	"pro_det_url" : "http://localhost:3000/project/",
 	"detail_subject" : "Project details",
 	"user_detail_subject" : "Agent Details",	
 	"claim_profile_subject" : "Profile Claim",
-	"irx_agent" : "puneetsharma41@gmail.com",
+	"irx_agent" : "jndlkaran@gmail.com",
 	"user_image_url" : "https://s3-ap-southeast-1.amazonaws.com/irx/"
 }
 module.exports=properties

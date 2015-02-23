@@ -305,7 +305,7 @@
                       <div class="item">
                          <div class="content _prj_lst">
                          <!-- ko if: $data.hasOwnProperty("name") -->
-                            <a class="ui header _ellipsis" data-bind="text:name"></a>
+                            <a class="ui header _ellipsis" data-bind="text:name,attr:{href:'/project/'+_id}" target="_blank"></a>
                           <!-- /ko -->
                           <div class="description" style="margin:0;color:#999;">
                           <!-- ko if: $data.hasOwnProperty("builderName") -->
@@ -320,7 +320,9 @@
                           </div>
                          </div>
                          <div class="content right floated">
+                         <!-- ko if:$data.hasOwnProperty("bhk") && $data.bhk.length >0 -->
                           <i class="add circle icon _bhk_" data-bind="click:function (){$root.editBhk($index)}"></i>
+                          <!-- /ko -->
                           <i class="remove circle icon" data-bind="click:function () { $parent.removeProject($index,id)}"></i>
                          </div>
                           <div class="content" data-bind="attr:{'data-id':id}" style="padding-top:15px">
@@ -883,7 +885,7 @@
       editBhk : function(index){
        
         var pro = classInstance.viewModel.associatedProjects()[index()];
-        console.log(pro)
+        
         classInstance.viewModel.currContext(pro.id)
         classInstance.viewModel.distress([])
         var bhk = pro.bhk;
@@ -1037,8 +1039,8 @@
    }
   AdminProfile.prototype.getProjectListingAutocomplete=function(text,request,response){
       var classInstance = this;
-
-      httpUtils.get("/project-autocomplete",
+     
+      httpUtils.get("/project-autocomplete-admin",
         {"text":text,"city":classInstance.viewModel.city},"JSON",function(data){
             classInstance.viewModel.projects([]);
         if(data.status==0){

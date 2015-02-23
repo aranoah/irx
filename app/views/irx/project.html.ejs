@@ -355,6 +355,9 @@ margin-right: 10px;
 	    		  </div>
 			      <div class="description">
 			        Projects : 
+			        <span class="_locProj" data-bind="visible : projects.length==0" style="margin-right:0;">
+				 		<span class="header">Not Available</span>
+				    </span>
 			        <span data-bind="foreach : projects" style="margin-right:0;">
 				        <!-- ko if:$index()<=2 -->
 				        	<!-- ko if:$index()!=0 -->
@@ -370,6 +373,9 @@ margin-right: 10px;
 			       </div>
 			       <div class="description">
 			        Operating Localities : 
+			         <span class="_locProj" data-bind="visible : locationProjects.length==0" style="margin-right:0;">
+				 		<span class="header">Not Available</span>
+				    </span>
 			        <span data-bind="foreach : locationProjects" style="margin-right:0;">
 				        <!-- ko if:$index()<=2 -->
 				        	<!-- ko if:$index()!=0 -->
@@ -439,7 +445,7 @@ margin-right: 10px;
 				  <div id="_projImg" class="ui small image">
 				       <!--ko if:$data.gallery && $data.gallery!=null && $data.gallery.length>0  -->
 
-				       <img src="" data-bind="attr:{src: gallery[0],'data-size':gallery.length,'index':$index}" data-curr="0" class='projectImage'>
+				       <img src="" data-bind="attr:{src: gallery[0],'data-size':gallery.length,'index':$index}" data-curr="0" class='projectImage' style="height:142px">
 				       <div class="slider">
 				        	<i class="chevron right icon pagination" data-bind="visible:$data.gallery.length>1" ></i>
 					        <span><!--ko text:$data.gallery.length --><!--/ko--> PHOTO   </span>
@@ -807,7 +813,7 @@ margin-right: 10px;
       } else if(amount.length==6 || amount.length==7){
         amount = Number(amount)/100000;
         text = amount+"Lac";
-      } else if(amount.length>8){
+      } else if(amount.length>=8){
         amount = Number(amount)/10000000;
         text = amount+"Cr";
       } else {
