@@ -99,6 +99,9 @@
   <% include ../partials/header.html.ejs %>
 
   	<% include ../partials/subhome.html.ejs %>
+  	<pre>
+  		<%= (locals.req.query)%>
+  	</pre> 
 
   		<div id="collections" class="ui very relaxed stackable page grid lower-portion">
   			<div class="row">
@@ -679,6 +682,9 @@
 		    home.viewModel.showCity("Gurgaon")
 		  }
 		$("#mainSearchCity").append($city);
+		<% if(!locals.session.user){%>
+
+		<%}%>	
 	});
 
 	Home.prototype.getPriceText = function(amount) {
