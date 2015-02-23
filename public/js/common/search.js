@@ -6,7 +6,8 @@
     },
     this.type={
       "irx-eproduct":"project",
-      "irx-euser":"user"
+      "irx-euser":"agent",
+      "location" :"locality"
     }
   }
   SearchBar.prototype.getViewModel = function(){
@@ -305,17 +306,17 @@
                       if(ui.item.productType == 'project'){
                         
                         _classInstance.viewModel.sProAgents(true);
-                      _classInstance.viewModel.projectId(ui.item.id);
+                        _classInstance.viewModel.projectId(ui.item.id);
                       }else{
                          
                         _classInstance.viewModel.sLocAgents(true);
                         _classInstance.viewModel.isLocality(true)
-                      _classInstance.viewModel.projectId(ui.item.id);
+                        _classInstance.viewModel.projectId(ui.item.id);
                       }
                       
                     } else{
-                       _classInstance.viewModel.sProAgents(false);
-                      _classInstance.viewModel.projectId("");
+                        _classInstance.viewModel.sProAgents(false);
+                        _classInstance.viewModel.projectId("");
                       location.href="/"+ui.item.irxId;
                     }
                     
@@ -348,14 +349,21 @@
               $(".ui-widget-content .ui-state-focus");
               var type="";
               var icon ="";
+
               if(item.type){
                 type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+              }
+              if(item.productType && item.productType=="location"){
+                type="<div class='description itLabel'>"+_classInstance.type['location']+"</div>"
               }
 
               if(item.type=='irx-euser') {
                 icon = "<i class='icon user right floated'></i>"
               }else {
                 icon ="<i class='icon building outline right floated'></i>"
+                if(item.productType && item.productType=="location"){
+                  icon="<i class='icon marker location right floated'></i>"
+                }
               }
               var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
               if(item.id == -1){
