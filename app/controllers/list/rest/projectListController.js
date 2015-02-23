@@ -74,7 +74,7 @@ projectController.projectAutocomplete = function() {
     index: 'irx_schema',
     type:"irx-eproduct",
     body: {
-        fields : ["id", "name","builderName","bhk","type","productType","location.city","location.name","location.locality"],
+        fields : ["id", "name","builderName","bhk","type","productType","location.city","location.name","location.locality","userId"],
         query: {
             bool:{
                 must:[{
@@ -180,22 +180,33 @@ projectController.autocomplete = function() {
     type:"irx-euser,irx-eproduct",
     body: {
       fields : ["id", "name", "type","productType","irxId"],
-      query: {
-        
-        bool:{
-            should:[{
-                prefix: {
-                    name: text
-                } 
-                  },
-               {
-                 match:{
-                     name:text
-                }
-              }]
-        }
-                    
-      },
+      query :{
+        bool : {
+        must: 
+          [
+            {
+                    bool:{
+                        should:[{
+                                prefix: {
+                                    name: text
+                                } 
+                                  },
+                               {
+                                 match:{
+                                     name:text
+                                }
+                              }]
+                        }
+                    },
+            {
+              match: {
+                "location.city": city
+                
+              } 
+            }
+         ]
+       }
+     },
       highlight : {
         pre_tags : ["<b>"],
         post_tags : ["</b>"],
