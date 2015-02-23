@@ -68,7 +68,7 @@
                   <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
               <%}%>
               <% if(locals.session.user.type!="agent"){ %>
-                  <a class="item" href="/admin/profile"><i class="setting icon"></i>Upgrade Agents</a>
+                  <div class="item _upgrd"><i class="setting icon"></i>Upgrade Agents</div>
               <%}%>
             <a class="item" href="/irx/reset"><i class="undo icon"></i>Reset Password</a>
             <div class="item" id="_logout_"><i class="sign out icon"></i>Logout</div>

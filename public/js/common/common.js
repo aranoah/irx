@@ -58,6 +58,7 @@ Common.prototype.getViewModel = function(type) {
     };
     return viewModel;
 }
+
 Common.prototype.init = function(first_argument) {
 	var classInstance = this;
 	
@@ -692,7 +693,23 @@ Common.prototype.captureLeads = function(type) {
       }
 		
 	})
-};	
+};
+Common.prototype.upgradeUser=function(){
+  httpUtils.post("/upgrade-user", {},{ },"JSON",function(data){
+      var obj={
+        heading:"Upgrade Successfully"
+      }
+      if(data.status==0){
+        obj.content="Congratulations !! you have been upgraded successfully to agent."
+      }else{
+        obj.content="you already upgraded";
+      }
+      if(httpUtils.checkStatus(data,true,true,obj,obj)){
+        window.location.reload();
+      }
+    
+  })
+}	
 var common =null;
 function getAutocmpleteResult(reqData,request,response){
     httpUtils.get("/project-autocomplete",reqData,"JSON",function(data){
@@ -763,6 +780,9 @@ $(document).ready(function(){
             common.viewModelSell.data.action(action)
         }
     }
+    $("._upgrd").click(function(){
+      common.upgradeUser();
+    })
     // function _autocomplete(selector){
     //     selector.autocomplete({
     //         source: function(request, response){

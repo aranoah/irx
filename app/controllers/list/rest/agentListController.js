@@ -47,9 +47,18 @@ agentController.agentAutocomplete = function() {
     type:"irx-euser",
     body: {
       query: {
-        match: {
-          name: text
-        }
+                    bool:{
+                        should:[{
+                                prefix: {
+                                    name: text
+                                } 
+                                  },
+                               {
+                                 match:{
+                                     name:text
+                                }
+                              }]
+                        }
       }
     }
   }).then(function (resp) {

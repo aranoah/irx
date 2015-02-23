@@ -26,8 +26,17 @@ locationController.cityAutocomplete = function() {
     type:"irx-elocation",
     body: {
       query: {
-        match: {
-          name: text
+       bool:{
+            should:[{
+                prefix: {
+                    name: text
+                } 
+                  },
+               {
+                 match:{
+                     name:text
+                }
+              }]
         }
       }
     }
