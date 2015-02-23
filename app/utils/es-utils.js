@@ -30,7 +30,9 @@ _app_context.esClient.index({
 		  body: {
 		    name: user.name,
 		    userId: user.irxId,
-		    location: user.locationMapper
+		    location: user.locationMapper,
+		    id:user.irxId,
+		    irxId:user.irxId
 		  }
 		}, function (err, resp) {
 		 if(err){
