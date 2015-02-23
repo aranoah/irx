@@ -556,7 +556,7 @@
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId,bhk:bhk,_type:item._type};
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId,bhk:bhk,_type:item._type,type:type};
           }));
         }
     })

@@ -542,8 +542,14 @@ Common.prototype.requestUserDetails = function(form) {
 Common.prototype.setpropertiesOfForm = function(ui,viewModel) {
   viewModel.data.bhkArr([])
   viewModel.data.typeArr([])
-  ko.utils.arrayPushAll(viewModel.data.bhkArr,ui.item.bhk);
-   ko.utils.arrayPushAll(viewModel.data.typeArr,ui.item.type);
+  if(ui.item.bhk){
+    ko.utils.arrayPushAll(viewModel.data.bhkArr,ui.item.bhk);
+  }
+if(ui.item.type){
+    ko.utils.arrayPushAll(viewModel.data.typeArr,ui.item.type);
+  }
+   
+
 //viewModel.data.bhk(ui.item.id)
 };
 Common.prototype.captureLeadsProject = function(form) {
@@ -743,7 +749,7 @@ function getAutocmpleteResult(reqData,request,response){
                 if(item.fields.productType &&  item.fields.productType.length >0){
                     productType = item.fields.productType[0];
                 }
-                return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId,bhk:bhk,type:type};
+                return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId,bhk:bhk,type:type,_type:item.type};
             }));
         }
     });
