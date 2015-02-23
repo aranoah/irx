@@ -145,15 +145,16 @@ module.exports = function routes() {
   // this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("agent-listing",{controller: 'irx/agent', action:'main', via:'GET'});
   this.match("project-listing",{controller: 'irx/project', action:'main', via:'GET'});
+ 
   this.match("/irx/404", {controller:'irx/noResult', action:'main', via:'GET'});
 
   this.match("project-detailing",{controller: 'irx/projdet', action:'main', via:'GET'});
   this.match("/loginPage",{controller: 'irx/loginPage', action:'main', via:'GET'});
   this.match("/admin/profile" ,{controller: 'admin/profile', action:'main', via:'GET'})
-  
+   this.match("/project2/aniyus",{controller: 'irx/project', action:'main2', via:'GET'});
   this.match(":userId",{controller: 'profile/public', action:'main', via:'GET'});
   this.match("/project/:projectId",{controller: 'project/project', action:'main', via:'GET'});
-  
+ 
   /*
   * root
   */

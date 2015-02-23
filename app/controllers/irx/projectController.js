@@ -37,4 +37,13 @@ projectController.main = function() {
   this.render("irx/project"); 
 
 }
+
+projectController.main2 = function() {
+  console.log("In main project Method",this.req.query)
+  this.title = "Project-Listing page";
+  
+  this.requestObj = this.req.query;
+  this.render("irx/proj"); 
+
+}
 module.exports = projectController;

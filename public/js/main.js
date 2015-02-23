@@ -140,6 +140,17 @@ $(document).ready(function () {
   // });
 
 });
+function startLoader(xhr){
+  // if($('#__CONTEXT_STORE_ID__').length>0){
+  //      xhr.setRequestHeader('contextStoreId', $('#__CONTEXT_STORE_ID__').val());
+  //   }
+  // $('.version').text(NProgress.version);
+  NProgress.start();
+}
+
+function stopLoader() {
+  NProgress.done();
+}
 
 $(document)
   .ready(function() {
@@ -203,4 +214,10 @@ $(document)
     //   _parent.find('.'+_self.attr("attr-tab")).css('display','inline-block');
     // });
      $("._ld_DCTY_DTA:not(.loaded)").addClass("loaded").append($city);
+
+     $.ajaxSetup({
+
+      beforeSend: startLoader ,
+      complete:stopLoader
+    });
   });

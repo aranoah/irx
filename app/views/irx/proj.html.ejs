@@ -99,7 +99,9 @@ margin-right: 10px;
 	<% locals.uiContext.menu=true %>
   	<% include ../partials/header.html.ejs %>
   	<% include ../popups/leadsFilter.html.ejs %>
-<div id="projListing">
+ 
+<div id="projListing" >
+
   	<div id="projectContent">
   		<% if(locals.req.device.type == 'desktop'){ %>
   			<div class="fixedwidth">
@@ -244,7 +246,7 @@ margin-right: 10px;
 	  	<% } %>
                 
                 
-	  	<div class="_filters_ _hide_" style="text-align:left;display:none" data-bind="visible:isInitPro()">
+	  	<div class="_filters_ _hide_" style="text-align:left;" style="display:none" data-bind="visible:isInit()">
 	  		<span class="ui teal label" data-bind="visible:filters.bhk() != ''">
 	  		BHK :
 	  		<!--ko text: filters.bhk--><!--/ko-->
@@ -285,7 +287,7 @@ margin-right: 10px;
 	  	
 	  	<% if(locals.req.device && locals.req.device.type != 'desktop'){ %>
 	  			
-	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects,visible:isInitPro()" style="margin:0;">
+	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects" style="margin:0;">
 				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
 	  			<div class="item" style="margin:0 0 .5rem;">
 					<div class="content" style="background:#fff;padding:1rem;box-shadow:0 0 3px rgba(0,0,0,0.2);">
@@ -330,15 +332,15 @@ margin-right: 10px;
 	  	
 	  	<!-- ends here -->
 	    <!-- Project Listing goes here -->
-	   <div class="_pnf"  data-bind="visible:(projects().length==0 && isInitPro())" style=" background:#fff;padding: 1rem;color: #7b7b7b;display:none;
+	    <div class="_pnf"  data-bind="visible:(projects().length==0 && isInit())" style=" background:#fff;padding: 1rem;color: #7b7b7b;display:none;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;">
 	    	No Search Results for this search. <span style="color:#00B2F3;text-transform:capitalize"> Showing agents in  <!-- ko text:filters.city()--><!-- /ko --></span>
 	    </div>
-	    <div class="" data-bind="visible:(agents().length==0 && projects().length==0) && isInitAg()" style=" background:#fff;padding: 1rem;color: #7b7b7b;
+	    <div class="" data-bind="visible:(agents().length==0 && projects().length==0) && isInit()" style=" background:#fff;padding: 1rem;color: #7b7b7b;display:none;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;">
 	    	No Search Results for this search. <span style="color:#00B2F3;text-transform:capitalize"> 
 	    </div>
-	    <div class="ui cards sc grid _hide_ " data-bind="foreach : agents,visible:isInitAg()" style="margin:0;">
+	    <div class="ui cards sc grid _hide_ " data-bind="foreach : agents" style="margin:0;">
 	    	
 			<div class="card">
 			    <div class="ui image tiny">
@@ -424,7 +426,7 @@ margin-right: 10px;
 		<% if(locals.req.device.type == 'desktop'){ %>
 	    <div class="ui relaxed divided items _hide_ grid"style="margin:0;">
 	    	<input type="hidden" value="project" id="_searchTypeG_">
-	    	<div class="twelve wide column _hide_" data-bind="foreach : projects,visible:isInitPro()" style="padding:0;">
+	    	<div class="twelve wide column _hide_" data-bind="foreach : projects" style="padding:0;">
 	    		<div class="ui items proj-listing column "><!-- 
   				<a class="ui green ribbon label">Distress</a> -->
   				<div style="width:100%">
@@ -557,6 +559,8 @@ margin-right: 10px;
 	</div>
 	</div>
 	</div>
+
+	
 	<script type="text/javascript">
 
 		function Project(options){
@@ -564,6 +568,7 @@ margin-right: 10px;
 				start : 0,
 				pageSize : 10
 			}
+			this.initUi=false;
 		 this.filterName = $('#__filterName').val()
 		 if(typeof(this.filterName) == "undefined" || this.filterName == null ){
 		 	this.filterName = "";
@@ -646,8 +651,7 @@ margin-right: 10px;
 			projectName:ko.observable()
 		},
 		_classInstance.viewModel = {
-			isInitPro:ko.observable(false),
-			isInitAg:ko.observable(false),
+			isInit:ko.observable(false),
 			projects: ko.observableArray(),
 			agents : ko.observableArray(),
 			totalCount : ko.observable(),
@@ -727,9 +731,9 @@ margin-right: 10px;
 			start: ko.observable()
 		}
 		ko.applyBindings(_classInstance.enViewModel,document.getElementById('leadsF'))	
-		 ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
+		ko.applyBindings(_classInstance.viewModel,document.getElementById('projListing'));
 
-	
+	   
 		 if(_classInstance.viewModel.filters.locationFlag()=='true'){
 		 	
 		 	_classInstance.listProjectsOfLocation(true);
@@ -760,6 +764,7 @@ margin-right: 10px;
           httpUtils.post("/list-projects",
                         {filters:data,page:classInstance.page},
                         {},"JSON",function(data){
+              classInstance.isInit(true);          	
            if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
 	       	}
@@ -913,7 +918,6 @@ margin-right: 10px;
 			page:
 				{"start":0,"pageSize":5}
 			},{},"JSON",function(data){
-				classInstance.viewModel.isInitAg(true)
                  classInstance.viewModel.agents([]);
 	    		if(data.result != null && data.result.length !=0 ){
 	    			
@@ -933,10 +937,8 @@ margin-right: 10px;
          classInstance.viewModel.hasMore(false);
     	classInstance.viewModel.filters.city(localStorage.getItem("city"));
 	    httpUtils.post("/list-projects-elastic",{filters:classInstance.viewModel.filters,page:classInstance.page},{},"JSON",function(data){
-	    	classInstance.viewModel.isInitPro(true);   
+	    	  classInstance.viewModel.isInit(true);   
 	       if(data.status==0){
-
-	       	
             classInstance.viewModel.hasMore(data.page.hasMore);
 	       	if(typeof(replace) != undefined && replace){
 	       		classInstance.viewModel.projects([]);
