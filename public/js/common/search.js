@@ -349,21 +349,26 @@
               $(".ui-widget-content .ui-state-focus");
               var type="";
               var icon ="";
-
-              if(item.type){
-                type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
-              }
+              
               if(item.productType && item.productType=="location"){
-                type="<div class='description itLabel'>"+_classInstance.type['location']+"</div>"
+                item._type="location";
+
               }
 
-              if(item.type=='irx-euser') {
+              if(item._type){
+                type="<div class='description itLabel'>"+_classInstance.type[item._type]+"</div>"
+              }
+              
+
+              if(item._type=='irx-euser') {
                 icon = "<i class='icon user right floated'></i>"
               }else {
+
                 icon ="<i class='icon building outline right floated'></i>"
                 if(item.productType && item.productType=="location"){
-                  icon="<i class='icon marker location right floated'></i>"
+                  icon ="<i class='icon marker location right floated'></i>"
                 }
+               
               }
               var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
               if(item.id == -1){
@@ -551,7 +556,7 @@
             if(item.fields.productType &&  item.fields.productType.length >0){
               productType = item.fields.productType[0];
             }
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId,bhk:bhk,type:type};
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,locationId:locationId,bhk:bhk,_type:item._type};
           }));
         }
     })
@@ -580,7 +585,7 @@
             if(item.fields && item.fields.irxId && item.fields.irxId.length >0){
               irxId = item.fields.irxId[0]
             }
-            return {id:item.fields.id[0],name:name,type:item._type,productType:productType,irxId:irxId};
+            return {id:item.fields.id[0],name:name,_type:item._type,productType:productType,irxId:irxId};
           }));
         }
     })
