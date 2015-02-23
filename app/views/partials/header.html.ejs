@@ -65,7 +65,10 @@
           <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
           <div class="menu" style="left: -70px;top: 50px;">
                <% if(locals.session.user.type=="agent"){ %>
-            <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
+                  <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
+              <%}%>
+              <% if(locals.session.user.type!="agent"){ %>
+                  <a class="item" href="/admin/profile"><i class="setting icon"></i>Upgrade Agents</a>
               <%}%>
             <a class="item" href="/irx/reset"><i class="undo icon"></i>Reset Password</a>
             <div class="item" id="_logout_"><i class="sign out icon"></i>Logout</div>
