@@ -543,8 +543,14 @@ Common.prototype.requestUserDetails = function(form) {
 Common.prototype.setpropertiesOfForm = function(ui,viewModel) {
   viewModel.data.bhkArr([])
   viewModel.data.typeArr([])
-  ko.utils.arrayPushAll(viewModel.data.bhkArr,ui.item.bhk);
-   ko.utils.arrayPushAll(viewModel.data.typeArr,ui.item.type);
+  if(ui.item.bhk){
+    ko.utils.arrayPushAll(viewModel.data.bhkArr,ui.item.bhk);
+  }
+if(ui.item.type){
+    ko.utils.arrayPushAll(viewModel.data.typeArr,ui.item.type);
+  }
+   
+
 //viewModel.data.bhk(ui.item.id)
 };
 Common.prototype.captureLeadsProject = function(form) {
