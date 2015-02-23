@@ -47,7 +47,7 @@ agentController.agentAutocomplete = function() {
     type:"irx-euser",
     body: {
       query: {
-        prefix: {
+        match: {
           name: text
         }
       }

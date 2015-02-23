@@ -128,7 +128,10 @@
              
          	$(".mobile-bhk>.dropdown").dropdown({
           		onChange: function (val) {
-             		sBar.viewModel.bhk(val);
+             		if(typeof sBar=='undefined')
+		     		home.viewModel.bhk(val);
+		     	else	
+		     		sBar.viewModel.bhk(val);
            		}
        		});
 		    $("#adv-search-filter .approve").click(function(){
