@@ -73,7 +73,7 @@ BaseController.prototype.ensureAuthenticated=function(isUi) {
         return true; 
     }else{
         if(isUi){
-             this.res.redirect('/loginPage');  
+             this.res.redirect('/irx/home?req=login');  
         }else{
             this.res.json({"status":401,"message":"Please login",records:null,"total":null});  
         }

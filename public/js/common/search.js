@@ -589,9 +589,7 @@ $(document).ready(function(){
     }
 
    sBar.setPlaceholder(searchType)
-   $("._ld_DCTY_DTA").find('.item').remove();
 
- $("._ld_DCTY_DTA").append($city);
   var city = localStorage.getItem("city");
   if(city){
     sBar.viewModel.showCity(city)

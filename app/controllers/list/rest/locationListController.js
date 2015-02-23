@@ -26,7 +26,7 @@ locationController.cityAutocomplete = function() {
     type:"irx-elocation",
     body: {
       query: {
-        prefix: {
+        match: {
           name: text
         }
       }

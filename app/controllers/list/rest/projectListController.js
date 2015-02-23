@@ -79,7 +79,7 @@ projectController.projectAutocomplete = function() {
         bool:{
           must:[
             {
-              prefix: {
+              match: {
                 name: text
               } 
             },
@@ -121,7 +121,7 @@ projectController.locationAutocomplete = function(city) {
         must: 
           [
             {
-              prefix: {
+              match: {
                 name: text
               }
             },
@@ -165,7 +165,7 @@ projectController.autocomplete = function() {
     body: {
       fields : ["id", "name", "type","productType","irxId"],
       query: {
-        prefix: {
+        match: {
           name: text
         }
       },

@@ -28,6 +28,14 @@ span.ui.teal.label {
 .content.addr-ess {
     height: 22px;
 }
+input[type=checkbox], input[type=radio]{
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding: 0;
+  width: 21px;
+  height: 14px;
+}
 /* Rupee */
  @font-face {
  font-family:rupee; 
