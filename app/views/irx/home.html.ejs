@@ -367,7 +367,8 @@
 		
 		this.type={
 	      "irx-eproduct":"project",
-	      "irx-euser":"user"
+	      "irx-euser":"user",
+	      "location":"locality"
 	    }
 	    this.parent = "homescreen"
 	}
@@ -530,14 +531,20 @@
 	                $(".ui-widget-content .ui-state-focus");
 	                var type="";
 	                var icon ="";
-	                if(item.type){
-	                  type="<div class='description itLabel'>"+_classInstance.type[item.type]+"</div>"
+	                if(item.productType && item.productType=="location"){
+               			 item._type="location";
+					}
+	                if(item._type){
+	                  type="<div class='description itLabel'>"+_classInstance.type[item._type]+"</div>"
 	                }
 
-	                if(item.type=='irx-euser') {
+	                if(item._type=='irx-euser') {
 	                  icon = "<i class='icon user right floated'></i>"
 	                }else {
 	                  icon ="<i class='icon building outline right floated'></i>"
+	                  if(item.productType && item.productType=="location"){
+		                 icon ="<i class='icon marker location right floated'></i>"
+		              }
 	                }
 	                var data = "<a class='item'>"+icon+"<div class='content'><div class='itLabel header'>"+item.name+"</div>"+type+"</div></div></a>"
 	                if(item.id == -1){
@@ -615,7 +622,7 @@
               productType = item.fields.productType[0];
             }
            
-            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue};
+            return {id:item.fields.id[0],name:name,location:location,productType:productType,locationName:locationName,real:nameValue,_type:item._type};
           }));
         }
     })
@@ -651,7 +658,7 @@
               irxId = item.fields.irxId[0]
             } 
 
-            return {id:id,name:name,type:item._type,productType:productType,irxId:irxId};
+            return {id:id,name:name,_type:item._type,productType:productType,irxId:irxId};
           }));
         }
     })
