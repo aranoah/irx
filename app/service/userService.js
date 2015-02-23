@@ -33,6 +33,7 @@ var IRXReviewInvitationModel = require(_path_model+"/IRXReviewInvitation");
 var IRXReviewModel = require(_path_model+"/IRXReview");
 var IRXLastVisitedModel = require(_path_model+"/IRXLastVisited");
 var emailUtils = require(_path_util+"/email-utils.js");
+var esUtils = require(_path_util+"/es-utils.js")
 var emailTemplates = require('email-templates');
 var mongoose = require('mongoose');
 
@@ -122,20 +123,21 @@ UserService.prototype.registerUser = function(user) {
 **/
 UserService.prototype.verifyUser = function(data) {
 	logger.log("debug","In verifyUser")
-	console.log()
+	console.log("1")
 	// Make a database entry
 	var mongoose = require('mongoose');
 	var verificationModel = IRXVerificationModel;
 	var User = IRXUserProfileModel;
 	var _selfInstance = this;
 	var updateObj = {$set:{"status":CONSTANTS.him_constants.USER_STATUS.VERIFIED}};
+
 	verificationModel.findOne({ 'vfData': data.vfData, "vfCode":data.vfCode }, function (err, verification) {
  		if (err){
  			logger.log("error",err)
  			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,null);
  			
  		} else{
-
+ 			
  			if(verification && verification != null){
  				logger.log("debug",'Verification code verified');
  				logger.log("debug","Updating user",data.userId);
@@ -143,33 +145,40 @@ UserService.prototype.verifyUser = function(data) {
 					updateObj={$set:{"phoneNum":verification.phoneNum}};
 				}
 				
-				User.update({"irxId":data.userId},
-							updateObj,
-							function(err, numberAffected, raw){
-								console.log(numberAffected)
-								if(err){
-									console.error(err)
-									_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
-								}else{
-									if(numberAffected >0){
-										console.log("User updated successfully");
-										
-						 				verificationModel.remove({}, function (err) {
-											if (err) {
-												console.error(err)
-												_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
-											}else{
-												console.log("Verfication data cleared");
-												_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
-											} 
-										});
-										
-									}else{
-										console.log("User not updated")
-										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+				mongoose.getCollection('irxusers').findAndModify(
+		 		{"irxId":data.userId},
+		 		[],
+				updateObj,
+				{},
+					function(err, user){
+						if(err){
+							console.error(err)
+							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+						} else{
+							
+							if(user!= null){
+								 logger.log("debug","User updated successfully");
+								 
+									if(user.type=="agent"){
+										new esUtils().indexUser(user)
 									}
-								}	
-							})
+				 				verificationModel.remove({}, function (err) {
+									if (err) {
+										 logger.log("error",err);
+										_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+									}else{
+										logger.log("debug","Verfication data cleared");
+										_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.msg,err,null);
+									} 
+								});
+								
+							}else{
+								logger.log("debug","User not updated")
+								_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+							}
+						}
+					})
+				
  				
  			} else{
  				 logger.log("error","Verification data not matched-"+data.userId)
@@ -765,58 +774,74 @@ UserService.prototype.review = function(data) {
 
 **/
 UserService.prototype.fbRegisterUser = function(user) {
-	console.log("In registerFBUser")
-	// Make a database entry
+ console.log("In registerFBUser")
+ // Make a database entry
     var _selfInstance = this;
-	var id = ("IUSER-F-"+user.id);
+ var id = ("IUSER-F-"+user.id);
     _selfInstance.once("registerNewUser",function(){
         var hashPassword = hashAlgo.SHA1((id+"12345678").substring(0,10));
-	    var userData = new IRXUserProfileModel({
-			"id":id
-  			,"name": user.name
-			,"password": hashPassword.toString()
-			,"userId": user.id+"@facebook.com"
-			,"irxId" : id
-			,"location":null
-			,"type" : "user"
-			,"companyName" :null
-			,"specialities":null
-			,"status": CONSTANTS.him_constants.USER_STATUS.VERIFIED
+     var userData = new IRXUserProfileModel({
+   "id":id
+     ,"name": user.name
+   ,"password": hashPassword.toString()
+   ,"userId": user.id+"@facebook.com"
+   ,"irxId" : id
+   ,"location":null
+   ,"type" : "user"
+   ,"companyName" :null
+   ,"specialities":null
+   ,"status": CONSTANTS.him_constants.USER_STATUS.VERIFIED
             ,"contactEmailId": null
-	    });
+     });
         userData.save(function(err,res){
          if(err){
              _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
          }else if(res==null){
            _selfInstance.emit("done",0,"unable to create user, try later.",null,null,null);
          }else{
-            _selfInstance.emit("done",0,"OK",{id:res.id,name:res.name,userId:res.userId,type:res.type,isnew:true},null); 
+            _selfInstance.emit("done",0,"OK",{id:res.id,name:res.name,userId:res.userId,type:res.type,irxId:res.irxId,isnew:true},null); 
           }
         });
     });
-   IRXUserProfileModel.findOne({id:id},{userId:1,name:1,imageUrl:1},function(err,res){
+   IRXUserProfileModel.findOne({id:id},{userId:1,name:1,imageUrl:1,type:1,irxId:1},function(err,res){
        if(err){
              _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
        }else if(res==null){
            _selfInstance.emit("registerNewUser");
        }else{
-            _selfInstance.emit("done",0,"OK",{id:res.id,name:res.name,userId:res.userId,type:res.type,isnew:false},null); 
+            _selfInstance.emit("done",0,"OK",{id:res.id,name:res.name,userId:res.userId,type:res.type,irxId:res.irxId,isnew:false},null); 
        }
    });
-	
+ 
 };
 
 UserService.prototype.updateUserType = function(userId, usertype) {
     var _selfInstance = this;
-    IRXUserProfileModel.update({"userId":userId},
-							   {"type":usertype},
-							   function(err, numberAffected, raw){
-                                   if(err){
-                                     _selfInstance.emit("done",mongoErr.resolveError(err.code).code,"Error saving user information",err,null);
-                                   }else{
-                                     _selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,null,null);
-                                   }
-                            });
+    mongoose.getCollection('irxusers').findAndModify(
+		 		{"userId":userId},
+		 		[],
+				{"type":usertype},
+				{},
+					function(err, user){
+						if(err){
+							console.error(err)
+							_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
+						} else{
+							
+							if(user!= null){
+								 logger.log("debug","User updated successfully");
+								 
+									if(user.type=="agent"){
+										new esUtils().indexUser(user);
+									}
+				 				
+							}else{
+								logger.log("debug","User not updated")
+								_selfInstance.emit("done",STATUS.OK.code,STATUS.OK.code,err,null);
+							}
+						}
+					})
+  
 }
 
 UserService.prototype.forgetPassword = function(userId){ 

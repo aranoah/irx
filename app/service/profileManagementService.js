@@ -25,7 +25,7 @@ var IRXUserProfileModel = require(_path_model+"/IRXUser");
 var IRXProductLineModel = require(_path_model+"/IRXProductLine");
 var emailUtils = require(_path_util+"/email-utils.js");
 var emailTemplates = require('email-templates');
-
+var esUtils = require(_path_util+"/es-utils.js")
 var properties = require(_path_env+"/properties.js");
 var baseService = require(_path_service+"/base/baseService");
 
@@ -156,13 +156,14 @@ PMService.prototype.deleteProject = function(data) {
  var disCriteria ={};
   disCriteria["distress."+projectId]=1;
  this.once("delProStage2",function(project){
+
  	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId},
  		[],
 		{$pull:{"project":projectId},$unset:disCriteria},
 		{"new":true },
 			function(err, mapping){
-				
+		
 				if(err){
 					console.error(err)
 					_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
@@ -376,7 +377,7 @@ PMService.prototype.associateLocation = function(data) {
  var userId = data.userId;
  var projectId = data.projectId;
 
- this.once("stage2",function(project){
+ this.once("stage2",function(project,user){
  	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId},
  		[],
@@ -427,6 +428,10 @@ PMService.prototype.associateLocation = function(data) {
 								} else {
 									if(numberAffected>0){
 										console.log("locationCounter has been udated");
+										if(user.locationMapper){
+											user.locationMapper.push({"id":project.id,"name":project.name,"city":city})
+										}
+										new esUtils().indexUser(user);
 									}else{
 										console.error("locationCounter in user not updated. ");
 									}
@@ -457,7 +462,7 @@ PMService.prototype.associateLocation = function(data) {
 	)
   })
  
-  this.once("stage1",function(){
+  this.once("stage1",function(user){
  	/*
  	* Check Valid project
  	*/
@@ -467,7 +472,7 @@ PMService.prototype.associateLocation = function(data) {
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 		}else {
 			if(project && project != null){
-				_selfInstance.emit('stage2',project);	
+				_selfInstance.emit('stage2',project,user);	
 			} else {
 				console.error("No Location found")
 	 			_selfInstance.emit("done",404,"No Location found",null,null);
@@ -489,7 +494,7 @@ IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USE
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 		} else {
 			if(data && data != null){
-				_selfInstance.emit('stage1');	
+				_selfInstance.emit('stage1',data);	
 			} else {
 				console.error("No User found")
 	 			_selfInstance.emit("done",404,"No User found",null,null);
@@ -507,7 +512,9 @@ PMService.prototype.deleteLocation = function(data) {
  var _selfInstance = this;
  var userId = data.userId;
  var projectId = data.projectId;
- this.once("delProStage2",function(project){
+ 
+ this.once("delProStage2",function(project,user){
+ 	
  	mongoose.getCollection('irxagentmproducts').findAndModify(
  		{"agentId":userId},
  		[],
@@ -521,13 +528,14 @@ PMService.prototype.deleteLocation = function(data) {
 				} else {
 					
 					var update = false;
-					if(mapping !=null && mapping.project.indexOf(projectId)==-1){
+					if(mapping !=null && mapping.location.indexOf(projectId)==-1){
 						update = true;
 					} else{
 						_selfInstance.emit("done",STATUS.NO_UPDATION.code,STATUS.NO_UPDATION.msg,err,null);
 					}
 					if(update){
 						//update user
+						
 						IRXUserProfileModel.update({"irxId":userId,"locationCounter":{$gt:1}},
 							{$inc:{"locationCounter":-1},$pull:{"locationProjects":project.name,"locationMapper":{"id":projectId}}},
 							function(err,numberAffected,raw){
@@ -535,7 +543,19 @@ PMService.prototype.deleteLocation = function(data) {
 									console.error("locationCount in user not updated. Error :- ",mongoErr.resolveError(err.code).code +","+mongoErr.resolveError(err.code).msg)
 								} else {
 									if(numberAffected>0){
+										
 										console.log("locationCount has been udated");
+										var locationMapper = user.locationMapper;
+										if(locationMapper && locationMapper.length>0){
+											for (var i=0;i<=locationMapper.length;i++){
+												if(locationMapper[i].id==projectId){
+													locationMapper.splice(i,1);
+													break;
+												}
+											}
+										}
+										console.log(5,user)
+										new esUtils().indexUser(user);
 									}else{
 										console.error("locationCount in user not updated. ");
 									}
@@ -566,7 +586,7 @@ PMService.prototype.deleteLocation = function(data) {
 	)
   })
  
-  this.once("delProStage1",function(){
+  this.once("delProStage1",function(user){
  	/*
  	* Check Valid project
  	*/
@@ -576,7 +596,8 @@ PMService.prototype.deleteLocation = function(data) {
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 		}else {
 			if(project && project != null){
-				_selfInstance.emit('delProStage2',project);	
+				
+				_selfInstance.emit('delProStage2',project,user);	
 			} else {
 				console.error("No location found")
 	 			_selfInstance.emit("done",404,"No location found",null,null);
@@ -599,7 +620,7 @@ IRXUserProfileModel.findOne({"irxId":userId,"status":CONSTANTS.him_constants.USE
 			_selfInstance.emit("done",mongoErr.resolveError(err.code).code,mongoErr.resolveError(err.code).msg,err,null);
 		} else {
 			if(data && data != null){
-				_selfInstance.emit('delProStage1');	
+				_selfInstance.emit('delProStage1',data);	
 			} else {
 				console.error("No User found")
 	 			_selfInstance.emit("done",404,"No User found",null,null);
