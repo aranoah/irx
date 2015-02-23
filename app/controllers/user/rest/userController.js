@@ -157,6 +157,28 @@ userController.updateUser = function() {
     userSvc.updateUser(userData);
 }
 
+/**
+*
+*   Upgrade user from user to agent
+*
+*/
+userController.upgradeUser = function() {
+  var userSvc = new userService();
+      var _nself = this;
+    userSvc.on("done", function(status,msg,result,page){
+      if(status==0){
+          _nself.req.session['X-CS-Auth'].user.type="agent";   
+      }
+     _nself.processJson(status,msg,result,page);
+    });
+    var user = _nself.getCurrentUserInfo(_nself);
+    var userData={
+      type : "agent",
+      irxId:user.irxId
+    };
+    userSvc.updateUser(userData);
+}
+
 /*
 *   Get User Details
 * 

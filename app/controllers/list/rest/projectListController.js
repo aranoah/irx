@@ -74,32 +74,39 @@ projectController.projectAutocomplete = function() {
     index: 'irx_schema',
     type:"irx-eproduct",
     body: {
-      fields : ["id", "name","builderName","bhk","type","productType","location.city","location.name","location.locality"],
-      query: {
-        bool:{
-          must:[
-            {
-              match: {
-                name: text
-              } 
-            },
-            {
-              match: {
-                "location.city": city
-                
-              } 
-            }
-          ]
-        }
+        fields : ["id", "name","builderName","bhk","type","productType","location.city","location.name","location.locality"],
+        query: {
+            bool:{
+                must:[{
+                    bool:{
+                        should:[{
+                                prefix: {
+                                    name: text
+                                } 
+                                  },
+                               {
+                                 match:{
+                                     name:text
+                                }
+                              }]
+                        }
+                    },
+                    {
+                      match: {
+                        "location.city": city
+                        
+                      } 
+                    }]
+                }
          
-       },
-      highlight : {
-        pre_tags : ["<b>"],
-        post_tags : ["</b>"],
-        fields : {
-            name : {}
-        }
-    }
+            },
+            highlight : {
+                pre_tags : ["<b>"],
+                post_tags : ["</b>"],
+                fields : {
+                    name : {}
+                }
+            }
     }
   }).then(function (resp) {
     var hits = resp.hits.hits;
@@ -121,10 +128,19 @@ projectController.locationAutocomplete = function(city) {
         must: 
           [
             {
-              match: {
-                name: text
-              }
-            },
+                    bool:{
+                        should:[{
+                                prefix: {
+                                    name: text
+                                } 
+                                  },
+                               {
+                                 match:{
+                                     name:text
+                                }
+                              }]
+                        }
+                    },
             {
               match :{
                 productType: "location"
@@ -165,9 +181,20 @@ projectController.autocomplete = function() {
     body: {
       fields : ["id", "name", "type","productType","irxId"],
       query: {
-        match: {
-          name: text
+        
+        bool:{
+            should:[{
+                prefix: {
+                    name: text
+                } 
+                  },
+               {
+                 match:{
+                     name:text
+                }
+              }]
         }
+                    
       },
       highlight : {
         pre_tags : ["<b>"],

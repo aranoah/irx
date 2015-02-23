@@ -50,7 +50,7 @@
     <a class="header item _logo_" href="/irx/home">IRX</a>
     <a class="item _link" href="/project-listing">PROJECTS</a>
     <a class="item _link" href="/agent-listing">AGENTS</a>
-     <a class="item _link" href="">Under Data Preperation</a>
+     <a class="item _link" href="" style="color: #2CFF4F !important;">Under Data Preperation</a>
     <div class="right menu">
       <div class="ui mobile dropdown link item" tabindex="0" style="padding:0;">
         <i class="user icon log-in"></i>
@@ -65,7 +65,10 @@
           <i class="dropdown icon item" style="margin: .5rem 0 0 !important;"></i>
           <div class="menu" style="left: -70px;top: 50px;">
                <% if(locals.session.user.type=="agent"){ %>
-            <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
+                  <a class="item" href="/admin/profile"><i class="setting icon"></i>Settings</a>
+              <%}%>
+              <% if(locals.session.user.type!="agent"){ %>
+                  <div class="item _upgrd"><i class="setting icon"></i>Upgrade Agents</div>
               <%}%>
             <a class="item" href="/irx/reset"><i class="undo icon"></i>Reset Password</a>
             <div class="item" id="_logout_"><i class="sign out icon"></i>Logout</div>

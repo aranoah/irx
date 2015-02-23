@@ -57,6 +57,7 @@ module.exports = function() {
     },
     fbValidate:function(login,password,callback,res){
            var us = new userService();
+
            us.once("done",
                             function(code,msg,user,errValue){
                          if(code==0){
