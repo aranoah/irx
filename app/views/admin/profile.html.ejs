@@ -290,18 +290,18 @@
                     <div class="column left-portion">
                         <div class="item">                   
                             <div class="content">
-                                <h4 class="header">My Projects</h4>
+                                <h4 class="header">My Projects <i data-bind="visible:!isInitPro()" class="ui active inline loader"></i></h4>
                             </div>
                         </div>
-                  <!-- ko if: associatedProjects().length==0 -->
-                    <div class="ui info message">
+              
+                    <div class="ui info message" data-bind="visible:(associatedProjects().length==0 && isInitPro())" style="display:none">
                       <ul class="list">
                         <li>No projects associated to your profile.</li>
                       </ul>
                     </div>
-                  <!-- /ko -->
+                  
                  <!-- ko foreach: associatedProjects -->
-                    <div class="ui items">
+                    <div class="ui items" style="display:none" data-bind="visible:$root.isInitPro()">
                       <div class="item">
                          <div class="content _prj_lst">
                          <!-- ko if: $data.hasOwnProperty("name") -->
@@ -710,6 +710,7 @@
   AdminProfile.prototype.init = function() {
     var classInstance = this;
     classInstance.viewModel={
+      isInitPro:ko.observable(false),
       projects: ko.observableArray(),
       locations : ko.observableArray(),
       lastVisited : ko.observableArray(),
@@ -1139,6 +1140,7 @@
     var obj = {}
     
     httpUtils.get('/associate-project/'+id,obj,"JSON",function(data){
+     
         var obj={ status:data.status,
               heading:"Login Failed",
               content:"Please check your login credentials" 
@@ -1217,6 +1219,7 @@
     var classInstance = this;
 
     httpUtils.get("/list-user-projects/"+classInstance.userId,{},"JSON",function(data){
+       classInstance.viewModel.isInitPro(true);
        if(data.status==0){
         if(data.result != null){
           console.log(data.result.distress)

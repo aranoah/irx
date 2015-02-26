@@ -123,7 +123,7 @@ UserService.prototype.registerUser = function(user) {
 **/
 UserService.prototype.verifyUser = function(data) {
 	logger.log("debug","In verifyUser")
-	console.log("1")
+	
 	// Make a database entry
 	var mongoose = require('mongoose');
 	var verificationModel = IRXVerificationModel;

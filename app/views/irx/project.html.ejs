@@ -285,7 +285,7 @@ margin-right: 10px;
 	  	
 	  	<% if(locals.req.device && locals.req.device.type != 'desktop'){ %>
 	  			
-	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects,visible:isInitPro()" style="margin:0;">
+	  		<div id="mobile-listing _hide_" class="ui items" data-bind="foreach : projects,visible:isInitPro()" style="margin:0;display:none">
 				<a data-bind="attr: { href: 'project/'+ id }" target="_blank">
 	  			<div class="item" style="margin:0 0 .5rem;">
 					<div class="content" style="background:#fff;padding:1rem;box-shadow:0 0 3px rgba(0,0,0,0.2);">
@@ -335,10 +335,10 @@ margin-right: 10px;
 	    	No Search Results for this search. <span style="color:#00B2F3;text-transform:capitalize"> Showing agents in  <!-- ko text:filters.city()--><!-- /ko --></span>
 	    </div>
 	    <div class="" data-bind="visible:(agents().length==0 && projects().length==0) && isInitAg()" style=" background:#fff;padding: 1rem;color: #7b7b7b;
-             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;">
+             border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);font-size: 14px;display:none">
 	    	No Search Results for this search. <span style="color:#00B2F3;text-transform:capitalize"> 
 	    </div>
-	    <div class="ui cards sc grid _hide_ " data-bind="foreach : agents,visible:isInitAg()" style="margin:0;">
+	    <div class="ui cards sc grid _hide_ " data-bind="foreach : agents,visible:isInitAg()" style="margin:0;display:none">
 	    	
 			<div class="card">
 			    <div class="ui image tiny">
@@ -424,7 +424,7 @@ margin-right: 10px;
 		<% if(locals.req.device.type == 'desktop'){ %>
 	    <div class="ui relaxed divided items _hide_ grid"style="margin:0;">
 	    	<input type="hidden" value="project" id="_searchTypeG_">
-	    	<div class="twelve wide column _hide_" data-bind="foreach : projects,visible:isInitPro()" style="padding:0;">
+	    	<div class="twelve wide column _hide_" data-bind="foreach : projects,visible:isInitPro()" style="padding:0;display:none">
 	    		<div class="ui items proj-listing column "><!-- 
   				<a class="ui green ribbon label">Distress</a> -->
   				<div style="width:100%">
@@ -539,15 +539,15 @@ margin-right: 10px;
 		<% } %>
                 
         <div style="width:100%">
-                 <div  class="ui steps" style="margin:auto" data-bind="visible:hasMore()" onclick="javascript:project.listProjects(false)"> 
+                 <div  class="ui steps" style="margin:auto;display:none" data-bind="visible:hasMore()" onclick="javascript:project.listProjects(false)"> 
                 
-  <div class="link step">
-    <i class="chevron circle down icon"></i>
-    <div class="content">
-      <div class="title">Next Page (<!--ko text:(projects().length)--> <!--/ko-->-<!--ko text:(projects().length+10)--> <!--/ko-->) </div>
-      <div class="description"></div>
-    </div>
-  </div>
+				  <div class="link step">
+				    <i class="chevron circle down icon"></i>
+				    <div class="content">
+				      <div class="title">Next Page (<!--ko text:(projects().length)--> <!--/ko-->-<!--ko text:(projects().length+10)--> <!--/ko-->) </div>
+				      <div class="description"></div>
+				    </div>
+				  </div>
 
                 </div>
             </div>

@@ -183,15 +183,16 @@
 		<% } %>
 		<% if(locals.req.device.type == 'desktop'){ %>
 			<div class="ui top attached tabular menu" style="margin: 0 -.05rem;border-bottom:0;">
-			  <div class="active item pref_agents_btn" id="pref_agents_btn">AGENTS</div>
-			</div>
+			  <div class="active item pref_agents_btn" id="pref_agents_btn">AGENTS	
+			  <i data-bind="visible:!showAgent()" class="ui active inline loader"></i></div>
+			 </div>
 			<div id="pref_agents" class="ui bottomm active attached tab segment">
-			 <div data-bind="visible:agents().length==0" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;
+			 <div data-bind="visible:(agents().length==0 && showAgent())" style=" background:#fff;padding: 1.5rem;color: #7b7b7b;display:none;
              border-left: 2px solid #009fda;box-shadow:0 0 2px rgba(0,0,0,0.2);">
 		    	No preferred agent found for this project. 
 		    </div>
 		    <!-- ko if:agents().length!=0 -->
-			<div class="ui divided items" data-bind="foreach : agents">
+			<div class="ui divided items" style="display:none" data-bind="foreach : agents,visible:showAgent()">
 			  <div class="item">
 			    <div class="content">
 			    	<!-- ko if:$data.imageUrl!=null -->
@@ -256,7 +257,7 @@
 			  </div>
 			</div>
 				<!-- ko if:agents().length > 9 -->
-					<div class="ui centered aligned grid" style="padding: 2rem 0;">
+					<div class="ui centered aligned grid" data-bind="visible:showAgent()" style="padding: 2rem 0;display:none">
 						<div class="ui button" style="background:#fff;border: 1px solid #ddd"><a href="/agent-listing?projectId=<%= result.id %>&name=<%= result.name %>"> View all agents</a></div>
 					</div>
 				<!-- /ko -->
@@ -361,6 +362,7 @@
 	    // ko.applyBindings(_classInstance.aPostReqViewModel,document.getElementById("_postA_"));
 	    var projectId = $('#_projectId_').val();
 	    _classInstance.viewModel = {
+	       showAgent:ko.observable(false),
 	      agents: ko.observableArray(),
 	      requestDetails : function(id){
 				_classInstance.requestDetails(id);
@@ -423,6 +425,7 @@
 		
 		var classInstance = this;
     	httpUtils.get("/prefered-agents/"+projectId,{page:classInstance.page},"JSON",function(data){
+    		classInstance.viewModel.showAgent(true)
 	       	if(data.status==0){
 	        	ko.utils.arrayPushAll(classInstance.viewModel.agents,data.result)
 	        	if(data.page!=null)
