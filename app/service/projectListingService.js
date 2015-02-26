@@ -205,10 +205,15 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	var start = page.start;
 	var pageSize = Number(page.pageSize)+1;
 	var sortOrder= "asc";
+	var sortOrderQ= [];
 	if(filters && filters.order && filters.order != null && filters.order!=""){
 		sortOrder=filters.order;
 	}
+	sortOrderQ.push({ "price" : {"order" : sortOrder}})
 	
+	if(filters && filters.order && filters.order != null && filters.order=="new"){
+		sortOrderQ.push({ "possessionDate" : {"order" : "desc"}})
+	}
     _app_context.esClient.search({
 	    index: 'irx_schema',
 	    type:"irx-eproduct",
@@ -216,7 +221,7 @@ ProjectListingService.prototype.listProjectsElastic = function(data) {
 	      query: {bool:{must:query}},
 	      from:start,
 	      size:pageSize,
-	      sort:[{ "price" : {"order" : sortOrder}}]
+	      sort:sortOrderQ
 	    }
 	 
   }).then(function (resp) {

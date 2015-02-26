@@ -1,7 +1,6 @@
 /**************
 	Homescreen
 ***************/
-
 #header {/*#
 	background-color: #00bcd4 !important;*/
 	background-color: #105296 !important;
@@ -12,9 +11,9 @@
 }
 
 #homescreen.ui.inverted.masthead.segment {
-	background: #1b1c1d url(/img/bg.png) no-repeat center !important;
+	background: #1b1c1d url(/img/India-Gate.jpg) no-repeat center !important;
 	background-size: cover !important;
-	min-height: 380px;
+	min-height: 600px;
 	margin-top: 4rem;
 	margin-bottom: 0 !important;
 	z-index: 10;
@@ -22,37 +21,45 @@
 
 #homescreen.ui.inverted.masthead.segment>.ui.page.grid>.column {
 	text-align: center !important;
-	padding: 5rem 0;
+	padding: 8.5rem 0;
 }
 #homescreen h1.ui.inverted.header {
-	padding-top: 1.5rem;
 	font-size: 1.5rem;
 	font-weight: normal;
+	padding: .5em 0;
+	width: 64%;
+	margin: 6rem auto 0;
+	background: rgba(34, 34, 34, 0.63);
 }
 
 #homescreen .ui.form .field {
-	text-align: justify;
-	margin: 1.5rem 4rem;
+	margin: 1rem 0rem 0em 0rem;
+	padding: 1em 1.5em;
+	background: #105296;
+	opacity: .6;
 }
 
 .ui.radio.checkbox._main_>label {
 	color: #fff !important;
-	font-size: 1.2rem;
+	font-size: 1.3rem;
 	text-transform: uppercase;
 	font-weight: 400;
-	padding-left: .5em !important;
+	padding-left: 0 !important;
 	vertical-align: top;
 }
-
+/*.field._sType_.active {
+	background: rgb(252, 252, 252);
+}*/
+.field._sType_.active .ui.radio.checkbox._main_>label {
+	color: #fff!important;
+}
 #search-box {
 	padding: 0 !important;
-	background-color: rgba(0,0,0,0.3) !important;
 	box-shadow: 0 0 1px #fff !important;
 	width: 710px;
 	margin: 0 auto;
-	border-radius: .3rem;
-	color: #868484;
-	border: 1px solid #797979;
+	color: #353535 !important;
+	background: rgba(29, 29, 29, 0.6);
 }
 
 #search-box .ui.icon.input._main_ {
@@ -61,12 +68,17 @@
 }
 #search-box .ui.icon.input._main_>i {
 	color: #fafafa !important;
-	background: #00bcd4;
+	background: #105296;
 	height: 3rem;
 	width: 3rem;
 	border-radius: 60px;
 	margin: 1.2rem 1.2rem 0 0;
 	opacity: .6;
+}
+.field._sType_.active {
+	background: rgb(16, 82, 150) !important;
+	border-bottom: 1px solid rgb(204, 204, 204);
+	opacity: 1 !important;
 }
 #irx-mobile #search-box .ui.icon.input._main_ {
     text-align: left;
@@ -87,11 +99,12 @@
 }
 #search-box .ui.icon.input._main_>input {
 	width: 73%;
-	background-color: inherit;
+	padding: 1.2em 3em 1.2em 1.5em !important;
+	font-size: 1.4rem;
+	color: #fff !important;
 	border: 0;
-	padding:1.2em 3em 1.2em 1.5em !important;
-	font-size: 1.5rem;
-	color: #E4E3E3!important;
+	border-radius: 0;
+	background: initial;
 }
 .ui.icon.input._main_>input[name="name"]::-webkit-input-placeholder { /* WebKit browsers */
 	color: rgba(255,255,255,0.5) !important;
@@ -113,10 +126,11 @@
 	font-size: 1.3rem;
 	text-align: center;
 	color: rgba(182, 182, 182, 0.82) !important;
+
 }
 
 #search-box .fields>.field {
-	padding: 0px 6rem 0 2em;
+	padding: 0px 2rem 0 2em;
 	color: rgba(182, 182, 182, 0.82) !important;
 	font-weight: 300;
 	vertical-align: middle;
@@ -159,7 +173,7 @@
 #search-box .ui.dropdown .text {
 	font-size: 1.2rem;
 	font-weight: 400;
-	color: rgba(182, 182, 182, 0.82) !important;
+	color: #F4F4F4 !important;
 }
 
 #search-box .ui.dropdown ._city_ {

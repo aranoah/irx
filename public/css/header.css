@@ -422,8 +422,11 @@ div.overlay.sidebar {
 #login-mobile #register-box>.action-button {
   padding: 1rem 0 !important;
 }
+.item.bud_opt:nth-child(even) {
+  background: #F4F4F4;
+}
 .item.bud_opt {
-    text-align: center;  border: 1px solid #F3F3F3;  border-left: 0;  border-right: 0;
+    text-align: center;   border-left: 0;  border-right: 0;
     width: 100%;  float: left !important;cursor: pointer;
 }
 .action-button>.ui.button {
@@ -700,17 +703,17 @@ p >.mail.icon{
   opacity: 0;
 }
 
-.ui.radio.checkbox._main_>.radiobutton {
+/*.ui.radio.checkbox._main_>.radiobutton {
     width:18px;
     height:18px;
     background-image:url(/img/off.png);
     background-repeat: no-repeat;
-}
-
+}*/
+/*
 .ui.radio.checkbox._main_>.radiobutton.active {
   background-image:url(/img/on.png);
   background-position: -4px;
-}
+}*/
 
 
 

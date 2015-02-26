@@ -56,7 +56,7 @@
           </div>
 
           <div class="lib-count">
-            <div class="item left floated"><div class="header"><%= result.projects && result.projects!= null?result.projects.length:0 %></div>Projects</div><div class="item right floated"><div class="header"><%= result.locationProjects && result.locationProjects!= null?result.locationProjects.length:0 %></div>Locations</div>
+            <div class="item left floated"><div class="header"><!-- ko text : projects().length --> <!-- /ko --></div>Projects</div><div class="item right floated"><div class="header"><!-- ko text : locations().length --> <!-- /ko --></div>Locations</div>
           </div>
 
           <div class="lib-specs">

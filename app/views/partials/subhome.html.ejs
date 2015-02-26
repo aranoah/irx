@@ -104,11 +104,11 @@
       <div class="column">
 	    <div class="ui information visible">
 	        <form data-bind="submit: searchFun" >
-	          <div class="ui form">
+	          <div class="ui form" style="max-width: 64%;margin: 0em auto;text-align: left;">
 	          	 <input type="hidden" name="projectId" placeholder="Search..." id="__projectId">
 	          	 <input type="hidden" name="isLocality"  id="__isLocality">
-				  <div class="inline fields" style="min-width:360px !important; ">
-				    <div class="field _sType_" data-attr="project">
+				  <div class="inline fields" style="min-width:360px !important;margin:0 !important; ">
+				    <div class="field _sType_ active" data-attr="project">
 				      <div class="ui radio checkbox checked _main_">
 						<div class="radiobutton active"></div>
 				        <input type="radio" name="search" class="__searchType"  value="project" checked="checked">
@@ -125,17 +125,11 @@
 				   
 				  </div>
 				</div>
-				<!-- ko if:searchType()=='project' -->
-	          		<h1 class="ui inverted header">Explore Projects</h1>
-	          	<!-- /ko -->
-	          	<!-- ko if:searchType()=='agent' -->
-	          		<h1 class="ui inverted header">Explore Agents</h1>
-	          	<!-- /ko -->
-	          	
+
 	          <div id="search-box" class="large basic inverted animated fade ui">
 	            <div class="ui fluid category search">
-				  <div class="ui icon input _main_">
-						<div class="ui dropdown field" style="width:25%;padding-left:0 !important;">
+				  <div class="ui icon input _main_" style="background: rgba(29, 29, 29, 0.6);">
+						<div class="ui dropdown field" style="width: 25%;padding-left: 0 important;border-right: 1px solid #A1A0A0;">
 						    <input type="hidden" name="city" data-bind="value:city" value="banglore"/>
 						    <div class="default text _city_"><!-- ko text : showCity()--><!-- /ko --></div>
 						    <i class="angle down icon" style="color: rgba(182, 182, 182, 0.82) !important;font-size: 1.2em;"></i>
@@ -230,6 +224,7 @@
 	          </div>
 	        </form>
 	    </div>
+	    
 	  </div>
 	  <% } %>
 	</div>
