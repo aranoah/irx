@@ -1,0 +1,107 @@
+
+<!dotype>
+<html>
+	<head>
+		<TITLE>Enquiry Form</TITLE>
+		<link rel="stylesheet" type="text/css" href="css/form.css">
+      	<link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700' rel='stylesheet' type='text/css'>
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/ko.js"></script>
+	</head>
+	<body>
+		<div class="form-container">
+		   <form action="https://docs.google.com/forms/d/1HkmV6pl4y0kVNea9Eyc-fu30Ou7WiDwUEJDv-kq7REQ/formResponse" method="POST" id="ss-form" target="_self" onsubmit="">
+		      <h2>Enquiry form</h2><p>*Required</p>
+		      <ol role="list" class="ss-question-list" style="padding-left: 0">
+		         <div class="ss-form-question errorbox-good" role="listitem">
+		            <div dir="ltr" class="ss-item ss-item-required ss-text">
+		               <div class="ss-form-entry">
+		                  <label class="ss-q-item-label" for="entry_1369843439">
+		                     <div class="ss-q-title">Name
+		                     <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+		                     <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+		                     <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+		                  </label>
+		                  <input type="text" name="entry.1369843439" value="" class="ss-q-short" id="entry_1369843439" dir="auto" aria-label="Name  " aria-required="true" required="" title="">
+		                  <div class="error-message" id="697180880_errorMessage"></div>
+		               </div>
+		            </div>
+		         </div>
+		         <div class="ss-form-question errorbox-good" role="listitem">
+		            <div dir="ltr" class="ss-item ss-item-required ss-text">
+		               <div class="ss-form-entry">
+		                  <label class="ss-q-item-label" for="entry_1069339808">
+		                     <div class="ss-q-title">Mobile
+		                  <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+		                  <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+		                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+		                  </label>
+		                  <input type="text" name="entry.1069339808" value="" class="ss-q-short" id="entry_1069339808" dir="auto" aria-label="Mobile  " aria-required="true" required="" title="">
+		                  <div class="error-message" id="645620619_errorMessage"></div>
+		               </div>
+		            </div>
+		         </div>
+		         <div class="ss-form-question errorbox-good" role="listitem">
+		            <div dir="ltr" class="ss-item ss-item-required ss-paragraph-text">
+		               <div class="ss-form-entry">
+		                  <label class="ss-q-item-label" for="entry_1725411484">
+		                     <div class="ss-q-title">Address
+		                  <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+		                  <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+		                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+		                  </label>
+		                  <textarea name="entry.1725411484" rows="8" cols="0" class="ss-q-long" id="entry_1725411484" dir="auto" aria-label="Address  " aria-required="true" required=""></textarea>
+		                  <div class="error-message" id="2126971803_errorMessage"></div>
+		               </div>
+		            </div>
+		         </div>
+		         <div class="ss-form-question errorbox-good" role="listitem">
+		            <div dir="ltr" class="ss-item ss-item-required ss-paragraph-text">
+		               <div class="ss-form-entry">
+		                  	<label class="ss-q-item-label" for="entry_1648357561">
+		                     	<div class="ss-q-title">Ordered Items
+				                <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+				                <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+				                <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+			                </label>
+		                  <!-- <textarea name="entry.1648357561" rows="8" cols="0" class="ss-q-long" id="entry_1648357561" dir="auto" aria-label="Order Items  " aria-required="true" required=""></textarea> -->
+			                  <ul class="cart-itemBox" style="border:1px solid #ddd;width:48%;">
+								<!-- ko if:cart!=null && cart().length>0 -->
+									<!-- ko foreach:cart -->
+									<li class="cart-items" data-bind="attr: {id : pid}">
+										<div class="ci-content">
+											<h4 class="ci-name" style="color:#444;"><!-- ko text:name --><!-- /ko --></h4>
+											<span><span style="color:#999;">Qty:</span> <!-- ko text:quantity --><!-- /ko --></span>
+											<span class="ci-price" style="color:rgba(36, 190, 85, 1);"><span style="font-size:.6em;">INR</span>&nbsp;<!-- ko text:price --><!-- /ko --></span>
+										</div>
+									</li>
+									<!-- /ko -->
+								<!-- /ko -->
+							</ul>
+		                  <div class="error-message" id="538461179_errorMessage"></div>
+		               </div>
+		            </div>
+		         </div>
+		         <input type="hidden" name="draftResponse" value="[,,&quot;-803928242830619970&quot;]
+		            ">
+		         <input type="hidden" name="pageHistory" value="0">
+		         <input type="hidden" name="fbzx" value="-803928242830619970">
+		         <div class="ss-item ss-navigate">
+		            <table id="navigation-table">
+		               <tbody>
+		                  <tr>
+		                     <td class="ss-form-entry goog-inline-block" id="navigation-buttons" dir="ltr">
+		                        <input type="submit" name="submit" value="Submit" id="ss-submit" class="jfk-button jfk-button-action ">
+		                     </td>
+		                     <td id="progress-container">
+		                        <div id="progress-bar" class="jfk-progressBar-nonBlocking progress-bar-horizontal goog-inline-block"></div>
+		                     </td>
+		                  </tr>
+		               </tbody>
+		            </table>
+		         </div>
+		      </ol>
+		   </form>
+		</div>
+	</body>
+</html>

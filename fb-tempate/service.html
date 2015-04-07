@@ -1,0 +1,366 @@
+<!doctype>
+<html>
+	<head>
+		<title>Hereiam facebook store</title>
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/ko.js"></script>
+		<script type="text/javascript" src="js/service.js"></script>
+	</head>
+	<body id="container">
+		<div class="list-box">
+			<ul class="list-items-box" data-bind="foreach: service">
+				<li class="item-box">
+
+					<!-- ko if:!$data.hasOwnProperty("productImage")|| $data.productImage==null || $data.productImage=="" -->
+						<a href=""><img src="images/service_pic.png" ></a>	
+					<!-- /ko -->
+					<!-- ko if:$data.productImage!=null && $data.productImage!="" -->
+						
+						<a href=""><img data-bind="attr:{src:$data.productImage}" ></a>
+					<!-- /ko -->
+					<p class="title" data-bind="text: name">redmi 2</p>
+					<p class="rupee"><span style="font-size:.6em;">INR</span>&nbsp;<!--ko text:price--><!--/ko --></p>
+					<div class="days"><span><b>DAYS :</b></span><span data-bind="if: serviceTimeTable.mondayCounter > 0">Mon</span><span data-bind="if: serviceTimeTable.tuesdayCounter > 0">Tue</span><span data-bind="if: serviceTimeTable.wednesdayCounter > 0">Wed</span><span data-bind="if: serviceTimeTable.thursdayCounter > 0">Thu</span><span data-bind="if: serviceTimeTable.fridayCounter > 0">Fri</span><span data-bind="if: serviceTimeTable.saturdayCounter > 0">Sat</span><span data-bind="if: serviceTimeTable.sundayCounter > 0">Sun</span>
+					</div>
+					<p class="desc" data-bind="text:description"></p>
+					<div class="actions">
+						<a href="">View</a>
+						<a class="book-app" data-bind="click:function(){$root.showForm($index())}" href="">Book</a>
+					</div>
+				</li>
+			</ul>					
+			<div class="booking-form" data-bind="visible:currentIndex() != -1">
+				<h2>Book your appointment for <b>"<!-- ko text:getName(currentIndex()) --><!-- /ko -->"</b></h2>
+				<p>* Required</p>
+				<div id="book-form">
+
+					<div class="form-box-left">
+						<div class="form-actions">
+							<span class="form-cancel" data-bind="click:function(){cancelForm()}">Cancel</span>
+						</div>
+						<div class="ss-form">
+						   <form action="https://docs.google.com/forms/d/1fdYFF7R1dIlRoSX9lo0AbYqEW4s8nfxYNwTSo-1xdz4/formResponse" method="POST" id="ss-form" target="_self" onsubmit="">
+						      <ol role="list" class="ss-question-list" style="padding-left: 0">
+						         <div class="ss-form-question errorbox-good" role="listitem">
+						            <div dir="ltr" class="ss-item ss-item-required ss-text">
+						               <div class="ss-form-entry">
+						                  <label class="ss-q-item-label" for="entry_347247280">
+						                     <div class="ss-q-title">Name
+						                  <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+						                  <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+						                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+						                  </label>
+						                  <input type="text" name="entry.347247280" value="" class="ss-q-short" id="entry_347247280" dir="auto" aria-label="Name  " aria-required="true" required="" title="">
+						                  <div class="error-message" id="1270845145_errorMessage"></div>
+						               </div>
+						            </div>
+						         </div>
+						         <div class="ss-form-question errorbox-good" role="listitem">
+						            <div dir="ltr" class="ss-item ss-item-required ss-text">
+						               <div class="ss-form-entry">
+						                  <label class="ss-q-item-label" for="entry_1518322416">
+						                     <div class="ss-q-title">Email Address
+						                  <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+						                  <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+						                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+						                  </label>
+						                  <input type="text" name="entry.1518322416" value="" class="ss-q-short" id="entry_1518322416" dir="auto" aria-label="Email Address  " aria-required="true" required="" title="">
+						                  <div class="error-message" id="1700205093_errorMessage"></div>
+						               </div>
+						            </div>
+						         </div>
+						         <div class="ss-form-question errorbox-good" role="listitem">
+						            <div dir="ltr" class="ss-item ss-item-required ss-text">
+						               <div class="ss-form-entry">
+						                  <label class="ss-q-item-label" for="entry_1386610691">
+						                     <div class="ss-q-title">Phone Number
+						                  <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+						                  <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+						                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+						                  </label>
+						                  <input type="text" name="entry.1386610691" value="" class="ss-q-short" id="entry_1386610691" dir="auto" aria-label="Phone Number  " aria-required="true" required="" title="">
+						                  <div class="error-message" id="995935424_errorMessage"></div>
+						               </div>
+						            </div>
+						         </div>
+						         <div class="ss-form-question errorbox-good" role="listitem">
+						            <div dir="ltr" class="ss-item ss-item-required ss-date">
+						               <div class="ss-form-entry">
+						                  <label class="ss-q-item-label" for="entry_2017285867">
+						                     <div class="ss-q-title">Date &amp; Time
+						                  <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+						                  <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+						                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+						                  </label>
+						                  <input type="datetime-local" name="entry.2017285867" value="" class="ss-q-datetime" dir="auto" id="entry_2017285867" aria-label="Date &amp; Time  " aria-required="true" required="">
+						                  <div class="ss-q-time-hint ss-secondary-text" style="font-size:.8em;color:#aaa;margin-top:5px;">Example: 03/05/2013 11:30 AM</div>
+						               </div>
+						            </div>
+						         </div>
+						         <div class="ss-form-question errorbox-good" role="listitem">
+						            <div dir="ltr" class="ss-item ss-item-required ss-paragraph-text">
+						               <div class="ss-form-entry">
+						                  <label class="ss-q-item-label" for="entry_599159849">
+						                     <div class="ss-q-title">Notes
+						                  <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+						                  <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+						                  <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+						                  </label>
+						                  <textarea name="entry.599159849" rows="8" cols="0" class="ss-q-long" id="entry_599159849" dir="auto" aria-label="Notes  " aria-required="true" required=""></textarea>
+						                  <div class="error-message" id="886180693_errorMessage"></div>
+						               </div>
+						            </div>
+						         </div>
+						         <input type="hidden" name="draftResponse" value="[,,&quot;-7343641648230113256&quot;]
+						            ">
+						         <input type="hidden" name="pageHistory" value="0">
+						         <input type="hidden" name="fbzx" value="-7343641648230113256">
+						         <div class="ss-item ss-navigate">
+						            <table id="navigation-table">
+						               <tbody>
+						                  <tr>
+						                     <td class="ss-form-entry goog-inline-block" id="navigation-buttons" dir="ltr">
+						                        <input type="submit" name="submit" value="Submit" id="ss-submit" class="jfk-button jfk-button-action ">
+						                     </td>
+						                     <td id="progress-container">
+						                        <div id="progress-bar" class="jfk-progressBar-nonBlocking progress-bar-horizontal goog-inline-block"></div>
+						                     </td>
+						                  </tr>
+						               </tbody>
+						            </table>
+						         </div>
+						      </ol>
+						   </form>
+						</div>
+
+					</div>
+
+					<div class="form-box-right">
+
+
+						<div class="form-box-right">
+							<h4>Timings</h4>
+							<table style="border-collapse:collapse;">
+								<tr>
+									<td></td>
+									<td>1st Session</td>
+									<td>2nd Session</td>
+									<td>3rd Session</td>
+								</tr>
+								<tr>
+									<td>Monday</td>
+									<!-- ko foreach :getMondaySession(currentIndex())-->
+										<!--  ko if: ($data.startTime != null && $data.endTime != null --> 
+											<td><!-- ko text:$data.startTime--><!--/ko--> - <!-- ko text:$data.endTime--><!--/ko--></td>
+										<!--/ko-->
+									<!-- /ko -->
+									<!-- ko foreach:paddingTab(getMondaySession(currentIndex()))-->
+                                       <td><!-- ko text:$data--><!--/ko--></td>
+									<!--/ko--> 
+								
+								</tr>
+								<tr>
+									<td>Tuesday</td>
+									<!-- ko foreach :getTuesdaySession(currentIndex())-->
+										<!--  ko if: ($data.startTime != null && $data.endTime != null --> 
+											<td><!-- ko text:$data.startTime--><!--/ko--> - <!-- ko text:$data.endTime--><!--/ko--></td>
+										<!--/ko-->
+									<!-- /ko -->
+									<!-- ko foreach:paddingTab(getTuesdaySession(currentIndex()))-->
+                                       <td><!-- ko text:$data--><!--/ko--></td>
+									<!--/ko--> 
+								
+								</tr>
+								<tr>
+									<td>Wednesday</td>
+									<!-- ko foreach :getWednesdaySession(currentIndex())-->
+										<!--  ko if: ($data.startTime != null && $data.endTime != null --> 
+											<td><!-- ko text:$data.startTime--><!--/ko--> - <!-- ko text:$data.endTime--><!--/ko--></td>
+										<!--/ko-->
+									<!-- /ko --><!-- ko foreach:paddingTab(getWednesdaySession(currentIndex()))-->
+                                       <td><!-- ko text:$data--><!--/ko--></td>
+									<!--/ko--> 
+								</tr>
+								<tr>
+									<td>Thursday</td>
+									<!-- ko foreach :getThursdaySession(currentIndex())-->
+										<!--  ko if: ($data.startTime != null && $data.endTime != null --> 
+											<td><!-- ko text:$data.startTime--><!--/ko--> - <!-- ko text:$data.endTime--><!--/ko--></td>
+										<!--/ko-->
+									<!-- /ko -->
+									<!-- ko foreach:paddingTab(getThursdaySession(currentIndex()))-->
+                                       <td><!-- ko text:$data--><!--/ko--></td>
+									<!--/ko--> 
+								</tr>
+								<tr>
+									<td>Friday</td>
+									<!-- ko foreach :getFridaySession(currentIndex())-->
+										<!--  ko if: ($data.startTime != null && $data.endTime != null --> 
+											<td><!-- ko text:$data.startTime--><!--/ko--> - <!-- ko text:$data.endTime--><!--/ko--></td>
+										<!--/ko-->
+									<!-- /ko -->
+									<!-- ko foreach:paddingTab(getFridaySession(currentIndex()))-->
+                                       <td><!-- ko text:$data--><!--/ko--></td>
+									<!--/ko--> 
+								</tr>
+								<tr>
+									<td>Saturday</td>
+									<!-- ko foreach :getSaturdaySession(currentIndex())-->
+										<!--  ko if: ($data.startTime != null && $data.endTime != null --> 
+											<td><!-- ko text:$data.startTime--><!--/ko--> - <!-- ko text:$data.endTime--><!--/ko--></td>
+										<!--/ko-->
+									<!-- /ko --><!-- ko foreach:paddingTab(getSaturdaySession(currentIndex()))-->
+                                       <td><!-- ko text:$data--><!--/ko--></td>
+									<!--/ko--> 
+								</tr>
+								<tr>
+									<td>Sunday</td>
+									<!-- ko foreach :getSundaySession(currentIndex())-->
+										<!--  ko if: ($data.startTime != null && $data.endTime != null --> 
+											<td><!-- ko text:$data.startTime--><!--/ko--> - <!-- ko text:$data.endTime--><!--/ko--></td>
+										<!--/ko-->
+									<!-- /ko --><!-- ko foreach:paddingTab(getSundaySession(currentIndex()))-->
+                                       <td><!-- ko text:$data--><!--/ko--></td>
+									<!--/ko--> 
+								</tr>
+							</table>
+						</div>
+					</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">	
+
+			var self = this;
+
+
+			self.viewModel = {
+				currentIndex:ko.observable(-1),
+		        service:ko.observableArray(),
+		        paddingTab:function(data){
+		        	 var tdData=[];
+		             if(data!=null && typeof(data.length)!=undefined && data.length<3){
+                         
+		             	for(var i=0;i<(3-data.length);i++){ 
+                                tdData[i]="-";
+                        }
+		        	
+		             }
+		        	return tdData;
+		        },
+		       	getName: function(index){
+		       		if(index!=-1){
+		       		var obj = self.viewModel.service()[index];
+		       		return obj.name;
+		       		}
+		       	
+		       	},
+		       	getMondaySession: function(index){
+		       		
+		       		if (index!=-1) {		       			
+			       		var mon = self.viewModel.service()[index]; 
+                 	}
+			       		if(mon!=null){
+				       		return mon.serviceTimeTable.monday.sessions;
+				       	}else{
+				       		return [];
+				       	}
+		       		
+		       	},getTuesdaySession: function(index){
+		       		var tue = null;
+		       		if (index!=-1) {		       			
+			       		 tue = self.viewModel.service()[index]; 
+                    }
+
+		       		if(tue!=null){
+			       		return tue.serviceTimeTable.tuesday.sessions;
+			       	}else{
+			       		return [];
+			       	}
+		       		
+		       	},getWednesdaySession: function(index){
+		       		var wed=null;
+		       		if (index!=-1) {		       			
+			       		var wed = self.viewModel.service()[index]; 
+		       		}
+
+		       		if(wed!=null){
+			       		return wed.serviceTimeTable.wednesday.sessions;
+			       	}else{
+			       		return [];
+			       	}
+
+		       	},getThursdaySession: function(index){
+		       		var thu = null;
+
+		       		if (index!=-1) {		       			
+			       		var thu = self.viewModel.service()[index];
+		       		}
+
+		       		if(thu!=null){
+			       		return thu.serviceTimeTable.thursday.sessions;
+			       	}else{
+			       		return [];
+			       	}
+
+		       	},getFridaySession: function(index){
+		       		var fri = null;
+		       		if (index!=-1) {		       			
+			       		var fri = self.viewModel.service()[index];
+		       		}
+
+		       		if(fri!=null){
+			       		return fri.serviceTimeTable.friday.sessions;
+			       	}else{
+			       		return [];
+			       	}
+
+		       	},getSaturdaySession: function(index){
+		       		var sat=null;
+		       		if (index!=-1) {		       			
+			       		var sat = self.viewModel.service()[index];
+		       		}
+
+		       		if(sat!=null){
+			       		return sat.serviceTimeTable.saturday.sessions;
+			       	}else{
+			       		return [];
+			       	}
+
+		       	},getSundaySession: function(index){
+		       		var sunday=null;
+		       		if (index!=-1) {		       			
+			       		var sunday = self.viewModel.service()[index];
+		       		}
+
+		       		if(sunday!=null){
+			       		return sunday.serviceTimeTable.sunday.sessions;
+			       	}else{
+			       		return [];
+			       	}
+		       	},
+		        showForm:function(index){
+		        	
+		        	self.viewModel.currentIndex(index);
+
+		        },
+		        cancelForm:function(){
+
+		        	self.viewModel.currentIndex(-1);
+		        }
+			};
+			
+			ko.applyBindings(self.viewModel);
+			// $.getJSON("http://122.176.33.182:8080/i/service/preference-listing?storeId=manpasandrestro&type=&categoryId=&manpasandrestro=&pageSize=15&start=0&hasMore=false&sortPreference=1", function(data) { 
+			//    ko.utils.arrayPushAll(self.viewModel.service,data.result);
+			// })
+			ko.utils.arrayPushAll(self.viewModel.service,data.result);
+		
+		</script>
+	</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE>
+<html>
+	<head>
+		<title>Hereiam facebook store</title>
+		<link href='http://fonts.googleapis.com/css?family=Roboto:400,700,500' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="js/ko.js"></script>
+		<script type="text/javascript" src="js/product.js"></script>
+	</head>
+	<body id="container">
+		<div class="list-box">
+			<ul class="tab-box">
+				<li class="tab-item active" data-bind="click:function(){openTab('product');return false;},css: { active: tabID() =='product' }">Product</li>
+				<li class="tab-item" data-bind="click:function(){openTab('enquiry');return false;},css: { active: tabID() =='enquiry' }">Cart</li>
+				<li class="tab-item bag"><label data-bind="visible: added">Item added to cart</label><span><!--ko text: cart().length --><!--/ko--></span><p data-bind="click: function(){openCart()}"></p>	
+					<div class="cart-popup">
+						<ul class="cart-itemBox">
+							<!-- ko if:cart!=null && cart().length>0 -->
+								<!-- ko foreach:cart -->
+								<li class="cart-items" data-bind="attr: {id : pid}">
+									<!-- ko if:!$data.hasOwnProperty("imageUrl")|| $data.imageUrl==null || $data.imageUrl=="" -->
+										<a href=""><img src="images/service_pic.png"></a>
+									<!-- /ko -->
+									<!-- ko if:$data.imageUrl!=null && $data.imageUrl!="" -->									
+										<a href=""><img data-bind="attr:{src:$data.imageUrl}"></a>
+									<!-- /ko -->
+									<div class="ci-content">
+										<h4 class="ci-name"><!-- ko text:name --><!-- /ko --></h4>
+										<input type="text" value="1" data-bind="value:quantity">
+										<span class="ci-price"><span style="font-size:.6em;">INR</span>&nbsp;<!-- ko text:price --><!-- /ko --></span>
+									</div>
+									<div class="ci-right"><img data-bind="click:function(){$root.removeItem($data)}" src="images/remove.png"></div>
+								</li>
+								<!-- /ko -->
+							<!-- /ko -->
+
+
+							<!-- ko if:cart==null || cart().length ==0 -->
+								<li style="margin:10px;padding:15px;background:#F5F1C7;border:1px solid #eaeaea;">Shopping Bag is empty</li>
+							<!-- /ko -->
+						</ul>
+						<!-- ko if:cart!=null && cart().length>0 -->
+						<div class="ci-lower">
+							<span style="color:#808080;">Total: <span style="color:#444;" data-bind="text:totalPrice"></span></span><span class="checkout" data-bind="click:function(){openForm('enquiry');return false;},css: { active: tabID() =='enquiry' }">Checkout</span>
+
+						</div>
+						<!-- /ko -->
+					</div>
+				</li>
+			</ul>
+			<ul class="list-items-box" data-bind="visible:(tabID()=='product'),foreach: products">
+				<li class="item-box" data-bind="attr:{id : pid}">
+					<!-- ko if:!$data.hasOwnProperty("productImage")|| $data.productImage==null || $data.productImage=="" -->
+						<a href=""><img src="images/service_pic.png" ></a>	
+					<!-- /ko -->
+					<!-- ko if:$data.productImage!=null && $data.productImage!="" -->						
+						<a href=""><img data-bind="attr:{src:$data.productImage}" ></a>
+					<!-- /ko -->
+					<p class="title" data-bind="text: $data.name">redmi 2</p>
+					<p class="rupee"><span style="font-size:.6em;">INR</span>&nbsp;<!-- ko text:$data.price --><!--/ko--></p>
+					<div class="actions">
+						<a href=""  class="add-cart" data-bind="click:function(){$root.addToCart($index())},attr:{id:$index}">Add to cart</a>
+					</div>
+				</li>
+			</ul>
+			<div class="form-container" data-bind="visible: tabID()=='enquiry'">
+			   <form action="https://docs.google.com/forms/d/1n04lNSbQyZk31MupKBPikkLsFNeVhYLN8qQ8vrr1WzY/formResponse" method="POST" id="ss-form" target="_self" onsubmit="">
+				   <h2>Cart page</h2><p>*Required</p>
+				   <ol role="list" class="ss-question-list" style="padding-left: 0">
+				      <div class="ss-form-question errorbox-good" role="listitem">
+				         <div dir="ltr" class="ss-item ss-item-required ss-text">
+				            <div class="ss-form-entry">
+				               <label class="ss-q-item-label" for="entry_84551804">
+				                  <div class="ss-q-title">Name
+				               <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+				               <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+				               <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+				               </label>
+				               <input type="text" name="entry.84551804" value="" class="ss-q-short" id="entry_84551804" dir="auto" aria-label="Name  " aria-required="true" required="" title="">
+				               <div class="error-message" id="534982787_errorMessage"></div>
+				            </div>
+				         </div>
+				      </div>
+				      <div class="ss-form-question errorbox-good" role="listitem">
+				         <div dir="ltr" class="ss-item ss-item-required ss-text">
+				            <div class="ss-form-entry">
+				               <label class="ss-q-item-label" for="entry_2024230837">
+				                  <div class="ss-q-title">Mobile
+				               <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+				               <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+				               <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+				               </label>
+				               <input type="text" name="entry.2024230837" value="" class="ss-q-short" id="entry_2024230837" dir="auto" aria-label="Mobile  " aria-required="true" required="" title="">
+				               <div class="error-message" id="1202143152_errorMessage"></div>
+				            </div>
+				         </div>
+				      </div>
+				      <div class="ss-form-question errorbox-good" role="listitem">
+				         <div dir="ltr" class="ss-item ss-item-required ss-paragraph-text">
+				            <div class="ss-form-entry">
+				               <label class="ss-q-item-label" for="entry_1085233198">
+				                  <div class="ss-q-title">Address
+				               <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+				               <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+				               <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+				               </label>
+				               <textarea name="entry.1085233198" rows="8" cols="0" class="ss-q-long" id="entry_1085233198" dir="auto" aria-label="Address  " aria-required="true" required=""></textarea>
+				               <div class="error-message" id="646786334_errorMessage"></div>
+				            </div>
+				         </div>
+				      </div>
+				      <div class="ss-form-question errorbox-good" role="listitem">
+				         <div dir="ltr" class="ss-item ss-item-required ss-paragraph-text">
+				            <div class="ss-form-entry">
+				               <label class="ss-q-item-label" for="entry_317522125">
+				                  <div class="ss-q-title">Ordered Items
+				               <label for="itemView.getDomIdToLabel()" aria-label="(Required field)"></label>
+				               <span class="ss-required-asterisk" aria-hidden="true">*</span></div>
+				               <div class="ss-q-help ss-secondary-text" dir="ltr"></div>
+				               </label>
+				               <textarea readonly name="entry.317522125" rows="8" cols="0" class="ss-q-long" id="entry_317522125" dir="auto" aria-label="Ordered Items  " aria-required="true" required="" data-bind="text: openForm()"></textarea>
+				               <div class="error-message" id="1244913938_errorMessage"></div>
+				            </div>
+				         </div>
+				      </div>
+				      <input type="hidden" name="draftResponse" value="[,,&quot;2552418600942177843&quot;]
+				         ">
+				      <input type="hidden" name="pageHistory" value="0">
+				      <input type="hidden" name="fbzx" value="2552418600942177843">
+				      <div class="ss-item ss-navigate">
+				         <table id="navigation-table">
+				            <tbody>
+				               <tr>
+				                  <td class="ss-form-entry goog-inline-block" id="navigation-buttons" dir="ltr">
+				                     <input type="submit" name="submit" value="Submit" id="ss-submit" class="jfk-button jfk-button-action ">
+				                  </td>
+				                  <td id="progress-container">
+				                     <div id="progress-bar" class="jfk-progressBar-nonBlocking progress-bar-horizontal goog-inline-block"></div>
+				                  </td>
+				               </tr>
+				            </tbody>
+				         </table>
+				      </div>
+				   </ol>
+				</form>
+			</div>
+		</div>
+		<script type="text/javascript">		  	
+			var self = this;
+			self.viewModel = {
+				tabID : ko.observable('product'),
+				added : ko.observable(false),
+				cart:ko.observableArray(),
+			    enquiry : function() {
+			       this.enquiry();
+			    },
+			    openCart:function() {
+			    	$('.cart-popup').slideToggle();
+			    },
+			   		  
+				openTab:function(tabID) {
+					this.tabID(tabID);
+					return false;
+				},
+				openForm:function(tabID) {
+
+					if(tabID){
+						this.tabID(tabID);
+			    		$('.cart-popup').hide();
+			    		return false; 
+					}
+
+			    	var data = self.viewModel.cart();
+			    	var string ="";
+
+			    	for (var i = 0; i < data.length; i++)
+		            {                        
+		              string += "Name: " + data[i].name + " " +  "Qty:" + data[i].quantity + " , " + "Price" + " " + data[i].price + "\n";
+		            }
+
+		            return string;					
+				},
+				removeItem:function(data) {					
+
+					self.viewModel.cart.remove(data);
+				    localStorage["cart"]=JSON.stringify(self.viewModel.cart());
+				    //self.viewModel.added(false);
+				    
+				},
+				addToCart:function(index) {
+					if(index!=-1){
+			       		var obj = self.viewModel.products()[index];
+			       		var quantity = 1;
+			       		var match = ko.utils.arrayFirst(self.viewModel.cart(), function(item) {
+			       			
+							if( obj.pid === item.pid){
+						    	
+						    	alert("Item already added to your cart!!")
+						    	//item.quantity = Number(item.quantity)+1;
+						    	return true;
+						    } 
+						});
+						
+						var productObj ={};
+						if (!match) {
+							productObj.pid=obj.pid;
+							productObj.quantity=quantity;
+							productObj.imageUrl = obj.productImage;
+							productObj.name=obj.name;
+							productObj.mrp=obj.mrp;
+							productObj.price=obj.price;
+							self.viewModel.cart.push(productObj);
+
+						 	setTimeout(function(){ self.viewModel.added(true); }, 100);
+						 	self.viewModel.added(true);
+						}
+
+						var nameElem = document.getElementById(index);
+						nameElem.className = nameElem.className + " incart";
+
+
+						localStorage["cart"] = JSON.stringify(self.viewModel.cart());
+						
+		       		}
+				},
+		        products:ko.observableArray()
+			};
+
+			self.viewModel.totalPrice= ko.computed(function () {
+	    	var total=0;
+	            for (var i = 0; i < self.viewModel.cart().length; i++)
+	            {                        
+	              total += self.viewModel.cart()[i].price * self.viewModel.cart()[i].quantity;
+	            }
+	            return total;
+
+	        },self.viewModel);
+
+			var cartItems = JSON.parse(localStorage["cart"]);
+			if(cartItems){
+				 ko.utils.arrayPushAll(self.viewModel.cart,cartItems);
+			}
+			ko.utils.arrayPushAll(self.viewModel.products,data.result);
+			ko.applyBindings(viewModel);
+
+			// $.getJSON("http://122.176.33.182:8080/i/product/preference-listing?storeId=manpasandrestro&type=&categoryId=&manpasandrestro=&pageSize=15&start=0&minPrice=&maxPrice=&sortPreference=1", function(data) { 
+		
+			function product() {
+				$('.form-box').hide();
+				$('.list-items-box').show();
+			}
+
+			function enquiry() {
+				$('.form-box').show();
+				$('.list-items-box').hide();
+			}
+		
+		</script>
+	</body>
+</html>

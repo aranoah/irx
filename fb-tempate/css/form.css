@@ -1,0 +1,68 @@
+/**********
+Form style
+***********/
+
+body {
+	background-color: #eee;
+	font-family: 'Roboto', sans-serif;
+}
+
+.form-container {
+	width: 640px;
+	margin: 20px auto;
+}
+
+form {
+	border-top: 3px solid #2e8cbd;
+	margin-top: 10%;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 0 0 3px 1px rgba(0,0,0,.2);
+}
+
+h2 {
+	color: #2e8cbd;
+	font-weight: normal;
+	margin-bottom: 0;
+}
+
+p {
+	margin: 5px 0;
+	color: #f00;
+}
+
+.ss-form-entry {
+	padding: 15px 0; 
+}
+
+.ss-form-entry .ss-q-title>span {
+	color: #f00;
+}
+
+.ss-q-title {
+	font-size: 16px;
+	color: #444;
+	padding-bottom: 5px;
+}
+
+.ss-form-entry .cart-items:not(:last-child) {
+  border-bottom: 1px solid #eee;
+}
+
+.ss-form-entry input, .ss-form-entry textarea {
+	padding: 5px;
+	font-size: 15px;
+	color: #666;
+	border: 1px solid #ddd;
+	width: 50%;
+}
+
+#ss-submit {
+	background-color: #2e8cbd;
+	color: #fff;
+	width: auto;
+	font-size: 14px;
+	border: 0;
+	padding: 5px 10px;
+	cursor: pointer;
+}

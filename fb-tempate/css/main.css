@@ -1,0 +1,420 @@
+font-face {
+ font-family:rupee; 
+ src: url(css/rupee.woff) format('woff');
+}
+
+body {
+	margin: 0;border: 0;outline: 0;padding: 0;
+	background-color: #e8ebf2;
+	font-family: 'roboto', sans-serif;
+}
+
+#container {
+	width: 960px;
+	margin: 0 auto;
+}
+
+.rupee {
+	position: relative;
+	color: #fe1400;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style-type: none;
+}
+p {
+	margin: 0;
+}
+
+.tab-box, .list-items-box {
+	background-color: #fff;/*
+	border: 1px solid #dadada;*/
+}
+
+.tab-box {
+	border-bottom:0;
+	border-radius: 3px 3px 0 0;
+}
+
+.tab-box {
+	border-bottom: 1px solid #eee;
+}
+
+.tab-item {
+	display: inline-block;
+	text-align: center;
+	width: 10em;
+	font-size: 16px;
+	color: #808080;
+	padding: 15px;
+	cursor: pointer;
+}
+
+.tab-item:nth-child(2n) {
+	border-right: 1px solid #eee;
+}
+
+.tab-item.bag {
+	float: right;
+	position: relative;
+	cursor: pointer !important;
+}
+
+.tab-item.bag>label {
+	position: absolute;
+	left: -10%;
+	font-size: 12px;
+	background-color: rgba(36, 190, 85, 1);
+	color: #fff;
+	padding: 5px 10px;
+}
+
+.tab-item.bag>label:after {
+	position: absolute;
+	content: "";
+	right: -4px;top: 8px;
+	border: 5px solid transparent;
+	border-right: 0;
+	border-left: 5px solid rgba(36,190,85,1);
+}
+
+.tab-item.bag>p {
+	position: absolute;
+	top: 15px;right: 52px;
+	height: 20px;
+	width: 18px;
+	background: url(../images/bag.png) no-repeat center;
+	background-size: 110%;
+	opacity: .7;
+}
+
+.tab-item.bag>span {
+	position: absolute;
+	top: 6px;right: 36px;
+	font-size: 12px;
+	padding: 2px 6px;
+	background-color: #ee662b;
+	border-radius:2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	color: #fff;
+	z-index: 10;
+}
+
+.tab-item.active {
+	background-color: #009688;
+	color: #fff;
+}
+
+.list-box {
+	padding: 15px 0;
+	margin: 15px 0;
+}
+
+ul.list-items-box {	
+	border-top: 0;
+	border-radius: 0 0 3px 3px;
+	padding: 20px;
+}
+
+li.item-box {
+	position: relative;
+	padding: 15px;
+	display: inline-block;
+	text-align: center;
+	border-right: 1px solid #f2f2f2;
+	margin-bottom: 8px;
+	width: 272px;
+}
+li.item-box:nth-child(3n) {
+	border-right: 0;
+}
+
+.item-box:hover {
+	box-shadow: 0 0 10px 3px rgba(0,0,0,.1);
+	border: 0;
+	cursor: pointer;
+}
+
+.item-box>a {
+	width: 180px;
+	height: 180px;
+	text-align: center;
+}
+
+.item-box>a>img {
+	max-width: 180px;
+	max-height: 180px;
+	padding-bottom: 15px;
+}
+
+.title {
+	font-size: 1em;
+	text-transform: uppercase;
+	color: #4a4a4a;
+}
+
+.rupee {
+	font-size: 1.5em;
+}
+
+.days>span {
+	padding: 5px;
+	color: #666;
+	font-size: 13px;
+}
+
+.actions {
+	padding-top: 10px;
+}
+
+p.desc {
+	padding: 5px 0;
+	font-size: 14px;
+	color: #6b6b6b;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow:ellipsis;
+}
+
+.actions>a.add-cart {
+	padding: 6px 10px;
+	border-radius: 3px;
+	background-color: #2CBAF9;
+	color: #fff;
+	border: 0;
+	font-size: 11px;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.actions>a.incart {
+	background: #32D05E  url(../images/tick.png) no-repeat right center !important;
+	padding-right: 20px !important;
+}
+
+.actions>a.add-cart:hover {
+	background-color: #2e8cbd;
+}
+
+.booking-form {
+	position: absolute;
+	top: 0;
+	padding: 20px;
+	margin: 20px 0;
+	box-shadow: 0 0 3px rgba(0,0,0,.2);
+	border-radius: 3px;
+	background-color: #fff;
+
+}
+
+.booking-form>h2 {
+	margin-top: 0;
+	color: #999;
+	font-weight: normal;
+}
+
+.booking-form>h2>b {
+	color: #2e8cbd;
+}
+
+#book-form {
+	display: table;
+	width: 920px;
+}
+
+#book-form>div {
+	display: table-cell;
+}
+
+.booking-form label {
+	text-align: inherit !important;
+}
+
+.form-box-right table tr td {
+	padding: 15px;
+	color: #7b7b7b;
+	font-size: 14px;
+	border-right: 1px solid #ddd;
+}
+
+.form-box-right h4 {
+	color: #2e8cbd;
+	font-weight: normal;
+}
+
+.form-box-right table tr {
+	border: 1px solid #ddd;
+	border-right: 0;
+
+}
+
+.form-box-right table tr:nth-child(even) {
+	background-color: #f8f8f8;
+}
+
+.cart-popup {
+	position: absolute;
+	left: -110%;top:50px;
+	width: 400px;
+	display: none;
+	background-color: #fbfbfb;
+	box-shadow: 0 0 10px 1px rgba(0,0,0,.2);
+	z-index: 50;
+}
+
+.cart-itemBox {
+	padding: 5px 10px;
+}
+
+.cart-items {
+	padding: 15px 5px;
+	text-align: left !important;
+	cursor: inherit !important;
+	border-bottom: 1px solid #eee;
+}
+
+.cart-items>* {
+	display: inline-block;
+}
+
+.cart-items>a {
+	padding-right: 15px;
+	height:70px;
+	width: 70px;
+}
+.cart-items>a>img {;
+	max-height: 70px;
+	max-width: 70px;	
+}
+
+.cart-items .ci-content {
+	vertical-align: top;
+}
+
+.ci-content>h4 {
+	margin: 0 0 8px;
+	color: #7b7b7b;
+	font-size: 16px;
+	font-weight: normal;
+	text-transform: capitalize;
+}
+
+.ci-content>span, .ci-lower>span {
+	font-size: 16px;
+	color: #444;
+	padding: 0 5px;
+}
+
+.cart-items input {
+	width: 40px;
+	padding: 5px;
+	border: 1px solid #2CBAF9;
+	background-color: inherit;
+	text-align: center;
+}
+
+.cart-items>.ci-right {
+	float: right;
+	margin-top: 8%;
+}
+
+.ci-lower {
+	padding: 10px 10px 30px;
+	text-align: left;
+}
+
+.ci-lower>.checkout {
+	float: right;
+	background-color: #ee662b;
+	color: #fff;
+	border-radius: 3px;
+	padding: 8px 15px;
+}
+
+.booking-form {
+	position: relative;
+}
+
+.form-actions {
+	position: absolute;
+	top: 20px;right: 12px;
+}
+
+.form-actions>span {
+	padding: 8px;
+	background: #4BC376;
+	color: #fff;
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 12px;
+}
+
+/**********
+Form style
+***********/
+
+form {
+	padding: 20px;
+	background-color: #fff;
+}
+
+h2 {
+	color: #2e8cbd;
+	font-weight: normal;
+	margin-bottom: 0;
+}
+
+p {
+	margin: 5px 0;
+	color: #f00;
+}
+
+.ss-form-entry {
+	padding: 15px 0; 
+}
+
+.ss-form-entry .ss-q-title>span {
+	color: #f00;
+}
+
+.ss-q-title {
+	font-size: 16px;
+	color: #444;
+	padding-bottom: 5px;
+}
+
+.ss-form-entry .cart-items:not(:last-child) {
+  	border-bottom: 1px solid #eee;
+}
+
+.ss-form-entry input, .ss-form-entry textarea {
+	padding: 8px;
+	font-size: 15px;
+	color: #666;
+	border: 1px solid #ddd;
+}
+
+.form-container .ss-form-entry input, .form-container .ss-form-entry textarea {
+	width: 30%;
+}
+
+.form-box-left .ss-form-entry input, .form-box-left .ss-form-entry textarea {
+	width: 75%;
+}
+
+#ss-submit {
+	background-color: #2e8cbd;
+	color: #fff;
+	width: auto;
+	font-size: 14px;
+	border: 0;
+	padding: 5px 10px;
+	cursor: pointer;
+}
